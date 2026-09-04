@@ -782,6 +782,8 @@ def generate_assets(
         total_rev = row.get("total_revenue_inr")
         if total_rev is None or (isinstance(total_rev, float) and math.isnan(total_rev)) or total_rev < 0:
             total_rev = SECTOR_FALLBACK_REVENUE_INR.get(sector, 20_00_00_000)
+        dep_lo, dep_hi = SECTOR_REVENUE_DEPENDENCY_FACTOR.get(sector, (0.05, 0.15))
+        annual_rev_dep = int(float(total_rev) * rng.uniform(dep_lo, dep_hi))
 
         # Loss parameters
         mean_loss_inr = SECTOR_LOSS_MEAN_INR_MILLIONS.get(sector, 220) * 1_000_000
