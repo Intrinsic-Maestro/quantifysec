@@ -5,6 +5,34 @@ from typing import List, Dict, Any
 import sys
 from pathlib import Path
 
+import os
+from dotenv import load_dotenv
+
+from fastapi import Depends, HTTPException, Security
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+import jwt # Make sure PyJWT is installed in your requirements.txt
+
+security = HTTPBearer()
+
+# Replace with your actual Supabase project JWT secret or use JWKS verification
+SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET", "fallback-secret")
+
+def verify_supabase_token(credentials: HTTPAuthorizationCredentials = Security(security)) -> dict:
+     """Validates the Supabase JWT sent from the Next.js frontend header."""
+     token = credentials.credentials
+     try:
+          # Decode and verify the token signature
+          payload = jwt.decode(token, SUPABASE_JWT_SECRET, algorithms=["HS256"], audience="authenticated")
+          return {
+               "sub": payload.get("sub"), # User UUID
+               "email": payload.get("email"),
+               "role": payload.get("app_metadata", {}).get("role", "ciso")
+          }
+     except jwt.PyJWTError:
+          raise HTTPException(status_code=401, detail="Invalid authentication token or expired session.")
+    
+
+
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(ROOT_DIR))
 
@@ -159,7 +187,7 @@ def optimize(request: OptimizationRequest) -> OptimizationResult:
 
 
 @app.post("/api/run-pipeline")
-def run_full_enterprise_pipeline():
+def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
      """Executes the full automated pipeline: Ingestion -> Monte Carlo -> True Dynamic Knapsack."""
      try:
           # Step 1: Ingest synthetic JSON outputs
