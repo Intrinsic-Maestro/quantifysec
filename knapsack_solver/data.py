@@ -7,7 +7,7 @@ REPLACE LATER: when the Monte Carlo engine is ready, replace
 The rest of the code doesn't need to change.
 """
 from typing import List
-from models import SecurityControl
+from .models import SecurityControl
 
 
 _SAMPLE_CONTROLS: List[SecurityControl] = [

@@ -1,10 +1,10 @@
 """
 CLI entrypoint. Run:  python main.py
 """
-from data import get_sample_controls, DEFAULT_BUDGET_LAKH
-from models import OptimizationRequest
-from solver import solve_knapsack
-from display import (
+from .data import get_sample_controls, DEFAULT_BUDGET_LAKH
+from .models import OptimizationRequest
+from .solver import solve_knapsack
+from .display import (
     console,
     print_header,
     print_input_summary,

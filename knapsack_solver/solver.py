@@ -18,7 +18,7 @@ from pulp import (
     LpStatus, PULP_CBC_CMD,
 )
 
-from models import (
+from .models import (
     OptimizationRequest, OptimizationResult,
     SelectedControl, DeferredControl, FutureBudgetEstimate,
     SecurityControl,
