@@ -1,0 +1,5002 @@
+[
+  {
+    "uid": "AST-0001",
+    "company_name": "3M India Ltd.",
+    "nse_symbol": "3MINDIA",
+    "sector": "Consumer & Retail",
+    "industry": "Diversified",
+    "type": "Inventory Management System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5892609632,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 369437966336
+  },
+  {
+    "uid": "AST-0002",
+    "company_name": "Motherson Sumi Wiring India Ltd.",
+    "nse_symbol": "MSUMI",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "ERP System (SAP/Oracle)",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 7979277099,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 242718818304
+  },
+  {
+    "uid": "AST-0003",
+    "company_name": "Aptus Value Housing Finance India Ltd.",
+    "nse_symbol": "APTUS",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Payment Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 2440033000,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 129429553152
+  },
+  {
+    "uid": "AST-0004",
+    "company_name": "Bharat Forge Ltd.",
+    "nse_symbol": "BHARATFORG",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 13761733577,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 947762954240
+  },
+  {
+    "uid": "AST-0005",
+    "company_name": "Graphite India Ltd.",
+    "nse_symbol": "GRAPHITE",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3477075612,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 142458126336
+  },
+  {
+    "uid": "AST-0006",
+    "company_name": "Newgen Software Technologies Ltd.",
+    "nse_symbol": "NEWGEN",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "CI/CD Pipeline Server",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 4773791439,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 76047228928
+  },
+  {
+    "uid": "AST-0007",
+    "company_name": "United Spirits Ltd.",
+    "nse_symbol": "UNITDSPR",
+    "sector": "Consumer & Retail",
+    "industry": "Fast Moving Consumer Goods",
+    "type": "Point-of-Sale Network",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 10417051434,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1040373186560
+  },
+  {
+    "uid": "AST-0008",
+    "company_name": "Devyani International Ltd.",
+    "nse_symbol": "DEVYANI",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "Digital Marketing Platform",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 9233266382,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 173117079552
+  },
+  {
+    "uid": "AST-0009",
+    "company_name": "Vardhman Textiles Ltd.",
+    "nse_symbol": "VTL",
+    "sector": "Manufacturing",
+    "industry": "Textiles",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 11254468827,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 170298621952
+  },
+  {
+    "uid": "AST-0010",
+    "company_name": "Transformers And Rectifiers (India) Ltd.",
+    "nse_symbol": "TARIL",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Supply Chain Management Platform",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 2682366152,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 90469974016
+  },
+  {
+    "uid": "AST-0011",
+    "company_name": "Ajanta Pharmaceuticals Ltd.",
+    "nse_symbol": "AJANTPHARM",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Electronic Health Records (EHR) System",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 4889352060,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 432733093888
+  },
+  {
+    "uid": "AST-0012",
+    "company_name": "Zen Technologies Ltd.",
+    "nse_symbol": "ZENTEC",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 719168266,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 163874570240
+  },
+  {
+    "uid": "AST-0013",
+    "company_name": "Cholamandalam Financial Holdings Ltd.",
+    "nse_symbol": "CHOLAHLDNG",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Fraud Detection Engine",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 50105924414,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 284614295552
+  },
+  {
+    "uid": "AST-0014",
+    "company_name": "Jammu & Kashmir Bank Ltd.",
+    "nse_symbol": "J&KBANK",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "SWIFT Messaging Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 6971967876,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 167236583424
+  },
+  {
+    "uid": "AST-0015",
+    "company_name": "Zydus Lifesciences Ltd.",
+    "nse_symbol": "ZYDUSLIFE",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Clinical Trial Database",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 32432240737,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1130770333696
+  },
+  {
+    "uid": "AST-0016",
+    "company_name": "GMR Airports Ltd.",
+    "nse_symbol": "GMRAIRPORT",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Services",
+    "type": "Project Management System",
+    "criticality": 2,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 7711285814,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1029711331328
+  },
+  {
+    "uid": "AST-0017",
+    "company_name": "Asian Paints Ltd.",
+    "nse_symbol": "ASIANPAINT",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Durables",
+    "type": "Digital Marketing Platform",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 55018734689,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 2444926386176
+  },
+  {
+    "uid": "AST-0018",
+    "company_name": "Travel Food Services Ltd.",
+    "nse_symbol": "TRAVELFOOD",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "Customer Loyalty Database",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 1427582861,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 168246558720
+  },
+  {
+    "uid": "AST-0019",
+    "company_name": "One 97 Communications Ltd.",
+    "nse_symbol": "PAYTM",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Trading Platform",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 21913567970,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1085117825024
+  },
+  {
+    "uid": "AST-0020",
+    "company_name": "ITC Ltd.",
+    "nse_symbol": "ITC",
+    "sector": "Consumer & Retail",
+    "industry": "Fast Moving Consumer Goods",
+    "type": "CRM System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 106820918555,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 3333548408832
+  },
+  {
+    "uid": "AST-0021",
+    "company_name": "Sun TV Network Ltd.",
+    "nse_symbol": "SUNTV",
+    "sector": "Manufacturing",
+    "industry": "Media Entertainment & Publication",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3239824812,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 186539950080
+  },
+  {
+    "uid": "AST-0022",
+    "company_name": "Honeywell Automation India Ltd.",
+    "nse_symbol": "HONAUT",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 2732333705,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 314302431232
+  },
+  {
+    "uid": "AST-0023",
+    "company_name": "Jio Financial Services Ltd.",
+    "nse_symbol": "JIOFIN",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Customer KYC Database",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 4006948401,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1579339350016
+  },
+  {
+    "uid": "AST-0024",
+    "company_name": "Hero MotoCorp Ltd.",
+    "nse_symbol": "HEROMOTOCO",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 58324749686,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1055144411136
+  },
+  {
+    "uid": "AST-0025",
+    "company_name": "DOMS Industries Ltd.",
+    "nse_symbol": "DOMS",
+    "sector": "Consumer & Retail",
+    "industry": "Fast Moving Consumer Goods",
+    "type": "Customer Loyalty Database",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 4236838066,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 134212255744
+  },
+  {
+    "uid": "AST-0026",
+    "company_name": "Finolex Cables Ltd.",
+    "nse_symbol": "FINCABLES",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Warehouse Management System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 5238361460,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 190791827456
+  },
+  {
+    "uid": "AST-0027",
+    "company_name": "Central Bank of India",
+    "nse_symbol": "CENTRALBK",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Core Banking System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 39045448106,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 281317539840
+  },
+  {
+    "uid": "AST-0028",
+    "company_name": "Piramal Pharma Ltd.",
+    "nse_symbol": "PPLPHARMA",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Pharmacy Management System",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 16731703485,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 280943656960
+  },
+  {
+    "uid": "AST-0029",
+    "company_name": "UPL Ltd.",
+    "nse_symbol": "UPL",
+    "sector": "Manufacturing",
+    "industry": "Chemicals",
+    "type": "Warehouse Management System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 45146667823,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 491152343040
+  },
+  {
+    "uid": "AST-0030",
+    "company_name": "UCO Bank",
+    "nse_symbol": "UCOBANK",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Mobile Banking Application Server",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 20968955666,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 312611209216
+  },
+  {
+    "uid": "AST-0031",
+    "company_name": "PCBL Chemical Ltd.",
+    "nse_symbol": "PCBL",
+    "sector": "Manufacturing",
+    "industry": "Chemicals",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 5422287561,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 124471894016
+  },
+  {
+    "uid": "AST-0032",
+    "company_name": "Tata Consultancy Services Ltd.",
+    "nse_symbol": "TCS",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "Container Orchestration Cluster",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 694054894406,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 8400113500160
+  },
+  {
+    "uid": "AST-0033",
+    "company_name": "Tata Motors Ltd.",
+    "nse_symbol": "TMCV",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Supply Chain Management Platform",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 61968559541,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1708036325376
+  },
+  {
+    "uid": "AST-0034",
+    "company_name": "Brainbees Solutions Ltd.",
+    "nse_symbol": "FIRSTCRY",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "Customer Loyalty Database",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 9704837318,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 86585163776
+  },
+  {
+    "uid": "AST-0035",
+    "company_name": "Billionbrains Garage Ventures Ltd.",
+    "nse_symbol": "GROWW",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Payment Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 10059061243,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1206057304064
+  },
+  {
+    "uid": "AST-0036",
+    "company_name": "Kirloskar Oil Eng Ltd.",
+    "nse_symbol": "KIRLOSENG",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Warehouse Management System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 6435465121,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 328350990336
+  },
+  {
+    "uid": "AST-0037",
+    "company_name": "Urban Company Ltd.",
+    "nse_symbol": "URBANCO",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "Digital Marketing Platform",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 2189460043,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 260374560768
+  },
+  {
+    "uid": "AST-0038",
+    "company_name": "MRF Ltd.",
+    "nse_symbol": "MRF",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Warehouse Management System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 17844871067,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 555335286784
+  },
+  {
+    "uid": "AST-0039",
+    "company_name": "Star Health and Allied Insurance Company Ltd.",
+    "nse_symbol": "STARHEALTH",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Customer KYC Database",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 35636321583,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 327270039552
+  },
+  {
+    "uid": "AST-0040",
+    "company_name": "Mankind Pharma Ltd.",
+    "nse_symbol": "MANKIND",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Electronic Health Records (EHR) System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 25074524241,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 969458188288
+  },
+  {
+    "uid": "AST-0041",
+    "company_name": "State Bank of India",
+    "nse_symbol": "SBIN",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Mobile Banking Application Server",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 851415511677,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 9475229483008
+  },
+  {
+    "uid": "AST-0042",
+    "company_name": "Home First Finance Company India Ltd.",
+    "nse_symbol": "HOMEFIRST",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Payment Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 1545548227,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 126642421760
+  },
+  {
+    "uid": "AST-0043",
+    "company_name": "Linde India Ltd.",
+    "nse_symbol": "LINDEINDIA",
+    "sector": "Manufacturing",
+    "industry": "Chemicals",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 2754619487,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 544539770880
+  },
+  {
+    "uid": "AST-0044",
+    "company_name": "JSW Steel Ltd.",
+    "nse_symbol": "JSWSTEEL",
+    "sector": "Manufacturing",
+    "industry": "Metals & Mining",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 178464318920,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 3181815005184
+  },
+  {
+    "uid": "AST-0045",
+    "company_name": "Signatureglobal (India) Ltd.",
+    "nse_symbol": "SIGNATURE",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Realty",
+    "type": "Building Management System (BMS)",
+    "criticality": 2,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 1298072377,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 111113830400
+  },
+  {
+    "uid": "AST-0046",
+    "company_name": "Tech Mahindra Ltd.",
+    "nse_symbol": "TECHM",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "Customer Data Lake",
+    "criticality": 4,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 146998577239,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1419740315648
+  },
+  {
+    "uid": "AST-0047",
+    "company_name": "ITI Ltd.",
+    "nse_symbol": "ITI",
+    "sector": "Telecom & Media",
+    "industry": "Telecommunication",
+    "type": "Billing & Revenue Assurance System",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3926906450,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.7869,
+      "sigma": 1.0857,
+      "mean_inr_millions": 260,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 261462441984
+  },
+  {
+    "uid": "AST-0048",
+    "company_name": "Acutaas Chemicals Ltd.",
+    "nse_symbol": "ACUTAAS",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Electronic Health Records (EHR) System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 1553327088,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 260219158528
+  },
+  {
+    "uid": "AST-0049",
+    "company_name": "BEML Ltd.",
+    "nse_symbol": "BEML",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Warehouse Management System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 2427538958,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 172866322432
+  },
+  {
+    "uid": "AST-0050",
+    "company_name": "CRISIL Ltd.",
+    "nse_symbol": "CRISIL",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Payment Gateway",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 4876922695,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 352918142976
+  },
+  {
+    "uid": "AST-0051",
+    "company_name": "Ipca Laboratories Ltd.",
+    "nse_symbol": "IPCALAB",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Clinical Trial Database",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 16213310817,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 497361780736
+  },
+  {
+    "uid": "AST-0052",
+    "company_name": "Brigade Enterprises Ltd.",
+    "nse_symbol": "BRIGADE",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Realty",
+    "type": "Property Listing Database",
+    "criticality": 2,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 5338176297,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 233842114560
+  },
+  {
+    "uid": "AST-0053",
+    "company_name": "Kaynes Technology India Ltd.",
+    "nse_symbol": "KAYNES",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3912519076,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 240414507008
+  },
+  {
+    "uid": "AST-0054",
+    "company_name": "Petronet LNG Ltd.",
+    "nse_symbol": "PETRONET",
+    "sector": "Energy & Utilities",
+    "industry": "Oil Gas & Consumable Fuels",
+    "type": "Smart Meter Data Collector",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 52296857307,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.861,
+      "sigma": 1.0857,
+      "mean_inr_millions": 280,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 436050067456
+  },
+  {
+    "uid": "AST-0055",
+    "company_name": "Chambal Fertilizers & Chemicals Ltd.",
+    "nse_symbol": "CHAMBLFERT",
+    "sector": "Manufacturing",
+    "industry": "Chemicals",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 20536776000,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 168514355200
+  },
+  {
+    "uid": "AST-0056",
+    "company_name": "NCC Ltd.",
+    "nse_symbol": "NCC",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Construction",
+    "type": "Fleet Management System",
+    "criticality": 2,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 17727753078,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 91923021824
+  },
+  {
+    "uid": "AST-0057",
+    "company_name": "Multi Commodity Exchange of India Ltd.",
+    "nse_symbol": "MCX",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "SWIFT Messaging Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5962742284,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 822716792832
+  },
+  {
+    "uid": "AST-0058",
+    "company_name": "Bajaj Auto Ltd.",
+    "nse_symbol": "BAJAJ-AUTO",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 48299463592,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 3294073716736
+  },
+  {
+    "uid": "AST-0059",
+    "company_name": "Central Depository Services (India) Ltd.",
+    "nse_symbol": "CDSL",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Fraud Detection Engine",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 1764820938,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 293435998208
+  },
+  {
+    "uid": "AST-0060",
+    "company_name": "Dr. Reddy's Laboratories Ltd.",
+    "nse_symbol": "DRREDDY",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "PACS Imaging System",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 61985840433,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 969848258560
+  },
+  {
+    "uid": "AST-0061",
+    "company_name": "Affle 3i Ltd.",
+    "nse_symbol": "AFFLE",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "Cloud Infrastructure Platform",
+    "criticality": 4,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5237293388,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 216993628160
+  },
+  {
+    "uid": "AST-0062",
+    "company_name": "Zee Entertainment Enterprises Ltd.",
+    "nse_symbol": "ZEEL",
+    "sector": "Manufacturing",
+    "industry": "Media Entertainment & Publication",
+    "type": "Warehouse Management System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5316004089,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 87685816320
+  },
+  {
+    "uid": "AST-0063",
+    "company_name": "ICICI Lombard General Insurance Company Ltd.",
+    "nse_symbol": "ICICIGI",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Fraud Detection Engine",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 50256101810,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 763136835584
+  },
+  {
+    "uid": "AST-0064",
+    "company_name": "InterGlobe Aviation Ltd.",
+    "nse_symbol": "INDIGO",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Services",
+    "type": "Fleet Management System",
+    "criticality": 2,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 74770396931,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1932172984320
+  },
+  {
+    "uid": "AST-0065",
+    "company_name": "Narayana Hrudayalaya Ltd.",
+    "nse_symbol": "NH",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Hospital Information System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 13634259289,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 379959181312
+  },
+  {
+    "uid": "AST-0066",
+    "company_name": "HFCL Ltd.",
+    "nse_symbol": "HFCL",
+    "sector": "Telecom & Media",
+    "industry": "Telecommunication",
+    "type": "Billing & Revenue Assurance System",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 10581614251,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.7869,
+      "sigma": 1.0857,
+      "mean_inr_millions": 260,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 354164244480
+  },
+  {
+    "uid": "AST-0067",
+    "company_name": "Godrej Industries Ltd.",
+    "nse_symbol": "GODREJIND",
+    "sector": "Consumer & Retail",
+    "industry": "Diversified",
+    "type": "Inventory Management System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 43030504162,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 393812541440
+  },
+  {
+    "uid": "AST-0068",
+    "company_name": "J.K. Cement Ltd.",
+    "nse_symbol": "JKCEMENT",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Construction Materials",
+    "type": "Procurement Portal",
+    "criticality": 2,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 12937159354,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 391943192576
+  },
+  {
+    "uid": "AST-0069",
+    "company_name": "Cyient Ltd.",
+    "nse_symbol": "CYIENT",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "Customer Data Lake",
+    "criticality": 4,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 19858350239,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 117009088512
+  },
+  {
+    "uid": "AST-0070",
+    "company_name": "Honasa Consumer Ltd.",
+    "nse_symbol": "HONASA",
+    "sector": "Consumer & Retail",
+    "industry": "Fast Moving Consumer Goods",
+    "type": "Customer Loyalty Database",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3288378310,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 156507930624
+  },
+  {
+    "uid": "AST-0071",
+    "company_name": "CIE Automotive India Ltd.",
+    "nse_symbol": "CIEINDIA",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3454845024,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 145751031808
+  },
+  {
+    "uid": "AST-0072",
+    "company_name": "Deepak Fertilisers & Petrochemicals Corp. Ltd.",
+    "nse_symbol": "DEEPAKFERT",
+    "sector": "Manufacturing",
+    "industry": "Chemicals",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 12814013196,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 175774171136
+  },
+  {
+    "uid": "AST-0073",
+    "company_name": "BSE Ltd.",
+    "nse_symbol": "BSE",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Mobile Banking Application Server",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 9846630036,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1396149977088
+  },
+  {
+    "uid": "AST-0074",
+    "company_name": "Tejas Networks Ltd.",
+    "nse_symbol": "TEJASNET",
+    "sector": "Telecom & Media",
+    "industry": "Telecommunication",
+    "type": "Network Management Platform",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 1999668854,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.7869,
+      "sigma": 1.0857,
+      "mean_inr_millions": 260,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 109565304832
+  },
+  {
+    "uid": "AST-0075",
+    "company_name": "Adani Energy Solutions Ltd.",
+    "nse_symbol": "ADANIENSOL",
+    "sector": "Energy & Utilities",
+    "industry": "Power",
+    "type": "Energy Trading Platform",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 35448035135,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.861,
+      "sigma": 1.0857,
+      "mean_inr_millions": 280,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1716416675840
+  },
+  {
+    "uid": "AST-0076",
+    "company_name": "Apollo Hospitals Enterprise Ltd.",
+    "nse_symbol": "APOLLOHOSP",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Electronic Health Records (EHR) System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 25447749028,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1247188090880
+  },
+  {
+    "uid": "AST-0077",
+    "company_name": "Welspun Corp Ltd.",
+    "nse_symbol": "WELCORP",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 11800336467,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 687212462080
+  },
+  {
+    "uid": "AST-0078",
+    "company_name": "TBO Tek Ltd.",
+    "nse_symbol": "TBOTEK",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "CRM System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 3484186862,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 183134535680
+  },
+  {
+    "uid": "AST-0079",
+    "company_name": "Ramkrishna Forgings Ltd.",
+    "nse_symbol": "RKFORGE",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5175744657,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 128538460160
+  },
+  {
+    "uid": "AST-0080",
+    "company_name": "Infosys Ltd.",
+    "nse_symbol": "INFY",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "Customer Data Lake",
+    "criticality": 4,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 3294242161,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 4584938930176
+  },
+  {
+    "uid": "AST-0081",
+    "company_name": "Godrej Properties Ltd.",
+    "nse_symbol": "GODREJPROP",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Realty",
+    "type": "Project Management System",
+    "criticality": 2,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 1750614400,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 604320563200
+  },
+  {
+    "uid": "AST-0082",
+    "company_name": "Choice International Ltd.",
+    "nse_symbol": "CHOICEIN",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Trading Platform",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 1246228713,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 170513137664
+  },
+  {
+    "uid": "AST-0083",
+    "company_name": "Cochin Shipyard Ltd.",
+    "nse_symbol": "COCHINSHIP",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Warehouse Management System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 2633380963,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 396252250112
+  },
+  {
+    "uid": "AST-0084",
+    "company_name": "Whirlpool of India Ltd.",
+    "nse_symbol": "WHIRLPOOL",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Durables",
+    "type": "Point-of-Sale Network",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 6832641846,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 103541612544
+  },
+  {
+    "uid": "AST-0085",
+    "company_name": "IRCON International Ltd.",
+    "nse_symbol": "IRCON",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Construction",
+    "type": "Building Management System (BMS)",
+    "criticality": 2,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5835371684,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 113049985024
+  },
+  {
+    "uid": "AST-0086",
+    "company_name": "REC Ltd.",
+    "nse_symbol": "RECLTD",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Core Banking System",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 30886598873,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 829333897216
+  },
+  {
+    "uid": "AST-0087",
+    "company_name": "IIFL Finance Ltd.",
+    "nse_symbol": "IIFL",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Mobile Banking Application Server",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 13510074688,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 277862940672
+  },
+  {
+    "uid": "AST-0088",
+    "company_name": "Amara Raja Energy & Mobility Ltd.",
+    "nse_symbol": "ARE&M",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 14971906678,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 158371840000
+  },
+  {
+    "uid": "AST-0089",
+    "company_name": "Aadhar Housing Finance Ltd.",
+    "nse_symbol": "AADHARHFC",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Core Banking System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 2951639321,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 211851051008
+  },
+  {
+    "uid": "AST-0090",
+    "company_name": "Yes Bank Ltd.",
+    "nse_symbol": "YESBANK",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Trading Platform",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 16908458239,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 708747722752
+  },
+  {
+    "uid": "AST-0091",
+    "company_name": "Divi's Laboratories Ltd.",
+    "nse_symbol": "DIVISLAB",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "PACS Imaging System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 21220560266,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 2445762101248
+  },
+  {
+    "uid": "AST-0092",
+    "company_name": "Kalpataru Projects International Ltd.",
+    "nse_symbol": "KPIL",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Construction",
+    "type": "Fleet Management System",
+    "criticality": 2,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 21917859330,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 242292097024
+  },
+  {
+    "uid": "AST-0093",
+    "company_name": "Granules India Ltd.",
+    "nse_symbol": "GRANULES",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Electronic Health Records (EHR) System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 10119492423,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 211618578432
+  },
+  {
+    "uid": "AST-0094",
+    "company_name": "Sonata Software Ltd.",
+    "nse_symbol": "SONATSOFTW",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "CI/CD Pipeline Server",
+    "criticality": 4,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 29286240306,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 78886420480
+  },
+  {
+    "uid": "AST-0095",
+    "company_name": "Five-Star Business Finance Ltd.",
+    "nse_symbol": "FIVESTAR",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "SWIFT Messaging Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5099952800,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 152745017344
+  },
+  {
+    "uid": "AST-0096",
+    "company_name": "Jyoti CNC Automation Ltd.",
+    "nse_symbol": "JYOTICNC",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 1628325954,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 229015060480
+  },
+  {
+    "uid": "AST-0097",
+    "company_name": "R R Kabel Ltd.",
+    "nse_symbol": "RRKABEL",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 5938834989,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 276486389760
+  },
+  {
+    "uid": "AST-0098",
+    "company_name": "APL Apollo Tubes Ltd.",
+    "nse_symbol": "APLAPOLLO",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Warehouse Management System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 25742969126,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 604934373376
+  },
+  {
+    "uid": "AST-0099",
+    "company_name": "IDBI Bank Ltd.",
+    "nse_symbol": "IDBI",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "SWIFT Messaging Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 31647555486,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 982339485696
+  },
+  {
+    "uid": "AST-0100",
+    "company_name": "Manappuram Finance Ltd.",
+    "nse_symbol": "MANAPPURAM",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Trading Platform",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 10654790698,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 320313622528
+  },
+  {
+    "uid": "AST-0101",
+    "company_name": "Indian Railway Catering And Tourism Corporation Ltd.",
+    "nse_symbol": "IRCTC",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "Digital Marketing Platform",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5295261174,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 383080005632
+  },
+  {
+    "uid": "AST-0102",
+    "company_name": "Coforge Ltd.",
+    "nse_symbol": "COFORGE",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "API Gateway",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 34722783951,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 874305814528
+  },
+  {
+    "uid": "AST-0103",
+    "company_name": "Premier Energies Ltd.",
+    "nse_symbol": "PREMIERENE",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 6988121802,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 452033413120
+  },
+  {
+    "uid": "AST-0104",
+    "company_name": "Capri Global Capital Ltd.",
+    "nse_symbol": "CGCL",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "SWIFT Messaging Gateway",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 4524270751,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 263678279680
+  },
+  {
+    "uid": "AST-0105",
+    "company_name": "Onesource Specialty Pharma Ltd.",
+    "nse_symbol": "ONESOURCE",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Clinical Trial Database",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 1395175093,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 179692421120
+  },
+  {
+    "uid": "AST-0106",
+    "company_name": "Canara Bank",
+    "nse_symbol": "CANBK",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Fraud Detection Engine",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 78146224340,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1153696137216
+  },
+  {
+    "uid": "AST-0107",
+    "company_name": "Aarti Industries Ltd.",
+    "nse_symbol": "AARTIIND",
+    "sector": "Manufacturing",
+    "industry": "Chemicals",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 6617827919,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 181653520384
+  },
+  {
+    "uid": "AST-0108",
+    "company_name": "Aster DM Quality Care Ltd.",
+    "nse_symbol": "ASTERDM",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Hospital Information System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 4964811869,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 684611534848
+  },
+  {
+    "uid": "AST-0109",
+    "company_name": "Tube Investments of India Ltd.",
+    "nse_symbol": "TIINDIA",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Supply Chain Management Platform",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 14451754090,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 522974330880
+  },
+  {
+    "uid": "AST-0110",
+    "company_name": "Emami Ltd.",
+    "nse_symbol": "EMAMILTD",
+    "sector": "Consumer & Retail",
+    "industry": "Fast Moving Consumer Goods",
+    "type": "CRM System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 5876585002,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 160195493888
+  },
+  {
+    "uid": "AST-0111",
+    "company_name": "SBI Life Insurance Company Ltd.",
+    "nse_symbol": "SBILIFE",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Trading Platform",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 215775213614,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1768804974592
+  },
+  {
+    "uid": "AST-0112",
+    "company_name": "Dabur India Ltd.",
+    "nse_symbol": "DABUR",
+    "sector": "Consumer & Retail",
+    "industry": "Fast Moving Consumer Goods",
+    "type": "Point-of-Sale Network",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 20600629953,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 675788947456
+  },
+  {
+    "uid": "AST-0113",
+    "company_name": "Asahi India Glass Ltd.",
+    "nse_symbol": "ASAHIINDIA",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3457792816,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 243735887872
+  },
+  {
+    "uid": "AST-0114",
+    "company_name": "Eicher Motors Ltd.",
+    "nse_symbol": "EICHERMOT",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 20978636987,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 2102287138816
+  },
+  {
+    "uid": "AST-0115",
+    "company_name": "RBL Bank Ltd.",
+    "nse_symbol": "RBLBANK",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "SWIFT Messaging Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 11452417647,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 642011365376
+  },
+  {
+    "uid": "AST-0116",
+    "company_name": "Polycab India Ltd.",
+    "nse_symbol": "POLYCAB",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 22278643920,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1251626713088
+  },
+  {
+    "uid": "AST-0117",
+    "company_name": "National Aluminium Co. Ltd.",
+    "nse_symbol": "NATIONALUM",
+    "sector": "Manufacturing",
+    "industry": "Metals & Mining",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 17161577443,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 692961148928
+  },
+  {
+    "uid": "AST-0118",
+    "company_name": "Lemon Tree Hotels Ltd.",
+    "nse_symbol": "LEMONTREE",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "CRM System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 2291088467,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 84553490432
+  },
+  {
+    "uid": "AST-0119",
+    "company_name": "Dr. Lal Path Labs Ltd.",
+    "nse_symbol": "LALPATHLAB",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "PACS Imaging System",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 3886678932,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 313600966656
+  },
+  {
+    "uid": "AST-0120",
+    "company_name": "Lenskart Solutions Ltd.",
+    "nse_symbol": "LENSKART",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "CRM System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 8869377883,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1182746673152
+  },
+  {
+    "uid": "AST-0121",
+    "company_name": "Indian Bank",
+    "nse_symbol": "INDIANB",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Payment Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 74232454722,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1197585596416
+  },
+  {
+    "uid": "AST-0122",
+    "company_name": "Force Motors Ltd.",
+    "nse_symbol": "FORCEMOT",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Warehouse Management System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5993393399,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 233377955840
+  },
+  {
+    "uid": "AST-0123",
+    "company_name": "L&T Finance Ltd.",
+    "nse_symbol": "LTF",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Fraud Detection Engine",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 18131300236,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 800403750912
+  },
+  {
+    "uid": "AST-0124",
+    "company_name": "Elgi Equipments Ltd.",
+    "nse_symbol": "ELGIEQUIP",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 4918875420,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 199547846656
+  },
+  {
+    "uid": "AST-0125",
+    "company_name": "Global Health Ltd.",
+    "nse_symbol": "MEDANTA",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Clinical Trial Database",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5774990364,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 397703905280
+  },
+  {
+    "uid": "AST-0126",
+    "company_name": "Phoenix Mills Ltd.",
+    "nse_symbol": "PHOENIXLTD",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Realty",
+    "type": "Procurement Portal",
+    "criticality": 2,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 3062691130,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 699510554624
+  },
+  {
+    "uid": "AST-0127",
+    "company_name": "PG Electroplast Ltd.",
+    "nse_symbol": "PGEL",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Durables",
+    "type": "CRM System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 4971742443,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 160294912000
+  },
+  {
+    "uid": "AST-0128",
+    "company_name": "Inox Wind Ltd.",
+    "nse_symbol": "INOXWIND",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 2580097212,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 129151221760
+  },
+  {
+    "uid": "AST-0129",
+    "company_name": "Glaxosmithkline Pharmaceuticals Ltd.",
+    "nse_symbol": "GLAXO",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Hospital Information System",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 3222166647,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 500272955392
+  },
+  {
+    "uid": "AST-0130",
+    "company_name": "Tega Industries Ltd.",
+    "nse_symbol": "TEGA",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 2472907032,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 116154925056
+  },
+  {
+    "uid": "AST-0131",
+    "company_name": "UTI Asset Management Company Ltd.",
+    "nse_symbol": "UTIAMC",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Payment Gateway",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 2391619932,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 113442111488
+  },
+  {
+    "uid": "AST-0132",
+    "company_name": "NBCC (India) Ltd.",
+    "nse_symbol": "NBCC",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Construction",
+    "type": "Fleet Management System",
+    "criticality": 2,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 4512361828,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 235413012480
+  },
+  {
+    "uid": "AST-0133",
+    "company_name": "JBM Auto Ltd.",
+    "nse_symbol": "JBMA",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5904165229,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 148057243648
+  },
+  {
+    "uid": "AST-0134",
+    "company_name": "LT Foods Ltd.",
+    "nse_symbol": "LTFOODS",
+    "sector": "Consumer & Retail",
+    "industry": "Fast Moving Consumer Goods",
+    "type": "E-commerce Platform",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 18808519741,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 152826019840
+  },
+  {
+    "uid": "AST-0135",
+    "company_name": "Paradeep Phosphates Ltd.",
+    "nse_symbol": "PARADEEP",
+    "sector": "Manufacturing",
+    "industry": "Chemicals",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 15797093945,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 161801453568
+  },
+  {
+    "uid": "AST-0136",
+    "company_name": "NMDC Ltd.",
+    "nse_symbol": "NMDC",
+    "sector": "Manufacturing",
+    "industry": "Metals & Mining",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 29699176551,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 745282338816
+  },
+  {
+    "uid": "AST-0137",
+    "company_name": "Bharat Heavy Electricals Ltd.",
+    "nse_symbol": "BHEL",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 31162759067,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1512434302976
+  },
+  {
+    "uid": "AST-0138",
+    "company_name": "Info Edge (India) Ltd.",
+    "nse_symbol": "NAUKRI",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "Inventory Management System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3703147643,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 862980866048
+  },
+  {
+    "uid": "AST-0139",
+    "company_name": "Mahindra & Mahindra Ltd.",
+    "nse_symbol": "M&M",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 153142770334,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 3800652578816
+  },
+  {
+    "uid": "AST-0140",
+    "company_name": "NTPC Green Energy Ltd.",
+    "nse_symbol": "NTPCGREEN",
+    "sector": "Energy & Utilities",
+    "industry": "Power",
+    "type": "Smart Meter Data Collector",
+    "criticality": 4,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 4796559583,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.861,
+      "sigma": 1.0857,
+      "mean_inr_millions": 280,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 751628582912
+  },
+  {
+    "uid": "AST-0141",
+    "company_name": "Bank of Maharashtra",
+    "nse_symbol": "MAHABANK",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Core Banking System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 18507223816,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 667473149952
+  },
+  {
+    "uid": "AST-0142",
+    "company_name": "Computer Age Management Services Ltd.",
+    "nse_symbol": "CAMS",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Payment Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 1746755291,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 187071463424
+  },
+  {
+    "uid": "AST-0143",
+    "company_name": "HDB Financial Services Ltd.",
+    "nse_symbol": "HDBFS",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Payment Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 10314232750,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 569976750080
+  },
+  {
+    "uid": "AST-0144",
+    "company_name": "Avenue Supermarts Ltd.",
+    "nse_symbol": "DMART",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "E-commerce Platform",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 106125988035,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 2453814640640
+  },
+  {
+    "uid": "AST-0145",
+    "company_name": "Blue Star Ltd.",
+    "nse_symbol": "BLUESTARCO",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Durables",
+    "type": "Inventory Management System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 13200482524,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 309704753152
+  },
+  {
+    "uid": "AST-0146",
+    "company_name": "Aditya Birla Real Estate Ltd.",
+    "nse_symbol": "ABREL",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Realty",
+    "type": "Procurement Portal",
+    "criticality": 2,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 282709146,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 152387321856
+  },
+  {
+    "uid": "AST-0147",
+    "company_name": "Max Healthcare Institute Ltd.",
+    "nse_symbol": "MAXHEALTH",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Patient Portal Server",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 9735416062,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 972108529664
+  },
+  {
+    "uid": "AST-0148",
+    "company_name": "Hindustan Petroleum Corporation Ltd.",
+    "nse_symbol": "HINDPETRO",
+    "sector": "Energy & Utilities",
+    "industry": "Oil Gas & Consumable Fuels",
+    "type": "Smart Meter Data Collector",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 672882609043,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.861,
+      "sigma": 1.0857,
+      "mean_inr_millions": 280,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 760696537088
+  },
+  {
+    "uid": "AST-0149",
+    "company_name": "Mahindra & Mahindra Financial Services Ltd.",
+    "nse_symbol": "M&MFIN",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Fraud Detection Engine",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 14082108700,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 523540922368
+  },
+  {
+    "uid": "AST-0150",
+    "company_name": "Railtel Corporation Of India Ltd.",
+    "nse_symbol": "RAILTEL",
+    "sector": "Telecom & Media",
+    "industry": "Telecommunication",
+    "type": "Network Management Platform",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 7813377948,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.7869,
+      "sigma": 1.0857,
+      "mean_inr_millions": 260,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 87632224256
+  },
+  {
+    "uid": "AST-0151",
+    "company_name": "Aditya Birla Capital Ltd.",
+    "nse_symbol": "ABCAPITAL",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Core Banking System",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 75143190545,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1108144947200
+  },
+  {
+    "uid": "AST-0152",
+    "company_name": "Atul Ltd.",
+    "nse_symbol": "ATUL",
+    "sector": "Manufacturing",
+    "industry": "Chemicals",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 5968809935,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 188692217856
+  },
+  {
+    "uid": "AST-0153",
+    "company_name": "Bharat Dynamics Ltd.",
+    "nse_symbol": "BDL",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 2290578421,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 470812884992
+  },
+  {
+    "uid": "AST-0154",
+    "company_name": "Ashok Leyland Ltd.",
+    "nse_symbol": "ASHOKLEY",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 66951523918,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1003136876544
+  },
+  {
+    "uid": "AST-0155",
+    "company_name": "Lupin Ltd.",
+    "nse_symbol": "LUPIN",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Pharmacy Management System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 39715025196,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 971232706560
+  },
+  {
+    "uid": "AST-0156",
+    "company_name": "LIC Housing Finance Ltd.",
+    "nse_symbol": "LICHSGFIN",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Customer KYC Database",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 14510458278,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 318321459200
+  },
+  {
+    "uid": "AST-0157",
+    "company_name": "Birlasoft Ltd.",
+    "nse_symbol": "BSOFT",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "SaaS Application Server",
+    "criticality": 4,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 8316362725,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 82062426112
+  },
+  {
+    "uid": "AST-0158",
+    "company_name": "SJVN Ltd.",
+    "nse_symbol": "SJVN",
+    "sector": "Energy & Utilities",
+    "industry": "Power",
+    "type": "Grid Management Platform",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 6686766559,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.861,
+      "sigma": 1.0857,
+      "mean_inr_millions": 280,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 255436685312
+  },
+  {
+    "uid": "AST-0159",
+    "company_name": "NTPC Ltd.",
+    "nse_symbol": "NTPC",
+    "sector": "Energy & Utilities",
+    "industry": "Power",
+    "type": "Smart Meter Data Collector",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 99494273982,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.861,
+      "sigma": 1.0857,
+      "mean_inr_millions": 280,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 3216384458752
+  },
+  {
+    "uid": "AST-0160",
+    "company_name": "Indraprastha Gas Ltd.",
+    "nse_symbol": "IGL",
+    "sector": "Energy & Utilities",
+    "industry": "Oil Gas & Consumable Fuels",
+    "type": "Pipeline Monitoring System",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 21271160601,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.861,
+      "sigma": 1.0857,
+      "mean_inr_millions": 280,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 217588236288
+  },
+  {
+    "uid": "AST-0161",
+    "company_name": "Crompton Greaves Consumer Electricals Ltd.",
+    "nse_symbol": "CROMPTON",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Durables",
+    "type": "Point-of-Sale Network",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 12094209604,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 151320002560
+  },
+  {
+    "uid": "AST-0162",
+    "company_name": "Hyundai Motor India Ltd.",
+    "nse_symbol": "HYUNDAI",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 64304400370,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1785640386560
+  },
+  {
+    "uid": "AST-0163",
+    "company_name": "IFCI Ltd.",
+    "nse_symbol": "IFCI",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Mobile Banking Application Server",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": -1454287566,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 281421119488
+  },
+  {
+    "uid": "AST-0164",
+    "company_name": "Delhivery Ltd.",
+    "nse_symbol": "DELHIVERY",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Services",
+    "type": "Fleet Management System",
+    "criticality": 2,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5943824513,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 345875972096
+  },
+  {
+    "uid": "AST-0165",
+    "company_name": "ICICI Prudential Asset Management Company Ltd.",
+    "nse_symbol": "ICICIAMC",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Mobile Banking Application Server",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 7780596703,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1471209930752
+  },
+  {
+    "uid": "AST-0166",
+    "company_name": "Neuland Laboratories Ltd.",
+    "nse_symbol": "NEULANDLAB",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Hospital Information System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 694116035,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 293227102208
+  },
+  {
+    "uid": "AST-0167",
+    "company_name": "Siemens Energy India Ltd.",
+    "nse_symbol": "ENRIN",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 8351763715,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1112520523776
+  },
+  {
+    "uid": "AST-0168",
+    "company_name": "Adani Ports and Special Economic Zone Ltd.",
+    "nse_symbol": "ADANIPORTS",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Services",
+    "type": "Fleet Management System",
+    "criticality": 2,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 19272344756,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 3940921901056
+  },
+  {
+    "uid": "AST-0169",
+    "company_name": "HDFC Life Insurance Company Ltd.",
+    "nse_symbol": "HDFCLIFE",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Core Banking System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 167178150282,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1187024863232
+  },
+  {
+    "uid": "AST-0170",
+    "company_name": "Nippon Life India Asset Management Ltd.",
+    "nse_symbol": "NAM-INDIA",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Customer KYC Database",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3122922690,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 746049241088
+  },
+  {
+    "uid": "AST-0171",
+    "company_name": "Welspun Living Ltd.",
+    "nse_symbol": "WELSPUNLIV",
+    "sector": "Manufacturing",
+    "industry": "Textiles",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 5343919149,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 193887748096
+  },
+  {
+    "uid": "AST-0172",
+    "company_name": "Max Financial Services Ltd.",
+    "nse_symbol": "MFSL",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Customer KYC Database",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 106398622549,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 537949143040
+  },
+  {
+    "uid": "AST-0173",
+    "company_name": "Bajaj Housing Finance Ltd.",
+    "nse_symbol": "BAJAJHFL",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Mobile Banking Application Server",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 4591490951,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 694027419648
+  },
+  {
+    "uid": "AST-0174",
+    "company_name": "Container Corporation of India Ltd.",
+    "nse_symbol": "CONCOR",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Services",
+    "type": "Procurement Portal",
+    "criticality": 2,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 8625129890,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 383741198336
+  },
+  {
+    "uid": "AST-0175",
+    "company_name": "AIA Engineering Ltd.",
+    "nse_symbol": "AIAENG",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3817917229,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 396518227968
+  },
+  {
+    "uid": "AST-0176",
+    "company_name": "Muthoot Finance Ltd.",
+    "nse_symbol": "MUTHOOTFIN",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Core Banking System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 39206327350,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1178952400896
+  },
+  {
+    "uid": "AST-0177",
+    "company_name": "Inventurus Knowledge Solutions Ltd.",
+    "nse_symbol": "IKS",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "CI/CD Pipeline Server",
+    "criticality": 4,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 6581254281,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 294431096832
+  },
+  {
+    "uid": "AST-0178",
+    "company_name": "Emmvee Photovoltaic Power Ltd.",
+    "nse_symbol": "EMMVEE",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "ERP System (SAP/Oracle)",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3152701531,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 224285179904
+  },
+  {
+    "uid": "AST-0179",
+    "company_name": "Sapphire Foods India Ltd.",
+    "nse_symbol": "SAPPHIRE",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "E-commerce Platform",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 2972084785,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 74174865408
+  },
+  {
+    "uid": "AST-0180",
+    "company_name": "Shriram Finance Ltd.",
+    "nse_symbol": "SHRIRAMFIN",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "SWIFT Messaging Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 54289891294,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 2468044603392
+  },
+  {
+    "uid": "AST-0181",
+    "company_name": "CCL Products (I) Ltd.",
+    "nse_symbol": "CCL",
+    "sector": "Consumer & Retail",
+    "industry": "Fast Moving Consumer Goods",
+    "type": "CRM System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 4949942860,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 144122167296
+  },
+  {
+    "uid": "AST-0182",
+    "company_name": "Jubilant Foodworks Ltd.",
+    "nse_symbol": "JUBLFOOD",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "Inventory Management System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 10259845976,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 319136595968
+  },
+  {
+    "uid": "AST-0183",
+    "company_name": "Union Bank of India",
+    "nse_symbol": "UNIONBANK",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Customer KYC Database",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 65609929959,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1442751447040
+  },
+  {
+    "uid": "AST-0184",
+    "company_name": "Cohance Lifesciences Ltd.",
+    "nse_symbol": "COHANCE",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Pharmacy Management System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3972892622,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 177104306176
+  },
+  {
+    "uid": "AST-0185",
+    "company_name": "Coromandel International Ltd.",
+    "nse_symbol": "COROMANDEL",
+    "sector": "Manufacturing",
+    "industry": "Chemicals",
+    "type": "ERP System (SAP/Oracle)",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 34330058053,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 572499492864
+  },
+  {
+    "uid": "AST-0186",
+    "company_name": "Clean Science and Technology Ltd.",
+    "nse_symbol": "CLEAN",
+    "sector": "Manufacturing",
+    "industry": "Chemicals",
+    "type": "Quality Control System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 1032592602,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 89055469568
+  },
+  {
+    "uid": "AST-0187",
+    "company_name": "Wipro Ltd.",
+    "nse_symbol": "WIPRO",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "SaaS Application Server",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 182742981408,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1753789497344
+  },
+  {
+    "uid": "AST-0188",
+    "company_name": "HCL Technologies Ltd.",
+    "nse_symbol": "HCLTECH",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "SaaS Application Server",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3500083374,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 3549695311872
+  },
+  {
+    "uid": "AST-0189",
+    "company_name": "HDFC Asset Management Company Ltd.",
+    "nse_symbol": "HDFCAMC",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Mobile Banking Application Server",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5849366763,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1067995561984
+  },
+  {
+    "uid": "AST-0190",
+    "company_name": "PB Fintech Ltd.",
+    "nse_symbol": "POLICYBZR",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Customer KYC Database",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 10991636369,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 853206761472
+  },
+  {
+    "uid": "AST-0191",
+    "company_name": "Blue Jet Healthcare Ltd.",
+    "nse_symbol": "BLUEJET",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Pharmacy Management System",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 1699986686,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 100150255616
+  },
+  {
+    "uid": "AST-0192",
+    "company_name": "Tata Elxsi Ltd.",
+    "nse_symbol": "TATAELXSI",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "CI/CD Pipeline Server",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 7266982470,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 224091521024
+  },
+  {
+    "uid": "AST-0193",
+    "company_name": "Authum Investment & Infrastructure Ltd.",
+    "nse_symbol": "AIIL",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Fraud Detection Engine",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5532898713,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 445291364352
+  },
+  {
+    "uid": "AST-0194",
+    "company_name": "Larsen & Toubro Ltd.",
+    "nse_symbol": "LT",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Construction",
+    "type": "Project Management System",
+    "criticality": 2,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 187369163930,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 5489705877504
+  },
+  {
+    "uid": "AST-0195",
+    "company_name": "Torrent Power Ltd.",
+    "nse_symbol": "TORNTPOWER",
+    "sector": "Energy & Utilities",
+    "industry": "Power",
+    "type": "Energy Trading Platform",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 33961197755,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.861,
+      "sigma": 1.0857,
+      "mean_inr_millions": 280,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 648775794688
+  },
+  {
+    "uid": "AST-0196",
+    "company_name": "Mangalore Refinery & Petrochemicals Ltd.",
+    "nse_symbol": "MRPL",
+    "sector": "Energy & Utilities",
+    "industry": "Oil Gas & Consumable Fuels",
+    "type": "Grid Management Platform",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 58838528249,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.861,
+      "sigma": 1.0857,
+      "mean_inr_millions": 280,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 308825456640
+  },
+  {
+    "uid": "AST-0197",
+    "company_name": "Sammaan Capital Ltd.",
+    "nse_symbol": "SAMMAANCAP",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Customer KYC Database",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": -1889312487,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 182721626112
+  },
+  {
+    "uid": "AST-0198",
+    "company_name": "Aditya Birla Sun Life AMC Ltd.",
+    "nse_symbol": "ABSLAMC",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Core Banking System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3514827121,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 301627310080
+  },
+  {
+    "uid": "AST-0199",
+    "company_name": "Indian Hotels Co. Ltd.",
+    "nse_symbol": "INDHOTEL",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "Customer Loyalty Database",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 8383933985,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1046185246720
+  },
+  {
+    "uid": "AST-0200",
+    "company_name": "Biocon Ltd.",
+    "nse_symbol": "BIOCON",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Clinical Trial Database",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 27466718232,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 656121004032
+  },
+  {
+    "uid": "AST-0201",
+    "company_name": "Vijaya Diagnostic Centre Ltd.",
+    "nse_symbol": "VIJAYA",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Clinical Trial Database",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 1489547745,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 154599571456
+  },
+  {
+    "uid": "AST-0202",
+    "company_name": "Life Insurance Corporation of India",
+    "nse_symbol": "LICI",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Trading Platform",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 2031819801187,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 5281373224960
+  },
+  {
+    "uid": "AST-0203",
+    "company_name": "Tata Consumer Products Ltd.",
+    "nse_symbol": "TATACONSUM",
+    "sector": "Consumer & Retail",
+    "industry": "Fast Moving Consumer Goods",
+    "type": "Digital Marketing Platform",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 23542330103,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1007504392192
+  },
+  {
+    "uid": "AST-0204",
+    "company_name": "Rainbow Childrens Medicare Ltd.",
+    "nse_symbol": "RAINBOW",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Patient Portal Server",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 2286107531,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 145936039936
+  },
+  {
+    "uid": "AST-0205",
+    "company_name": "Page Industries Ltd.",
+    "nse_symbol": "PAGEIND",
+    "sector": "Manufacturing",
+    "industry": "Textiles",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 5999197971,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 402877939712
+  },
+  {
+    "uid": "AST-0206",
+    "company_name": "eClerx Services Ltd.",
+    "nse_symbol": "ECLERX",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Services",
+    "type": "Fleet Management System",
+    "criticality": 2,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 1409379873,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 179099582464
+  },
+  {
+    "uid": "AST-0207",
+    "company_name": "Himadri Speciality Chemical Ltd.",
+    "nse_symbol": "HSCL",
+    "sector": "Manufacturing",
+    "industry": "Chemicals",
+    "type": "ERP System (SAP/Oracle)",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 4870225290,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 338619727872
+  },
+  {
+    "uid": "AST-0208",
+    "company_name": "Titan Company Ltd.",
+    "nse_symbol": "TITAN",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Durables",
+    "type": "CRM System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 142947506423,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 4436561756160
+  },
+  {
+    "uid": "AST-0209",
+    "company_name": "Vishal Mega Mart Ltd.",
+    "nse_symbol": "VMM",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "Inventory Management System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 21054085823,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 501040283648
+  },
+  {
+    "uid": "AST-0210",
+    "company_name": "Pfizer Ltd.",
+    "nse_symbol": "PFIZER",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Patient Portal Server",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3423998176,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 210389237760
+  },
+  {
+    "uid": "AST-0211",
+    "company_name": "Tata Teleservices (Maharashtra) Ltd.",
+    "nse_symbol": "TTML",
+    "sector": "Telecom & Media",
+    "industry": "Telecommunication",
+    "type": "Subscriber Database",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 1231706695,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.7869,
+      "sigma": 1.0857,
+      "mean_inr_millions": 260,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 74384998400
+  },
+  {
+    "uid": "AST-0212",
+    "company_name": "Physicswallah Ltd.",
+    "nse_symbol": "PWL",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Services",
+    "type": "E-commerce Platform",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 4824367631,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 367660072960
+  },
+  {
+    "uid": "AST-0213",
+    "company_name": "Tata Communications Ltd.",
+    "nse_symbol": "TATACOMM",
+    "sector": "Telecom & Media",
+    "industry": "Telecommunication",
+    "type": "Network Management Platform",
+    "criticality": 4,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 35902390914,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.7869,
+      "sigma": 1.0857,
+      "mean_inr_millions": 260,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 497474437120
+  },
+  {
+    "uid": "AST-0214",
+    "company_name": "Supreme Industries Ltd.",
+    "nse_symbol": "SUPREMEIND",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Warehouse Management System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 7010744690,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 446730633216
+  },
+  {
+    "uid": "AST-0215",
+    "company_name": "Pine Labs Ltd.",
+    "nse_symbol": "PINELABS",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Core Banking System",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 4456418694,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 190271193088
+  },
+  {
+    "uid": "AST-0216",
+    "company_name": "City Union Bank Ltd.",
+    "nse_symbol": "CUB",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Mobile Banking Application Server",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 8795155999,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 239938945024
+  },
+  {
+    "uid": "AST-0217",
+    "company_name": "Schaeffler India Ltd.",
+    "nse_symbol": "SCHAEFFLER",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Supply Chain Management Platform",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 9943369444,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 623542206464
+  },
+  {
+    "uid": "AST-0218",
+    "company_name": "Karur Vysya Bank Ltd.",
+    "nse_symbol": "KARURVYSYA",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Fraud Detection Engine",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 6737976664,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 341910224896
+  },
+  {
+    "uid": "AST-0219",
+    "company_name": "Aavas Financiers Ltd.",
+    "nse_symbol": "AAVAS",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "SWIFT Messaging Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 2311228451,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 103970717696
+  },
+  {
+    "uid": "AST-0220",
+    "company_name": "Craftsman Automation Ltd.",
+    "nse_symbol": "CRAFTSMAN",
+    "sector": "Manufacturing",
+    "industry": "Automobile and Auto Components",
+    "type": "Industrial IoT Gateway",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 7053769561,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 301272891392
+  },
+  {
+    "uid": "AST-0221",
+    "company_name": "Adani Power Ltd.",
+    "nse_symbol": "ADANIPOWER",
+    "sector": "Energy & Utilities",
+    "industry": "Power",
+    "type": "Pipeline Monitoring System",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 47176682558,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.861,
+      "sigma": 1.0857,
+      "mean_inr_millions": 280,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 4003309813760
+  },
+  {
+    "uid": "AST-0222",
+    "company_name": "CESC Ltd.",
+    "nse_symbol": "CESC",
+    "sector": "Energy & Utilities",
+    "industry": "Power",
+    "type": "Energy Trading Platform",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 18039225563,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.861,
+      "sigma": 1.0857,
+      "mean_inr_millions": 280,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 196714643456
+  },
+  {
+    "uid": "AST-0223",
+    "company_name": "Caplin Point Laboratories Ltd.",
+    "nse_symbol": "CAPLIPOINT",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "PACS Imaging System",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 2885768616,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 210628411392
+  },
+  {
+    "uid": "AST-0224",
+    "company_name": "Great Eastern Shipping Co. Ltd.",
+    "nse_symbol": "GESHIP",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Services",
+    "type": "Fleet Management System",
+    "criticality": 2,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 3522480080,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 194920022016
+  },
+  {
+    "uid": "AST-0225",
+    "company_name": "Bajaj Finserv Ltd.",
+    "nse_symbol": "BAJAJFINSV",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Trading Platform",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 390183438433,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 3178886070272
+  },
+  {
+    "uid": "AST-0226",
+    "company_name": "PVR INOX Ltd.",
+    "nse_symbol": "PVRINOX",
+    "sector": "Manufacturing",
+    "industry": "Media Entertainment & Publication",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 7371302114,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 120177115136
+  },
+  {
+    "uid": "AST-0227",
+    "company_name": "Godrej Consumer Products Ltd.",
+    "nse_symbol": "GODREJCP",
+    "sector": "Consumer & Retail",
+    "industry": "Fast Moving Consumer Goods",
+    "type": "Inventory Management System",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 21625455474,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 896415170560
+  },
+  {
+    "uid": "AST-0228",
+    "company_name": "Indian Railway Finance Corporation Ltd.",
+    "nse_symbol": "IRFC",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Mobile Banking Application Server",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 18188316822,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 1096316944384
+  },
+  {
+    "uid": "AST-0229",
+    "company_name": "Havells India Ltd.",
+    "nse_symbol": "HAVELLS",
+    "sector": "Consumer & Retail",
+    "industry": "Consumer Durables",
+    "type": "Customer Loyalty Database",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 38519666547,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.5245,
+      "sigma": 1.0857,
+      "mean_inr_millions": 200,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 725837807616
+  },
+  {
+    "uid": "AST-0230",
+    "company_name": "Cemindia Projects Ltd.",
+    "nse_symbol": "CEMPRO",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Construction",
+    "type": "Procurement Portal",
+    "criticality": 2,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 4705396660,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 219355578368
+  },
+  {
+    "uid": "AST-0231",
+    "company_name": "Action Construction Equipment Ltd.",
+    "nse_symbol": "ACE",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 2161402727,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 137108226048
+  },
+  {
+    "uid": "AST-0232",
+    "company_name": "ACME Solar Holdings Ltd.",
+    "nse_symbol": "ACMESOLAR",
+    "sector": "Energy & Utilities",
+    "industry": "Power",
+    "type": "Pipeline Monitoring System",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3484036277,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.861,
+      "sigma": 1.0857,
+      "mean_inr_millions": 280,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 288378781696
+  },
+  {
+    "uid": "AST-0233",
+    "company_name": "LTM Ltd.",
+    "nse_symbol": "LTM",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "Container Orchestration Cluster",
+    "criticality": 4,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 75155319871,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1354294231040
+  },
+  {
+    "uid": "AST-0234",
+    "company_name": "Sai Life Sciences Ltd.",
+    "nse_symbol": "SAILIFE",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Electronic Health Records (EHR) System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 3545683656,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 343441440768
+  },
+  {
+    "uid": "AST-0235",
+    "company_name": "Piramal Finance Ltd.",
+    "nse_symbol": "PIRAMALFIN",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Trading Platform",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 5501867265,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 529394335744
+  },
+  {
+    "uid": "AST-0236",
+    "company_name": "Vedanta Ltd.",
+    "nse_symbol": "VEDL",
+    "sector": "Manufacturing",
+    "industry": "Metals & Mining",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 47753697027,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 1058982264832
+  },
+  {
+    "uid": "AST-0237",
+    "company_name": "NHPC Ltd.",
+    "nse_symbol": "NHPC",
+    "sector": "Energy & Utilities",
+    "industry": "Power",
+    "type": "Pipeline Monitoring System",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 11178137407,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.861,
+      "sigma": 1.0857,
+      "mean_inr_millions": 280,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 770655059968
+  },
+  {
+    "uid": "AST-0238",
+    "company_name": "Syrma SGS Technology Ltd.",
+    "nse_symbol": "SYRMA",
+    "sector": "Manufacturing",
+    "industry": "Capital Goods",
+    "type": "Supply Chain Management Platform",
+    "criticality": 3,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 4794860886,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 281039831040
+  },
+  {
+    "uid": "AST-0239",
+    "company_name": "Jubilant Ingrevia Ltd.",
+    "nse_symbol": "JUBLINGREA",
+    "sector": "Manufacturing",
+    "industry": "Chemicals",
+    "type": "MES (Manufacturing Execution System)",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 5298935861,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 108422242304
+  },
+  {
+    "uid": "AST-0240",
+    "company_name": "IRB Infrastructure Developers Ltd.",
+    "nse_symbol": "IRB",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Construction",
+    "type": "Building Management System (BMS)",
+    "criticality": 2,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 5407987308,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 238661287936
+  },
+  {
+    "uid": "AST-0241",
+    "company_name": "Anthem Biosciences Ltd.",
+    "nse_symbol": "ANTHEM",
+    "sector": "Healthcare",
+    "industry": "Healthcare",
+    "type": "Hospital Information System",
+    "criticality": 5,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 2316799538,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.0841,
+      "sigma": 1.0857,
+      "mean_inr_millions": 350,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 521916448768
+  },
+  {
+    "uid": "AST-0242",
+    "company_name": "Anand Rathi Wealth Ltd.",
+    "nse_symbol": "ANANDRATHI",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "SWIFT Messaging Gateway",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 1643323766,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 368013836288
+  },
+  {
+    "uid": "AST-0243",
+    "company_name": "Sagility Ltd.",
+    "nse_symbol": "SAGILITY",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "Cloud Infrastructure Platform",
+    "criticality": 4,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 22469403916,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 219788378112
+  },
+  {
+    "uid": "AST-0244",
+    "company_name": "Redington Ltd.",
+    "nse_symbol": "REDINGTON",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Services",
+    "type": "Fleet Management System",
+    "criticality": 2,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 110695185212,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 288162054144
+  },
+  {
+    "uid": "AST-0245",
+    "company_name": "SBFC Finance Ltd.",
+    "nse_symbol": "SBFC",
+    "sector": "BFSI",
+    "industry": "Financial Services",
+    "type": "Trading Platform",
+    "criticality": 5,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 1702811503,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 19.2399,
+      "sigma": 1.0857,
+      "mean_inr_millions": 409,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India Financial Sector"
+    },
+    "market_cap_inr": 109789495296
+  },
+  {
+    "uid": "AST-0246",
+    "company_name": "Bharti Airtel Ltd.",
+    "nse_symbol": "BHARTIARTL",
+    "sector": "Telecom & Media",
+    "industry": "Telecommunication",
+    "type": "Subscriber Database",
+    "criticality": 4,
+    "internet_facing": true,
+    "annual_revenue_dependency_inr": 320124661158,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.7869,
+      "sigma": 1.0857,
+      "mean_inr_millions": 260,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 11648198770688
+  },
+  {
+    "uid": "AST-0247",
+    "company_name": "Tata Steel Ltd.",
+    "nse_symbol": "TATASTEEL",
+    "sector": "Manufacturing",
+    "industry": "Metals & Mining",
+    "type": "Warehouse Management System",
+    "criticality": 3,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 163876418683,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.6198,
+      "sigma": 1.0857,
+      "mean_inr_millions": 220,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 2295024582656
+  },
+  {
+    "uid": "AST-0248",
+    "company_name": "Netweb Technologies India Ltd.",
+    "nse_symbol": "NETWEB",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "Customer Data Lake",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 7864110700,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 313517703168
+  },
+  {
+    "uid": "AST-0249",
+    "company_name": "UltraTech Cement Ltd.",
+    "nse_symbol": "ULTRACEMCO",
+    "sector": "Infrastructure & Real Estate",
+    "industry": "Construction Materials",
+    "type": "Project Management System",
+    "criticality": 2,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 57890200858,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.4191,
+      "sigma": 1.0857,
+      "mean_inr_millions": 180,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 3334118572032
+  },
+  {
+    "uid": "AST-0250",
+    "company_name": "Hexaware Technologies Ltd.",
+    "nse_symbol": "HEXT",
+    "sector": "IT & Technology",
+    "industry": "Information Technology",
+    "type": "API Gateway",
+    "criticality": 4,
+    "internet_facing": false,
+    "annual_revenue_dependency_inr": 33773243476,
+    "loss_parameters": {
+      "distribution": "lognormal",
+      "mu": 18.93,
+      "sigma": 1.0857,
+      "mean_inr_millions": 300,
+      "cv": 1.5,
+      "benchmark_source": "IBM Cost of a Data Breach Report 2025 — India (sector-adjusted)"
+    },
+    "market_cap_inr": 322122612736
+  }
+]
