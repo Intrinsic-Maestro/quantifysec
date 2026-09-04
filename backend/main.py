@@ -50,26 +50,67 @@ def build_mc_payload(valid_assets: list, valid_vulns: list) -> List[Dict[str, An
                })
      return payload
 
-def build_dynamic_controls(portfolio_ale_rupees: float, base_controls: list) -> List[SecurityControl]:
-     """Bridge 2: Translates Monte Carlo risk output into Knapsack control reductions."""
+def build_dynamic_vuln_controls(valid_vulns: list, portfolio_ale_rupees: float) -> List[SecurityControl]:
+     """
+     Bridge 2 (True Dynamic): Kicks out the hardcoded controls. 
+     Generates knapsack items directly from the actual vulnerabilities ingested, 
+     scaled against the total Monte Carlo ALE.
+     """
      dynamic_controls = []
-     for c in base_controls:
-          efficacy_pct = c.risk_reduction / 100.0
-          reduction_lakhs = (portfolio_ale_rupees * efficacy_pct) / 100_000.0
+     
+     # Baseline risk distribution: weight the ALE by CVSS severity
+     total_cvss = sum(v.cvss_score for v in valid_vulns)
+     
+     for i, v in enumerate(valid_vulns):
+          # Calculate how much financial risk this specific vulnerability is responsible for
+          vuln_share = v.cvss_score / total_cvss if total_cvss > 0 else 0
+          reduction_lakhs = (portfolio_ale_rupees * vuln_share) / 100_000.0
+          
+          # Estimate a cost to patch (Heuristic for prototype: CVSS 10 = 5 Lakhs, CVSS 5 = 2.5 Lakhs)
+          estimated_cost_lakh = round(max(0.5, v.cvss_score * 0.5), 2)
+          
+          # Fallback for ID if v doesn't have uid attribute directly accessible
+          vuln_id = getattr(v, 'uid', f"vuln-{i}")
           
           dynamic_controls.append(
                SecurityControl(
-                    id=c.id,
-                    name=c.name,
-                    cost=c.cost,
-                    risk_reduction=reduction_lakhs,
-                    category=c.category
+                    id=vuln_id,
+                    name=f"Patch Vuln {vuln_id[:8]} (CVSS {v.cvss_score})",
+                    cost=estimated_cost_lakh,
+                    risk_reduction=round(reduction_lakhs, 2),
+                    category="Remediation"
                )
           )
+          
      return dynamic_controls
 
 
-
+def build_vulnerability_drilldown(valid_vulns: list, portfolio_ale_rupees: float) -> List[dict]:
+     """
+     Creates a ranked list of specific vulnerabilities and their exact financial impact.
+     This provides the technical drill-down panel for the CFO's dashboard.
+     """
+     total_cvss = sum(v.cvss_score for v in valid_vulns)
+     drilldown = []
+     
+     for i, v in enumerate(valid_vulns):
+          # Weight the vulnerability's financial impact by its severity
+          vuln_share = v.cvss_score / total_cvss if total_cvss > 0 else 0
+          exposure_rupees = portfolio_ale_rupees * vuln_share
+          
+          # Safely grab the ID (using whatever field Ri named it)
+          vuln_id = getattr(v, 'uid', getattr(v, 'cve_id', f"VULN-{i}"))
+          
+          drilldown.append({
+               "vulnerability_id": vuln_id,
+               "asset_id": v.asset_id,
+               "cvss_score": v.cvss_score,
+               "financial_exposure_lakhs": round(exposure_rupees / 100_000.0, 2)
+          })
+          
+     # Sort by highest financial exposure first
+     drilldown.sort(key=lambda x: x["financial_exposure_lakhs"], reverse=True)
+     return drilldown
 
 
 @app.get("/api/health")
@@ -117,10 +158,9 @@ def optimize(request: OptimizationRequest) -> OptimizationResult:
 
 
 
-
 @app.post("/api/run-pipeline")
 def run_full_enterprise_pipeline():
-     """Executes the full pipeline: Ingestion -> Monte Carlo -> Knapsack Optimization."""
+     """Executes the full automated pipeline: Ingestion -> Monte Carlo -> True Dynamic Knapsack."""
      try:
           # Step 1: Ingest synthetic JSON outputs
           raw_assets = load_json_file("../output/synthetic_assets.json")
@@ -140,13 +180,18 @@ def run_full_enterprise_pipeline():
           analytics = generate_portfolio_analytics_summary(raw_sim_results)
           mc_api_response = serialize_simulation_results(analytics, total_iterations=10000, random_seed=42)
           
-          # Step 4: Bridge to Knapsack
+          # Step 4: True Bridge to Knapsack (Using actual vulnerabilities, ignoring get_sample_controls)
           portfolio_ale_rupees = analytics["portfolio_metrics"]["mean_ale"]
-          dynamic_controls = build_dynamic_controls(portfolio_ale_rupees, get_sample_controls())
+          
+          # Pass the valid_vulns directly into our new dynamic control builder
+          dynamic_vuln_controls = build_dynamic_vuln_controls(vuln_res["valid"], portfolio_ale_rupees)
           
           # Step 5: Run Knapsack Optimizer
-          opt_request = OptimizationRequest(controls=dynamic_controls, budget=DEFAULT_BUDGET_LAKH)
+          opt_request = OptimizationRequest(controls=dynamic_vuln_controls, budget=DEFAULT_BUDGET_LAKH)
           opt_result = solve_knapsack(opt_request)
+          
+          # Step 6: Generate Technical Drill-down for the UI
+          vuln_drilldown = build_vulnerability_drilldown(vuln_res["valid"], portfolio_ale_rupees)
           
           return {
                "status": "success",
@@ -155,7 +200,8 @@ def run_full_enterprise_pipeline():
                     "vulns_processed": len(vuln_res["valid"])
                },
                "monte_carlo_risk_profile": mc_api_response.model_dump(),
-               "cfo_budget_optimization": opt_result.model_dump()
+               "cfo_budget_optimization": opt_result.model_dump(),
+               "technical_drilldown": vuln_drilldown # <-- Handing this directly to the frontend
           }
           
      except Exception as e:
