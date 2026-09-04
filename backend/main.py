@@ -2,6 +2,12 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Dict, Any
 
+import sys
+from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
+sys.path.append(str(ROOT_DIR))
+
 from data_ingestion.ingestion import load_json_file, ingest_assets, ingest_vulnerabilities
 
 from math_engine.monte_carlo.simulator import run_portfolio_simulation
@@ -10,7 +16,7 @@ from math_engine.monte_carlo.schema_exporter import serialize_simulation_results
 
 from knapsack_solver.solver import solve_knapsack
 from knapsack_solver.data import get_sample_controls, DEFAULT_BUDGET_LAKH
-from knapsack_solver.models import OptimizationRequest, SecurityControl
+from knapsack_solver.models import OptimizationRequest, OptimizationResult, SecurityControl
 
 
 
@@ -61,6 +67,54 @@ def build_dynamic_controls(portfolio_ale_rupees: float, base_controls: list) -> 
                )
           )
      return dynamic_controls
+
+
+
+
+
+@app.get("/api/health")
+def health() -> dict:
+     """Liveness check endpoint."""
+     return {"status": "ok"}
+
+
+@app.get("/api/controls", response_model=List[SecurityControl])
+def list_default_controls() -> List[SecurityControl]:
+     """Return default sample security controls."""
+     return get_sample_controls()
+
+
+@app.get("/api/optimize/default", response_model=OptimizationResult)
+def optimize_default() -> OptimizationResult:
+     """Convenience endpoint: runs the solver on the hardcoded sample set."""
+     req = OptimizationRequest(
+          controls=get_sample_controls(),
+          budget=DEFAULT_BUDGET_LAKH,
+     )
+     return solve_knapsack(req)
+
+
+@app.post("/api/optimize", response_model=OptimizationResult)
+def optimize(request: OptimizationRequest) -> OptimizationResult:
+     """Run 0-1 knapsack optimization on user-supplied controls and budget."""
+     if not request.controls:
+          raise HTTPException(400, "No controls provided.")
+
+     result = solve_knapsack(request)
+
+     if result.status == "Infeasible":
+          raise HTTPException(
+               422,
+               "No feasible combination satisfies the given budget and constraints.",
+          )
+     if result.status not in ("Optimal", "Not Solved"):
+          raise HTTPException(500, f"Solver returned status: {result.status}")
+
+     return result
+
+
+
+
 
 
 
