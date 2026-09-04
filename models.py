@@ -53,7 +53,10 @@ class LossParameters(BaseModel):
     mu: float
     sigma: float = Field(gt=0)
     mean_inr_millions: float = Field(gt=0)
-    cv: float = Field(gt=0)
+    # Optional: present on the asset-level loss_parameters (synthetic_assets.json)
+    # but genuinely absent on the per-finding loss_parameters embedded in
+    # synthetic_combined.json — confirmed against real generator output.
+    cv: Optional[float] = Field(default=None, gt=0)
     benchmark_source: Optional[str] = None
     # Only present on combined-record loss_parameters, not on the
     # standalone asset file — optional here so one model covers both.
