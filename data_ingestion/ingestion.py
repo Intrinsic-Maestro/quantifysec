@@ -23,7 +23,7 @@ from typing import Any
 
 from pydantic import ValidationError
 
-from db_models import (
+from .db_models import (
     AssetRecord,
     CombinedFindingRecord,
     ExploitStatus,

@@ -8,7 +8,7 @@ from rich.box import ROUNDED, HEAVY
 from rich.rule import Rule
 from rich.syntax import Syntax
 
-from models import OptimizationRequest, OptimizationResult
+from .models import OptimizationRequest, OptimizationResult
 
 console = Console()
 
