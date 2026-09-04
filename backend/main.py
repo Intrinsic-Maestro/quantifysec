@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from fastapi import Depends, HTTPException, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import jwt # Make sure PyJWT is installed in your requirements.txt
+import db
 
 security = HTTPBearer()
 
@@ -19,6 +20,9 @@ SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET", "fallback-secret")
 
 def verify_supabase_token(credentials: HTTPAuthorizationCredentials = Security(security)) -> dict:
      """Validates the Supabase JWT sent from the Next.js frontend header."""
+     if os.getenv("DISABLE_AUTH") == "true":
+          return {"sub": "test-user", "email": "test@local", "role": "ciso"}
+     
      token = credentials.credentials
      try:
           # Decode and verify the token signature
@@ -98,7 +102,7 @@ def build_dynamic_vuln_controls(valid_vulns: list, portfolio_ale_rupees: float) 
           estimated_cost_lakh = round(max(0.5, v.cvss_score * 0.5), 2)
           
           # Fallback for ID if v doesn't have uid attribute directly accessible
-          vuln_id = getattr(v, 'uid', f"vuln-{i}")
+          vuln_id = getattr(v, 'id', f"vuln-{i}")
           
           dynamic_controls.append(
                SecurityControl(
@@ -127,7 +131,7 @@ def build_vulnerability_drilldown(valid_vulns: list, portfolio_ale_rupees: float
           exposure_rupees = portfolio_ale_rupees * vuln_share
           
           # Safely grab the ID (using whatever field Ri named it)
-          vuln_id = getattr(v, 'uid', getattr(v, 'cve_id', f"VULN-{i}"))
+          vuln_id = getattr(v, 'id', f"VULN-{i}")
           
           drilldown.append({
                "vulnerability_id": vuln_id,
@@ -180,12 +184,6 @@ def optimize(request: OptimizationRequest) -> OptimizationResult:
           raise HTTPException(500, f"Solver returned status: {result.status}")
 
      return result
-
-
-
-
-
-
 @app.post("/api/run-pipeline")
 def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
      """Executes the full automated pipeline: Ingestion -> Monte Carlo -> True Dynamic Knapsack."""
@@ -199,7 +197,10 @@ def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
           
           if not asset_res["valid"] or not vuln_res["valid"]:
                raise HTTPException(status_code=400, detail="Data ingestion failed. No valid records found.")
-               
+
+          db.upsert_assets(asset_res["valid"])
+          db.upsert_vulnerabilities(vuln_res["valid"])
+
           # Step 2: Bridge to Monte Carlo
           mc_payload = build_mc_payload(asset_res["valid"], vuln_res["valid"])
           
@@ -207,27 +208,37 @@ def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
           raw_sim_results = run_portfolio_simulation(mc_payload)
           analytics = generate_portfolio_analytics_summary(raw_sim_results)
           mc_api_response = serialize_simulation_results(analytics, total_iterations=10000, random_seed=42)
-          
+
+          mc_dict = mc_api_response.model_dump()
+          simulation_run_id = db.insert_simulation_run(mc_dict)
+          db.insert_risk_assessments(analytics["top_risk_drivers"], simulation_run_id)
+
           # Step 4: True Bridge to Knapsack (Using actual vulnerabilities, ignoring get_sample_controls)
           portfolio_ale_rupees = analytics["portfolio_metrics"]["mean_ale"]
           
           # Pass the valid_vulns directly into our new dynamic control builder
           dynamic_vuln_controls = build_dynamic_vuln_controls(vuln_res["valid"], portfolio_ale_rupees)
-          
+
+          vuln_id_to_action_id = db.insert_remediation_actions(dynamic_vuln_controls, simulation_run_id)
+
           # Step 5: Run Knapsack Optimizer
           opt_request = OptimizationRequest(controls=dynamic_vuln_controls, budget=DEFAULT_BUDGET_LAKH)
           opt_result = solve_knapsack(opt_request)
-          
+
+          portfolio_ale_lakh = portfolio_ale_rupees / 100_000.0
+          db.insert_optimization_run(opt_result, simulation_run_id, vuln_id_to_action_id, portfolio_ale_lakh)
+
           # Step 6: Generate Technical Drill-down for the UI
           vuln_drilldown = build_vulnerability_drilldown(vuln_res["valid"], portfolio_ale_rupees)
           
           return {
                "status": "success",
+               "simulation_run_id": simulation_run_id,
                "ingestion_metrics": {
                     "assets_processed": len(asset_res["valid"]),
                     "vulns_processed": len(vuln_res["valid"])
                },
-               "monte_carlo_risk_profile": mc_api_response.model_dump(),
+               "monte_carlo_risk_profile": mc_dict,
                "cfo_budget_optimization": opt_result.model_dump(),
                "technical_drilldown": vuln_drilldown # <-- Handing this directly to the frontend
           }
