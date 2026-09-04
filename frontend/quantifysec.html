@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quantifysec | Cyber Risk Quantification</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        qbase: '#09090b',
+                        qviolet: '#a78bfa',
+                        qemerald: '#10b981',
+                        qamber: '#f59e0b',
+                        qrose: '#f87171',
+                        qsurface: 'rgba(255, 255, 255, 0.03)',
+                        qborder: 'rgba(255, 255, 255, 0.08)'
+                    },
+                    fontFamily: {
+                        display: ['Space Grotesk', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #09090b;
+            color: #ffffff;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Background Layers */
+        .noise-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: -3;
+            opacity: 0.02;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .hero-bg {
+            position: fixed;
+            top: 0; right: 0; left: 0;
+            height: 100vh;
+            background-image:
+                radial-gradient(circle at 50% 15%, rgba(167, 139, 250, 0.15) 0%, transparent 55%),
+                linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 100% 100%, 48px 48px, 48px 48px;
+            mask-image: linear-gradient(to bottom, black 10%, black 30%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 10%, black 30%, transparent 100%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Glass Form Panel */
+        .glass-panel {
+            background: theme('colors.qsurface');
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid theme('colors.qborder');
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Advanced UI Widgets (Dark Glass for the visual solution) */
+        .ui-widget {
+            background: rgba(9, 9, 11, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .ui-widget::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.5), transparent);
+            opacity: 0.5;
+        }
+
+        /* Hide Views */
+        .view-hidden { display: none !important; }
+
+        /* Float Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+        .animate-float { animation: float 2.5s ease-in-out infinite; }
+
+        /* ---- Role selection buttons ---- */
+        .role-btn {
+            transition: all 0.2s ease;
+        }
+        .role-btn.role-selected {
+            border-color: rgba(167, 139, 250, 0.6) !important;
+            background: rgba(167, 139, 250, 0.08) !important;
+            box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.3), 0 8px 24px -8px rgba(167, 139, 250, 0.4);
+        }
+        .role-btn.role-selected .role-check {
+            background: #a78bfa;
+            border-color: #a78bfa;
+        }
+        .role-btn.role-selected .role-check::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 6px; height: 6px;
+            border-radius: 999px;
+            background: #09090b;
+            transform: translate(-50%, -50%);
+        }
+        .role-check {
+            position: relative;
+        }
+
+        /* ---- Dashboard KPI number glow ---- */
+        .kpi-number {
+            text-shadow: 0 0 40px rgba(167, 139, 250, 0.15);
+        }
+
+        /* ---- Category dots for donut legends ---- */
+        .cat-dot {
+            width: 8px; height: 8px; border-radius: 999px; display: inline-block;
+        }
+
+        /* ---- Scatter/heatmap cell hover ---- */
+        .heat-cell {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .heat-cell:hover {
+            transform: scale(1.15);
+            z-index: 10;
+        }
+
+        /* ---- Custom scrollbar inside terminal ---- */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+        /* ---- Dashboard soft glow accents ---- */
+        .glow-emerald::after {
+            content: ''; position: absolute; top: -40px; right: -40px;
+            width: 140px; height: 140px; background: rgba(16, 185, 129, 0.18);
+            filter: blur(50px); border-radius: 999px; pointer-events: none;
+        }
+        .glow-violet::after {
+            content: ''; position: absolute; top: -40px; right: -40px;
+            width: 140px; height: 140px; background: rgba(167, 139, 250, 0.22);
+            filter: blur(50px); border-radius: 999px; pointer-events: none;
+        }
+        .glow-amber::after {
+            content: ''; position: absolute; top: -40px; right: -40px;
+            width: 140px; height: 140px; background: rgba(245, 158, 11, 0.18);
+            filter: blur(50px); border-radius: 999px; pointer-events: none;
+        }
+        .glow-rose::after {
+            content: ''; position: absolute; top: -40px; right: -40px;
+            width: 140px; height: 140px; background: rgba(248, 113, 113, 0.18);
+            filter: blur(50px); border-radius: 999px; pointer-events: none;
+        }
+
+        /* ---- LIGHT MODE OVERRIDES (Triggered by Scroll JS on home) ---- */
+        body.is-light .dynamic-title { color: #09090b !important; transition: color 0.3s ease; }
+        body.is-light .dynamic-subtitle { color: #4b5563 !important; transition: color 0.3s ease; }
+
+        body.is-light .dynamic-nav {
+            background-color: rgba(255, 255, 255, 0.8) !important;
+            border-color: rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        body.is-light .dynamic-nav-text { color: #374151 !important; }
+        body.is-light .dynamic-nav-icon { stroke: #374151 !important; }
+
+        body.is-light .dynamic-icon-box {
+            border-color: rgba(0, 0, 0, 0.15) !important;
+            background-color: rgba(0, 0, 0, 0.05) !important;
+        }
+
+        body.is-light .dynamic-btn {
+            background-color: #09090b !important;
+            color: #ffffff !important;
+        }
+        body.is-light .dynamic-btn:hover {
+            background-color: #27272a !important;
+        }
+    </style>
+</head>
+<body class="font-body antialiased selection:bg-qviolet selection:text-qbase relative">
+
+    <div class="noise-bg"></div>
+    <div class="hero-bg"></div>
+
+    <!-- Floating Glass Navbar -->
+    <div id="main-nav-wrapper" class="fixed w-full top-6 z-40 px-4 md:px-6 flex justify-center transition-transform duration-300 ease-in-out">
+        <nav class="dynamic-nav transition-all duration-500 w-full max-w-[1100px] bg-[#09090b]/60 backdrop-blur-xl border border-white/10 rounded-2xl px-4 py-2.5 flex items-center shadow-2xl">
+
+            <!-- Left: Logo -->
+            <div class="flex-1 flex items-center justify-start">
+                <div class="flex items-center gap-2.5 cursor-pointer" onclick="navigate('home')">
+                    <div class="dynamic-icon-box transition-all duration-500 border border-white/20 bg-white/5 rounded-md p-1">
+                        <svg class="dynamic-nav-icon transition-all duration-500 w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                    </div>
+                    <span class="dynamic-title transition-all duration-500 font-display font-bold text-[15px] tracking-widest uppercase mt-0.5 text-white">quantifysec</span>
+                </div>
+            </div>
+
+            <!-- Center: Navigation Links -->
+            <div class="hidden md:flex items-center justify-center gap-7 text-[13px] text-gray-300 font-medium">
+                <a href="#" class="dynamic-nav-text transition-all duration-300 hover:text-qviolet flex items-center gap-1.5">
+                    Product <svg class="dynamic-nav-icon w-2.5 h-2.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </a>
+                <a href="#" class="dynamic-nav-text transition-all duration-300 hover:text-qviolet flex items-center gap-1.5">
+                    Solutions <svg class="dynamic-nav-icon w-2.5 h-2.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </a>
+                <a href="#" class="dynamic-nav-text transition-all duration-300 hover:text-qviolet flex items-center gap-1.5">
+                    Customers <svg class="dynamic-nav-icon w-2.5 h-2.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </a>
+                <a href="#" class="dynamic-nav-text transition-all duration-300 hover:text-qviolet flex items-center gap-1.5">
+                    Resources <svg class="dynamic-nav-icon w-2.5 h-2.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </a>
+            </div>
+
+            <!-- Right: Action Button (dynamic — shows Book a demo OR role indicator when signed in) -->
+            <div class="flex-1 flex items-center justify-end gap-2">
+                <div id="nav-role-indicator" class="hidden items-center gap-2 text-xs">
+                    <div class="flex items-center gap-1.5 bg-qviolet/10 border border-qviolet/30 text-qviolet px-2.5 py-1 rounded-lg font-mono">
+                        <span class="w-1.5 h-1.5 rounded-full bg-qviolet animate-pulse"></span>
+                        <span id="nav-role-label">CFO</span>
+                    </div>
+                    <button onclick="signOut()" class="dynamic-nav-text text-gray-400 hover:text-white text-xs px-2 py-1">
+                        Sign out
+                    </button>
+                </div>
+                <button id="nav-cta-btn" onclick="navigate('auth')" class="dynamic-btn transition-all duration-300 bg-white text-[#09090b] px-4 py-2 rounded-xl text-[13px] font-semibold hover:bg-gray-200 shadow-sm tracking-wide">
+                    Book a demo
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content Container -->
+    <main id="app-container" class="relative z-10 w-full flex flex-col">
+
+        <!-- ==================== VIEW: HOME (LANDING) ==================== -->
+        <section id="view-home" class="relative w-full flex flex-col items-center pt-24">
+
+            <!-- 1. HERO SECTION -->
+            <div class="min-h-[85vh] w-full flex flex-col justify-center items-center relative">
+                <div class="max-w-4xl mx-auto px-6 text-center relative z-10 -mt-16">
+                    <div class="mb-6 flex justify-center items-center gap-3 text-sm tracking-[0.2em] font-medium text-gray-300 uppercase">
+                        MEET QUANTIFYSEC
+                    </div>
+                    <h1 class="font-body text-5xl md:text-7xl font-medium tracking-tight mb-6 leading-[1.1] text-white">
+                        Your Co-Worker for Every Cyber Decision
+                    </h1>
+                    <p class="text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-10 font-body leading-relaxed">
+                        QuantifySec quantifies cybersecurity risk in financial terms, helping teams prioritize security investments with confidence
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <button onclick="navigate('terminal')" class="bg-white text-[#09090b] px-6 py-3.5 rounded-full font-semibold text-[13px] transition hover:bg-gray-200 flex items-center gap-2.5 min-w-[150px] justify-center tracking-wide">
+                            <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> In Action
+                        </button>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-float pointer-events-none"></div>
+            </div>
+
+            <!-- 2. THE PROBLEM SECTION -->
+            <div id="section-problem" class="w-full max-w-[1100px] mx-auto px-6 py-24 border-t border-white/5 relative z-10">
+                <div class="text-center mb-20 max-w-3xl mx-auto">
+                    <h2 class="font-display text-3xl md:text-4xl font-semibold tracking-tight mb-6">
+                        The <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-300 to-gray-500">Security ROI</span> Disconnect
+                    </h2>
+                    <p class="text-gray-400 text-lg font-body leading-relaxed">
+                        Organizations have limited cybersecurity budgets, but struggle to determine exactly which security investments will reduce the most financial risk.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-panel p-8 rounded-2xl flex flex-col hover:bg-white/5 transition duration-300 group">
+                        <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 text-qviolet group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                        </div>
+                        <h3 class="font-display text-lg font-semibold mb-3 text-white">Unquantifiable Exposure</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed flex-grow">Technical metrics like CVSS scores do not translate to board-level financial risk. You know you have gaps, but you don't know what they cost.</p>
+                        <div class="mt-6 pt-4 border-t border-white/10 text-xs font-mono text-gray-500">RESULT: BLIND SPENDING</div>
+                    </div>
+                    <div class="glass-panel p-8 rounded-2xl flex flex-col hover:bg-white/5 transition duration-300 group">
+                        <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 text-qamber group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3 class="font-display text-lg font-semibold mb-3 text-white">Capital Misallocation</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed flex-grow">Companies frequently overfund compliance checklists while underfunding controls that prevent catastrophic monetary loss.</p>
+                        <div class="mt-6 pt-4 border-t border-white/10 text-xs font-mono text-gray-500">RESULT: BUDGET WASTE</div>
+                    </div>
+                    <div class="glass-panel p-8 rounded-2xl flex flex-col hover:bg-white/5 transition duration-300 group">
+                        <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 text-qemerald group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        </div>
+                        <h3 class="font-display text-lg font-semibold mb-3 text-white">Decision Paralysis</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed flex-grow">When presented with thousands of active alerts, security teams lack the financial context needed to prioritize patches effectively.</p>
+                        <div class="mt-6 pt-4 border-t border-white/10 text-xs font-mono text-gray-500">RESULT: DELAYED ACTION</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. THE SOLUTION SECTION -->
+            <div class="w-full relative z-10 pb-24 pt-[250px]" style="background: linear-gradient(to bottom, #09090b 0px, #4c1d95 70px, #8b5cf6 150px, #ffffff 250px, #ffffff 100%);">
+                <div id="section-solution" class="w-full max-w-[1100px] mx-auto px-6 pb-32 relative z-10">
+
+                    <div class="text-center mb-16 max-w-3xl mx-auto">
+                        <h2 class="text-[#09090b] font-display text-3xl md:text-5xl font-bold tracking-tight mb-6">
+                            Meet Your AI <span class="text-qviolet">Risk Quantifier</span>
+                        </h2>
+                        <p class="text-gray-500 text-lg font-body leading-relaxed">
+                            A swarm of AI Co-Workers that instantly close the loop from technical insight to actionable financial decision.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                        <!-- Main Dashboard Widget -->
+                        <div class="ui-widget rounded-3xl p-8 lg:col-span-2 flex flex-col justify-between">
+                            <div class="flex justify-between items-start mb-8">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded bg-qviolet/20 flex items-center justify-center">
+                                        <div class="w-3 h-3 rounded-full bg-qviolet animate-pulse"></div>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-white font-medium text-sm">Continious Threat Exposure Management </h4>
+                                        <span class="text-gray-400 text-xs font-mono">Live</span>
+                                    </div>
+                                </div>
+                                <button class="text-gray-500 hover:text-white"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 8a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z"/></svg></button>
+                            </div>
+
+                            <div>
+                                <span class="text-gray-400 text-sm font-medium mb-1 block">Total Financial Exposure Risk</span>
+                                <div class="flex items-baseline gap-3 mb-2">
+                                    <span class="text-5xl font-mono font-bold text-white">$4.2M</span>
+                                    <span class="text-sm font-medium text-qemerald bg-qemerald/10 px-2 py-0.5 rounded-full">-12% this week</span>
+                                </div>
+                            </div>
+
+                            <div class="w-full h-32 mt-6 relative border-b border-white/5 pb-4">
+                                <div class="absolute inset-0 bg-qviolet/5 blur-2xl rounded-full"></div>
+                                <svg class="w-full h-full overflow-visible relative z-10" viewBox="0 0 400 100" preserveAspectRatio="none">
+                                    <defs>
+                                        <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.4" />
+                                            <stop offset="100%" stop-color="#a78bfa" stop-opacity="0" />
+                                        </linearGradient>
+                                    </defs>
+                                    <path d="M0,80 Q50,60 100,70 T200,40 T300,50 T400,10 L400,100 L0,100 Z" fill="url(#lineGrad)" />
+                                    <path d="M0,80 Q50,60 100,70 T200,40 T300,50 T400,10" fill="none" stroke="#a78bfa" stroke-width="3" stroke-linecap="round" />
+                                    <circle cx="100" cy="70" r="4" fill="#a78bfa" />
+                                    <circle cx="300" cy="50" r="4" fill="#a78bfa" />
+                                    <circle cx="400" cy="10" r="5" fill="#fff" class="animate-pulse" />
+                                </svg>
+                            </div>
+
+                            <div class="mt-6 flex flex-col gap-3">
+                                <div class="bg-qviolet/10 border border-qviolet/20 rounded-xl p-3 flex justify-between items-center hover:bg-qviolet/20 transition cursor-pointer">
+                                    <div class="flex items-center gap-3">
+                                        <div class="bg-qviolet/20 p-1.5 rounded-lg text-qviolet">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                        </div>
+                                        <span class="text-sm text-gray-200">Note : This is just estimation and does not represent exact values</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-6">
+                            <div class="ui-widget rounded-3xl p-6 flex flex-col relative overflow-hidden">
+                                <div class="absolute -top-10 -right-10 w-32 h-32 bg-qviolet/30 blur-[40px] rounded-full"></div>
+                                <span class="text-gray-400 text-sm font-medium mb-6 relative z-10">Security Posture Score</span>
+
+                                <div class="flex items-center justify-between relative z-10">
+                                    <div class="relative w-24 h-24">
+                                        <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                            <path class="text-white/10" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="2.5" />
+                                            <path class="text-qviolet" stroke-dasharray="78, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                                        </svg>
+                                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                            <span class="text-2xl font-display font-bold text-white">78</span>
+                                            <span class="text-[9px] text-gray-400 uppercase tracking-wide">Strong</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-right">
+                                        <div class="text-xs text-gray-400 mb-1">Target Score</div>
+                                        <div class="text-lg font-mono text-white mb-3">85/100</div>
+                                        <div class="text-xs text-qemerald flex items-center justify-end gap-1">
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                                            +4 this month
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ui-widget rounded-3xl p-6 flex-grow flex flex-col">
+                                <div class="flex justify-between items-center mb-5">
+                                    <span class="text-gray-400 text-sm font-medium">Most Effective Controls</span>
+                                    <span class="text-xs bg-white/10 text-white px-2 py-1 rounded">Focus Next</span>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span class="text-gray-200">MFA Rollout</span>
+                                            <span class="text-qemerald">-$1.2M Risk</span>
+                                        </div>
+                                        <div class="w-full h-1.5"><div class="bg-qemerald w-[85%] h-full rounded-full"></div></div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span class="text-gray-200">Cloud WAF Update</span>
+                                            <span class="text-qviolet">-$800k Risk</span>
+                                        </div>
+                                        <div class="w-full h-1.5"><div class="bg-qviolet w-[45%] h-full rounded-full"></div></div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span class="text-gray-200">Privilege Escalation</span>
+                                            <span class="text-gray-400">-$300k Risk</span>
+                                        </div>
+                                        <div class="w-full h-1.5"><div class="bg-gray-500 w-[15%] h-full rounded-full"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Candidate Security Controls table -->
+                    <div class="mt-8 ui-widget rounded-3xl p-8 flex flex-col">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-white font-display text-xl font-bold">Candidate Security Controls Portfolio</h3>
+                            <span class="text-xs bg-white/10 text-white px-3 py-1.5 rounded-full">Analysis Pool</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-white/10 text-xs font-mono text-gray-500 uppercase tracking-wider">
+                                        <th class="py-3 px-4">ID</th>
+                                        <th class="py-3 px-4">Control</th>
+                                        <th class="py-3 px-4">Category</th>
+                                        <th class="py-3 px-4 text-right">Cost (₹L)</th>
+                                        <th class="py-3 px-4 text-right">Risk Reduction (₹L)</th>
+                                        <th class="py-3 px-4 text-right">Efficiency</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-sm font-body text-gray-300">
+                                    <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                                        <td class="py-4 px-4 font-mono text-gray-500">C01</td>
+                                        <td class="py-4 px-4 text-white font-medium">Multi-Factor Authentication (MFA)</td>
+                                        <td class="py-4 px-4 text-qviolet">Identity</td>
+                                        <td class="py-4 px-4 text-right font-mono">8</td>
+                                        <td class="py-4 px-4 text-right font-mono text-qemerald font-medium">35</td>
+                                        <td class="py-4 px-4 text-right font-mono text-qamber">4.38</td>
+                                    </tr>
+                                    <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                                        <td class="py-4 px-4 font-mono text-gray-500">C02</td>
+                                        <td class="py-4 px-4 text-white font-medium">Endpoint Detection & Response (EDR)</td>
+                                        <td class="py-4 px-4 text-qviolet">Endpoint</td>
+                                        <td class="py-4 px-4 text-right font-mono">15</td>
+                                        <td class="py-4 px-4 text-right font-mono text-qemerald font-medium">42</td>
+                                        <td class="py-4 px-4 text-right font-mono text-gray-400">2.80</td>
+                                    </tr>
+                                    <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                                        <td class="py-4 px-4 font-mono text-gray-500">C03</td>
+                                        <td class="py-4 px-4 text-white font-medium">Next-Gen Firewall</td>
+                                        <td class="py-4 px-4 text-qviolet">Network</td>
+                                        <td class="py-4 px-4 text-right font-mono">20</td>
+                                        <td class="py-4 px-4 text-right font-mono text-qemerald font-medium">38</td>
+                                        <td class="py-4 px-4 text-right font-mono text-gray-400">1.90</td>
+                                    </tr>
+                                    <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                                        <td class="py-4 px-4 font-mono text-gray-500">C04</td>
+                                        <td class="py-4 px-4 text-white font-medium">Backup & Recovery System</td>
+                                        <td class="py-4 px-4 text-qviolet">Data</td>
+                                        <td class="py-4 px-4 text-right font-mono">12</td>
+                                        <td class="py-4 px-4 text-right font-mono text-qemerald font-medium">28</td>
+                                        <td class="py-4 px-4 text-right font-mono text-gray-400">2.33</td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition">
+                                        <td class="py-4 px-4 font-mono text-gray-500">C05</td>
+                                        <td class="py-4 px-4 text-white font-medium">Security Awareness Training</td>
+                                        <td class="py-4 px-4 text-qviolet">People</td>
+                                        <td class="py-4 px-4 text-right font-mono">5</td>
+                                        <td class="py-4 px-4 text-right font-mono text-qemerald font-medium">22</td>
+                                        <td class="py-4 px-4 text-right font-mono text-qamber">4.40</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Optimization Summary & Deferred Controls -->
+                    <div class="mt-8 ui-widget rounded-3xl p-8 flex flex-col">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 pb-8 border-b border-white/10">
+                            <div>
+                                <div class="text-xs text-gray-500 font-mono mb-1 uppercase tracking-wider">Total Cost</div>
+                                <div class="text-2xl font-bold text-white font-mono">₹75 L <span class="text-sm text-gray-500 font-normal">/ ₹75 L</span></div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-500 font-mono mb-1 uppercase tracking-wider">Budget Utilization</div>
+                                <div class="text-2xl font-bold text-qemerald font-mono">100.0%</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-500 font-mono mb-1 uppercase tracking-wider">Total Risk Reduction</div>
+                                <div class="text-2xl font-bold text-qviolet font-mono">₹251 L</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-500 font-mono mb-1 uppercase tracking-wider">Deferred Controls</div>
+                                <div class="text-2xl font-bold text-gray-400 font-mono">16</div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-white font-display text-xl font-bold">Deferred Controls</h3>
+                            <span class="text-xs bg-qamber/10 text-qamber px-3 py-1.5 rounded-full border border-qamber/20">Next Budget Cycle</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-white/10 text-xs font-mono text-gray-500 uppercase tracking-wider">
+                                        <th class="py-3 px-4">Priority</th>
+                                        <th class="py-3 px-4">ID</th>
+                                        <th class="py-3 px-4">Control</th>
+                                        <th class="py-3 px-4">Category</th>
+                                        <th class="py-3 px-4 text-right">Est. Cost (₹L)</th>
+                                        <th class="py-3 px-4 text-right">Potential Reduction (₹L)</th>
+                                        <th class="py-3 px-4 text-right">Efficiency</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-sm font-body text-gray-300">
+                                    <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                                        <td class="py-4 px-4 font-mono text-qamber font-bold">#1</td>
+                                        <td class="py-4 px-4 font-mono text-gray-500">C11</td>
+                                        <td class="py-4 px-4 text-white font-medium">Encryption at Rest</td>
+                                        <td class="py-4 px-4 text-qviolet">Data</td>
+                                        <td class="py-4 px-4 text-right font-mono">7</td>
+                                        <td class="py-4 px-4 text-right font-mono text-qemerald font-medium">18</td>
+                                        <td class="py-4 px-4 text-right font-mono text-gray-400">2.57</td>
+                                    </tr>
+                                    <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                                        <td class="py-4 px-4 font-mono text-qamber font-bold">#2</td>
+                                        <td class="py-4 px-4 font-mono text-gray-500">C07</td>
+                                        <td class="py-4 px-4 text-white font-medium">Vulnerability Management</td>
+                                        <td class="py-4 px-4 text-qviolet">Assessment</td>
+                                        <td class="py-4 px-4 text-right font-mono">10</td>
+                                        <td class="py-4 px-4 text-right font-mono text-qemerald font-medium">25</td>
+                                        <td class="py-4 px-4 text-right font-mono text-gray-400">2.50</td>
+                                    </tr>
+                                    <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                                        <td class="py-4 px-4 font-mono text-qamber font-bold">#3</td>
+                                        <td class="py-4 px-4 font-mono text-gray-500">C23</td>
+                                        <td class="py-4 px-4 text-white font-medium">Mobile Device Management (MDM)</td>
+                                        <td class="py-4 px-4 text-qviolet">Endpoint</td>
+                                        <td class="py-4 px-4 text-right font-mono">7</td>
+                                        <td class="py-4 px-4 text-right font-mono text-qemerald font-medium">17</td>
+                                        <td class="py-4 px-4 text-right font-mono text-gray-400">2.43</td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition">
+                                        <td class="py-4 px-4 font-mono text-qamber font-bold">#4</td>
+                                        <td class="py-4 px-4 font-mono text-gray-500">C16</td>
+                                        <td class="py-4 px-4 text-white font-medium">Intrusion Detection System (IDS)</td>
+                                        <td class="py-4 px-4 text-qviolet">Network</td>
+                                        <td class="py-4 px-4 text-right font-mono">8</td>
+                                        <td class="py-4 px-4 text-right font-mono text-qemerald font-medium">19</td>
+                                        <td class="py-4 px-4 text-right font-mono text-gray-400">2.38</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== VIEW: AUTH (ONBOARDING & LOGIN) ==================== -->
+        <section id="view-auth" class="max-w-xl mx-auto px-6 py-32 view-hidden relative z-10 w-full min-h-[85vh] flex flex-col justify-center">
+            <div class="glass-panel p-10 rounded-2xl relative">
+
+                <!-- SIGNUP FORM -->
+                <div id="auth-signup">
+                    <div class="text-center mb-10">
+                        <h2 class="font-display text-3xl font-bold mb-2">Initialize Instance</h2>
+                        <p class="text-gray-400 text-sm">Corporate credentials required for quantified risk access.</p>
+                    </div>
+
+                    <form class="space-y-5" onsubmit="submitSignup(event)">
+                        <div class="grid grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Full Name</label>
+                                <input id="signup-name" type="text" required class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Work Email</label>
+                                <input type="email" required class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Company Name</label>
+                                <input id="signup-company" type="text" required class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Work ID</label>
+                                <input type="text" required class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Department</label>
+                            <select class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body text-gray-300 appearance-none">
+                                <option>Finance / Treasury</option>
+                                <option>Risk & Compliance</option>
+                                <option>Information Security</option>
+                                <option>Executive Board</option>
+                            </select>
+                        </div>
+
+                        <!-- ROLE SELECTION — the key decision that determines dashboard -->
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-3 uppercase">Select Your Role</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button type="button" data-role="cfo" onclick="selectRole('cfo')" class="role-btn text-left p-4 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.06] hover:border-white/25">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="w-9 h-9 rounded-lg bg-qemerald/12 border border-qemerald/25 flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-qemerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path></svg>
+                                        </div>
+                                        <div class="w-5 h-5 rounded-full border border-white/25 role-check"></div>
+                                    </div>
+                                    <div class="font-display font-semibold text-white text-sm">CFO</div>
+                                    <div class="text-[11px] text-gray-500 mt-0.5 leading-tight">Financial risk & portfolio view</div>
+                                </button>
+                                <button type="button" data-role="ciso" onclick="selectRole('ciso')" class="role-btn text-left p-4 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.06] hover:border-white/25">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="w-9 h-9 rounded-lg bg-qviolet/12 border border-qviolet/25 flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-qviolet" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                        </div>
+                                        <div class="w-5 h-5 rounded-full border border-white/25 role-check"></div>
+                                    </div>
+                                    <div class="font-display font-semibold text-white text-sm">CISO</div>
+                                    <div class="text-[11px] text-gray-500 mt-0.5 leading-tight">Technical posture & coverage view</div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Password</label>
+                            <input type="password" required class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body">
+                        </div>
+
+                        <button type="submit" class="w-full bg-white text-[#09090b] font-semibold py-3.5 rounded-lg mt-6 hover:bg-gray-200 transition">
+                            Request Provisioning
+                        </button>
+
+                        <div class="text-center mt-6">
+                            <button type="button" onclick="toggleAuthMode('login')" class="text-xs text-gray-500 hover:text-white transition">Already have an instance? <span class="text-qviolet underline">Log in</span></button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- LOGIN FORM -->
+                <div id="auth-login" class="hidden">
+                    <div class="text-center mb-10">
+                        <h2 class="font-display text-3xl font-bold mb-2">Authenticate</h2>
+                        <p class="text-gray-400 text-sm">Access your active risk quantification instance.</p>
+                    </div>
+
+                    <form class="space-y-5" onsubmit="submitLogin(event)">
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Work Email</label>
+                            <input id="login-email" type="email" required class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Work ID</label>
+                            <input type="text" required class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Password</label>
+                            <input type="password" required class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body">
+                        </div>
+
+                        <!-- Login also asks role so the demo lets you see either dashboard -->
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-3 uppercase">Sign in as</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button type="button" data-role="cfo" onclick="selectRole('cfo')" class="role-btn text-left p-3 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.06]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-display font-semibold text-white text-sm">CFO</span>
+                                        <div class="w-4 h-4 rounded-full border border-white/25 role-check"></div>
+                                    </div>
+                                </button>
+                                <button type="button" data-role="ciso" onclick="selectRole('ciso')" class="role-btn text-left p-3 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.06]">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-display font-semibold text-white text-sm">CISO</span>
+                                        <div class="w-4 h-4 rounded-full border border-white/25 role-check"></div>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-white text-[#09090b] font-semibold py-3.5 rounded-lg mt-6 hover:bg-gray-200 transition">
+                            Log In
+                        </button>
+
+                        <div class="text-center mt-6">
+                            <button type="button" onclick="toggleAuthMode('signup')" class="text-xs text-gray-500 hover:text-white transition">Need an instance? <span class="text-qviolet underline">Sign up</span></button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== VIEW: TERMINAL (LOGS) ==================== -->
+        <section id="view-terminal" class="max-w-5xl mx-auto px-6 py-32 view-hidden relative z-10 w-full min-h-[85vh] flex flex-col justify-center">
+            <h2 class="font-display text-2xl font-bold mb-6 flex items-center gap-3 text-white">
+                <div class="w-2.5 h-2.5 rounded-full bg-qemerald animate-pulse"></div>
+                System Telemetry
+            </h2>
+            <div class="glass-panel p-6 rounded-2xl border-white/10 bg-[#050508]/90 shadow-2xl relative overflow-hidden">
+                <div class="flex gap-2 mb-4 border-b border-white/10 pb-4">
+                    <div class="w-3 h-3 rounded-full bg-gray-700"></div>
+                    <div class="w-3 h-3 rounded-full bg-gray-700"></div>
+                    <div class="w-3 h-3 rounded-full bg-gray-700"></div>
+                </div>
+                <div class="font-mono text-[13px] leading-relaxed h-[60vh] overflow-y-auto custom-scrollbar" id="terminal-output">
+                    <div class="text-gray-500">quantifysec core initialized... [OK]</div>
+                    <div class="text-gray-500">Establishing secure connection to ingest nodes... [OK]</div>
+                    <div class="text-qviolet mt-2">>> Fetching latest cloud logs...</div>
+                    <div class="text-gray-300">Parsing 42,019 events...</div>
+                    <div class="text-qamber mt-1">WARN: Unusually high assume-role activity detected.</div>
+                    <div class="text-qviolet mt-2">>> Running financial impact modeling...</div>
+                    <div class="text-qemerald mt-1">Result: Estimated Capital at Risk bounds updated.</div>
+                    <div class="text-gray-500 mt-4">Awaiting next telemetry cycle...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== VIEW: CFO DASHBOARD ==================== -->
+        <section id="view-cfo-dashboard" class="view-hidden max-w-[1280px] mx-auto px-6 py-28 relative z-10 w-full">
+
+            <!-- Dashboard header -->
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 text-xs font-mono text-qviolet uppercase tracking-widest mb-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-qviolet animate-pulse"></span>
+                        Financial Risk Portfolio · Executive View
+                    </div>
+                    <h1 class="font-display text-4xl font-bold text-white tracking-tight">Good evening<span id="cfo-user-name"></span></h1>
+                    <p class="text-sm text-gray-400 mt-1">Last portfolio recomputation: <span class="text-white font-mono" id="cfo-last-update"></span> · Solver: <span class="text-qemerald font-mono">Optimal</span></p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="switchRole('ciso')" class="text-xs font-mono uppercase tracking-wider text-gray-400 hover:text-white border border-white/10 hover:border-white/25 px-3 py-2 rounded-lg transition">
+                        Switch to CISO view →
+                    </button>
+                    <button onclick="navigate('terminal')" class="text-xs font-mono uppercase tracking-wider text-gray-400 hover:text-white border border-white/10 hover:border-white/25 px-3 py-2 rounded-lg transition">
+                        Solver Telemetry
+                    </button>
+                </div>
+            </div>
+
+            <!-- KPI STRIP: 4 hero cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="ui-widget rounded-2xl p-5 relative overflow-hidden glow-rose">
+                    <div class="text-[11px] text-gray-500 font-mono uppercase tracking-wider mb-2">Capital at Risk (Pre)</div>
+                    <div class="flex items-baseline gap-1 kpi-number">
+                        <span class="text-3xl font-mono font-bold text-white">₹<span data-count-to="420">0</span></span>
+                        <span class="text-lg text-gray-500 ml-1">L</span>
+                    </div>
+                    <div class="text-[11px] text-gray-500 mt-2">Annualized Loss Expectancy · pre-optimization</div>
+                </div>
+                <div class="ui-widget rounded-2xl p-5 relative overflow-hidden glow-emerald">
+                    <div class="text-[11px] text-gray-500 font-mono uppercase tracking-wider mb-2">Risk Neutralized</div>
+                    <div class="flex items-baseline gap-1 kpi-number">
+                        <span class="text-3xl font-mono font-bold text-white">₹<span data-count-to="251">0</span></span>
+                        <span class="text-lg text-gray-500 ml-1">L</span>
+                    </div>
+                    <div class="text-[11px] text-qemerald mt-2 font-mono">↓ 59.8% exposure reduction</div>
+                </div>
+                <div class="ui-widget rounded-2xl p-5 relative overflow-hidden glow-violet">
+                    <div class="text-[11px] text-gray-500 font-mono uppercase tracking-wider mb-2">Budget Deployed</div>
+                    <div class="flex items-baseline gap-1 kpi-number">
+                        <span class="text-3xl font-mono font-bold text-white">₹<span data-count-to="75">0</span></span>
+                        <span class="text-lg text-gray-500 ml-1">L / 75L</span>
+                    </div>
+                    <div class="mt-3 h-1 bg-white/5 rounded-full overflow-hidden">
+                        <div class="h-full bg-qviolet rounded-full" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="ui-widget rounded-2xl p-5 relative overflow-hidden glow-amber">
+                    <div class="text-[11px] text-gray-500 font-mono uppercase tracking-wider mb-2">Portfolio ROI</div>
+                    <div class="flex items-baseline gap-1 kpi-number">
+                        <span class="text-3xl font-mono font-bold text-qamber"><span data-count-to="335" data-divide="100">0</span>x</span>
+                    </div>
+                    <div class="text-[11px] text-gray-500 mt-2">₹ risk reduced per ₹ spent</div>
+                </div>
+            </div>
+
+            <!-- ROW 2: Trend chart + Category donut -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <div class="ui-widget rounded-3xl p-6 lg:col-span-2">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="font-display font-semibold text-white">Loss Exposure Trend</h3>
+                            <p class="text-xs text-gray-500 mt-0.5">12-month rolling ALE · portfolio impact from month 10 onward</p>
+                        </div>
+                        <div class="flex gap-1 text-[11px] font-mono">
+                            <button class="px-2 py-1 rounded bg-white/5 text-white">12M</button>
+                            <button class="px-2 py-1 rounded text-gray-500 hover:bg-white/5">6M</button>
+                            <button class="px-2 py-1 rounded text-gray-500 hover:bg-white/5">3M</button>
+                        </div>
+                    </div>
+                    <div id="cfo-trend-chart" class="w-full h-56"></div>
+                    <div id="cfo-trend-labels" class="flex justify-between text-[10px] font-mono text-gray-600 mt-2"></div>
+                </div>
+                <div class="ui-widget rounded-3xl p-6">
+                    <h3 class="font-display font-semibold text-white mb-1">Budget Allocation</h3>
+                    <p class="text-xs text-gray-500 mb-4">By control category</p>
+                    <div class="flex items-center justify-center mb-4">
+                        <div id="cfo-category-donut" class="w-40 h-40 relative">
+                            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                                <span class="text-2xl font-mono font-bold text-white">9</span>
+                                <span class="text-[10px] text-gray-500 uppercase tracking-wider">controls</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="cfo-category-legend" class="space-y-2 text-xs"></div>
+                </div>
+            </div>
+
+            <!-- ROW 3: Risk Reduction bars + Loss Exceedance -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="ui-widget rounded-3xl p-6">
+                    <h3 class="font-display font-semibold text-white mb-1">Risk Reduction Portfolio</h3>
+                    <p class="text-xs text-gray-500 mb-4">Selected controls ranked by ₹ neutralized</p>
+                    <div id="cfo-reduction-bars" class="space-y-3"></div>
+                </div>
+                <div class="ui-widget rounded-3xl p-6">
+                    <h3 class="font-display font-semibold text-white mb-1">Loss Exceedance Curve</h3>
+                    <p class="text-xs text-gray-500 mb-4">P(annual loss &gt; threshold) · post-optimization</p>
+                    <div id="cfo-exceedance-chart" class="w-full h-52"></div>
+                    <div class="grid grid-cols-3 gap-2 mt-4 text-[10px] font-mono text-gray-500">
+                        <div class="border border-white/5 rounded p-2 text-center">
+                            <div class="text-white font-bold text-sm">₹200L</div>
+                            <div>23% chance</div>
+                        </div>
+                        <div class="border border-white/5 rounded p-2 text-center">
+                            <div class="text-white font-bold text-sm">₹300L</div>
+                            <div>9% chance</div>
+                        </div>
+                        <div class="border border-white/5 rounded p-2 text-center">
+                            <div class="text-white font-bold text-sm">₹500L</div>
+                            <div>2% chance</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 4: Cost vs Reduction Scatter -->
+            <div class="ui-widget rounded-3xl p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="font-display font-semibold text-white">Efficient Frontier · Cost vs Risk Reduction</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Every candidate control · selected controls lie on the frontier</p>
+                    </div>
+                    <div class="flex items-center gap-4 text-[11px] font-mono">
+                        <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-qviolet"></span> Selected</span>
+                        <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-gray-600"></span> Deferred</span>
+                    </div>
+                </div>
+                <div id="cfo-scatter" class="w-full h-72 relative"></div>
+                <div class="flex justify-between text-[10px] font-mono text-gray-600 mt-2">
+                    <span>← Lower cost</span>
+                    <span>Higher risk reduction ↑</span>
+                </div>
+            </div>
+
+            <!-- ROW 5: Deferred backlog opportunity + Approximation warning -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="ui-widget rounded-3xl p-6 relative overflow-hidden glow-amber">
+                    <div class="flex items-center gap-2 text-xs font-mono text-qamber uppercase tracking-wider mb-3">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                        Deferred Backlog Opportunity
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <div class="text-[11px] text-gray-500 font-mono uppercase mb-1">Additional ₹ at Risk Uncovered</div>
+                            <div class="text-2xl font-mono font-bold text-qamber">₹424 L</div>
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-gray-500 font-mono uppercase mb-1">Investment Required</div>
+                            <div class="text-2xl font-mono font-bold text-white">₹214 L</div>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-white/10 space-y-2 text-xs">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Suggested next-cycle budget</span>
+                            <span class="font-mono text-white">≈ ₹110 L</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Full-coverage budget (+15% buffer)</span>
+                            <span class="font-mono text-white">≈ ₹250 L</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Deferred controls count</span>
+                            <span class="font-mono text-white">16</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-widget rounded-3xl p-6 border-qamber/20">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-qamber/15 border border-qamber/25 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 text-qamber" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        </div>
+                        <div>
+                            <div class="text-sm font-semibold text-white mb-1">Approximation Notice</div>
+                            <p class="text-xs text-gray-400 leading-relaxed">Future budget values are planning-level estimates only. Actual figures will vary with vendor renewal pricing, INR fluctuation, threat-landscape shifts, and re-runs of the Monte Carlo Risk Engine. Re-run the optimizer whenever your cost data or risk model is refreshed.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 6: Selected controls table -->
+            <div class="ui-widget rounded-3xl p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="font-display font-semibold text-white">Selected Controls · This Cycle</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Funded and being deployed · ranked by capital efficiency</p>
+                    </div>
+                    <span class="text-[11px] font-mono bg-qemerald/10 text-qemerald border border-qemerald/20 px-2.5 py-1 rounded-full">9 funded</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="border-b border-white/10 text-[10px] font-mono text-gray-500 uppercase tracking-wider">
+                                <th class="py-3 px-3">ID</th>
+                                <th class="py-3 px-3">Control</th>
+                                <th class="py-3 px-3">Category</th>
+                                <th class="py-3 px-3 text-right">Cost (₹L)</th>
+                                <th class="py-3 px-3 text-right">Reduction (₹L)</th>
+                                <th class="py-3 px-3 text-right">₹/₹ Efficiency</th>
+                                <th class="py-3 px-3 text-right">ROI Multiple</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cfo-selected-tbody" class="text-gray-300"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ROW 7: Deferred controls table -->
+            <div class="ui-widget rounded-3xl p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="font-display font-semibold text-white">Deferred Portfolio · Next Cycle Candidates</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Ordered by ROI · fund top items first when budget increases</p>
+                    </div>
+                    <span class="text-[11px] font-mono bg-qamber/10 text-qamber border border-qamber/20 px-2.5 py-1 rounded-full">16 pending</span>
+                </div>
+                <div class="overflow-x-auto max-h-[500px] overflow-y-auto custom-scrollbar">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead class="sticky top-0 bg-[#09090b]">
+                            <tr class="border-b border-white/10 text-[10px] font-mono text-gray-500 uppercase tracking-wider">
+                                <th class="py-3 px-3">Priority</th>
+                                <th class="py-3 px-3">ID</th>
+                                <th class="py-3 px-3">Control</th>
+                                <th class="py-3 px-3">Category</th>
+                                <th class="py-3 px-3 text-right">Est. Cost (₹L)</th>
+                                <th class="py-3 px-3 text-right">Potential (₹L)</th>
+                                <th class="py-3 px-3 text-right">ROI</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cfo-deferred-tbody" class="text-gray-300"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ==================== VIEW: CISO DASHBOARD ==================== -->
+        <section id="view-ciso-dashboard" class="view-hidden max-w-[1280px] mx-auto px-6 py-28 relative z-10 w-full">
+
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 text-xs font-mono text-qemerald uppercase tracking-widest mb-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-qemerald animate-pulse"></span>
+                        Technical Posture · Security Operations
+                    </div>
+                    <h1 class="font-display text-4xl font-bold text-white tracking-tight">Good evening<span id="ciso-user-name"></span></h1>
+                    <p class="text-sm text-gray-400 mt-1">Coverage snapshot: <span class="text-white font-mono" id="ciso-last-update"></span> · <span class="text-qemerald font-mono">9 controls deployed</span> · <span class="text-qamber font-mono">16 gaps</span></p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="switchRole('cfo')" class="text-xs font-mono uppercase tracking-wider text-gray-400 hover:text-white border border-white/10 hover:border-white/25 px-3 py-2 rounded-lg transition">
+                        Switch to CFO view →
+                    </button>
+                    <button onclick="navigate('terminal')" class="text-xs font-mono uppercase tracking-wider text-gray-400 hover:text-white border border-white/10 hover:border-white/25 px-3 py-2 rounded-lg transition">
+                        Live Telemetry
+                    </button>
+                </div>
+            </div>
+
+            <!-- CISO KPI STRIP -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="ui-widget rounded-2xl p-5 relative overflow-hidden glow-violet">
+                    <div class="text-[11px] text-gray-500 font-mono uppercase tracking-wider mb-2">Posture Score</div>
+                    <div class="flex items-center gap-3">
+                        <div class="relative w-14 h-14 flex-shrink-0">
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                <path class="text-white/10" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+                                <path class="text-qviolet" stroke-dasharray="78, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="text-sm font-mono font-bold text-white">78</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-mono font-bold text-white">78<span class="text-sm text-gray-500">/100</span></div>
+                            <div class="text-[11px] text-qemerald font-mono">↑ +4 this month</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-widget rounded-2xl p-5 relative overflow-hidden glow-emerald">
+                    <div class="text-[11px] text-gray-500 font-mono uppercase tracking-wider mb-2">Controls Deployed</div>
+                    <div class="text-3xl font-mono font-bold text-white kpi-number"><span data-count-to="9">0</span><span class="text-lg text-gray-500">/25</span></div>
+                    <div class="text-[11px] text-gray-500 mt-2 font-mono">Active · budget-optimal</div>
+                </div>
+                <div class="ui-widget rounded-2xl p-5 relative overflow-hidden glow-violet">
+                    <div class="text-[11px] text-gray-500 font-mono uppercase tracking-wider mb-2">Portfolio Coverage</div>
+                    <div class="text-3xl font-mono font-bold text-white kpi-number"><span data-count-to="36">0</span>%</div>
+                    <div class="mt-2 h-1 bg-white/5 rounded-full overflow-hidden">
+                        <div class="h-full bg-qviolet rounded-full" style="width: 36%"></div>
+                    </div>
+                </div>
+                <div class="ui-widget rounded-2xl p-5 relative overflow-hidden glow-amber">
+                    <div class="text-[11px] text-gray-500 font-mono uppercase tracking-wider mb-2">Critical Gaps</div>
+                    <div class="text-3xl font-mono font-bold text-qamber kpi-number"><span data-count-to="16">0</span></div>
+                    <div class="text-[11px] text-gray-500 mt-2 font-mono">Deferred · awaiting funding</div>
+                </div>
+            </div>
+
+            <!-- ROW 2: Coverage Heatmap + Deployment Donut -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <div class="ui-widget rounded-3xl p-6 lg:col-span-2">
+                    <h3 class="font-display font-semibold text-white mb-1">Coverage Heatmap by Category</h3>
+                    <p class="text-xs text-gray-500 mb-4">Each tile is a control · <span class="text-qemerald">green = deployed</span> · <span class="text-qamber">amber = deferred</span></p>
+                    <div id="ciso-heatmap" class="space-y-2"></div>
+                </div>
+                <div class="ui-widget rounded-3xl p-6">
+                    <h3 class="font-display font-semibold text-white mb-1">Deployment Status</h3>
+                    <p class="text-xs text-gray-500 mb-4">Control portfolio breakdown</p>
+                    <div class="flex items-center justify-center mb-4">
+                        <div id="ciso-status-donut" class="w-40 h-40 relative">
+                            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                                <span class="text-2xl font-mono font-bold text-white">25</span>
+                                <span class="text-[10px] text-gray-500 uppercase tracking-wider">total</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2"><span class="cat-dot" style="background:#10b981"></span><span class="text-gray-300">Deployed</span></div>
+                            <span class="font-mono text-white">9</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2"><span class="cat-dot" style="background:#f59e0b"></span><span class="text-gray-300">Deferred</span></div>
+                            <span class="font-mono text-white">16</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2"><span class="cat-dot" style="background:#3f3f46"></span><span class="text-gray-300">Not evaluated</span></div>
+                            <span class="font-mono text-white">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 3: Priority Queue + Attack Surface -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="ui-widget rounded-3xl p-6">
+                    <h3 class="font-display font-semibold text-white mb-1">Deferred Priority Queue</h3>
+                    <p class="text-xs text-gray-500 mb-4">Rank top-10 gaps by control efficiency</p>
+                    <div id="ciso-priority-bars" class="space-y-3"></div>
+                </div>
+                <div class="ui-widget rounded-3xl p-6">
+                    <h3 class="font-display font-semibold text-white mb-1">Attack Surface by Category</h3>
+                    <p class="text-xs text-gray-500 mb-4">Control counts per category · deployment split</p>
+                    <div id="ciso-category-bars" class="space-y-3"></div>
+                </div>
+            </div>
+
+            <!-- ROW 4: Selected controls technical table -->
+            <div class="ui-widget rounded-3xl p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="font-display font-semibold text-white">Deployed Controls · Active Coverage</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Confirmed operational · continuously monitored</p>
+                    </div>
+                    <span class="text-[11px] font-mono bg-qemerald/10 text-qemerald border border-qemerald/20 px-2.5 py-1 rounded-full">Live</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="border-b border-white/10 text-[10px] font-mono text-gray-500 uppercase tracking-wider">
+                                <th class="py-3 px-3">Status</th>
+                                <th class="py-3 px-3">ID</th>
+                                <th class="py-3 px-3">Control</th>
+                                <th class="py-3 px-3">Category</th>
+                                <th class="py-3 px-3 text-right">Efficiency</th>
+                                <th class="py-3 px-3 text-right">Coverage Weight</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ciso-selected-tbody" class="text-gray-300"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ROW 5: Deferred technical table -->
+            <div class="ui-widget rounded-3xl p-6 mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="font-display font-semibold text-white">Coverage Gaps · Deferred Controls</h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Rank-ordered technical remediation queue</p>
+                    </div>
+                    <span class="text-[11px] font-mono bg-qamber/10 text-qamber border border-qamber/20 px-2.5 py-1 rounded-full">16 gaps</span>
+                </div>
+                <div class="overflow-x-auto max-h-[500px] overflow-y-auto custom-scrollbar">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead class="sticky top-0 bg-[#09090b]">
+                            <tr class="border-b border-white/10 text-[10px] font-mono text-gray-500 uppercase tracking-wider">
+                                <th class="py-3 px-3">Rank</th>
+                                <th class="py-3 px-3">ID</th>
+                                <th class="py-3 px-3">Control</th>
+                                <th class="py-3 px-3">Category</th>
+                                <th class="py-3 px-3 text-right">Efficiency</th>
+                                <th class="py-3 px-3 text-right">Priority Weight</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ciso-deferred-tbody" class="text-gray-300"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ROW 6: Embedded Live Telemetry (mini) -->
+            <div class="ui-widget rounded-3xl p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <h3 class="font-display font-semibold text-white flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-qemerald animate-pulse"></span>
+                            Live Solver Telemetry
+                        </h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Streaming from Monte Carlo + PuLP knapsack pipeline</p>
+                    </div>
+                    <button onclick="navigate('terminal')" class="text-xs font-mono text-gray-400 hover:text-white border border-white/10 hover:border-white/25 px-3 py-1.5 rounded-lg transition">
+                        Full stream →
+                    </button>
+                </div>
+                <div id="ciso-telemetry" class="font-mono text-[12px] leading-relaxed h-56 overflow-y-auto custom-scrollbar bg-[#050508] rounded-xl p-4 border border-white/5">
+                    <div class="text-gray-500">[boot] quantifysec core online · monte-carlo n=10000</div>
+                    <div class="text-gray-500">[data] 25 candidate controls · budget ₹75L · CBC solver ready</div>
+                    <div class="text-qviolet mt-2">>> solving 0-1 knapsack ILP...</div>
+                    <div class="text-qemerald mt-1">[optimal] 9 controls · ₹75L / ₹75L · ₹251L neutralized · 2.11s</div>
+                    <div class="text-gray-500 mt-2">[queue] 16 controls deferred · next-cycle budget ≈ ₹110L</div>
+                    <div class="text-gray-500 mt-1">[trace] efficient frontier written to portfolio.json</div>
+                    <div class="text-gray-500 mt-4">[idle] awaiting next model refresh...</div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Professional Footer -->
+    <footer class="border-t border-white/5 bg-[#09090b] relative z-10 mt-auto">
+        <div class="max-w-[1100px] mx-auto px-6 py-10">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+                <p>&copy; 2026 QuantifySec. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-gray-300 transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-gray-300 transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        // ============================================================
+        // KNAPSACK OUTPUT DATA
+        // Would come from your FastAPI /api/optimize endpoint in prod.
+        // Schema matches OptimizationResult from solver.py.
+        // ============================================================
+        const KNAPSACK_DATA = {
+            status: 'Optimal',
+            solver_time_seconds: 2.1139,
+            budget: 75,
+            total_cost: 75,
+            total_risk_reduction: 251,
+            budget_utilization_pct: 100.0,
+            budget_remaining: 0,
+            selected_controls: [
+                {id:'C09', name:'Email Security Gateway',              cost:6,  risk_reduction:30, category:'Email',      efficiency:5.00},
+                {id:'C17', name:'Patch Management System',             cost:6,  risk_reduction:27, category:'Assessment', efficiency:4.50},
+                {id:'C05', name:'Security Awareness Training',         cost:5,  risk_reduction:22, category:'People',     efficiency:4.40},
+                {id:'C01', name:'Multi-Factor Authentication (MFA)',   cost:8,  risk_reduction:35, category:'Identity',   efficiency:4.38},
+                {id:'C24', name:'Anti-Phishing Solution',              cost:6,  risk_reduction:23, category:'Email',      efficiency:3.83},
+                {id:'C02', name:'Endpoint Detection & Response (EDR)', cost:15, risk_reduction:42, category:'Endpoint',   efficiency:2.80},
+                {id:'C12', name:'VPN / Zero Trust Network Access',     cost:9,  risk_reduction:24, category:'Network',    efficiency:2.67},
+                {id:'C08', name:'Web Application Firewall (WAF)',      cost:8,  risk_reduction:20, category:'Network',    efficiency:2.50},
+                {id:'C04', name:'Backup & Recovery System',            cost:12, risk_reduction:28, category:'Data',       efficiency:2.33},
+            ],
+            deferred_controls: [
+                {priority_rank:1,  id:'C11', name:'Encryption at Rest',                 cost:7,  risk_reduction:18, category:'Data',       efficiency:2.57},
+                {priority_rank:2,  id:'C07', name:'Vulnerability Management',           cost:10, risk_reduction:25, category:'Assessment', efficiency:2.50},
+                {priority_rank:3,  id:'C23', name:'Mobile Device Management (MDM)',     cost:7,  risk_reduction:17, category:'Endpoint',   efficiency:2.43},
+                {priority_rank:4,  id:'C16', name:'Intrusion Detection System (IDS)',   cost:8,  risk_reduction:19, category:'Network',    efficiency:2.38},
+                {priority_rank:5,  id:'C15', name:'Network Segmentation',               cost:11, risk_reduction:26, category:'Network',    efficiency:2.36},
+                {priority_rank:6,  id:'C13', name:'Identity & Access Management (IAM)', cost:14, risk_reduction:33, category:'Identity',   efficiency:2.36},
+                {priority_rank:7,  id:'C14', name:'Privileged Access Management (PAM)', cost:16, risk_reduction:36, category:'Identity',   efficiency:2.25},
+                {priority_rank:8,  id:'C18', name:'Cloud Security Posture Management',  cost:13, risk_reduction:29, category:'Cloud',      efficiency:2.23},
+                {priority_rank:9,  id:'C03', name:'Next-Gen Firewall',                  cost:20, risk_reduction:38, category:'Network',    efficiency:1.90},
+                {priority_rank:10, id:'C06', name:'SIEM Platform',                      cost:25, risk_reduction:45, category:'Monitoring', efficiency:1.80},
+                {priority_rank:11, id:'C10', name:'Data Loss Prevention (DLP)',         cost:18, risk_reduction:32, category:'Data',       efficiency:1.78},
+                {priority_rank:12, id:'C25', name:'Threat Intelligence Platform',       cost:12, risk_reduction:21, category:'Monitoring', efficiency:1.75},
+                {priority_rank:13, id:'C19', name:'SOC-as-a-Service',                   cost:30, risk_reduction:50, category:'Monitoring', efficiency:1.67},
+                {priority_rank:14, id:'C22', name:'Physical Security Controls',         cost:5,  risk_reduction:8,  category:'Physical',   efficiency:1.60},
+                {priority_rank:15, id:'C20', name:'Incident Response Retainer',         cost:10, risk_reduction:15, category:'Response',   efficiency:1.50},
+                {priority_rank:16, id:'C21', name:'Annual Penetration Testing',         cost:8,  risk_reduction:12, category:'Assessment', efficiency:1.50},
+            ],
+            future_budget: {
+                deferred_count: 16,
+                total_deferred_cost: 214,
+                total_deferred_reduction: 424,
+                approx_next_cycle_budget: 110,
+                approx_full_coverage_budget: 250
+            },
+            // CFO enrichment (would come from Monte Carlo engine outputs)
+            financial: {
+                capital_at_risk_before: 420,
+                capital_at_risk_after: 169,
+                portfolio_roi: 3.35,
+                risk_trend_labels: ['Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'],
+                risk_trend_values: [510, 495, 480, 468, 455, 448, 435, 420, 405, 388, 375, 169],
+                loss_exceedance: [
+                    {threshold: 20,  probability: 0.95},
+                    {threshold: 50,  probability: 0.85},
+                    {threshold: 100, probability: 0.62},
+                    {threshold: 150, probability: 0.41},
+                    {threshold: 200, probability: 0.23},
+                    {threshold: 300, probability: 0.09},
+                    {threshold: 500, probability: 0.02}
+                ]
+            }
+        };
+
+        // Category palette — stable colors so donut/legend/heatmap agree
+        const CATEGORY_COLORS = {
+            'Identity': '#a78bfa',
+            'Endpoint': '#f59e0b',
+            'Network': '#60a5fa',
+            'Data': '#10b981',
+            'People': '#f472b6',
+            'Monitoring': '#22d3ee',
+            'Assessment': '#c084fc',
+            'Email': '#fb923c',
+            'Cloud': '#818cf8',
+            'Physical': '#94a3b8',
+            'Response': '#fbbf24'
+        };
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let currentRole = null;
+        let currentUserName = '';
+
+        // ============================================================
+        // VIEW ROUTER
+        // ============================================================
+        function navigate(viewName) {
+            const views = ['home', 'auth', 'terminal', 'cfo-dashboard', 'ciso-dashboard'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if (!el) return;
+                if (v === viewName) {
+                    el.classList.remove('view-hidden');
+                } else {
+                    el.classList.add('view-hidden');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (viewName !== 'home') {
+                document.body.classList.remove('is-light');
+            } else {
+                window.dispatchEvent(new Event('scroll'));
+            }
+
+            // Init dashboards on entry
+            if (viewName === 'cfo-dashboard') initCfoDashboard();
+            if (viewName === 'ciso-dashboard') initCisoDashboard();
+        }
+
+        function toggleAuthMode(mode) {
+            if (mode === 'login') {
+                document.getElementById('auth-signup').classList.add('hidden');
+                document.getElementById('auth-login').classList.remove('hidden');
+            } else {
+                document.getElementById('auth-login').classList.add('hidden');
+                document.getElementById('auth-signup').classList.remove('hidden');
+            }
+        }
+
+        // ============================================================
+        // ROLE SELECTION
+        // ============================================================
+        function selectRole(role) {
+            currentRole = role;
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                if (btn.dataset.role === role) {
+                    btn.classList.add('role-selected');
+                } else {
+                    btn.classList.remove('role-selected');
+                }
+            });
+        }
+
+        function submitSignup(event) {
+            event.preventDefault();
+            if (!currentRole) {
+                alert('Please select your role (CFO or CISO) before continuing.');
+                return;
+            }
+            const name = document.getElementById('signup-name').value.trim();
+            currentUserName = name ? `, ${name.split(' ')[0]}` : '';
+            setNavRoleIndicator();
+            navigate(currentRole === 'cfo' ? 'cfo-dashboard' : 'ciso-dashboard');
+        }
+
+        function submitLogin(event) {
+            event.preventDefault();
+            if (!currentRole) {
+                alert('Please select whether you are signing in as CFO or CISO.');
+                return;
+            }
+            const email = document.getElementById('login-email').value.trim();
+            currentUserName = email ? `, ${email.split('@')[0]}` : '';
+            setNavRoleIndicator();
+            navigate(currentRole === 'cfo' ? 'cfo-dashboard' : 'ciso-dashboard');
+        }
+
+        function switchRole(role) {
+            currentRole = role;
+            setNavRoleIndicator();
+            navigate(role === 'cfo' ? 'cfo-dashboard' : 'ciso-dashboard');
+        }
+
+        function signOut() {
+            currentRole = null;
+            currentUserName = '';
+            setNavRoleIndicator();
+            navigate('home');
+        }
+
+        function setNavRoleIndicator() {
+            const indicator = document.getElementById('nav-role-indicator');
+            const cta = document.getElementById('nav-cta-btn');
+            const label = document.getElementById('nav-role-label');
+            if (currentRole) {
+                indicator.classList.remove('hidden');
+                indicator.classList.add('flex');
+                cta.classList.add('hidden');
+                label.textContent = currentRole.toUpperCase();
+            } else {
+                indicator.classList.add('hidden');
+                indicator.classList.remove('flex');
+                cta.classList.remove('hidden');
+            }
+        }
+
+        // ============================================================
+        // CHART HELPERS (all inline SVG — no external chart libs)
+        // ============================================================
+        function smoothPath(points) {
+            if (points.length < 2) return '';
+            let d = `M ${points[0].x},${points[0].y}`;
+            for (let i = 1; i < points.length; i++) {
+                const p0 = points[i - 1];
+                const p1 = points[i];
+                const cx = (p0.x + p1.x) / 2;
+                d += ` C ${cx},${p0.y} ${cx},${p1.y} ${p1.x},${p1.y}`;
+            }
+            return d;
+        }
+
+        function renderLineArea(elId, values, color = '#a78bfa') {
+            const el = document.getElementById(elId);
+            if (!el) return;
+            const w = el.clientWidth || 600;
+            const h = el.clientHeight || 200;
+            const pad = 12;
+            const max = Math.max(...values);
+            const min = Math.min(...values);
+            const range = max - min || 1;
+            const stepX = (w - pad * 2) / (values.length - 1);
+            const points = values.map((v, i) => ({
+                x: pad + i * stepX,
+                y: pad + (h - pad * 2) * (1 - (v - min) / range)
+            }));
+            const line = smoothPath(points);
+            const area = line + ` L ${points[points.length - 1].x},${h - pad} L ${points[0].x},${h - pad} Z`;
+            const gid = `grad-${elId}`;
+            el.innerHTML = `
+                <svg width="100%" height="100%" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="overflow:visible">
+                    <defs>
+                        <linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="${color}" stop-opacity="0.35"/>
+                            <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="${area}" fill="url(#${gid})"/>
+                    <path d="${line}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    ${points.map((p, i) => `<circle cx="${p.x}" cy="${p.y}" r="${i === points.length - 1 ? 5 : 3}" fill="${i === points.length - 1 ? '#ffffff' : color}"/>`).join('')}
+                </svg>
+            `;
+        }
+
+        function renderDonut(elId, segments) {
+            const el = document.getElementById(elId);
+            if (!el) return;
+            const total = segments.reduce((s, seg) => s + seg.value, 0) || 1;
+            const R = 40;
+            const C = 2 * Math.PI * R;
+            let offset = 0;
+            const arcs = segments.map(seg => {
+                const pct = seg.value / total;
+                const dash = pct * C;
+                const arc = `<circle cx="50" cy="50" r="${R}" fill="none"
+                    stroke="${seg.color}" stroke-width="10"
+                    stroke-dasharray="${dash} ${C - dash}"
+                    stroke-dashoffset="${-offset}"
+                    transform="rotate(-90 50 50)"/>`;
+                offset += dash;
+                return arc;
+            }).join('');
+            // preserve absolutely-positioned children (center label)
+            const centerLabel = el.querySelector('.absolute');
+            el.innerHTML = `
+                <svg viewBox="0 0 100 100" class="w-full h-full">
+                    <circle cx="50" cy="50" r="${R}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
+                    ${arcs}
+                </svg>
+            `;
+            if (centerLabel) el.appendChild(centerLabel);
+        }
+
+        function renderHorizontalBars(elId, items, opts = {}) {
+            const el = document.getElementById(elId);
+            if (!el) return;
+            const max = Math.max(...items.map(i => i.value));
+            const {
+                valuePrefix = '', valueSuffix = '',
+                barColorKey = null // color by category if set
+            } = opts;
+            el.innerHTML = items.map((item, i) => {
+                const pct = (item.value / max) * 100;
+                const color = item.color || (barColorKey ? CATEGORY_COLORS[item[barColorKey]] || '#a78bfa' : '#a78bfa');
+                return `
+                    <div>
+                        <div class="flex justify-between text-xs mb-1.5">
+                            <span class="text-gray-200 truncate pr-2">${item.label}</span>
+                            <span class="text-white font-mono flex-shrink-0">${valuePrefix}${item.value}${valueSuffix}</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div class="h-full rounded-full" style="width:${pct}%; background:${color}; transition:width 0.6s ease-out ${i * 40}ms"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderScatter(elId, points) {
+            const el = document.getElementById(elId);
+            if (!el) return;
+            const w = el.clientWidth || 800;
+            const h = el.clientHeight || 300;
+            const pad = 28;
+            const maxX = Math.max(...points.map(p => p.x));
+            const maxY = Math.max(...points.map(p => p.y));
+            const gridLines = [0, 0.25, 0.5, 0.75, 1].map(t => {
+                const y = pad + (h - pad * 2) * (1 - t);
+                return `<line x1="${pad}" y1="${y}" x2="${w - pad}" y2="${y}" stroke="rgba(255,255,255,0.04)" stroke-dasharray="2 4"/>`;
+            }).join('');
+            const dots = points.map(p => {
+                const cx = pad + (p.x / maxX) * (w - pad * 2);
+                const cy = pad + (h - pad * 2) * (1 - p.y / maxY);
+                const fill = p.selected ? '#a78bfa' : '#3f3f46';
+                const r = p.selected ? 7 : 5;
+                const glow = p.selected ? `<circle cx="${cx}" cy="${cy}" r="${r + 6}" fill="${fill}" opacity="0.15"/>` : '';
+                return `
+                    <g>
+                        ${glow}
+                        <circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+                        <text x="${cx}" y="${cy - r - 4}" text-anchor="middle" fill="${p.selected ? '#ffffff' : '#71717a'}" font-family="JetBrains Mono" font-size="9">${p.label}</text>
+                    </g>
+                `;
+            }).join('');
+            el.innerHTML = `
+                <svg width="100%" height="100%" viewBox="0 0 ${w} ${h}" style="overflow:visible">
+                    ${gridLines}
+                    <line x1="${pad}" y1="${h - pad}" x2="${w - pad}" y2="${h - pad}" stroke="rgba(255,255,255,0.1)"/>
+                    <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${h - pad}" stroke="rgba(255,255,255,0.1)"/>
+                    ${dots}
+                </svg>
+            `;
+        }
+
+        // ============================================================
+        // COUNT-UP ANIMATION (for KPIs)
+        // ============================================================
+        function countUp(el, target, duration = 1200, divide = 1) {
+            const startTime = performance.now();
+            function tick(now) {
+                const t = Math.min((now - startTime) / duration, 1);
+                const eased = 1 - Math.pow(1 - t, 3);
+                const val = target * eased / divide;
+                el.textContent = divide > 1 ? val.toFixed(2) : Math.floor(val);
+                if (t < 1) requestAnimationFrame(tick);
+                else el.textContent = divide > 1 ? (target / divide).toFixed(2) : target;
+            }
+            requestAnimationFrame(tick);
+        }
+
+        function runCountUpsIn(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (!section) return;
+            section.querySelectorAll('[data-count-to]').forEach(el => {
+                const target = parseFloat(el.dataset.countTo);
+                const divide = parseFloat(el.dataset.divide || '1');
+                countUp(el, target, 1200, divide);
+            });
+        }
+
+        // ============================================================
+        // CFO DASHBOARD INITIALIZATION
+        // ============================================================
+        function initCfoDashboard() {
+            // Personalize
+            document.getElementById('cfo-user-name').textContent = currentUserName;
+            document.getElementById('cfo-last-update').textContent = new Date().toLocaleString('en-IN', {
+                day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+            });
+
+            runCountUpsIn('view-cfo-dashboard');
+
+            // Trend chart
+            requestAnimationFrame(() => {
+                renderLineArea('cfo-trend-chart', KNAPSACK_DATA.financial.risk_trend_values, '#a78bfa');
+                const labels = KNAPSACK_DATA.financial.risk_trend_labels;
+                document.getElementById('cfo-trend-labels').innerHTML =
+                    labels.map(l => `<span>${l}</span>`).join('');
+
+                // Category donut — allocate budget by category
+                const byCategory = {};
+                KNAPSACK_DATA.selected_controls.forEach(c => {
+                    byCategory[c.category] = (byCategory[c.category] || 0) + c.cost;
+                });
+                const catSegments = Object.entries(byCategory).map(([cat, val]) => ({
+                    label: cat, value: val, color: CATEGORY_COLORS[cat] || '#a78bfa'
+                }));
+                renderDonut('cfo-category-donut', catSegments);
+                document.getElementById('cfo-category-legend').innerHTML = catSegments
+                    .sort((a, b) => b.value - a.value)
+                    .map(s => `
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="cat-dot" style="background:${s.color}"></span>
+                                <span class="text-gray-300">${s.label}</span>
+                            </div>
+                            <span class="font-mono text-white">₹${s.value}L</span>
+                        </div>
+                    `).join('');
+
+                // Risk Reduction Portfolio bars
+                const barItems = KNAPSACK_DATA.selected_controls
+                    .slice()
+                    .sort((a, b) => b.risk_reduction - a.risk_reduction)
+                    .map(c => ({
+                        label: `${c.id} · ${c.name}`,
+                        value: c.risk_reduction,
+                        color: CATEGORY_COLORS[c.category] || '#a78bfa'
+                    }));
+                renderHorizontalBars('cfo-reduction-bars', barItems, { valuePrefix: '₹', valueSuffix: 'L' });
+
+                // Loss Exceedance
+                const exceedanceValues = KNAPSACK_DATA.financial.loss_exceedance.map(p => p.probability * 100);
+                renderLineArea('cfo-exceedance-chart', exceedanceValues, '#f87171');
+
+                // Scatter — every candidate control, selected highlighted
+                const selectedIds = new Set(KNAPSACK_DATA.selected_controls.map(c => c.id));
+                const allControls = [...KNAPSACK_DATA.selected_controls, ...KNAPSACK_DATA.deferred_controls];
+                const scatterPoints = allControls.map(c => ({
+                    x: c.cost, y: c.risk_reduction, label: c.id, selected: selectedIds.has(c.id)
+                }));
+                renderScatter('cfo-scatter', scatterPoints);
+            });
+
+            // Tables
+            const selectedRows = KNAPSACK_DATA.selected_controls.map(c => {
+                const roi = (c.risk_reduction / c.cost).toFixed(2);
+                return `
+                    <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                        <td class="py-3 px-3 font-mono text-gray-500">${c.id}</td>
+                        <td class="py-3 px-3 text-white font-medium">${c.name}</td>
+                        <td class="py-3 px-3"><span style="color:${CATEGORY_COLORS[c.category] || '#a78bfa'}">${c.category}</span></td>
+                        <td class="py-3 px-3 text-right font-mono">₹${c.cost}L</td>
+                        <td class="py-3 px-3 text-right font-mono text-qemerald">₹${c.risk_reduction}L</td>
+                        <td class="py-3 px-3 text-right font-mono ${c.efficiency >= 4 ? 'text-qamber font-bold' : 'text-gray-300'}">${c.efficiency.toFixed(2)}</td>
+                        <td class="py-3 px-3 text-right font-mono text-white">${roi}x</td>
+                    </tr>
+                `;
+            }).join('');
+            document.getElementById('cfo-selected-tbody').innerHTML = selectedRows;
+
+            const deferredRows = KNAPSACK_DATA.deferred_controls.map(c => {
+                const roi = (c.risk_reduction / c.cost).toFixed(2);
+                return `
+                    <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                        <td class="py-3 px-3 font-mono text-qamber font-bold">#${c.priority_rank}</td>
+                        <td class="py-3 px-3 font-mono text-gray-500">${c.id}</td>
+                        <td class="py-3 px-3 text-white font-medium">${c.name}</td>
+                        <td class="py-3 px-3"><span style="color:${CATEGORY_COLORS[c.category] || '#a78bfa'}">${c.category}</span></td>
+                        <td class="py-3 px-3 text-right font-mono">₹${c.cost}L</td>
+                        <td class="py-3 px-3 text-right font-mono text-qemerald">₹${c.risk_reduction}L</td>
+                        <td class="py-3 px-3 text-right font-mono text-white">${roi}x</td>
+                    </tr>
+                `;
+            }).join('');
+            document.getElementById('cfo-deferred-tbody').innerHTML = deferredRows;
+        }
+
+        // ============================================================
+        // CISO DASHBOARD INITIALIZATION
+        // ============================================================
+        function initCisoDashboard() {
+            document.getElementById('ciso-user-name').textContent = currentUserName;
+            document.getElementById('ciso-last-update').textContent = new Date().toLocaleString('en-IN', {
+                day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+            });
+
+            runCountUpsIn('view-ciso-dashboard');
+
+            requestAnimationFrame(() => {
+                // Coverage heatmap — rows by category, tiles by control
+                const byCategory = {};
+                KNAPSACK_DATA.selected_controls.forEach(c => {
+                    if (!byCategory[c.category]) byCategory[c.category] = { selected: [], deferred: [] };
+                    byCategory[c.category].selected.push(c);
+                });
+                KNAPSACK_DATA.deferred_controls.forEach(c => {
+                    if (!byCategory[c.category]) byCategory[c.category] = { selected: [], deferred: [] };
+                    byCategory[c.category].deferred.push(c);
+                });
+                const heatmap = document.getElementById('ciso-heatmap');
+                heatmap.innerHTML = Object.entries(byCategory)
+                    .sort(([a], [b]) => a.localeCompare(b))
+                    .map(([cat, group]) => {
+                        const total = group.selected.length + group.deferred.length;
+                        const covPct = Math.round((group.selected.length / total) * 100);
+                        const tiles = [
+                            ...group.selected.map(c => `<div title="${c.id} · ${c.name} (deployed)" class="heat-cell w-8 h-8 rounded-md bg-qemerald/70 border border-qemerald/40 flex items-center justify-center text-[9px] font-mono text-white cursor-pointer">${c.id.replace('C','')}</div>`),
+                            ...group.deferred.map(c => `<div title="${c.id} · ${c.name} (deferred)" class="heat-cell w-8 h-8 rounded-md bg-qamber/25 border border-qamber/30 flex items-center justify-center text-[9px] font-mono text-qamber cursor-pointer">${c.id.replace('C','')}</div>`)
+                        ].join('');
+                        return `
+                            <div class="flex items-center gap-3">
+                                <div class="w-28 flex-shrink-0">
+                                    <div class="text-xs text-white font-medium">${cat}</div>
+                                    <div class="text-[10px] text-gray-500 font-mono">${covPct}% covered</div>
+                                </div>
+                                <div class="flex-1 flex flex-wrap gap-1.5">${tiles}</div>
+                            </div>
+                        `;
+                    }).join('');
+
+                // Status donut
+                renderDonut('ciso-status-donut', [
+                    { label: 'Deployed', value: 9, color: '#10b981' },
+                    { label: 'Deferred', value: 16, color: '#f59e0b' }
+                ]);
+
+                // Priority bars (top 10 deferred by efficiency)
+                const priorityItems = KNAPSACK_DATA.deferred_controls
+                    .slice(0, 10)
+                    .map(c => ({
+                        label: `#${c.priority_rank} · ${c.id} · ${c.name}`,
+                        value: c.efficiency,
+                        color: CATEGORY_COLORS[c.category] || '#a78bfa'
+                    }));
+                renderHorizontalBars('ciso-priority-bars', priorityItems, { valueSuffix: '' });
+
+                // Category attack surface bars (count per category)
+                const catCounts = {};
+                [...KNAPSACK_DATA.selected_controls, ...KNAPSACK_DATA.deferred_controls].forEach(c => {
+                    if (!catCounts[c.category]) catCounts[c.category] = { total: 0, deployed: 0 };
+                    catCounts[c.category].total++;
+                    if (KNAPSACK_DATA.selected_controls.find(s => s.id === c.id)) catCounts[c.category].deployed++;
+                });
+                const catBars = Object.entries(catCounts)
+                    .sort(([, a], [, b]) => b.total - a.total)
+                    .map(([cat, d]) => ({
+                        label: `${cat}  (${d.deployed}/${d.total})`,
+                        value: d.total,
+                        color: CATEGORY_COLORS[cat] || '#a78bfa'
+                    }));
+                renderHorizontalBars('ciso-category-bars', catBars);
+            });
+
+            // Tables
+            const maxRed = Math.max(...KNAPSACK_DATA.selected_controls.map(c => c.risk_reduction));
+            const selectedRows = KNAPSACK_DATA.selected_controls.map(c => {
+                const weight = Math.round((c.risk_reduction / maxRed) * 100);
+                return `
+                    <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                        <td class="py-3 px-3">
+                            <div class="flex items-center gap-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-qemerald animate-pulse"></span>
+                                <span class="text-[10px] font-mono text-qemerald">LIVE</span>
+                            </div>
+                        </td>
+                        <td class="py-3 px-3 font-mono text-gray-500">${c.id}</td>
+                        <td class="py-3 px-3 text-white font-medium">${c.name}</td>
+                        <td class="py-3 px-3"><span style="color:${CATEGORY_COLORS[c.category] || '#a78bfa'}">${c.category}</span></td>
+                        <td class="py-3 px-3 text-right font-mono ${c.efficiency >= 4 ? 'text-qamber font-bold' : 'text-gray-300'}">${c.efficiency.toFixed(2)}</td>
+                        <td class="py-3 px-3 text-right">
+                            <div class="inline-block w-24 h-1 bg-white/5 rounded-full overflow-hidden align-middle">
+                                <div class="h-full bg-qemerald" style="width:${weight}%"></div>
+                            </div>
+                            <span class="text-[10px] font-mono text-gray-400 ml-2">${weight}%</span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            document.getElementById('ciso-selected-tbody').innerHTML = selectedRows;
+
+            const maxDefRed = Math.max(...KNAPSACK_DATA.deferred_controls.map(c => c.risk_reduction));
+            const deferredRows = KNAPSACK_DATA.deferred_controls.map(c => {
+                const weight = Math.round((c.risk_reduction / maxDefRed) * 100);
+                return `
+                    <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                        <td class="py-3 px-3 font-mono text-qamber font-bold">#${c.priority_rank}</td>
+                        <td class="py-3 px-3 font-mono text-gray-500">${c.id}</td>
+                        <td class="py-3 px-3 text-white font-medium">${c.name}</td>
+                        <td class="py-3 px-3"><span style="color:${CATEGORY_COLORS[c.category] || '#a78bfa'}">${c.category}</span></td>
+                        <td class="py-3 px-3 text-right font-mono text-gray-300">${c.efficiency.toFixed(2)}</td>
+                        <td class="py-3 px-3 text-right">
+                            <div class="inline-block w-24 h-1 bg-white/5 rounded-full overflow-hidden align-middle">
+                                <div class="h-full bg-qamber" style="width:${weight}%"></div>
+                            </div>
+                            <span class="text-[10px] font-mono text-gray-400 ml-2">${weight}%</span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            document.getElementById('ciso-deferred-tbody').innerHTML = deferredRows;
+        }
+
+        // ============================================================
+        // HOME PAGE: Scroll-triggered light-mode navbar
+        // ============================================================
+        const solutionSection = document.getElementById('section-solution');
+        window.addEventListener('scroll', () => {
+            if (document.getElementById('view-home').classList.contains('view-hidden')) return;
+            if (!solutionSection) return;
+            const rect = solutionSection.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.4) {
+                document.body.classList.add('is-light');
+            } else {
+                document.body.classList.remove('is-light');
+            }
+        });
+
+        // ============================================================
+        // TERMINAL SIMULATION (existing behavior)
+        // ============================================================
+        const terminalOutput = document.getElementById('terminal-output');
+        const logs = [
+            "<div class='text-gray-500'>>> Polling agent status...</div>",
+            "<div class='text-gray-300'>All 100+ agents actively monitoring parameters.</div>",
+            "<div class='text-qviolet mt-2'>>> Re-calculating risk matrix based on patch status.</div>",
+            "<div class='text-qemerald'>Delta: Risk exposure reduced by $45,000.</div>",
+            "<div class='text-gray-500 mt-2'>Syncing state to database... [OK]</div>"
+        ];
+        let logIndex = 0;
+        setInterval(() => {
+            if (!document.getElementById('view-terminal').classList.contains('view-hidden')) {
+                if (logIndex < logs.length) {
+                    terminalOutput.innerHTML += logs[logIndex];
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                    logIndex++;
+                } else {
+                    logIndex = 0;
+                }
+            }
+        }, 3000);
+
+        // ============================================================
+        // NAVBAR SLIDE ON SCROLL
+        // ============================================================
+        const navWrapper = document.getElementById('main-nav-wrapper');
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const y = window.scrollY;
+            if (y < 150) navWrapper.style.transform = 'translateY(0)';
+            else if (y > lastScrollY) navWrapper.style.transform = 'translateY(-150px)';
+            else navWrapper.style.transform = 'translateY(0)';
+            lastScrollY = y;
+        });
+
+        // ============================================================
+        // Re-render charts on window resize (they use element width)
+        // ============================================================
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                if (!document.getElementById('view-cfo-dashboard').classList.contains('view-hidden')) {
+                    initCfoDashboard();
+                }
+                if (!document.getElementById('view-ciso-dashboard').classList.contains('view-hidden')) {
+                    initCisoDashboard();
+                }
+            }, 200);
+        });
+    </script>
+</body>
+</html>
