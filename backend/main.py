@@ -1,4 +1,4 @@
-from backend import db
+import db
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Dict, Any
@@ -12,7 +12,6 @@ from dotenv import load_dotenv
 from fastapi import Depends, HTTPException, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import jwt # Make sure PyJWT is installed in your requirements.txt
-from .db import *
 
 
 # ============================================================
