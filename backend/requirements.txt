@@ -1,0 +1,8 @@
+scipy
+numpy
+pydantic>=2.0
+pulp
+fastapi[standard]
+python-dotenv
+PyJWT
+uvicorn
