@@ -15,19 +15,15 @@ import jwt # Make sure PyJWT is installed in your requirements.txt
 
 
 # ============================================================
-# Fix for main.py — replace the existing auth setup block with this.
-# The bug: HTTPBearer() defaults to auto_error=True, meaning it
-# rejects requests with NO Authorization header BEFORE
-# verify_supabase_token() ever runs -- so any DISABLE_AUTH check
-# inside that function never gets a chance to execute.
-# Fix: HTTPBearer(auto_error=False) lets the request through with
-# credentials=None, so the function itself can check DISABLE_AUTH first.
+# Auth setup.
+# DISABLE_AUTH bypasses real token verification for local/demo use.
+# HTTPBearer(auto_error=False) lets requests with no Authorization
+# header through as credentials=None, so the DISABLE_AUTH check inside
+# verify_supabase_token can run instead of being blocked upstream.
 # ============================================================
 
 DISABLE_AUTH = os.getenv("DISABLE_AUTH", "false").lower() == "true"
 
-# auto_error=False is the key change -- was previously HTTPBearer() with
-# no arguments, which auto-rejects any request missing the header.
 security = HTTPBearer(auto_error=False)
 
 # Replace with your actual Supabase project JWT secret or use JWKS verification
@@ -62,9 +58,14 @@ sys.path.append(str(ROOT_DIR))
 
 from data_ingestion.ingestion import load_json_file, ingest_assets, ingest_vulnerabilities
 
-from .math_engine.monte_carlo.simulator import run_portfolio_simulation
-from .math_engine.monte_carlo.analytics import generate_portfolio_analytics_summary
-from .math_engine.monte_carlo.schema_exporter import serialize_simulation_results
+# FIX (Bug 1): these were relative imports (".math_engine...") which crash
+# at startup with "attempted relative import with no known parent package"
+# when main.py is run as a plain script via `uvicorn main:app` after `cd backend`.
+# sys.path.append(ROOT_DIR) above already makes math_engine importable as a
+# top-level package, same as knapsack_solver and data_ingestion below.
+from math_engine.monte_carlo.simulator import run_portfolio_simulation
+from math_engine.monte_carlo.analytics import generate_portfolio_analytics_summary
+from math_engine.monte_carlo.schema_exporter import serialize_simulation_results
 
 from knapsack_solver.solver import solve_knapsack
 from knapsack_solver.data import get_sample_controls, DEFAULT_BUDGET_LAKH
@@ -78,7 +79,6 @@ app = FastAPI(
      description="End-to-End Cyber Risk Quantification & Optimization Pipeline"
 )
 
-    
 
 app.add_middleware(
     CORSMiddleware,
@@ -208,6 +208,8 @@ def optimize(request: OptimizationRequest) -> OptimizationResult:
           raise HTTPException(500, f"Solver returned status: {result.status}")
 
      return result
+
+
 @app.post("/api/run-pipeline")
 def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
      """Executes the full automated pipeline: Ingestion -> Monte Carlo -> True Dynamic Knapsack."""
@@ -235,7 +237,12 @@ def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
 
           mc_dict = mc_api_response.model_dump()
           simulation_run_id = db.insert_simulation_run(mc_dict)
-          db.insert_risk_assessments(analytics["top_risk_drivers"], simulation_run_id)
+
+          # FIX (Bug 3): db.insert_risk_assessments expects the whole `analytics`
+          # dict (it does analytics.get("top_risk_drivers", []) internally) --
+          # passing just the list directly throws AttributeError since lists
+          # have no .get() method.
+          db.insert_risk_assessments(analytics, simulation_run_id)
 
           # Step 4: True Bridge to Knapsack (Using actual vulnerabilities, ignoring get_sample_controls)
           portfolio_ale_rupees = analytics["portfolio_metrics"]["mean_ale"]
@@ -250,14 +257,24 @@ def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
           opt_result = solve_knapsack(opt_request)
 
           portfolio_ale_lakh = portfolio_ale_rupees / 100_000.0
-          db.insert_optimization_run(opt_result, simulation_run_id, vuln_id_to_action_id, portfolio_ale_lakh)
+
+          # FIX (Bug 2): argument order corrected to match db.py's actual
+          # signature: (opt_result, simulation_run_id, portfolio_ale_lakh, vuln_id_to_action_id).
+          # The dict and float were previously swapped, which would raise
+          # TypeError partway through the request.
+          db.insert_optimization_run(opt_result, simulation_run_id, portfolio_ale_lakh, vuln_id_to_action_id)
 
           # Step 6: Generate Technical Drill-down for the UI
+          # (duplicate call removed -- was computed twice back to back)
           vuln_drilldown = build_vulnerability_drilldown(vuln_res["valid"], portfolio_ale_rupees)
-          # Step 6: Generate Technical Drill-down for the UI
-          vuln_drilldown = build_vulnerability_drilldown(vuln_res["valid"], portfolio_ale_rupees)
-          
-          # Guarantee the fields the frontend reads exist at a known path
+
+          # Guarantee the fields the frontend reads exist at a known path.
+          # NOTE: pm.get("p5_ale") / "p25_ale" / "percentile_5" / "percentile_25"
+          # do not exist anywhere in the confirmed analytics.py output shape
+          # (only mean_ale, std_dev, p50, p90, p95, p99 are ever returned) --
+          # these will resolve to None. Kept here since removing them wasn't
+          # requested, but flagging: frontend code relying on p5_ale/p25_ale
+          # will receive null, not real values.
           pm = analytics["portfolio_metrics"]
           mc_dict.setdefault("portfolio_metrics", {})
           mc_dict["portfolio_metrics"].update({
