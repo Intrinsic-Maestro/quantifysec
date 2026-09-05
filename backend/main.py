@@ -19,17 +19,19 @@ security = HTTPBearer()
 # Replace with your actual Supabase project JWT secret or use JWKS verification
 SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET", "fallback-secret")
 
+import os
+
+DISABLE_AUTH = os.getenv("DISABLE_AUTH", "false").lower() == "true"
+
 def verify_supabase_token(credentials: HTTPAuthorizationCredentials = Security(security)) -> dict:
-     """Validates the Supabase JWT sent from the Next.js frontend header."""
-     if os.getenv("DISABLE_AUTH") == "true":
+     if DISABLE_AUTH:
           return {"sub": "test-user", "email": "test@local", "role": "ciso"}
      
      token = credentials.credentials
      try:
-          # Decode and verify the token signature
           payload = jwt.decode(token, SUPABASE_JWT_SECRET, algorithms=["HS256"], audience="authenticated")
           return {
-               "sub": payload.get("sub"), # User UUID
+               "sub": payload.get("sub"),
                "email": payload.get("email"),
                "role": payload.get("app_metadata", {}).get("role", "ciso")
           }
