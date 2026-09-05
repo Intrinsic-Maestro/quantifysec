@@ -1,3 +1,4 @@
+from backend import db
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Dict, Any
@@ -11,27 +12,45 @@ from dotenv import load_dotenv
 from fastapi import Depends, HTTPException, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import jwt # Make sure PyJWT is installed in your requirements.txt
-import db
+from .db import *
 
 
-security = HTTPBearer()
+# ============================================================
+# Fix for main.py — replace the existing auth setup block with this.
+# The bug: HTTPBearer() defaults to auto_error=True, meaning it
+# rejects requests with NO Authorization header BEFORE
+# verify_supabase_token() ever runs -- so any DISABLE_AUTH check
+# inside that function never gets a chance to execute.
+# Fix: HTTPBearer(auto_error=False) lets the request through with
+# credentials=None, so the function itself can check DISABLE_AUTH first.
+# ============================================================
+
+DISABLE_AUTH = os.getenv("DISABLE_AUTH", "false").lower() == "true"
+
+# auto_error=False is the key change -- was previously HTTPBearer() with
+# no arguments, which auto-rejects any request missing the header.
+security = HTTPBearer(auto_error=False)
 
 # Replace with your actual Supabase project JWT secret or use JWKS verification
 SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET", "fallback-secret")
 
-import os
-
-DISABLE_AUTH = os.getenv("DISABLE_AUTH", "false").lower() == "true"
 
 def verify_supabase_token(credentials: HTTPAuthorizationCredentials = Security(security)) -> dict:
+     """Validates the Supabase JWT sent from the Next.js frontend header."""
      if DISABLE_AUTH:
+          # Local/demo bypass -- returns a fake user so downstream code
+          # that reads `user["sub"]` etc. doesn't break.
           return {"sub": "test-user", "email": "test@local", "role": "ciso"}
-     
+
+     if credentials is None:
+          raise HTTPException(status_code=401, detail="Missing authentication token.")
+
      token = credentials.credentials
      try:
+          # Decode and verify the token signature
           payload = jwt.decode(token, SUPABASE_JWT_SECRET, algorithms=["HS256"], audience="authenticated")
           return {
-               "sub": payload.get("sub"),
+               "sub": payload.get("sub"), # User UUID
                "email": payload.get("email"),
                "role": payload.get("app_metadata", {}).get("role", "ciso")
           }
@@ -39,16 +58,14 @@ def verify_supabase_token(credentials: HTTPAuthorizationCredentials = Security(s
           raise HTTPException(status_code=401, detail="Invalid authentication token or expired session.")
 
 
-
-
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(ROOT_DIR))
 
 from data_ingestion.ingestion import load_json_file, ingest_assets, ingest_vulnerabilities
 
-from math_engine.monte_carlo.simulator import run_portfolio_simulation
-from math_engine.monte_carlo.analytics import generate_portfolio_analytics_summary
-from math_engine.monte_carlo.schema_exporter import serialize_simulation_results
+from .math_engine.monte_carlo.simulator import run_portfolio_simulation
+from .math_engine.monte_carlo.analytics import generate_portfolio_analytics_summary
+from .math_engine.monte_carlo.schema_exporter import serialize_simulation_results
 
 from knapsack_solver.solver import solve_knapsack
 from knapsack_solver.data import get_sample_controls, DEFAULT_BUDGET_LAKH
