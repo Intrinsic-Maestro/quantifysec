@@ -1,0 +1,6 @@
+[project]
+name = "quantifysec-backend"
+version = "0.1.0"
+
+[tool.vercel]
+entrypoint = "backend.main:app"
