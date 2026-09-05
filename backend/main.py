@@ -13,6 +13,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import jwt # Make sure PyJWT is installed in your requirements.txt
 import db
 
+
 security = HTTPBearer()
 
 # Replace with your actual Supabase project JWT secret or use JWKS verification
@@ -34,7 +35,8 @@ def verify_supabase_token(credentials: HTTPAuthorizationCredentials = Security(s
           }
      except jwt.PyJWTError:
           raise HTTPException(status_code=401, detail="Invalid authentication token or expired session.")
-    
+
+
 
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -58,12 +60,16 @@ app = FastAPI(
      description="End-to-End Cyber Risk Quantification & Optimization Pipeline"
 )
 
+    
+
 app.add_middleware(
-     CORSMiddleware,
-     allow_origins=["*"],
-     allow_methods=["*"],
-     allow_headers=["*"],
+    CORSMiddleware,
+    allow_origins=["*"],  # Update to ["http://localhost:3000"] for stricter security
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
 
 
 def build_mc_payload(valid_assets: list, valid_vulns: list) -> List[Dict[str, Any]]:
