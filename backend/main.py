@@ -258,7 +258,7 @@ def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
                "technical_drilldown": vuln_drilldown # <-- Handing this directly to the frontend
           }
           
-        except HTTPException:
+     except HTTPException:
           raise
-        except Exception as e:
+     except Exception as e:
           raise HTTPException(status_code=500, detail=str(e))
