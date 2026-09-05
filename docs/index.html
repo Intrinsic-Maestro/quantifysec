@@ -1597,7 +1597,9 @@
         const API_BASE = "https://quantifysec-production.up.railway.app";
 
         async function runPipeline() {
-            const response = await fetch(`${API_BASE}/api/run-pipeline`);
+            const response = await fetch(`${API_BASE}/api/run-pipeline`, {
+                method: "POST",
+            });
             if (!response.ok) {
                 throw new Error(`Pipeline call failed: ${response.status} ${response.statusText}`);
             }
