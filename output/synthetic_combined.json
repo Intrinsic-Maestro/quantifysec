@@ -1,7 +1,7 @@
 [
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ffba0d6d",
+    "finding_uid": "FINDING-12356891",
     "cve": {
       "uid": "CVE-2022-39859",
       "cvss": {
@@ -34,11 +34,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 315835268.52
     },
-    "time": "2026-06-26T04:20:48Z"
+    "time": "2026-06-26T08:05:57Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6813d706",
+    "finding_uid": "FINDING-2f303b68",
     "cve": {
       "uid": "CVE-2019-8730",
       "cvss": {
@@ -71,11 +71,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 35869189.57
     },
-    "time": "2026-08-19T09:43:15Z"
+    "time": "2026-08-19T13:28:24Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-bd32626b",
+    "finding_uid": "FINDING-564dcbce",
     "cve": {
       "uid": "CVE-2019-2426",
       "cvss": {
@@ -108,11 +108,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 250574004.82
     },
-    "time": "2026-07-03T10:55:27Z"
+    "time": "2026-07-03T14:40:36Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d045c4f6",
+    "finding_uid": "FINDING-c5c12754",
     "cve": {
       "uid": "CVE-2020-4650",
       "cvss": {
@@ -145,11 +145,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 629899671.19
     },
-    "time": "2026-06-18T20:06:42Z"
+    "time": "2026-06-18T23:51:51Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-eaa36e1f",
+    "finding_uid": "FINDING-c543e5b3",
     "cve": {
       "uid": "CVE-2020-4344",
       "cvss": {
@@ -182,11 +182,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 14673608.47
     },
-    "time": "2026-07-03T15:37:15Z"
+    "time": "2026-07-03T19:22:24Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-0dea87b2",
+    "finding_uid": "FINDING-41faa1da",
     "cve": {
       "uid": "CVE-2020-9102",
       "cvss": {
@@ -219,11 +219,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 47219793.17
     },
-    "time": "2026-06-15T00:07:41Z"
+    "time": "2026-06-15T03:52:50Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-af7812c6",
+    "finding_uid": "FINDING-57965c5d",
     "cve": {
       "uid": "CVE-2020-3830",
       "cvss": {
@@ -256,11 +256,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 178445952.41
     },
-    "time": "2026-06-18T11:13:40Z"
+    "time": "2026-06-18T14:58:49Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-8381224b",
+    "finding_uid": "FINDING-d978fa32",
     "cve": {
       "uid": "CVE-2019-5308",
       "cvss": {
@@ -293,11 +293,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 160942130.02
     },
-    "time": "2026-08-05T14:26:37Z"
+    "time": "2026-08-05T18:11:46Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-2ceae1a1",
+    "finding_uid": "FINDING-21b3af56",
     "cve": {
       "uid": "CVE-2022-28790",
       "cvss": {
@@ -330,11 +330,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 163407719.67
     },
-    "time": "2026-08-30T09:29:51Z"
+    "time": "2026-08-30T13:15:00Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1739b74c",
+    "finding_uid": "FINDING-5da8756a",
     "cve": {
       "uid": "CVE-2019-15335",
       "cvss": {
@@ -367,11 +367,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 89858809.02
     },
-    "time": "2026-08-12T01:29:40Z"
+    "time": "2026-08-12T05:14:49Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-66de2b7c",
+    "finding_uid": "FINDING-8b4a58da",
     "cve": {
       "uid": "CVE-2022-33718",
       "cvss": {
@@ -404,11 +404,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 589427556.89
     },
-    "time": "2026-07-13T14:20:38Z"
+    "time": "2026-07-13T18:05:47Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-9f1d18f3",
+    "finding_uid": "FINDING-dd5b00b2",
     "cve": {
       "uid": "CVE-2021-36282",
       "cvss": {
@@ -441,11 +441,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 451708990.58
     },
-    "time": "2026-07-20T07:10:59Z"
+    "time": "2026-07-20T10:56:08Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-05a4a4bf",
+    "finding_uid": "FINDING-e8882c74",
     "cve": {
       "uid": "CVE-2019-4218",
       "cvss": {
@@ -478,11 +478,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 243734366.5
     },
-    "time": "2026-08-30T21:28:48Z"
+    "time": "2026-08-31T01:13:57Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6a7eb977",
+    "finding_uid": "FINDING-92dade8a",
     "cve": {
       "uid": "CVE-2019-4207",
       "cvss": {
@@ -515,11 +515,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 660128966.98
     },
-    "time": "2026-07-09T14:32:17Z"
+    "time": "2026-07-09T18:17:26Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-971a4f5d",
+    "finding_uid": "FINDING-253a2e08",
     "cve": {
       "uid": "CVE-2019-15424",
       "cvss": {
@@ -552,11 +552,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 184299902.37
     },
-    "time": "2026-08-30T19:23:33Z"
+    "time": "2026-08-30T23:08:42Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-02283c1f",
+    "finding_uid": "FINDING-6deb10b3",
     "cve": {
       "uid": "CVE-2020-15101",
       "cvss": {
@@ -589,11 +589,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 89251266.86
     },
-    "time": "2026-06-15T04:47:58Z"
+    "time": "2026-06-15T08:33:07Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-3c5e018c",
+    "finding_uid": "FINDING-71dace1b",
     "cve": {
       "uid": "CVE-2020-9710",
       "cvss": {
@@ -626,11 +626,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 338573826.76
     },
-    "time": "2026-07-25T06:14:23Z"
+    "time": "2026-07-25T09:59:32Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-8d9228ed",
+    "finding_uid": "FINDING-67af137d",
     "cve": {
       "uid": "CVE-2022-0474",
       "cvss": {
@@ -663,11 +663,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 80104385.45
     },
-    "time": "2026-07-08T12:55:44Z"
+    "time": "2026-07-08T16:40:53Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1997c927",
+    "finding_uid": "FINDING-b0838556",
     "cve": {
       "uid": "CVE-2022-20305",
       "cvss": {
@@ -700,11 +700,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 431912462.31
     },
-    "time": "2026-06-23T08:10:48Z"
+    "time": "2026-06-23T11:55:57Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-a743e508",
+    "finding_uid": "FINDING-efca06ac",
     "cve": {
       "uid": "CVE-2019-3815",
       "cvss": {
@@ -737,11 +737,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 115594095.79
     },
-    "time": "2026-08-21T13:56:42Z"
+    "time": "2026-08-21T17:41:51Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-43cebede",
+    "finding_uid": "FINDING-d9edbbd1",
     "cve": {
       "uid": "CVE-2022-33981",
       "cvss": {
@@ -774,11 +774,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 185616807.51
     },
-    "time": "2026-08-04T21:46:26Z"
+    "time": "2026-08-05T01:31:35Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-15b87862",
+    "finding_uid": "FINDING-7e03c2eb",
     "cve": {
       "uid": "CVE-2020-11043",
       "cvss": {
@@ -811,11 +811,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 108321562.69
     },
-    "time": "2026-07-30T00:01:43Z"
+    "time": "2026-07-30T03:46:52Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-68af6fbe",
+    "finding_uid": "FINDING-28857e19",
     "cve": {
       "uid": "CVE-2021-38591",
       "cvss": {
@@ -848,11 +848,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 418343377.86
     },
-    "time": "2026-08-16T01:40:11Z"
+    "time": "2026-08-16T05:25:20Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c90ffb20",
+    "finding_uid": "FINDING-314a9ed4",
     "cve": {
       "uid": "CVE-2020-14548",
       "cvss": {
@@ -885,11 +885,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 191831385.06
     },
-    "time": "2026-06-17T14:11:20Z"
+    "time": "2026-06-17T17:56:29Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-0112713f",
+    "finding_uid": "FINDING-66663b74",
     "cve": {
       "uid": "CVE-2021-25486",
       "cvss": {
@@ -922,11 +922,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 62712069.52
     },
-    "time": "2026-06-12T10:23:29Z"
+    "time": "2026-06-12T14:08:38Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-0a422f04",
+    "finding_uid": "FINDING-ad849ed5",
     "cve": {
       "uid": "CVE-2022-2456",
       "cvss": {
@@ -959,11 +959,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 113542594.25
     },
-    "time": "2026-06-24T21:39:12Z"
+    "time": "2026-06-25T01:24:21Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4d74f081",
+    "finding_uid": "FINDING-64bc134e",
     "cve": {
       "uid": "CVE-2020-4886",
       "cvss": {
@@ -996,11 +996,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 404364833.95
     },
-    "time": "2026-08-23T12:44:08Z"
+    "time": "2026-08-23T16:29:17Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-cf8c5321",
+    "finding_uid": "FINDING-6b540650",
     "cve": {
       "uid": "CVE-2017-5928",
       "cvss": {
@@ -1033,11 +1033,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 337360490.28
     },
-    "time": "2026-06-19T12:54:37Z"
+    "time": "2026-06-19T16:39:47Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f946c1a3",
+    "finding_uid": "FINDING-a169df5a",
     "cve": {
       "uid": "CVE-2020-9776",
       "cvss": {
@@ -1070,11 +1070,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 355133309.41
     },
-    "time": "2026-06-06T12:19:05Z"
+    "time": "2026-06-06T16:04:15Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1d0d4ddc",
+    "finding_uid": "FINDING-1f04c17f",
     "cve": {
       "uid": "CVE-2021-20761",
       "cvss": {
@@ -1107,11 +1107,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 362176551.77
     },
-    "time": "2026-06-19T06:43:10Z"
+    "time": "2026-06-19T10:28:19Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-31e5c5e8",
+    "finding_uid": "FINDING-5aa4327c",
     "cve": {
       "uid": "CVE-2019-14850",
       "cvss": {
@@ -1144,11 +1144,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 2320588838.84
     },
-    "time": "2026-06-28T19:36:23Z"
+    "time": "2026-06-28T23:21:32Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-cb07832a",
+    "finding_uid": "FINDING-f568ec43",
     "cve": {
       "uid": "CVE-2019-20598",
       "cvss": {
@@ -1181,11 +1181,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 107044502.45
     },
-    "time": "2026-08-04T18:04:40Z"
+    "time": "2026-08-04T21:49:50Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d87aca2f",
+    "finding_uid": "FINDING-e1f3a5b6",
     "cve": {
       "uid": "CVE-2019-4705",
       "cvss": {
@@ -1218,11 +1218,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 69975663.06
     },
-    "time": "2026-06-07T14:17:30Z"
+    "time": "2026-06-07T18:02:39Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-5b350944",
+    "finding_uid": "FINDING-fbb38780",
     "cve": {
       "uid": "CVE-2021-21493",
       "cvss": {
@@ -1246,7 +1246,7 @@
       "type": "Customer KYC Database",
       "criticality": 5,
       "internet_facing": false,
-      "annual_revenue_dependency_inr": -1889312487
+      "annual_revenue_dependency_inr": 74899602
     },
     "loss_parameters": {
       "distribution": "lognormal",
@@ -1255,11 +1255,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 93772945.88
     },
-    "time": "2026-06-27T16:07:32Z"
+    "time": "2026-06-27T19:52:41Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-7432767b",
+    "finding_uid": "FINDING-865be79c",
     "cve": {
       "uid": "CVE-2019-15422",
       "cvss": {
@@ -1292,11 +1292,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 442817756.77
     },
-    "time": "2026-06-21T22:33:55Z"
+    "time": "2026-06-22T02:19:04Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-3606aa6d",
+    "finding_uid": "FINDING-b0b48c70",
     "cve": {
       "uid": "CVE-2021-31153",
       "cvss": {
@@ -1329,11 +1329,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 661370806.25
     },
-    "time": "2026-08-12T00:18:16Z"
+    "time": "2026-08-12T04:03:25Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-02911c69",
+    "finding_uid": "FINDING-1959220f",
     "cve": {
       "uid": "CVE-2019-15744",
       "cvss": {
@@ -1366,11 +1366,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 107832240.12
     },
-    "time": "2026-08-12T08:49:49Z"
+    "time": "2026-08-12T12:34:58Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c682c5ab",
+    "finding_uid": "FINDING-1899da07",
     "cve": {
       "uid": "CVE-2021-31404",
       "cvss": {
@@ -1403,11 +1403,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 91124942.11
     },
-    "time": "2026-08-15T06:42:37Z"
+    "time": "2026-08-15T10:27:46Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1725cd13",
+    "finding_uid": "FINDING-11360a0b",
     "cve": {
       "uid": "CVE-2021-25351",
       "cvss": {
@@ -1440,11 +1440,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 92689035.5
     },
-    "time": "2026-06-16T01:45:00Z"
+    "time": "2026-06-16T05:30:09Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-35be05a0",
+    "finding_uid": "FINDING-0a3c71d2",
     "cve": {
       "uid": "CVE-2022-20311",
       "cvss": {
@@ -1477,11 +1477,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 393443719.33
     },
-    "time": "2026-08-30T08:17:28Z"
+    "time": "2026-08-30T12:02:37Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-0e7496a6",
+    "finding_uid": "FINDING-6cb2100f",
     "cve": {
       "uid": "CVE-2019-8799",
       "cvss": {
@@ -1514,11 +1514,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 508436583.95
     },
-    "time": "2026-08-15T17:57:49Z"
+    "time": "2026-08-15T21:42:58Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-46eff221",
+    "finding_uid": "FINDING-85374fbf",
     "cve": {
       "uid": "CVE-2019-2876",
       "cvss": {
@@ -1551,11 +1551,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 220080201.27
     },
-    "time": "2026-07-23T04:31:41Z"
+    "time": "2026-07-23T08:16:50Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-94f5bad1",
+    "finding_uid": "FINDING-314d96f2",
     "cve": {
       "uid": "CVE-2021-39901",
       "cvss": {
@@ -1588,11 +1588,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 59248801.55
     },
-    "time": "2026-09-01T00:29:24Z"
+    "time": "2026-09-01T04:14:33Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-499491a4",
+    "finding_uid": "FINDING-351a1192",
     "cve": {
       "uid": "CVE-2022-28775",
       "cvss": {
@@ -1625,11 +1625,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 142743168.43
     },
-    "time": "2026-07-19T08:47:40Z"
+    "time": "2026-07-19T12:32:49Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-28a15936",
+    "finding_uid": "FINDING-914b1953",
     "cve": {
       "uid": "CVE-2019-19411",
       "cvss": {
@@ -1662,11 +1662,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 138514529.33
     },
-    "time": "2026-08-07T00:09:50Z"
+    "time": "2026-08-07T03:54:59Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1d0f36ba",
+    "finding_uid": "FINDING-ddf39173",
     "cve": {
       "uid": "CVE-2021-22745",
       "cvss": {
@@ -1699,11 +1699,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 246169334.68
     },
-    "time": "2026-08-27T03:08:50Z"
+    "time": "2026-08-27T06:53:59Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-836fef54",
+    "finding_uid": "FINDING-5053dabe",
     "cve": {
       "uid": "CVE-2019-4395",
       "cvss": {
@@ -1736,11 +1736,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 314316256.79
     },
-    "time": "2026-06-13T12:42:03Z"
+    "time": "2026-06-13T16:27:12Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-fd7b68d5",
+    "finding_uid": "FINDING-b673a19f",
     "cve": {
       "uid": "CVE-2022-1783",
       "cvss": {
@@ -1773,11 +1773,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 289208282.53
     },
-    "time": "2026-06-12T04:04:01Z"
+    "time": "2026-06-12T07:49:10Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-9dcb6dda",
+    "finding_uid": "FINDING-00a72cef",
     "cve": {
       "uid": "CVE-2020-25666",
       "cvss": {
@@ -1810,11 +1810,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 474132063.31
     },
-    "time": "2026-08-02T05:38:21Z"
+    "time": "2026-08-02T09:23:30Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1ca81d3f",
+    "finding_uid": "FINDING-80862eb1",
     "cve": {
       "uid": "CVE-2022-36062",
       "cvss": {
@@ -1847,11 +1847,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 244144444.98
     },
-    "time": "2026-07-05T12:35:38Z"
+    "time": "2026-07-05T16:20:47Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-dbc94b0f",
+    "finding_uid": "FINDING-07e89f74",
     "cve": {
       "uid": "CVE-2022-29053",
       "cvss": {
@@ -1884,11 +1884,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 136658672.2
     },
-    "time": "2026-07-24T00:11:46Z"
+    "time": "2026-07-24T03:56:55Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-732cae3f",
+    "finding_uid": "FINDING-13ff6bac",
     "cve": {
       "uid": "CVE-2021-21534",
       "cvss": {
@@ -1921,11 +1921,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 450239232.3
     },
-    "time": "2026-07-30T17:54:55Z"
+    "time": "2026-07-30T21:40:04Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-aefcd3aa",
+    "finding_uid": "FINDING-e8c2759d",
     "cve": {
       "uid": "CVE-2022-35648",
       "cvss": {
@@ -1958,11 +1958,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 39907144.52
     },
-    "time": "2026-08-08T10:02:13Z"
+    "time": "2026-08-08T13:47:22Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-43ec0c65",
+    "finding_uid": "FINDING-97844a50",
     "cve": {
       "uid": "CVE-2020-11932",
       "cvss": {
@@ -1995,11 +1995,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 86247614.92
     },
-    "time": "2026-08-03T20:10:24Z"
+    "time": "2026-08-03T23:55:33Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-985146b5",
+    "finding_uid": "FINDING-c329d969",
     "cve": {
       "uid": "CVE-2019-2933",
       "cvss": {
@@ -2032,11 +2032,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 136143006.45
     },
-    "time": "2026-08-10T03:12:27Z"
+    "time": "2026-08-10T06:57:36Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e97196bc",
+    "finding_uid": "FINDING-c02555eb",
     "cve": {
       "uid": "CVE-2015-7559",
       "cvss": {
@@ -2069,11 +2069,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 113381672.74
     },
-    "time": "2026-07-16T21:33:07Z"
+    "time": "2026-07-17T01:18:16Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d6d684a7",
+    "finding_uid": "FINDING-445649f5",
     "cve": {
       "uid": "CVE-2020-13523",
       "cvss": {
@@ -2106,11 +2106,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 144007805.06
     },
-    "time": "2026-07-06T18:17:08Z"
+    "time": "2026-07-06T22:02:18Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-2b90c7a7",
+    "finding_uid": "FINDING-4790c76f",
     "cve": {
       "uid": "CVE-2020-27767",
       "cvss": {
@@ -2143,11 +2143,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 1149919505.45
     },
-    "time": "2026-07-13T16:43:52Z"
+    "time": "2026-07-13T20:29:01Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1f555bea",
+    "finding_uid": "FINDING-9c6742cf",
     "cve": {
       "uid": "CVE-2013-1945",
       "cvss": {
@@ -2180,11 +2180,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 88619914.39
     },
-    "time": "2026-07-14T16:00:13Z"
+    "time": "2026-07-14T19:45:22Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-2a257aff",
+    "finding_uid": "FINDING-a03db9cd",
     "cve": {
       "uid": "CVE-2019-18458",
       "cvss": {
@@ -2217,11 +2217,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 649140546.37
     },
-    "time": "2026-07-09T22:41:01Z"
+    "time": "2026-07-10T02:26:10Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4ec2ed31",
+    "finding_uid": "FINDING-44b4a4f5",
     "cve": {
       "uid": "CVE-2016-2073",
       "cvss": {
@@ -2254,11 +2254,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 36499469.67
     },
-    "time": "2026-08-28T07:50:28Z"
+    "time": "2026-08-28T11:35:37Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-0f86fe68",
+    "finding_uid": "FINDING-fca263cc",
     "cve": {
       "uid": "CVE-2013-0375",
       "cvss": {
@@ -2291,11 +2291,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 157717390.7
     },
-    "time": "2026-08-20T02:49:14Z"
+    "time": "2026-08-20T06:34:23Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-5e7b59b1",
+    "finding_uid": "FINDING-620586b0",
     "cve": {
       "uid": "CVE-2016-2107",
       "cvss": {
@@ -2328,11 +2328,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 270721453.34
     },
-    "time": "2026-06-14T22:46:21Z"
+    "time": "2026-06-15T02:31:30Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e4e7111b",
+    "finding_uid": "FINDING-1875de2e",
     "cve": {
       "uid": "CVE-2015-7744",
       "cvss": {
@@ -2365,11 +2365,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 314489606.28
     },
-    "time": "2026-08-18T07:36:54Z"
+    "time": "2026-08-18T11:22:03Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-066cf6bb",
+    "finding_uid": "FINDING-b45e74b5",
     "cve": {
       "uid": "CVE-2009-3278",
       "cvss": {
@@ -2402,11 +2402,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 491060893.63
     },
-    "time": "2026-07-29T00:57:29Z"
+    "time": "2026-07-29T04:42:38Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ea61f11b",
+    "finding_uid": "FINDING-d49e1d04",
     "cve": {
       "uid": "CVE-2015-8782",
       "cvss": {
@@ -2439,11 +2439,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 262519807.23
     },
-    "time": "2026-07-05T22:13:43Z"
+    "time": "2026-07-06T01:58:52Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-9796fcfd",
+    "finding_uid": "FINDING-e087d579",
     "cve": {
       "uid": "CVE-2016-0030",
       "cvss": {
@@ -2476,11 +2476,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 83569500.84
     },
-    "time": "2026-07-08T01:57:55Z"
+    "time": "2026-07-08T05:43:04Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d3b35b52",
+    "finding_uid": "FINDING-e3bab8c5",
     "cve": {
       "uid": "CVE-2011-4107",
       "cvss": {
@@ -2513,11 +2513,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 137333750.84
     },
-    "time": "2026-08-12T18:48:27Z"
+    "time": "2026-08-12T22:33:36Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-703aacb4",
+    "finding_uid": "FINDING-716c6117",
     "cve": {
       "uid": "CVE-2012-3552",
       "cvss": {
@@ -2550,11 +2550,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 309758777.14
     },
-    "time": "2026-08-10T03:41:04Z"
+    "time": "2026-08-10T07:26:13Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-8e5bab70",
+    "finding_uid": "FINDING-1980e64a",
     "cve": {
       "uid": "CVE-2005-1674",
       "cvss": {
@@ -2587,11 +2587,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 184323125.91
     },
-    "time": "2026-07-30T07:04:45Z"
+    "time": "2026-07-30T10:49:54Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-5ff5d827",
+    "finding_uid": "FINDING-14fd5bf2",
     "cve": {
       "uid": "CVE-2009-4449",
       "cvss": {
@@ -2624,11 +2624,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 48597728.97
     },
-    "time": "2026-07-28T06:29:51Z"
+    "time": "2026-07-28T10:15:00Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-49443401",
+    "finding_uid": "FINDING-3a28d9c2",
     "cve": {
       "uid": "CVE-2016-1445",
       "cvss": {
@@ -2661,11 +2661,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 66286053.05
     },
-    "time": "2026-08-04T08:44:38Z"
+    "time": "2026-08-04T12:29:47Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c28b409c",
+    "finding_uid": "FINDING-2675529a",
     "cve": {
       "uid": "CVE-2011-3353",
       "cvss": {
@@ -2698,11 +2698,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 83608074.06
     },
-    "time": "2026-06-15T23:56:42Z"
+    "time": "2026-06-16T03:41:51Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ce640c76",
+    "finding_uid": "FINDING-7e0a49ad",
     "cve": {
       "uid": "CVE-2016-6418",
       "cvss": {
@@ -2735,11 +2735,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 190329515.45
     },
-    "time": "2026-07-09T08:07:31Z"
+    "time": "2026-07-09T11:52:40Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-0d5ec83e",
+    "finding_uid": "FINDING-9e75a429",
     "cve": {
       "uid": "CVE-2016-1115",
       "cvss": {
@@ -2772,11 +2772,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 226607866.58
     },
-    "time": "2026-07-27T22:14:58Z"
+    "time": "2026-07-28T02:00:07Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-cdc560ee",
+    "finding_uid": "FINDING-6193b55b",
     "cve": {
       "uid": "CVE-2016-7423",
       "cvss": {
@@ -2809,11 +2809,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 410858712.81
     },
-    "time": "2026-08-21T07:43:43Z"
+    "time": "2026-08-21T11:28:52Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-90a4db35",
+    "finding_uid": "FINDING-ff021af5",
     "cve": {
       "uid": "CVE-2012-0518",
       "cvss": {
@@ -2846,11 +2846,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 104649978.55
     },
-    "time": "2026-08-18T21:59:43Z"
+    "time": "2026-08-19T01:44:53Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-96956f30",
+    "finding_uid": "FINDING-b295ca09",
     "cve": {
       "uid": "CVE-2016-6298",
       "cvss": {
@@ -2883,11 +2883,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 197673362.6
     },
-    "time": "2026-08-03T02:25:25Z"
+    "time": "2026-08-03T06:10:34Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-682f35a8",
+    "finding_uid": "FINDING-4c7a72f5",
     "cve": {
       "uid": "CVE-2011-4097",
       "cvss": {
@@ -2920,11 +2920,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 240685940.64
     },
-    "time": "2026-08-28T21:00:56Z"
+    "time": "2026-08-29T00:46:05Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-762927c8",
+    "finding_uid": "FINDING-cf3212b2",
     "cve": {
       "uid": "CVE-2014-3611",
       "cvss": {
@@ -2957,11 +2957,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 87219846.62
     },
-    "time": "2026-06-30T07:52:50Z"
+    "time": "2026-06-30T11:37:59Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-071f5d8b",
+    "finding_uid": "FINDING-757311c6",
     "cve": {
       "uid": "CVE-2004-1464",
       "cvss": {
@@ -2994,11 +2994,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 318782903.39
     },
-    "time": "2026-08-08T12:01:22Z"
+    "time": "2026-08-08T15:46:31Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c4ff7d97",
+    "finding_uid": "FINDING-810dae13",
     "cve": {
       "uid": "CVE-2012-0058",
       "cvss": {
@@ -3031,11 +3031,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 110579691.14
     },
-    "time": "2026-07-06T20:12:53Z"
+    "time": "2026-07-06T23:58:02Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-fc5c2e34",
+    "finding_uid": "FINDING-78175f96",
     "cve": {
       "uid": "CVE-2002-1713",
       "cvss": {
@@ -3068,11 +3068,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 152966949.36
     },
-    "time": "2026-08-23T13:05:49Z"
+    "time": "2026-08-23T16:50:58Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-392e5c49",
+    "finding_uid": "FINDING-a16d02a0",
     "cve": {
       "uid": "CVE-2014-4806",
       "cvss": {
@@ -3105,11 +3105,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 128269896.51
     },
-    "time": "2026-07-12T07:53:15Z"
+    "time": "2026-07-12T11:38:24Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-299b1794",
+    "finding_uid": "FINDING-d0d54ea9",
     "cve": {
       "uid": "CVE-2015-7560",
       "cvss": {
@@ -3142,11 +3142,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 61933816.48
     },
-    "time": "2026-08-02T05:50:42Z"
+    "time": "2026-08-02T09:35:51Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-dee8654b",
+    "finding_uid": "FINDING-09af5213",
     "cve": {
       "uid": "CVE-2012-3489",
       "cvss": {
@@ -3179,11 +3179,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 207057278.85
     },
-    "time": "2026-08-12T09:47:41Z"
+    "time": "2026-08-12T13:32:50Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ba0fa6e4",
+    "finding_uid": "FINDING-7cc59e9d",
     "cve": {
       "uid": "CVE-2005-0587",
       "cvss": {
@@ -3216,11 +3216,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 136286504.59
     },
-    "time": "2026-07-14T01:01:54Z"
+    "time": "2026-07-14T04:47:03Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-0567971b",
+    "finding_uid": "FINDING-303d324d",
     "cve": {
       "uid": "CVE-2012-0930",
       "cvss": {
@@ -3253,11 +3253,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 229971251.29
     },
-    "time": "2026-07-09T13:30:29Z"
+    "time": "2026-07-09T17:15:38Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-324c9629",
+    "finding_uid": "FINDING-c90946e6",
     "cve": {
       "uid": "CVE-2016-6207",
       "cvss": {
@@ -3290,11 +3290,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 382349873.87
     },
-    "time": "2026-08-15T04:09:30Z"
+    "time": "2026-08-15T07:54:39Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-808e5cda",
+    "finding_uid": "FINDING-a2aed98a",
     "cve": {
       "uid": "CVE-2016-5660",
       "cvss": {
@@ -3327,11 +3327,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 315257050.65
     },
-    "time": "2026-06-13T21:42:02Z"
+    "time": "2026-06-14T01:27:11Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6f393016",
+    "finding_uid": "FINDING-6fa9c84b",
     "cve": {
       "uid": "CVE-2016-2391",
       "cvss": {
@@ -3364,11 +3364,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 399813446.61
     },
-    "time": "2026-06-20T10:11:56Z"
+    "time": "2026-06-20T13:57:05Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-8d8348fa",
+    "finding_uid": "FINDING-534be387",
     "cve": {
       "uid": "CVE-2016-2774",
       "cvss": {
@@ -3401,11 +3401,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 139569648.84
     },
-    "time": "2026-08-05T21:57:57Z"
+    "time": "2026-08-06T01:43:06Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d159a871",
+    "finding_uid": "FINDING-f032965a",
     "cve": {
       "uid": "CVE-2016-3718",
       "cvss": {
@@ -3438,11 +3438,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 77070028.12
     },
-    "time": "2026-08-04T19:58:51Z"
+    "time": "2026-08-04T23:44:01Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d291dfa5",
+    "finding_uid": "FINDING-fbced91e",
     "cve": {
       "uid": "CVE-2009-1466",
       "cvss": {
@@ -3475,11 +3475,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 208062680.0
     },
-    "time": "2026-07-16T01:00:32Z"
+    "time": "2026-07-16T04:45:41Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4e59efc4",
+    "finding_uid": "FINDING-2c63715e",
     "cve": {
       "uid": "CVE-2012-2993",
       "cvss": {
@@ -3512,11 +3512,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 19537788.21
     },
-    "time": "2026-08-13T04:52:14Z"
+    "time": "2026-08-13T08:37:23Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-65771742",
+    "finding_uid": "FINDING-7abf4661",
     "cve": {
       "uid": "CVE-2009-1243",
       "cvss": {
@@ -3549,11 +3549,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 25359652.6
     },
-    "time": "2026-07-14T22:48:25Z"
+    "time": "2026-07-15T02:33:34Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f549adab",
+    "finding_uid": "FINDING-7844195a",
     "cve": {
       "uid": "CVE-2011-3363",
       "cvss": {
@@ -3586,11 +3586,11 @@
       "mean_inr_millions": 260,
       "sampled_loss_inr": 34306487.39
     },
-    "time": "2026-08-06T07:43:25Z"
+    "time": "2026-08-06T11:28:34Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-70541f06",
+    "finding_uid": "FINDING-28bb982a",
     "cve": {
       "uid": "CVE-2012-1342",
       "cvss": {
@@ -3623,11 +3623,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 76836405.77
     },
-    "time": "2026-08-05T07:11:59Z"
+    "time": "2026-08-05T10:57:08Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-a567fc89",
+    "finding_uid": "FINDING-f7e648e6",
     "cve": {
       "uid": "CVE-2015-8553",
       "cvss": {
@@ -3660,11 +3660,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 350171950.15
     },
-    "time": "2026-07-11T19:57:44Z"
+    "time": "2026-07-11T23:42:53Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d02c1e1f",
+    "finding_uid": "FINDING-b2f82078",
     "cve": {
       "uid": "CVE-2016-0821",
       "cvss": {
@@ -3697,11 +3697,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 45659460.78
     },
-    "time": "2026-06-06T22:47:51Z"
+    "time": "2026-06-07T02:33:00Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-8af31b0f",
+    "finding_uid": "FINDING-feb676b8",
     "cve": {
       "uid": "CVE-2016-0502",
       "cvss": {
@@ -3734,11 +3734,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 110378829.88
     },
-    "time": "2026-06-25T06:27:32Z"
+    "time": "2026-06-25T10:12:41Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-86a147eb",
+    "finding_uid": "FINDING-5ce4b127",
     "cve": {
       "uid": "CVE-2016-5105",
       "cvss": {
@@ -3771,11 +3771,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 500126769.33
     },
-    "time": "2026-06-29T06:06:56Z"
+    "time": "2026-06-29T09:52:05Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-46d3cbea",
+    "finding_uid": "FINDING-f4b3edcc",
     "cve": {
       "uid": "CVE-2009-1073",
       "cvss": {
@@ -3808,11 +3808,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 154098752.77
     },
-    "time": "2026-06-06T22:53:24Z"
+    "time": "2026-06-07T02:38:33Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ffbf5f65",
+    "finding_uid": "FINDING-9752f95b",
     "cve": {
       "uid": "CVE-2016-4825",
       "cvss": {
@@ -3845,11 +3845,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 505278667.91
     },
-    "time": "2026-06-22T01:41:39Z"
+    "time": "2026-06-22T05:26:48Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-82e42d63",
+    "finding_uid": "FINDING-959603ff",
     "cve": {
       "uid": "CVE-2016-5238",
       "cvss": {
@@ -3882,11 +3882,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 44285651.33
     },
-    "time": "2026-08-08T14:07:24Z"
+    "time": "2026-08-08T17:52:33Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f3c88ac9",
+    "finding_uid": "FINDING-0c6cb288",
     "cve": {
       "uid": "CVE-2005-3274",
       "cvss": {
@@ -3919,11 +3919,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 97635961.69
     },
-    "time": "2026-08-20T06:14:18Z"
+    "time": "2026-08-20T09:59:28Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-dfe2721d",
+    "finding_uid": "FINDING-1fbb7d40",
     "cve": {
       "uid": "CVE-2003-0981",
       "cvss": {
@@ -3956,11 +3956,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 69210355.47
     },
-    "time": "2026-06-12T17:52:35Z"
+    "time": "2026-06-12T21:37:44Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-91e138d7",
+    "finding_uid": "FINDING-733f6124",
     "cve": {
       "uid": "CVE-2007-5460",
       "cvss": {
@@ -3993,11 +3993,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 157008702.15
     },
-    "time": "2026-06-10T01:33:59Z"
+    "time": "2026-06-10T05:19:08Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6000133d",
+    "finding_uid": "FINDING-c38158f6",
     "cve": {
       "uid": "CVE-2009-2408",
       "cvss": {
@@ -4030,11 +4030,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 414391834.71
     },
-    "time": "2026-08-28T03:54:15Z"
+    "time": "2026-08-28T07:39:24Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c8264780",
+    "finding_uid": "FINDING-59759030",
     "cve": {
       "uid": "CVE-2009-3022",
       "cvss": {
@@ -4067,11 +4067,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 34779831.31
     },
-    "time": "2026-07-28T01:49:59Z"
+    "time": "2026-07-28T05:35:09Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-946d9c5b",
+    "finding_uid": "FINDING-4ae3812e",
     "cve": {
       "uid": "CVE-2016-0128",
       "cvss": {
@@ -4104,11 +4104,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 248922895.49
     },
-    "time": "2026-08-09T02:42:40Z"
+    "time": "2026-08-09T06:27:49Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-71108e09",
+    "finding_uid": "FINDING-ac87ef26",
     "cve": {
       "uid": "CVE-2014-2019",
       "cvss": {
@@ -4141,11 +4141,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 293682421.78
     },
-    "time": "2026-06-16T14:58:04Z"
+    "time": "2026-06-16T18:43:13Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1ef5d38f",
+    "finding_uid": "FINDING-7d4a4e4d",
     "cve": {
       "uid": "CVE-2016-5845",
       "cvss": {
@@ -4178,11 +4178,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 87306143.72
     },
-    "time": "2026-07-05T11:41:34Z"
+    "time": "2026-07-05T15:26:43Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e9b3f79d",
+    "finding_uid": "FINDING-354fb785",
     "cve": {
       "uid": "CVE-2010-3078",
       "cvss": {
@@ -4215,11 +4215,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 40390896.67
     },
-    "time": "2026-07-31T21:20:38Z"
+    "time": "2026-08-01T01:05:47Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b4b7f253",
+    "finding_uid": "FINDING-a6703282",
     "cve": {
       "uid": "CVE-2010-2942",
       "cvss": {
@@ -4252,11 +4252,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 119977046.89
     },
-    "time": "2026-08-28T00:53:46Z"
+    "time": "2026-08-28T04:38:55Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-a67879b2",
+    "finding_uid": "FINDING-c6be19af",
     "cve": {
       "uid": "CVE-2016-4159",
       "cvss": {
@@ -4289,11 +4289,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 62434574.96
     },
-    "time": "2026-08-21T06:16:47Z"
+    "time": "2026-08-21T10:01:56Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-556b420c",
+    "finding_uid": "FINDING-3850eacb",
     "cve": {
       "uid": "CVE-2012-1090",
       "cvss": {
@@ -4326,11 +4326,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 292073652.4
     },
-    "time": "2026-07-29T06:09:19Z"
+    "time": "2026-07-29T09:54:28Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d43987b2",
+    "finding_uid": "FINDING-65e19f22",
     "cve": {
       "uid": "CVE-2016-0230",
       "cvss": {
@@ -4363,11 +4363,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 124962577.99
     },
-    "time": "2026-07-11T21:02:58Z"
+    "time": "2026-07-12T00:48:07Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e4ee2e56",
+    "finding_uid": "FINDING-d6d08f33",
     "cve": {
       "uid": "CVE-2008-3281",
       "cvss": {
@@ -4400,11 +4400,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 1291346542.51
     },
-    "time": "2026-07-06T19:32:31Z"
+    "time": "2026-07-06T23:17:41Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-5e9209fa",
+    "finding_uid": "FINDING-bbe1162c",
     "cve": {
       "uid": "CVE-2012-5821",
       "cvss": {
@@ -4437,11 +4437,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 174953642.23
     },
-    "time": "2026-06-21T09:21:36Z"
+    "time": "2026-06-21T13:06:45Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-9594433f",
+    "finding_uid": "FINDING-f6cb22ad",
     "cve": {
       "uid": "CVE-2015-8784",
       "cvss": {
@@ -4474,11 +4474,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 74677453.13
     },
-    "time": "2026-06-16T12:29:27Z"
+    "time": "2026-06-16T16:14:36Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e3b29bb5",
+    "finding_uid": "FINDING-8de565db",
     "cve": {
       "uid": "CVE-2016-4441",
       "cvss": {
@@ -4511,11 +4511,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 275621624.36
     },
-    "time": "2026-08-26T18:59:11Z"
+    "time": "2026-08-26T22:44:20Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e46eef4d",
+    "finding_uid": "FINDING-af2d9885",
     "cve": {
       "uid": "CVE-2000-0338",
       "cvss": {
@@ -4548,11 +4548,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 246519190.36
     },
-    "time": "2026-08-10T17:19:56Z"
+    "time": "2026-08-10T21:05:05Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-0902654d",
+    "finding_uid": "FINDING-6d53ca44",
     "cve": {
       "uid": "CVE-2015-5521",
       "cvss": {
@@ -4585,11 +4585,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 485247656.45
     },
-    "time": "2026-08-18T14:40:24Z"
+    "time": "2026-08-18T18:25:33Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-674c8d0d",
+    "finding_uid": "FINDING-a4dd1980",
     "cve": {
       "uid": "CVE-2016-0777",
       "cvss": {
@@ -4622,11 +4622,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 412060309.83
     },
-    "time": "2026-06-19T10:30:46Z"
+    "time": "2026-06-19T14:15:56Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1e568ffd",
+    "finding_uid": "FINDING-c46aaa41",
     "cve": {
       "uid": "CVE-2004-1901",
       "cvss": {
@@ -4659,11 +4659,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 286015026.87
     },
-    "time": "2026-07-30T11:22:31Z"
+    "time": "2026-07-30T15:07:40Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f3d524bd",
+    "finding_uid": "FINDING-dbaf70ed",
     "cve": {
       "uid": "CVE-2015-8558",
       "cvss": {
@@ -4696,11 +4696,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 950793967.71
     },
-    "time": "2026-08-04T06:05:34Z"
+    "time": "2026-08-04T09:50:43Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-05a90d41",
+    "finding_uid": "FINDING-9eb7aa17",
     "cve": {
       "uid": "CVE-2015-7515",
       "cvss": {
@@ -4733,11 +4733,11 @@
       "mean_inr_millions": 260,
       "sampled_loss_inr": 39676115.98
     },
-    "time": "2026-08-14T19:32:43Z"
+    "time": "2026-08-14T23:17:52Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d2a29b63",
+    "finding_uid": "FINDING-2f3c1974",
     "cve": {
       "uid": "CVE-2016-6257",
       "cvss": {
@@ -4770,11 +4770,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 96932145.51
     },
-    "time": "2026-08-13T03:47:47Z"
+    "time": "2026-08-13T07:32:56Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6a11b44a",
+    "finding_uid": "FINDING-758f169a",
     "cve": {
       "uid": "CVE-2015-7513",
       "cvss": {
@@ -4807,11 +4807,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 70994750.84
     },
-    "time": "2026-07-16T15:49:43Z"
+    "time": "2026-07-16T19:34:53Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c7ce761c",
+    "finding_uid": "FINDING-68503277",
     "cve": {
       "uid": "CVE-2009-0141",
       "cvss": {
@@ -4844,11 +4844,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 79923740.7
     },
-    "time": "2026-07-27T01:29:44Z"
+    "time": "2026-07-27T05:14:53Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-80a075d2",
+    "finding_uid": "FINDING-054629d6",
     "cve": {
       "uid": "CVE-2015-8631",
       "cvss": {
@@ -4872,7 +4872,7 @@
       "type": "Mobile Banking Application Server",
       "criticality": 5,
       "internet_facing": false,
-      "annual_revenue_dependency_inr": -1454287566
+      "annual_revenue_dependency_inr": 122679142
     },
     "loss_parameters": {
       "distribution": "lognormal",
@@ -4881,11 +4881,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 50892791.45
     },
-    "time": "2026-08-01T11:09:38Z"
+    "time": "2026-08-01T14:54:47Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-87dc043e",
+    "finding_uid": "FINDING-544378f8",
     "cve": {
       "uid": "CVE-2014-8086",
       "cvss": {
@@ -4918,11 +4918,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 452131390.71
     },
-    "time": "2026-08-01T16:58:59Z"
+    "time": "2026-08-01T20:44:08Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ee18bc40",
+    "finding_uid": "FINDING-93ea5b3b",
     "cve": {
       "uid": "CVE-2016-4278",
       "cvss": {
@@ -4955,11 +4955,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 152524045.62
     },
-    "time": "2026-06-12T09:41:30Z"
+    "time": "2026-06-12T13:26:39Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-5e623e41",
+    "finding_uid": "FINDING-7a72368c",
     "cve": {
       "uid": "CVE-2016-5106",
       "cvss": {
@@ -4992,11 +4992,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 22468965.55
     },
-    "time": "2026-07-03T12:17:08Z"
+    "time": "2026-07-03T16:02:17Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-136321b9",
+    "finding_uid": "FINDING-7fa2e9a1",
     "cve": {
       "uid": "CVE-2009-2213",
       "cvss": {
@@ -5029,11 +5029,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 75322224.22
     },
-    "time": "2026-06-11T07:31:31Z"
+    "time": "2026-06-11T11:16:40Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-810ba0db",
+    "finding_uid": "FINDING-faa0f061",
     "cve": {
       "uid": "CVE-2011-3637",
       "cvss": {
@@ -5066,11 +5066,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 171515120.04
     },
-    "time": "2026-07-04T04:40:28Z"
+    "time": "2026-07-04T08:25:37Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-2222eeb8",
+    "finding_uid": "FINDING-5d159124",
     "cve": {
       "uid": "CVE-2005-2059",
       "cvss": {
@@ -5103,11 +5103,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 563599254.23
     },
-    "time": "2026-06-11T09:04:33Z"
+    "time": "2026-06-11T12:49:42Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-64a003d1",
+    "finding_uid": "FINDING-b8ce0ddc",
     "cve": {
       "uid": "CVE-2012-0038",
       "cvss": {
@@ -5140,11 +5140,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 969557877.45
     },
-    "time": "2026-06-13T03:55:56Z"
+    "time": "2026-06-13T07:41:06Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-245eb6f1",
+    "finding_uid": "FINDING-583f69e9",
     "cve": {
       "uid": "CVE-1999-0783",
       "cvss": {
@@ -5177,11 +5177,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 5366707770.53
     },
-    "time": "2026-08-22T05:37:37Z"
+    "time": "2026-08-22T09:22:47Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4b8cf260",
+    "finding_uid": "FINDING-29eb5c6a",
     "cve": {
       "uid": "CVE-2016-0264",
       "cvss": {
@@ -5214,11 +5214,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 260972167.51
     },
-    "time": "2026-07-21T21:27:36Z"
+    "time": "2026-07-22T01:12:45Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-363eabb9",
+    "finding_uid": "FINDING-efd90ef5",
     "cve": {
       "uid": "CVE-2016-0651",
       "cvss": {
@@ -5251,11 +5251,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 37888510.2
     },
-    "time": "2026-07-26T03:31:00Z"
+    "time": "2026-07-26T07:16:09Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d89b08f3",
+    "finding_uid": "FINDING-e6bec98a",
     "cve": {
       "uid": "CVE-2016-0668",
       "cvss": {
@@ -5288,11 +5288,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 22412678.32
     },
-    "time": "2026-08-25T21:17:14Z"
+    "time": "2026-08-26T01:02:23Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-5a334d1c",
+    "finding_uid": "FINDING-f6a54ea3",
     "cve": {
       "uid": "CVE-2008-4989",
       "cvss": {
@@ -5325,11 +5325,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 303397484.76
     },
-    "time": "2026-08-18T03:23:45Z"
+    "time": "2026-08-18T07:08:54Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-7ae5b88a",
+    "finding_uid": "FINDING-bddf9376",
     "cve": {
       "uid": "CVE-2012-0248",
       "cvss": {
@@ -5362,11 +5362,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 80316838.58
     },
-    "time": "2026-07-05T04:41:28Z"
+    "time": "2026-07-05T08:26:37Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4abc9f85",
+    "finding_uid": "FINDING-582d3472",
     "cve": {
       "uid": "CVE-2015-8629",
       "cvss": {
@@ -5399,11 +5399,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 144522624.27
     },
-    "time": "2026-06-19T20:03:12Z"
+    "time": "2026-06-19T23:48:21Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-7e6ef560",
+    "finding_uid": "FINDING-570f9449",
     "cve": {
       "uid": "CVE-2005-3106",
       "cvss": {
@@ -5436,11 +5436,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 57078981.4
     },
-    "time": "2026-06-15T13:45:27Z"
+    "time": "2026-06-15T17:30:36Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-fcb736c9",
+    "finding_uid": "FINDING-e3ce77ae",
     "cve": {
       "uid": "CVE-2012-0259",
       "cvss": {
@@ -5473,11 +5473,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 85689712.42
     },
-    "time": "2026-07-07T04:01:08Z"
+    "time": "2026-07-07T07:46:17Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1d379865",
+    "finding_uid": "FINDING-ab0a6595",
     "cve": {
       "uid": "CVE-2004-0342",
       "cvss": {
@@ -5510,11 +5510,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 352949214.6
     },
-    "time": "2026-07-21T16:01:09Z"
+    "time": "2026-07-21T19:46:18Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-37595150",
+    "finding_uid": "FINDING-053231c7",
     "cve": {
       "uid": "CVE-2014-2005",
       "cvss": {
@@ -5547,11 +5547,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 197353605.54
     },
-    "time": "2026-06-28T13:19:11Z"
+    "time": "2026-06-28T17:04:20Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-7e7b3cef",
+    "finding_uid": "FINDING-c9d1a7b7",
     "cve": {
       "uid": "CVE-2009-2216",
       "cvss": {
@@ -5584,11 +5584,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 190978259.98
     },
-    "time": "2026-07-15T19:20:40Z"
+    "time": "2026-07-15T23:05:49Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-87165249",
+    "finding_uid": "FINDING-323c9c1c",
     "cve": {
       "uid": "CVE-2014-7975",
       "cvss": {
@@ -5621,11 +5621,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 36038224.35
     },
-    "time": "2026-06-20T13:05:07Z"
+    "time": "2026-06-20T16:50:16Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1c44cf6b",
+    "finding_uid": "FINDING-509cc4ae",
     "cve": {
       "uid": "CVE-2015-8551",
       "cvss": {
@@ -5658,11 +5658,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 36825339.04
     },
-    "time": "2026-07-01T17:14:37Z"
+    "time": "2026-07-01T20:59:46Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-95e01fb9",
+    "finding_uid": "FINDING-95f09bba",
     "cve": {
       "uid": "CVE-2014-1496",
       "cvss": {
@@ -5695,11 +5695,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 133807867.33
     },
-    "time": "2026-07-06T17:03:59Z"
+    "time": "2026-07-06T20:49:08Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-9ad487d5",
+    "finding_uid": "FINDING-1f4cb7c7",
     "cve": {
       "uid": "CVE-2006-2374",
       "cvss": {
@@ -5732,11 +5732,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 115111097.43
     },
-    "time": "2026-08-16T06:55:25Z"
+    "time": "2026-08-16T10:40:34Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-51b497a6",
+    "finding_uid": "FINDING-ebf51e05",
     "cve": {
       "uid": "CVE-2005-1947",
       "cvss": {
@@ -5769,11 +5769,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 1546625823.85
     },
-    "time": "2026-06-12T04:33:47Z"
+    "time": "2026-06-12T08:18:56Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-a60f967e",
+    "finding_uid": "FINDING-ec8fb089",
     "cve": {
       "uid": "CVE-2009-4895",
       "cvss": {
@@ -5806,11 +5806,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 261341632.97
     },
-    "time": "2026-08-06T07:29:34Z"
+    "time": "2026-08-06T11:14:43Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4bc191c1",
+    "finding_uid": "FINDING-b52c863b",
     "cve": {
       "uid": "CVE-2016-4020",
       "cvss": {
@@ -5843,11 +5843,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 451443275.43
     },
-    "time": "2026-08-10T09:27:29Z"
+    "time": "2026-08-10T13:12:38Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6895e9a9",
+    "finding_uid": "FINDING-f5b0edd0",
     "cve": {
       "uid": "CVE-2005-1916",
       "cvss": {
@@ -5880,11 +5880,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 58061582.28
     },
-    "time": "2026-08-26T19:53:37Z"
+    "time": "2026-08-26T23:38:46Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b68b515e",
+    "finding_uid": "FINDING-02391a23",
     "cve": {
       "uid": "CVE-2016-5107",
       "cvss": {
@@ -5917,11 +5917,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 62670822.9
     },
-    "time": "2026-07-06T06:15:19Z"
+    "time": "2026-07-06T10:00:28Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-967f2673",
+    "finding_uid": "FINDING-86fee4e4",
     "cve": {
       "uid": "CVE-2016-2388",
       "cvss": {
@@ -5954,11 +5954,11 @@
       "mean_inr_millions": 260,
       "sampled_loss_inr": 50580300.04
     },
-    "time": "2026-06-18T23:40:43Z"
+    "time": "2026-06-19T03:25:52Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c427fc2a",
+    "finding_uid": "FINDING-09ff899b",
     "cve": {
       "uid": "CVE-2016-4454",
       "cvss": {
@@ -5991,11 +5991,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 88341634.09
     },
-    "time": "2026-09-01T08:25:04Z"
+    "time": "2026-09-01T12:10:13Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d8df57d0",
+    "finding_uid": "FINDING-b63c004d",
     "cve": {
       "uid": "CVE-2015-3152",
       "cvss": {
@@ -6028,11 +6028,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 1678018698.92
     },
-    "time": "2026-07-11T12:49:21Z"
+    "time": "2026-07-11T16:34:31Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-7abb2ece",
+    "finding_uid": "FINDING-4c5f63f4",
     "cve": {
       "uid": "CVE-2014-2532",
       "cvss": {
@@ -6065,11 +6065,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 50024351.88
     },
-    "time": "2026-08-29T16:16:41Z"
+    "time": "2026-08-29T20:01:50Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-72545bd7",
+    "finding_uid": "FINDING-3b9fc417",
     "cve": {
       "uid": "CVE-2009-3238",
       "cvss": {
@@ -6102,11 +6102,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 563821194.68
     },
-    "time": "2026-07-10T03:49:14Z"
+    "time": "2026-07-10T07:34:24Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-26d4def2",
+    "finding_uid": "FINDING-f874d45a",
     "cve": {
       "uid": "CVE-2016-4271",
       "cvss": {
@@ -6139,11 +6139,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 85121649.57
     },
-    "time": "2026-08-18T10:40:21Z"
+    "time": "2026-08-18T14:25:30Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6885193a",
+    "finding_uid": "FINDING-ac6b0899",
     "cve": {
       "uid": "CVE-2000-0972",
       "cvss": {
@@ -6176,11 +6176,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 623780324.37
     },
-    "time": "2026-08-19T20:44:41Z"
+    "time": "2026-08-20T00:29:50Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-86929d64",
+    "finding_uid": "FINDING-ea3d4373",
     "cve": {
       "uid": "CVE-2015-8839",
       "cvss": {
@@ -6213,11 +6213,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 252757544.2
     },
-    "time": "2026-08-06T22:41:19Z"
+    "time": "2026-08-07T02:26:28Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-972433c9",
+    "finding_uid": "FINDING-3c296c75",
     "cve": {
       "uid": "CVE-2010-1282",
       "cvss": {
@@ -6250,11 +6250,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 102948377.84
     },
-    "time": "2026-08-03T09:36:25Z"
+    "time": "2026-08-03T13:21:34Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-53dbc765",
+    "finding_uid": "FINDING-86566243",
     "cve": {
       "uid": "CVE-2016-1224",
       "cvss": {
@@ -6287,11 +6287,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 116749844.82
     },
-    "time": "2026-07-08T19:44:31Z"
+    "time": "2026-07-08T23:29:41Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1b194d54",
+    "finding_uid": "FINDING-0167c736",
     "cve": {
       "uid": "CVE-2008-2951",
       "cvss": {
@@ -6324,11 +6324,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 81743511.87
     },
-    "time": "2026-06-22T11:33:41Z"
+    "time": "2026-06-22T15:18:50Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-67f748fe",
+    "finding_uid": "FINDING-0dbcb7b1",
     "cve": {
       "uid": "CVE-2002-1682",
       "cvss": {
@@ -6361,11 +6361,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 368223478.06
     },
-    "time": "2026-08-30T13:09:25Z"
+    "time": "2026-08-30T16:54:34Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-33380722",
+    "finding_uid": "FINDING-93643a5f",
     "cve": {
       "uid": "CVE-2016-1160",
       "cvss": {
@@ -6398,11 +6398,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 138436796.35
     },
-    "time": "2026-06-26T15:31:35Z"
+    "time": "2026-06-26T19:16:44Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-15743919",
+    "finding_uid": "FINDING-f458d8a1",
     "cve": {
       "uid": "CVE-2013-2566",
       "cvss": {
@@ -6435,11 +6435,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 32254232.16
     },
-    "time": "2026-06-13T04:52:12Z"
+    "time": "2026-06-13T08:37:21Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-be916752",
+    "finding_uid": "FINDING-37085597",
     "cve": {
       "uid": "CVE-2002-1946",
       "cvss": {
@@ -6472,11 +6472,11 @@
       "mean_inr_millions": 260,
       "sampled_loss_inr": 36014895.53
     },
-    "time": "2026-06-15T08:39:27Z"
+    "time": "2026-06-15T12:24:36Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-bfd1d7bc",
+    "finding_uid": "FINDING-70bd0a83",
     "cve": {
       "uid": "CVE-2002-1975",
       "cvss": {
@@ -6509,11 +6509,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 273627623.66
     },
-    "time": "2026-08-20T10:03:08Z"
+    "time": "2026-08-20T13:48:17Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-472c6790",
+    "finding_uid": "FINDING-639f5c5f",
     "cve": {
       "uid": "CVE-2016-1144",
       "cvss": {
@@ -6546,11 +6546,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 677702783.31
     },
-    "time": "2026-06-09T15:43:41Z"
+    "time": "2026-06-09T19:28:50Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1d6ccda1",
+    "finding_uid": "FINDING-19ed893c",
     "cve": {
       "uid": "CVE-2011-2918",
       "cvss": {
@@ -6583,11 +6583,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 269911016.7
     },
-    "time": "2026-08-14T05:25:04Z"
+    "time": "2026-08-14T09:10:13Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-7f3c2441",
+    "finding_uid": "FINDING-a3669dfb",
     "cve": {
       "uid": "CVE-2002-1739",
       "cvss": {
@@ -6620,11 +6620,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 199454035.52
     },
-    "time": "2026-07-10T03:54:30Z"
+    "time": "2026-07-10T07:39:39Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-667d992e",
+    "finding_uid": "FINDING-76b116a3",
     "cve": {
       "uid": "CVE-2016-6306",
       "cvss": {
@@ -6657,11 +6657,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 309423497.86
     },
-    "time": "2026-08-20T01:53:55Z"
+    "time": "2026-08-20T05:39:04Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f77cd55b",
+    "finding_uid": "FINDING-a5ce70a8",
     "cve": {
       "uid": "CVE-2005-0406",
       "cvss": {
@@ -6694,11 +6694,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 936655482.32
     },
-    "time": "2026-08-18T01:43:40Z"
+    "time": "2026-08-18T05:28:49Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-0e87dc3f",
+    "finding_uid": "FINDING-90b79fb2",
     "cve": {
       "uid": "CVE-2016-5848",
       "cvss": {
@@ -6731,11 +6731,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 154852495.79
     },
-    "time": "2026-07-15T15:34:05Z"
+    "time": "2026-07-15T19:19:14Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-cce682f4",
+    "finding_uid": "FINDING-a9b93934",
     "cve": {
       "uid": "CVE-2014-3647",
       "cvss": {
@@ -6768,11 +6768,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 124268649.16
     },
-    "time": "2026-08-06T03:08:14Z"
+    "time": "2026-08-06T06:53:23Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-cafc24aa",
+    "finding_uid": "FINDING-62686bf5",
     "cve": {
       "uid": "CVE-2011-2707",
       "cvss": {
@@ -6805,11 +6805,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 553126702.96
     },
-    "time": "2026-07-16T05:39:45Z"
+    "time": "2026-07-16T09:24:54Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-367b65aa",
+    "finding_uid": "FINDING-93371548",
     "cve": {
       "uid": "CVE-2012-5810",
       "cvss": {
@@ -6842,11 +6842,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 247396003.86
     },
-    "time": "2026-08-12T15:01:56Z"
+    "time": "2026-08-12T18:47:05Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-33ef3ca7",
+    "finding_uid": "FINDING-f4844afc",
     "cve": {
       "uid": "CVE-2005-2209",
       "cvss": {
@@ -6879,11 +6879,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 646555940.4
     },
-    "time": "2026-07-24T07:39:27Z"
+    "time": "2026-07-24T11:24:36Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-17f85d23",
+    "finding_uid": "FINDING-d6839f64",
     "cve": {
       "uid": "CVE-2015-6479",
       "cvss": {
@@ -6916,11 +6916,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 276808815.33
     },
-    "time": "2026-08-18T00:49:15Z"
+    "time": "2026-08-18T04:34:24Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4e11d414",
+    "finding_uid": "FINDING-a1b92cf7",
     "cve": {
       "uid": "CVE-2016-4955",
       "cvss": {
@@ -6953,11 +6953,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 29358538.22
     },
-    "time": "2026-08-20T10:02:18Z"
+    "time": "2026-08-20T13:47:27Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e2d4af4c",
+    "finding_uid": "FINDING-f3258065",
     "cve": {
       "uid": "CVE-2016-3973",
       "cvss": {
@@ -6990,11 +6990,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 51366129.67
     },
-    "time": "2026-08-30T11:59:40Z"
+    "time": "2026-08-30T15:44:49Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b5bb52aa",
+    "finding_uid": "FINDING-70470ad9",
     "cve": {
       "uid": "CVE-2016-4247",
       "cvss": {
@@ -7027,11 +7027,11 @@
       "mean_inr_millions": 260,
       "sampled_loss_inr": 865928115.89
     },
-    "time": "2026-07-17T19:25:20Z"
+    "time": "2026-07-17T23:10:29Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-2f05de0f",
+    "finding_uid": "FINDING-a1432271",
     "cve": {
       "uid": "CVE-2007-2237",
       "cvss": {
@@ -7064,11 +7064,11 @@
       "mean_inr_millions": 260,
       "sampled_loss_inr": 937084364.58
     },
-    "time": "2026-07-10T15:02:16Z"
+    "time": "2026-07-10T18:47:25Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1166bec0",
+    "finding_uid": "FINDING-0d081825",
     "cve": {
       "uid": "CVE-2016-2075",
       "cvss": {
@@ -7101,11 +7101,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 100422414.28
     },
-    "time": "2026-09-01T05:19:57Z"
+    "time": "2026-09-01T09:05:06Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-31aba9ab",
+    "finding_uid": "FINDING-9e85391b",
     "cve": {
       "uid": "CVE-2006-4342",
       "cvss": {
@@ -7138,11 +7138,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 73182986.38
     },
-    "time": "2026-08-17T08:54:48Z"
+    "time": "2026-08-17T12:39:57Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-eaae6641",
+    "finding_uid": "FINDING-a0d85b18",
     "cve": {
       "uid": "CVE-2009-2416",
       "cvss": {
@@ -7175,11 +7175,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 596440513.18
     },
-    "time": "2026-06-28T18:12:01Z"
+    "time": "2026-06-28T21:57:10Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d760af56",
+    "finding_uid": "FINDING-03321f2e",
     "cve": {
       "uid": "CVE-2011-0199",
       "cvss": {
@@ -7212,11 +7212,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 30014180.25
     },
-    "time": "2026-08-23T22:17:10Z"
+    "time": "2026-08-24T02:02:19Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-bfe148d9",
+    "finding_uid": "FINDING-b3ca7a4d",
     "cve": {
       "uid": "CVE-2016-4952",
       "cvss": {
@@ -7249,11 +7249,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 85882863.68
     },
-    "time": "2026-06-15T11:47:14Z"
+    "time": "2026-06-15T15:32:23Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-aff87c57",
+    "finding_uid": "FINDING-5510bdb2",
     "cve": {
       "uid": "CVE-2016-2291",
       "cvss": {
@@ -7286,11 +7286,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 223061907.05
     },
-    "time": "2026-08-21T20:42:43Z"
+    "time": "2026-08-22T00:27:52Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-3b795371",
+    "finding_uid": "FINDING-39645ca1",
     "cve": {
       "uid": "CVE-2016-3189",
       "cvss": {
@@ -7323,11 +7323,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 101196751.87
     },
-    "time": "2026-08-13T22:31:33Z"
+    "time": "2026-08-14T02:16:42Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-2b1fdddc",
+    "finding_uid": "FINDING-d939ebda",
     "cve": {
       "uid": "CVE-2012-1798",
       "cvss": {
@@ -7360,11 +7360,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 121356031.14
     },
-    "time": "2026-08-26T17:39:17Z"
+    "time": "2026-08-26T21:24:26Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-526974c6",
+    "finding_uid": "FINDING-823bc48e",
     "cve": {
       "uid": "CVE-2011-4621",
       "cvss": {
@@ -7397,11 +7397,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 162575008.67
     },
-    "time": "2026-07-15T15:08:03Z"
+    "time": "2026-07-15T18:53:12Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-908e8e44",
+    "finding_uid": "FINDING-e85e5ccb",
     "cve": {
       "uid": "CVE-2004-1995",
       "cvss": {
@@ -7434,11 +7434,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 176054592.16
     },
-    "time": "2026-06-26T05:47:44Z"
+    "time": "2026-06-26T09:32:53Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-9fd7f475",
+    "finding_uid": "FINDING-a58f3eeb",
     "cve": {
       "uid": "CVE-2008-3775",
       "cvss": {
@@ -7471,11 +7471,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 1045753020.7
     },
-    "time": "2026-07-07T17:17:50Z"
+    "time": "2026-07-07T21:02:59Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-693d4ade",
+    "finding_uid": "FINDING-4d0014c9",
     "cve": {
       "uid": "CVE-2007-5626",
       "cvss": {
@@ -7508,11 +7508,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 134644433.17
     },
-    "time": "2026-06-11T01:13:42Z"
+    "time": "2026-06-11T04:58:51Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e5e31f10",
+    "finding_uid": "FINDING-34447263",
     "cve": {
       "uid": "CVE-2016-5337",
       "cvss": {
@@ -7545,11 +7545,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 390611628.9
     },
-    "time": "2026-06-27T11:28:26Z"
+    "time": "2026-06-27T15:13:36Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b234542f",
+    "finding_uid": "FINDING-a0489304",
     "cve": {
       "uid": "CVE-2009-3897",
       "cvss": {
@@ -7582,11 +7582,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 10780269.79
     },
-    "time": "2026-07-10T00:00:17Z"
+    "time": "2026-07-10T03:45:26Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-7465fb1e",
+    "finding_uid": "FINDING-f4833616",
     "cve": {
       "uid": "CVE-2000-1178",
       "cvss": {
@@ -7619,11 +7619,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 115745738.17
     },
-    "time": "2026-08-29T00:46:38Z"
+    "time": "2026-08-29T04:31:48Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f66f74b5",
+    "finding_uid": "FINDING-d6ad46f4",
     "cve": {
       "uid": "CVE-2013-6673",
       "cvss": {
@@ -7656,11 +7656,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 77718578.75
     },
-    "time": "2026-08-03T18:06:30Z"
+    "time": "2026-08-03T21:51:40Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-adcf256c",
+    "finding_uid": "FINDING-c137cfaf",
     "cve": {
       "uid": "CVE-2016-3094",
       "cvss": {
@@ -7693,11 +7693,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 60408154.39
     },
-    "time": "2026-06-18T15:24:31Z"
+    "time": "2026-06-18T19:09:40Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-21b9075d",
+    "finding_uid": "FINDING-b0b0daf2",
     "cve": {
       "uid": "CVE-2008-1567",
       "cvss": {
@@ -7730,11 +7730,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 59864245.11
     },
-    "time": "2026-08-19T22:28:42Z"
+    "time": "2026-08-20T02:13:51Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-9e44846f",
+    "finding_uid": "FINDING-5fcabf68",
     "cve": {
       "uid": "CVE-2014-0203",
       "cvss": {
@@ -7767,11 +7767,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 157847854.43
     },
-    "time": "2026-06-18T17:59:08Z"
+    "time": "2026-06-18T21:44:17Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f403ec1f",
+    "finding_uid": "FINDING-5cf88010",
     "cve": {
       "uid": "CVE-2016-4530",
       "cvss": {
@@ -7804,11 +7804,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 299880731.0
     },
-    "time": "2026-07-16T15:10:21Z"
+    "time": "2026-07-16T18:55:30Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-22bb931a",
+    "finding_uid": "FINDING-591e433c",
     "cve": {
       "uid": "CVE-1999-1386",
       "cvss": {
@@ -7841,11 +7841,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 53748989.58
     },
-    "time": "2026-06-13T09:19:16Z"
+    "time": "2026-06-13T13:04:25Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-335f75d0",
+    "finding_uid": "FINDING-c68c7f41",
     "cve": {
       "uid": "CVE-2002-1914",
       "cvss": {
@@ -7878,11 +7878,11 @@
       "mean_inr_millions": 260,
       "sampled_loss_inr": 149104298.88
     },
-    "time": "2026-08-20T09:42:49Z"
+    "time": "2026-08-20T13:27:58Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6d07451f",
+    "finding_uid": "FINDING-3c424e4b",
     "cve": {
       "uid": "CVE-2002-1696",
       "cvss": {
@@ -7915,11 +7915,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 134118895.75
     },
-    "time": "2026-08-10T17:01:14Z"
+    "time": "2026-08-10T20:46:23Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6828543c",
+    "finding_uid": "FINDING-c2031ee8",
     "cve": {
       "uid": "CVE-2014-1523",
       "cvss": {
@@ -7952,11 +7952,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 85501572.15
     },
-    "time": "2026-06-16T06:21:25Z"
+    "time": "2026-06-16T10:06:34Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-49e40e54",
+    "finding_uid": "FINDING-f8df1f76",
     "cve": {
       "uid": "CVE-2016-7909",
       "cvss": {
@@ -7989,11 +7989,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 576677746.93
     },
-    "time": "2026-07-03T08:40:48Z"
+    "time": "2026-07-03T12:25:57Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ae4b8aee",
+    "finding_uid": "FINDING-2a5b9960",
     "cve": {
       "uid": "CVE-2000-1198",
       "cvss": {
@@ -8026,11 +8026,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 406921939.41
     },
-    "time": "2026-07-14T01:01:00Z"
+    "time": "2026-07-14T04:46:09Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f52b144c",
+    "finding_uid": "FINDING-92d7901b",
     "cve": {
       "uid": "CVE-2009-3621",
       "cvss": {
@@ -8063,11 +8063,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 969133688.0
     },
-    "time": "2026-07-17T09:33:32Z"
+    "time": "2026-07-17T13:18:41Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-9bf2ee9e",
+    "finding_uid": "FINDING-908abbf0",
     "cve": {
       "uid": "CVE-2016-4428",
       "cvss": {
@@ -8100,11 +8100,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 191836342.57
     },
-    "time": "2026-08-26T17:18:38Z"
+    "time": "2026-08-26T21:03:47Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b3a6939e",
+    "finding_uid": "FINDING-bc03310b",
     "cve": {
       "uid": "CVE-2012-1186",
       "cvss": {
@@ -8137,11 +8137,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 57323149.57
     },
-    "time": "2026-06-07T17:41:37Z"
+    "time": "2026-06-07T21:26:47Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d3528a59",
+    "finding_uid": "FINDING-6977c50a",
     "cve": {
       "uid": "CVE-2008-1447",
       "cvss": {
@@ -8174,11 +8174,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 177922119.66
     },
-    "time": "2026-06-28T00:46:47Z"
+    "time": "2026-06-28T04:31:56Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-575b465b",
+    "finding_uid": "FINDING-4b9bebc6",
     "cve": {
       "uid": "CVE-2016-6170",
       "cvss": {
@@ -8211,11 +8211,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 295204462.16
     },
-    "time": "2026-07-14T21:20:58Z"
+    "time": "2026-07-15T01:06:07Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c628c890",
+    "finding_uid": "FINDING-28e52309",
     "cve": {
       "uid": "CVE-2015-8781",
       "cvss": {
@@ -8248,11 +8248,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 201581776.41
     },
-    "time": "2026-06-27T21:48:44Z"
+    "time": "2026-06-28T01:33:53Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d612a30b",
+    "finding_uid": "FINDING-290235df",
     "cve": {
       "uid": "CVE-2015-2890",
       "cvss": {
@@ -8285,11 +8285,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 69900256.03
     },
-    "time": "2026-08-05T01:14:07Z"
+    "time": "2026-08-05T04:59:17Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-03618efd",
+    "finding_uid": "FINDING-609f2cf8",
     "cve": {
       "uid": "CVE-2016-3721",
       "cvss": {
@@ -8322,11 +8322,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 134630528.15
     },
-    "time": "2026-09-01T23:26:50Z"
+    "time": "2026-09-02T03:11:59Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4e24f574",
+    "finding_uid": "FINDING-f0924bba",
     "cve": {
       "uid": "CVE-2016-2775",
       "cvss": {
@@ -8359,11 +8359,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 290666609.94
     },
-    "time": "2026-07-23T14:28:54Z"
+    "time": "2026-07-23T18:14:04Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-729a3fb5",
+    "finding_uid": "FINDING-f339c000",
     "cve": {
       "uid": "CVE-2016-0031",
       "cvss": {
@@ -8396,11 +8396,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 1877151983.09
     },
-    "time": "2026-09-03T04:59:22Z"
+    "time": "2026-09-03T08:44:31Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-24a8d19e",
+    "finding_uid": "FINDING-d1ed6a58",
     "cve": {
       "uid": "CVE-2008-3275",
       "cvss": {
@@ -8433,11 +8433,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 1740764452.95
     },
-    "time": "2026-07-11T09:34:24Z"
+    "time": "2026-07-11T13:19:34Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6d724e02",
+    "finding_uid": "FINDING-85acbe13",
     "cve": {
       "uid": "CVE-2012-3446",
       "cvss": {
@@ -8470,11 +8470,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 43931128.06
     },
-    "time": "2026-08-02T11:14:32Z"
+    "time": "2026-08-02T14:59:41Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-62f98dd7",
+    "finding_uid": "FINDING-c5bf9c1e",
     "cve": {
       "uid": "CVE-2011-2691",
       "cvss": {
@@ -8507,11 +8507,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 166064675.91
     },
-    "time": "2026-06-29T02:04:41Z"
+    "time": "2026-06-29T05:49:50Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-dff5764d",
+    "finding_uid": "FINDING-1ff5a2b7",
     "cve": {
       "uid": "CVE-2005-4206",
       "cvss": {
@@ -8544,11 +8544,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 24914014.11
     },
-    "time": "2026-08-16T05:23:48Z"
+    "time": "2026-08-16T09:08:57Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-330d1a91",
+    "finding_uid": "FINDING-0e0beb57",
     "cve": {
       "uid": "CVE-2016-2178",
       "cvss": {
@@ -8581,11 +8581,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 119469228.6
     },
-    "time": "2026-08-11T05:20:46Z"
+    "time": "2026-08-11T09:05:55Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c03795d6",
+    "finding_uid": "FINDING-84ad36db",
     "cve": {
       "uid": "CVE-2016-4507",
       "cvss": {
@@ -8618,11 +8618,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 156278831.69
     },
-    "time": "2026-08-14T16:38:11Z"
+    "time": "2026-08-14T20:23:20Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-faa6f50c",
+    "finding_uid": "FINDING-44a720cc",
     "cve": {
       "uid": "CVE-2012-0767",
       "cvss": {
@@ -8655,11 +8655,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 451910756.17
     },
-    "time": "2026-07-06T04:26:01Z"
+    "time": "2026-07-06T08:11:10Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-0ee9ae3b",
+    "finding_uid": "FINDING-52ae41d6",
     "cve": {
       "uid": "CVE-2010-0629",
       "cvss": {
@@ -8692,11 +8692,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 102803882.46
     },
-    "time": "2026-07-25T09:34:59Z"
+    "time": "2026-07-25T13:20:08Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-2a5b6f09",
+    "finding_uid": "FINDING-689604d4",
     "cve": {
       "uid": "CVE-2015-3195",
       "cvss": {
@@ -8729,11 +8729,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 111517625.21
     },
-    "time": "2026-06-22T00:23:09Z"
+    "time": "2026-06-22T04:08:18Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d6c8eb9e",
+    "finding_uid": "FINDING-96912877",
     "cve": {
       "uid": "CVE-2010-4655",
       "cvss": {
@@ -8766,11 +8766,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 15092195.3
     },
-    "time": "2026-07-18T01:46:44Z"
+    "time": "2026-07-18T05:31:53Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-674b466c",
+    "finding_uid": "FINDING-049a499b",
     "cve": {
       "uid": "CVE-2016-1222",
       "cvss": {
@@ -8803,11 +8803,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 190144260.93
     },
-    "time": "2026-08-02T02:44:34Z"
+    "time": "2026-08-02T06:29:43Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4c969061",
+    "finding_uid": "FINDING-0f5bdf6b",
     "cve": {
       "uid": "CVE-2002-0725",
       "cvss": {
@@ -8840,11 +8840,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 71587903.57
     },
-    "time": "2026-06-11T22:29:26Z"
+    "time": "2026-06-12T02:14:35Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-12b7a8d6",
+    "finding_uid": "FINDING-6772c0b8",
     "cve": {
       "uid": "CVE-2016-5787",
       "cvss": {
@@ -8877,11 +8877,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 87415888.41
     },
-    "time": "2026-07-17T10:46:53Z"
+    "time": "2026-07-17T14:32:02Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-41728d91",
+    "finding_uid": "FINDING-060ea113",
     "cve": {
       "uid": "CVE-2016-1227",
       "cvss": {
@@ -8914,11 +8914,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 47100409.5
     },
-    "time": "2026-06-10T04:48:54Z"
+    "time": "2026-06-10T08:34:03Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-24c0bc36",
+    "finding_uid": "FINDING-cbe2e418",
     "cve": {
       "uid": "CVE-2016-5828",
       "cvss": {
@@ -8951,11 +8951,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 175256144.54
     },
-    "time": "2026-06-10T00:42:37Z"
+    "time": "2026-06-10T04:27:46Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-eb89f91d",
+    "finding_uid": "FINDING-fa81c055",
     "cve": {
       "uid": "CVE-2005-1891",
       "cvss": {
@@ -8988,11 +8988,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 28795632.53
     },
-    "time": "2026-07-22T15:25:19Z"
+    "time": "2026-07-22T19:10:28Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4190e189",
+    "finding_uid": "FINDING-c680a145",
     "cve": {
       "uid": "CVE-2002-2323",
       "cvss": {
@@ -9025,11 +9025,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 24816739.84
     },
-    "time": "2026-07-25T03:08:23Z"
+    "time": "2026-07-25T06:53:32Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-68355950",
+    "finding_uid": "FINDING-fc464723",
     "cve": {
       "uid": "CVE-2015-0535",
       "cvss": {
@@ -9062,11 +9062,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 1959242174.05
     },
-    "time": "2026-08-13T01:18:06Z"
+    "time": "2026-08-13T05:03:15Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ec08f9b0",
+    "finding_uid": "FINDING-569a37aa",
     "cve": {
       "uid": "CVE-2013-1331",
       "cvss": {
@@ -9099,11 +9099,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 56071897.18
     },
-    "time": "2026-07-08T09:15:27Z"
+    "time": "2026-07-08T13:00:36Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c329e864",
+    "finding_uid": "FINDING-8ba4747a",
     "cve": {
       "uid": "CVE-2005-3716",
       "cvss": {
@@ -9136,11 +9136,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 47214891.44
     },
-    "time": "2026-08-23T04:19:04Z"
+    "time": "2026-08-23T08:04:13Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f1362dc1",
+    "finding_uid": "FINDING-4df04802",
     "cve": {
       "uid": "CVE-2010-2492",
       "cvss": {
@@ -9173,11 +9173,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 1666909279.3
     },
-    "time": "2026-06-17T11:03:34Z"
+    "time": "2026-06-17T14:48:43Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-9d0a251c",
+    "finding_uid": "FINDING-93f66194",
     "cve": {
       "uid": "CVE-2009-0563",
       "cvss": {
@@ -9210,11 +9210,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 5315704692.96
     },
-    "time": "2026-08-25T07:29:03Z"
+    "time": "2026-08-25T11:14:12Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-a37b97ec",
+    "finding_uid": "FINDING-576dce0a",
     "cve": {
       "uid": "CVE-2008-6828",
       "cvss": {
@@ -9247,11 +9247,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 46642845.64
     },
-    "time": "2026-08-25T18:36:37Z"
+    "time": "2026-08-25T22:21:46Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-fb0f6087",
+    "finding_uid": "FINDING-6b5dffa2",
     "cve": {
       "uid": "CVE-2015-8806",
       "cvss": {
@@ -9284,11 +9284,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 152106593.74
     },
-    "time": "2026-09-01T21:26:11Z"
+    "time": "2026-09-02T01:11:20Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f05fc1d5",
+    "finding_uid": "FINDING-500b1f71",
     "cve": {
       "uid": "CVE-2016-0982",
       "cvss": {
@@ -9321,11 +9321,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 144664360.45
     },
-    "time": "2026-07-21T00:50:38Z"
+    "time": "2026-07-21T04:35:47Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-201fc917",
+    "finding_uid": "FINDING-44df2e16",
     "cve": {
       "uid": "CVE-2008-0141",
       "cvss": {
@@ -9358,11 +9358,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 797224622.88
     },
-    "time": "2026-07-22T23:49:45Z"
+    "time": "2026-07-23T03:34:54Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-07f907c9",
+    "finding_uid": "FINDING-7539aaf6",
     "cve": {
       "uid": "CVE-2016-0778",
       "cvss": {
@@ -9395,11 +9395,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 66497124.89
     },
-    "time": "2026-08-10T16:41:21Z"
+    "time": "2026-08-10T20:26:30Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-522213a8",
+    "finding_uid": "FINDING-f3f81d00",
     "cve": {
       "uid": "CVE-2009-0927",
       "cvss": {
@@ -9432,11 +9432,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 173832342.3
     },
-    "time": "2026-07-30T11:29:33Z"
+    "time": "2026-07-30T15:14:42Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-8ff96608",
+    "finding_uid": "FINDING-11cae023",
     "cve": {
       "uid": "CVE-2010-4805",
       "cvss": {
@@ -9469,11 +9469,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 451486218.4
     },
-    "time": "2026-07-25T08:25:05Z"
+    "time": "2026-07-25T12:10:14Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b63e6d33",
+    "finding_uid": "FINDING-9b983c6d",
     "cve": {
       "uid": "CVE-2015-8657",
       "cvss": {
@@ -9506,11 +9506,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 363731140.27
     },
-    "time": "2026-06-13T11:08:32Z"
+    "time": "2026-06-13T14:53:41Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-eebf037c",
+    "finding_uid": "FINDING-9692f89f",
     "cve": {
       "uid": "CVE-2010-2524",
       "cvss": {
@@ -9543,11 +9543,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 150806385.0
     },
-    "time": "2026-07-03T20:13:28Z"
+    "time": "2026-07-03T23:58:37Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4704cc83",
+    "finding_uid": "FINDING-83416212",
     "cve": {
       "uid": "CVE-2004-1703",
       "cvss": {
@@ -9580,11 +9580,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 167888127.43
     },
-    "time": "2026-07-14T14:36:15Z"
+    "time": "2026-07-14T18:21:24Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-78690df0",
+    "finding_uid": "FINDING-4640fbfc",
     "cve": {
       "uid": "CVE-2016-0976",
       "cvss": {
@@ -9617,11 +9617,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 27428018.47
     },
-    "time": "2026-07-07T21:32:06Z"
+    "time": "2026-07-08T01:17:15Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-3cdd51a7",
+    "finding_uid": "FINDING-15853f65",
     "cve": {
       "uid": "CVE-2012-6701",
       "cvss": {
@@ -9654,11 +9654,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 175178281.75
     },
-    "time": "2026-08-23T13:28:25Z"
+    "time": "2026-08-23T17:13:34Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-01ea90a7",
+    "finding_uid": "FINDING-28ffd9e8",
     "cve": {
       "uid": "CVE-2016-2068",
       "cvss": {
@@ -9691,11 +9691,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 145383131.53
     },
-    "time": "2026-09-04T02:11:55Z"
+    "time": "2026-09-04T05:57:04Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b8fa1d70",
+    "finding_uid": "FINDING-58fe95ca",
     "cve": {
       "uid": "CVE-2002-1850",
       "cvss": {
@@ -9728,11 +9728,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 291913139.69
     },
-    "time": "2026-09-02T11:03:08Z"
+    "time": "2026-09-02T14:48:17Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1e606140",
+    "finding_uid": "FINDING-1315a024",
     "cve": {
       "uid": "CVE-2016-0689",
       "cvss": {
@@ -9765,11 +9765,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 84993151.32
     },
-    "time": "2026-06-13T00:16:56Z"
+    "time": "2026-06-13T04:02:05Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-802dc9f1",
+    "finding_uid": "FINDING-8fadcac2",
     "cve": {
       "uid": "CVE-2001-0006",
       "cvss": {
@@ -9793,7 +9793,7 @@
       "type": "Mobile Banking Application Server",
       "criticality": 5,
       "internet_facing": false,
-      "annual_revenue_dependency_inr": -1454287566
+      "annual_revenue_dependency_inr": 122679142
     },
     "loss_parameters": {
       "distribution": "lognormal",
@@ -9802,11 +9802,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 378546461.11
     },
-    "time": "2026-07-08T22:56:44Z"
+    "time": "2026-07-09T02:41:53Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4786f4e4",
+    "finding_uid": "FINDING-a3c44e6a",
     "cve": {
       "uid": "CVE-2005-0877",
       "cvss": {
@@ -9839,11 +9839,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 582946261.01
     },
-    "time": "2026-08-06T09:43:13Z"
+    "time": "2026-08-06T13:28:22Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-8dc2bd0c",
+    "finding_uid": "FINDING-ad1a1e96",
     "cve": {
       "uid": "CVE-2010-0987",
       "cvss": {
@@ -9876,11 +9876,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 144465259.95
     },
-    "time": "2026-06-19T02:35:49Z"
+    "time": "2026-06-19T06:20:58Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-8658e8df",
+    "finding_uid": "FINDING-b60adf6f",
     "cve": {
       "uid": "CVE-2008-4577",
       "cvss": {
@@ -9913,11 +9913,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 332384148.77
     },
-    "time": "2026-08-15T13:49:38Z"
+    "time": "2026-08-15T17:34:47Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b3c2b9de",
+    "finding_uid": "FINDING-92592a87",
     "cve": {
       "uid": "CVE-2015-6855",
       "cvss": {
@@ -9950,11 +9950,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 205675606.71
     },
-    "time": "2026-06-12T07:25:03Z"
+    "time": "2026-06-12T11:10:12Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4e57e33a",
+    "finding_uid": "FINDING-8ccb4fbb",
     "cve": {
       "uid": "CVE-2016-0999",
       "cvss": {
@@ -9987,11 +9987,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 155334532.85
     },
-    "time": "2026-07-09T05:27:46Z"
+    "time": "2026-07-09T09:12:55Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-5abc5f32",
+    "finding_uid": "FINDING-dc0e4600",
     "cve": {
       "uid": "CVE-2016-0994",
       "cvss": {
@@ -10024,11 +10024,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 103647309.92
     },
-    "time": "2026-07-27T07:26:31Z"
+    "time": "2026-07-27T11:11:40Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d612c31b",
+    "finding_uid": "FINDING-b22251e9",
     "cve": {
       "uid": "CVE-2009-3547",
       "cvss": {
@@ -10061,11 +10061,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 273747804.75
     },
-    "time": "2026-08-06T08:58:03Z"
+    "time": "2026-08-06T12:43:12Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-dfaa7054",
+    "finding_uid": "FINDING-766659ea",
     "cve": {
       "uid": "CVE-2015-0533",
       "cvss": {
@@ -10098,11 +10098,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 139751435.25
     },
-    "time": "2026-07-09T17:44:32Z"
+    "time": "2026-07-09T21:29:41Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-41ca8f19",
+    "finding_uid": "FINDING-a11b0797",
     "cve": {
       "uid": "CVE-2002-2069",
       "cvss": {
@@ -10135,11 +10135,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 1614922545.46
     },
-    "time": "2026-07-27T21:51:52Z"
+    "time": "2026-07-28T01:37:01Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-97a85f2a",
+    "finding_uid": "FINDING-a22befda",
     "cve": {
       "uid": "CVE-2008-4197",
       "cvss": {
@@ -10172,11 +10172,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 673495193.79
     },
-    "time": "2026-07-12T01:56:49Z"
+    "time": "2026-07-12T05:41:58Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-8f60fde6",
+    "finding_uid": "FINDING-38d3481c",
     "cve": {
       "uid": "CVE-2014-7826",
       "cvss": {
@@ -10209,11 +10209,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 295155708.98
     },
-    "time": "2026-06-28T17:21:16Z"
+    "time": "2026-06-28T21:06:25Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d0ee982d",
+    "finding_uid": "FINDING-d823bf03",
     "cve": {
       "uid": "CVE-2024-7452",
       "cvss": {
@@ -10246,11 +10246,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 53294771.44
     },
-    "time": "2026-08-11T11:15:04Z"
+    "time": "2026-08-11T15:00:13Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-5bc33b6f",
+    "finding_uid": "FINDING-8aaba7ac",
     "cve": {
       "uid": "CVE-2015-0970",
       "cvss": {
@@ -10283,11 +10283,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 36471980.45
     },
-    "time": "2026-07-11T02:05:10Z"
+    "time": "2026-07-11T05:50:19Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6995a486",
+    "finding_uid": "FINDING-b8e140d4",
     "cve": {
       "uid": "CVE-2010-4199",
       "cvss": {
@@ -10320,11 +10320,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 404322709.99
     },
-    "time": "2026-06-29T19:37:52Z"
+    "time": "2026-06-29T23:23:01Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4b19485e",
+    "finding_uid": "FINDING-547941f6",
     "cve": {
       "uid": "CVE-2016-0766",
       "cvss": {
@@ -10357,11 +10357,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 147563158.27
     },
-    "time": "2026-07-16T10:08:36Z"
+    "time": "2026-07-16T13:53:45Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-9522faa3",
+    "finding_uid": "FINDING-3b5a7b1f",
     "cve": {
       "uid": "CVE-2011-2692",
       "cvss": {
@@ -10394,11 +10394,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 280277766.62
     },
-    "time": "2026-07-01T23:02:22Z"
+    "time": "2026-07-02T02:47:31Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-17e732ef",
+    "finding_uid": "FINDING-a8a97081",
     "cve": {
       "uid": "CVE-2015-6527",
       "cvss": {
@@ -10431,11 +10431,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 34133948.15
     },
-    "time": "2026-07-20T11:11:09Z"
+    "time": "2026-07-20T14:56:18Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1d9671ff",
+    "finding_uid": "FINDING-f9fb4304",
     "cve": {
       "uid": "CVE-2016-2105",
       "cvss": {
@@ -10468,11 +10468,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 334022849.22
     },
-    "time": "2026-08-22T00:17:53Z"
+    "time": "2026-08-22T04:03:03Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b0844627",
+    "finding_uid": "FINDING-e1fcf19a",
     "cve": {
       "uid": "CVE-2016-1000",
       "cvss": {
@@ -10505,11 +10505,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 371576068.35
     },
-    "time": "2026-08-26T03:20:24Z"
+    "time": "2026-08-26T07:05:33Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-0e62fb8c",
+    "finding_uid": "FINDING-8228fcf6",
     "cve": {
       "uid": "CVE-2008-2934",
       "cvss": {
@@ -10542,11 +10542,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 36550499.34
     },
-    "time": "2026-06-14T03:49:17Z"
+    "time": "2026-06-14T07:34:26Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f56ad2e0",
+    "finding_uid": "FINDING-847001d6",
     "cve": {
       "uid": "CVE-2016-4997",
       "cvss": {
@@ -10579,11 +10579,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 135972812.63
     },
-    "time": "2026-08-21T08:31:09Z"
+    "time": "2026-08-21T12:16:18Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f6939e1d",
+    "finding_uid": "FINDING-c9a7a248",
     "cve": {
       "uid": "CVE-2012-0929",
       "cvss": {
@@ -10616,11 +10616,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 132941237.97
     },
-    "time": "2026-07-07T12:37:55Z"
+    "time": "2026-07-07T16:23:04Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-261424e5",
+    "finding_uid": "FINDING-ecc85708",
     "cve": {
       "uid": "CVE-2009-4004",
       "cvss": {
@@ -10653,11 +10653,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 240171354.34
     },
-    "time": "2026-07-25T01:17:01Z"
+    "time": "2026-07-25T05:02:10Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6d9d9f05",
+    "finding_uid": "FINDING-e7ef31fe",
     "cve": {
       "uid": "CVE-2002-2068",
       "cvss": {
@@ -10690,11 +10690,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 113100769.36
     },
-    "time": "2026-08-21T21:08:08Z"
+    "time": "2026-08-22T00:53:17Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-59743125",
+    "finding_uid": "FINDING-1ea53d1a",
     "cve": {
       "uid": "CVE-2016-4794",
       "cvss": {
@@ -10727,11 +10727,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 202761868.6
     },
-    "time": "2026-08-28T17:12:51Z"
+    "time": "2026-08-28T20:58:00Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-95dd3349",
+    "finding_uid": "FINDING-a62a26a7",
     "cve": {
       "uid": "CVE-2016-0694",
       "cvss": {
@@ -10755,7 +10755,7 @@
       "type": "Mobile Banking Application Server",
       "criticality": 5,
       "internet_facing": false,
-      "annual_revenue_dependency_inr": -1454287566
+      "annual_revenue_dependency_inr": 122679142
     },
     "loss_parameters": {
       "distribution": "lognormal",
@@ -10764,11 +10764,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 172572528.39
     },
-    "time": "2026-08-16T16:34:39Z"
+    "time": "2026-08-16T20:19:48Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-23b2c75a",
+    "finding_uid": "FINDING-1d3b4829",
     "cve": {
       "uid": "CVE-2016-2067",
       "cvss": {
@@ -10801,11 +10801,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 144016310.63
     },
-    "time": "2026-06-17T04:20:11Z"
+    "time": "2026-06-17T08:05:20Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4fc9df31",
+    "finding_uid": "FINDING-8b326059",
     "cve": {
       "uid": "CVE-2012-2034",
       "cvss": {
@@ -10838,11 +10838,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 493334911.52
     },
-    "time": "2026-06-18T18:10:03Z"
+    "time": "2026-06-18T21:55:12Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ca6a6714",
+    "finding_uid": "FINDING-296fd23d",
     "cve": {
       "uid": "CVE-2002-2067",
       "cvss": {
@@ -10875,11 +10875,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 13981966.23
     },
-    "time": "2026-06-08T14:58:01Z"
+    "time": "2026-06-08T18:43:10Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f9419fc0",
+    "finding_uid": "FINDING-268d443b",
     "cve": {
       "uid": "CVE-2016-0758",
       "cvss": {
@@ -10912,11 +10912,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 175430176.64
     },
-    "time": "2026-07-09T11:02:29Z"
+    "time": "2026-07-09T14:47:39Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b2cb365f",
+    "finding_uid": "FINDING-c2e426c3",
     "cve": {
       "uid": "CVE-2016-4001",
       "cvss": {
@@ -10949,11 +10949,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 235151262.65
     },
-    "time": "2026-07-25T21:45:03Z"
+    "time": "2026-07-26T01:30:12Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b00db0dc",
+    "finding_uid": "FINDING-bdd32bfc",
     "cve": {
       "uid": "CVE-2016-0990",
       "cvss": {
@@ -10986,11 +10986,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 229487856.82
     },
-    "time": "2026-06-14T00:25:08Z"
+    "time": "2026-06-14T04:10:17Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-8cca33c4",
+    "finding_uid": "FINDING-ef1029ee",
     "cve": {
       "uid": "CVE-2016-1011",
       "cvss": {
@@ -11023,11 +11023,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 151502447.68
     },
-    "time": "2026-09-04T05:19:07Z"
+    "time": "2026-09-04T09:04:16Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-0544b673",
+    "finding_uid": "FINDING-51a707bc",
     "cve": {
       "uid": "CVE-2016-0165",
       "cvss": {
@@ -11060,11 +11060,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 33687154.84
     },
-    "time": "2026-07-23T13:41:46Z"
+    "time": "2026-07-23T17:26:55Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-250a0181",
+    "finding_uid": "FINDING-ee0332af",
     "cve": {
       "uid": "CVE-2008-3438",
       "cvss": {
@@ -11097,11 +11097,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 323919211.9
     },
-    "time": "2026-08-19T08:36:23Z"
+    "time": "2026-08-19T12:21:32Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-674fbd3b",
+    "finding_uid": "FINDING-5ba99ca2",
     "cve": {
       "uid": "CVE-2016-4130",
       "cvss": {
@@ -11134,11 +11134,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 796059211.63
     },
-    "time": "2026-09-01T18:32:01Z"
+    "time": "2026-09-01T22:17:10Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-2834fbe5",
+    "finding_uid": "FINDING-0c8f97cc",
     "cve": {
       "uid": "CVE-2016-1017",
       "cvss": {
@@ -11171,11 +11171,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 42908764.88
     },
-    "time": "2026-07-16T18:08:18Z"
+    "time": "2026-07-16T21:53:27Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c1920914",
+    "finding_uid": "FINDING-ef4106ba",
     "cve": {
       "uid": "CVE-2004-0689",
       "cvss": {
@@ -11208,11 +11208,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 579547436.18
     },
-    "time": "2026-07-07T06:20:43Z"
+    "time": "2026-07-07T10:05:52Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-5904239b",
+    "finding_uid": "FINDING-e108b26b",
     "cve": {
       "uid": "CVE-2009-1603",
       "cvss": {
@@ -11245,11 +11245,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 158810172.81
     },
-    "time": "2026-08-15T11:33:41Z"
+    "time": "2026-08-15T15:18:50Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-a98610e4",
+    "finding_uid": "FINDING-95a4de1e",
     "cve": {
       "uid": "CVE-2004-0217",
       "cvss": {
@@ -11282,11 +11282,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 93411045.63
     },
-    "time": "2026-06-22T15:14:02Z"
+    "time": "2026-06-22T18:59:11Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6459568a",
+    "finding_uid": "FINDING-c28b740d",
     "cve": {
       "uid": "CVE-2015-8798",
       "cvss": {
@@ -11319,11 +11319,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 72331341.6
     },
-    "time": "2026-07-15T04:38:56Z"
+    "time": "2026-07-15T08:24:05Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ce419dc7",
+    "finding_uid": "FINDING-6568355c",
     "cve": {
       "uid": "CVE-2003-1013",
       "cvss": {
@@ -11356,11 +11356,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 77159165.73
     },
-    "time": "2026-06-11T05:53:07Z"
+    "time": "2026-06-11T09:38:16Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-88b22ab3",
+    "finding_uid": "FINDING-20f5ac05",
     "cve": {
       "uid": "CVE-2010-0130",
       "cvss": {
@@ -11393,11 +11393,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 455068455.14
     },
-    "time": "2026-06-20T00:42:24Z"
+    "time": "2026-06-20T04:27:34Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f45d5e0e",
+    "finding_uid": "FINDING-b9205622",
     "cve": {
       "uid": "CVE-2015-0536",
       "cvss": {
@@ -11430,11 +11430,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 427082942.14
     },
-    "time": "2026-07-05T07:08:26Z"
+    "time": "2026-07-05T10:53:35Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-a808cde5",
+    "finding_uid": "FINDING-abd440e7",
     "cve": {
       "uid": "CVE-2006-5158",
       "cvss": {
@@ -11467,11 +11467,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 1487958242.3
     },
-    "time": "2026-07-07T09:36:12Z"
+    "time": "2026-07-07T13:21:21Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e9712f59",
+    "finding_uid": "FINDING-01018b83",
     "cve": {
       "uid": "CVE-2016-3627",
       "cvss": {
@@ -11504,11 +11504,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 814606789.46
     },
-    "time": "2026-08-25T19:14:00Z"
+    "time": "2026-08-25T22:59:09Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-eec43030",
+    "finding_uid": "FINDING-42d861de",
     "cve": {
       "uid": "CVE-2010-2547",
       "cvss": {
@@ -11541,11 +11541,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 178699540.24
     },
-    "time": "2026-06-28T19:30:03Z"
+    "time": "2026-06-28T23:15:12Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e0246dd2",
+    "finding_uid": "FINDING-23587c95",
     "cve": {
       "uid": "CVE-2016-4568",
       "cvss": {
@@ -11569,7 +11569,7 @@
       "type": "Mobile Banking Application Server",
       "criticality": 5,
       "internet_facing": false,
-      "annual_revenue_dependency_inr": -1454287566
+      "annual_revenue_dependency_inr": 122679142
     },
     "loss_parameters": {
       "distribution": "lognormal",
@@ -11578,11 +11578,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 1506853765.51
     },
-    "time": "2026-07-25T20:00:39Z"
+    "time": "2026-07-25T23:45:48Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ca8d86e0",
+    "finding_uid": "FINDING-9c2612eb",
     "cve": {
       "uid": "CVE-2002-0969",
       "cvss": {
@@ -11615,11 +11615,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 178681396.92
     },
-    "time": "2026-07-03T12:17:40Z"
+    "time": "2026-07-03T16:02:49Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-7af5f111",
+    "finding_uid": "FINDING-39faa207",
     "cve": {
       "uid": "CVE-2004-0747",
       "cvss": {
@@ -11652,11 +11652,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 299836164.03
     },
-    "time": "2026-07-21T11:45:05Z"
+    "time": "2026-07-21T15:30:14Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-2c721cf7",
+    "finding_uid": "FINDING-a9b440eb",
     "cve": {
       "uid": "CVE-2015-1779",
       "cvss": {
@@ -11689,11 +11689,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 88438054.5
     },
-    "time": "2026-08-30T00:03:52Z"
+    "time": "2026-08-30T03:49:01Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-bfd5f1ea",
+    "finding_uid": "FINDING-ed2c4389",
     "cve": {
       "uid": "CVE-2016-3958",
       "cvss": {
@@ -11726,11 +11726,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 243870716.46
     },
-    "time": "2026-08-04T13:03:23Z"
+    "time": "2026-08-04T16:48:32Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c2db2aef",
+    "finding_uid": "FINDING-f7b36ba4",
     "cve": {
       "uid": "CVE-2016-0185",
       "cvss": {
@@ -11763,11 +11763,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 106399023.27
     },
-    "time": "2026-07-30T17:17:36Z"
+    "time": "2026-07-30T21:02:45Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-a328d926",
+    "finding_uid": "FINDING-92ea73d5",
     "cve": {
       "uid": "CVE-2016-1033",
       "cvss": {
@@ -11800,11 +11800,11 @@
       "mean_inr_millions": 260,
       "sampled_loss_inr": 422327348.14
     },
-    "time": "2026-07-26T23:36:30Z"
+    "time": "2026-07-27T03:21:39Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-a0fc5c58",
+    "finding_uid": "FINDING-643ee9b5",
     "cve": {
       "uid": "CVE-2012-1856",
       "cvss": {
@@ -11837,11 +11837,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 33953950.12
     },
-    "time": "2026-06-08T19:28:48Z"
+    "time": "2026-06-08T23:13:58Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ae9bd377",
+    "finding_uid": "FINDING-bdc04442",
     "cve": {
       "uid": "CVE-2010-3328",
       "cvss": {
@@ -11874,11 +11874,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 530482626.8
     },
-    "time": "2026-08-02T23:44:00Z"
+    "time": "2026-08-03T03:29:10Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-09388c47",
+    "finding_uid": "FINDING-1fe23574",
     "cve": {
       "uid": "CVE-2009-3289",
       "cvss": {
@@ -11911,11 +11911,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 184453903.9
     },
-    "time": "2026-08-03T20:38:03Z"
+    "time": "2026-08-04T00:23:12Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-4ff1aa62",
+    "finding_uid": "FINDING-ea57c8a6",
     "cve": {
       "uid": "CVE-2016-4131",
       "cvss": {
@@ -11948,11 +11948,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 593544631.31
     },
-    "time": "2026-07-13T18:01:15Z"
+    "time": "2026-07-13T21:46:24Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6ec9d86a",
+    "finding_uid": "FINDING-632a1b19",
     "cve": {
       "uid": "CVE-2010-1281",
       "cvss": {
@@ -11976,7 +11976,7 @@
       "type": "Mobile Banking Application Server",
       "criticality": 5,
       "internet_facing": false,
-      "annual_revenue_dependency_inr": -1454287566
+      "annual_revenue_dependency_inr": 122679142
     },
     "loss_parameters": {
       "distribution": "lognormal",
@@ -11985,11 +11985,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 512657460.13
     },
-    "time": "2026-07-21T01:57:20Z"
+    "time": "2026-07-21T05:42:29Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-0cd9fd85",
+    "finding_uid": "FINDING-2f12fa18",
     "cve": {
       "uid": "CVE-2016-4146",
       "cvss": {
@@ -12022,11 +12022,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 1121211387.08
     },
-    "time": "2026-07-02T07:53:03Z"
+    "time": "2026-07-02T11:38:12Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-a9fdc625",
+    "finding_uid": "FINDING-aee0446e",
     "cve": {
       "uid": "CVE-2015-2425",
       "cvss": {
@@ -12059,11 +12059,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 269802854.62
     },
-    "time": "2026-07-19T17:21:15Z"
+    "time": "2026-07-19T21:06:24Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-87e88639",
+    "finding_uid": "FINDING-f164ebf2",
     "cve": {
       "uid": "CVE-2007-4103",
       "cvss": {
@@ -12096,11 +12096,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 35227440.43
     },
-    "time": "2026-08-06T21:46:25Z"
+    "time": "2026-08-07T01:31:34Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-5e2fb23b",
+    "finding_uid": "FINDING-8dec81fb",
     "cve": {
       "uid": "CVE-2012-0382",
       "cvss": {
@@ -12133,11 +12133,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 103161774.49
     },
-    "time": "2026-06-12T19:48:54Z"
+    "time": "2026-06-12T23:34:04Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-02266e85",
+    "finding_uid": "FINDING-dce6532c",
     "cve": {
       "uid": "CVE-2015-8652",
       "cvss": {
@@ -12170,11 +12170,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 31079276.08
     },
-    "time": "2026-07-15T19:44:29Z"
+    "time": "2026-07-15T23:29:38Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-fe12a33e",
+    "finding_uid": "FINDING-078288f2",
     "cve": {
       "uid": "CVE-2016-0877",
       "cvss": {
@@ -12207,11 +12207,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 129242827.31
     },
-    "time": "2026-06-24T14:52:59Z"
+    "time": "2026-06-24T18:38:08Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ab73300a",
+    "finding_uid": "FINDING-55dd9d73",
     "cve": {
       "uid": "CVE-2004-0119",
       "cvss": {
@@ -12244,11 +12244,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 1170434295.96
     },
-    "time": "2026-07-04T09:22:18Z"
+    "time": "2026-07-04T13:07:27Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-be2f7057",
+    "finding_uid": "FINDING-55cca08f",
     "cve": {
       "uid": "CVE-1999-1549",
       "cvss": {
@@ -12281,11 +12281,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 453302603.12
     },
-    "time": "2026-08-11T08:03:53Z"
+    "time": "2026-08-11T11:49:03Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-602958f3",
+    "finding_uid": "FINDING-0b31e11b",
     "cve": {
       "uid": "CVE-2015-8653",
       "cvss": {
@@ -12318,11 +12318,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 106225126.38
     },
-    "time": "2026-09-02T01:00:05Z"
+    "time": "2026-09-02T04:45:14Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f91cfd08",
+    "finding_uid": "FINDING-76abdaaa",
     "cve": {
       "uid": "CVE-2015-0571",
       "cvss": {
@@ -12355,11 +12355,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 75474624.26
     },
-    "time": "2026-07-09T14:33:37Z"
+    "time": "2026-07-09T18:18:46Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f232e8f2",
+    "finding_uid": "FINDING-c29a125c",
     "cve": {
       "uid": "CVE-2005-0772",
       "cvss": {
@@ -12392,11 +12392,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 114959622.76
     },
-    "time": "2026-07-04T23:29:01Z"
+    "time": "2026-07-05T03:14:10Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-18b3c6f4",
+    "finding_uid": "FINDING-8508b4c7",
     "cve": {
       "uid": "CVE-2004-0389",
       "cvss": {
@@ -12429,11 +12429,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 51819684.56
     },
-    "time": "2026-06-30T07:55:56Z"
+    "time": "2026-06-30T11:41:05Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-488ec056",
+    "finding_uid": "FINDING-0c9b41a3",
     "cve": {
       "uid": "CVE-2015-7378",
       "cvss": {
@@ -12466,11 +12466,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 48179443.32
     },
-    "time": "2026-06-14T23:18:24Z"
+    "time": "2026-06-15T03:03:33Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-6a2d6a3d",
+    "finding_uid": "FINDING-cec2f21e",
     "cve": {
       "uid": "CVE-2016-4153",
       "cvss": {
@@ -12503,11 +12503,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 272418129.1
     },
-    "time": "2026-07-10T19:57:25Z"
+    "time": "2026-07-10T23:42:34Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-3c0759b4",
+    "finding_uid": "FINDING-afa7a6b4",
     "cve": {
       "uid": "CVE-2016-1015",
       "cvss": {
@@ -12540,11 +12540,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 583364216.63
     },
-    "time": "2026-06-28T14:27:26Z"
+    "time": "2026-06-28T18:12:35Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-3b6aadf9",
+    "finding_uid": "FINDING-dddcd634",
     "cve": {
       "uid": "CVE-2016-4951",
       "cvss": {
@@ -12577,11 +12577,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 439361164.24
     },
-    "time": "2026-06-20T15:08:41Z"
+    "time": "2026-06-20T18:53:50Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-bb1ab161",
+    "finding_uid": "FINDING-f0091352",
     "cve": {
       "uid": "CVE-2007-4150",
       "cvss": {
@@ -12614,11 +12614,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 18854213.61
     },
-    "time": "2026-07-28T05:59:51Z"
+    "time": "2026-07-28T09:45:00Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-03598ef1",
+    "finding_uid": "FINDING-878abfa5",
     "cve": {
       "uid": "CVE-2013-6282",
       "cvss": {
@@ -12651,11 +12651,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 315715155.28
     },
-    "time": "2026-08-13T22:32:08Z"
+    "time": "2026-08-14T02:17:17Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b9b84353",
+    "finding_uid": "FINDING-172d2e5a",
     "cve": {
       "uid": "CVE-2016-2066",
       "cvss": {
@@ -12688,11 +12688,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 119964551.2
     },
-    "time": "2026-07-22T13:59:57Z"
+    "time": "2026-07-22T17:45:06Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f2038ad8",
+    "finding_uid": "FINDING-57de95cb",
     "cve": {
       "uid": "CVE-2010-2753",
       "cvss": {
@@ -12725,11 +12725,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 173877342.92
     },
-    "time": "2026-07-04T00:38:27Z"
+    "time": "2026-07-04T04:23:36Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f2044337",
+    "finding_uid": "FINDING-64773246",
     "cve": {
       "uid": "CVE-2014-2815",
       "cvss": {
@@ -12762,11 +12762,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 641435281.91
     },
-    "time": "2026-08-30T07:53:46Z"
+    "time": "2026-08-30T11:38:56Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-969e7166",
+    "finding_uid": "FINDING-c05d0119",
     "cve": {
       "uid": "CVE-2011-2690",
       "cvss": {
@@ -12799,11 +12799,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 20666864.0
     },
-    "time": "2026-09-01T06:14:11Z"
+    "time": "2026-09-01T09:59:21Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-47cfb493",
+    "finding_uid": "FINDING-cdc87c1a",
     "cve": {
       "uid": "CVE-2016-4124",
       "cvss": {
@@ -12836,11 +12836,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 119417822.06
     },
-    "time": "2026-07-08T00:26:48Z"
+    "time": "2026-07-08T04:11:57Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-238680ae",
+    "finding_uid": "FINDING-276db997",
     "cve": {
       "uid": "CVE-2016-0971",
       "cvss": {
@@ -12873,11 +12873,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 430926023.73
     },
-    "time": "2026-07-20T19:09:54Z"
+    "time": "2026-07-20T22:55:03Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-aead24df",
+    "finding_uid": "FINDING-c9d3f557",
     "cve": {
       "uid": "CVE-2016-3418",
       "cvss": {
@@ -12910,11 +12910,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 21914585.12
     },
-    "time": "2026-08-04T03:23:42Z"
+    "time": "2026-08-04T07:08:51Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-08f26adc",
+    "finding_uid": "FINDING-5b67a580",
     "cve": {
       "uid": "CVE-2012-2055",
       "cvss": {
@@ -12947,11 +12947,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 550830601.45
     },
-    "time": "2026-07-24T13:26:43Z"
+    "time": "2026-07-24T17:11:53Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-86d25031",
+    "finding_uid": "FINDING-a1e606a3",
     "cve": {
       "uid": "CVE-2016-2558",
       "cvss": {
@@ -12984,11 +12984,11 @@
       "mean_inr_millions": 260,
       "sampled_loss_inr": 215145429.65
     },
-    "time": "2026-07-15T00:59:51Z"
+    "time": "2026-07-15T04:45:00Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e95a6a80",
+    "finding_uid": "FINDING-03fb4bf8",
     "cve": {
       "uid": "CVE-1999-1568",
       "cvss": {
@@ -13021,11 +13021,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 305951219.38
     },
-    "time": "2026-08-10T17:36:39Z"
+    "time": "2026-08-10T21:21:48Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-70bef86f",
+    "finding_uid": "FINDING-79f7355a",
     "cve": {
       "uid": "CVE-2016-2853",
       "cvss": {
@@ -13058,11 +13058,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 89533773.24
     },
-    "time": "2026-07-09T04:37:05Z"
+    "time": "2026-07-09T08:22:14Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-da635858",
+    "finding_uid": "FINDING-8bf78409",
     "cve": {
       "uid": "CVE-2012-0381",
       "cvss": {
@@ -13095,11 +13095,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 402619795.13
     },
-    "time": "2026-07-27T14:00:06Z"
+    "time": "2026-07-27T17:45:15Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e52e8848",
+    "finding_uid": "FINDING-a1b6f5b1",
     "cve": {
       "uid": "CVE-2005-2281",
       "cvss": {
@@ -13132,11 +13132,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 619324278.54
     },
-    "time": "2026-07-26T01:09:18Z"
+    "time": "2026-07-26T04:54:27Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f9e19708",
+    "finding_uid": "FINDING-1b3dfe25",
     "cve": {
       "uid": "CVE-2007-4988",
       "cvss": {
@@ -13169,11 +13169,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 157138111.31
     },
-    "time": "2026-07-21T15:23:07Z"
+    "time": "2026-07-21T19:08:16Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-7814ac6f",
+    "finding_uid": "FINDING-f0bfd505",
     "cve": {
       "uid": "CVE-2010-4198",
       "cvss": {
@@ -13206,11 +13206,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 214643495.47
     },
-    "time": "2026-07-01T10:23:24Z"
+    "time": "2026-07-01T14:08:33Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c30af76d",
+    "finding_uid": "FINDING-748cb1b6",
     "cve": {
       "uid": "CVE-2006-2916",
       "cvss": {
@@ -13243,11 +13243,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 163661635.27
     },
-    "time": "2026-08-06T11:51:16Z"
+    "time": "2026-08-06T15:36:25Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b162b1c3",
+    "finding_uid": "FINDING-57024498",
     "cve": {
       "uid": "CVE-2005-2946",
       "cvss": {
@@ -13280,11 +13280,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 65180183.46
     },
-    "time": "2026-09-02T00:22:20Z"
+    "time": "2026-09-02T04:07:29Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-9c8fe3e9",
+    "finding_uid": "FINDING-9a2bab34",
     "cve": {
       "uid": "CVE-2008-3188",
       "cvss": {
@@ -13317,11 +13317,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 193295006.68
     },
-    "time": "2026-08-16T19:10:17Z"
+    "time": "2026-08-16T22:55:26Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-b953b466",
+    "finding_uid": "FINDING-011cd3d3",
     "cve": {
       "uid": "CVE-2013-5615",
       "cvss": {
@@ -13354,11 +13354,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 192249830.85
     },
-    "time": "2026-08-29T18:19:20Z"
+    "time": "2026-08-29T22:04:29Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d4de0341",
+    "finding_uid": "FINDING-272579da",
     "cve": {
       "uid": "CVE-2014-0497",
       "cvss": {
@@ -13391,11 +13391,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 343999485.1
     },
-    "time": "2026-06-24T04:09:30Z"
+    "time": "2026-06-24T07:54:39Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-239aeabb",
+    "finding_uid": "FINDING-a4272e30",
     "cve": {
       "uid": "CVE-2017-5159",
       "cvss": {
@@ -13428,11 +13428,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 361332514.4
     },
-    "time": "2026-07-21T06:21:42Z"
+    "time": "2026-07-21T10:06:51Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ae3eebcd",
+    "finding_uid": "FINDING-b220d714",
     "cve": {
       "uid": "CVE-2010-4344",
       "cvss": {
@@ -13465,11 +13465,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 71889974.47
     },
-    "time": "2026-06-18T14:11:31Z"
+    "time": "2026-06-18T17:56:40Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-af3aa4ee",
+    "finding_uid": "FINDING-64b4a906",
     "cve": {
       "uid": "CVE-2017-8872",
       "cvss": {
@@ -13502,11 +13502,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 198079237.06
     },
-    "time": "2026-07-18T21:28:51Z"
+    "time": "2026-07-19T01:14:00Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-93f20356",
+    "finding_uid": "FINDING-bca256fb",
     "cve": {
       "uid": "CVE-2015-8386",
       "cvss": {
@@ -13539,11 +13539,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 609540704.51
     },
-    "time": "2026-07-30T19:42:58Z"
+    "time": "2026-07-30T23:28:07Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-d54615f5",
+    "finding_uid": "FINDING-855ff280",
     "cve": {
       "uid": "CVE-2010-4204",
       "cvss": {
@@ -13576,11 +13576,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 101197666.88
     },
-    "time": "2026-07-05T18:35:59Z"
+    "time": "2026-07-05T22:21:08Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-44a78c4d",
+    "finding_uid": "FINDING-0fb207e8",
     "cve": {
       "uid": "CVE-2017-7938",
       "cvss": {
@@ -13613,11 +13613,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 68154187.27
     },
-    "time": "2026-06-20T21:11:52Z"
+    "time": "2026-06-21T00:57:01Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-12ef0f26",
+    "finding_uid": "FINDING-4454d0df",
     "cve": {
       "uid": "CVE-2017-5897",
       "cvss": {
@@ -13650,11 +13650,11 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 207293004.79
     },
-    "time": "2026-08-11T19:07:24Z"
+    "time": "2026-08-11T22:52:33Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-1924033d",
+    "finding_uid": "FINDING-daf6aae7",
     "cve": {
       "uid": "CVE-2013-4810",
       "cvss": {
@@ -13687,11 +13687,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 305221713.9
     },
-    "time": "2026-07-06T12:45:36Z"
+    "time": "2026-07-06T16:30:45Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-be0d203f",
+    "finding_uid": "FINDING-b4a36f29",
     "cve": {
       "uid": "CVE-2016-5180",
       "cvss": {
@@ -13724,11 +13724,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 101088332.17
     },
-    "time": "2026-07-24T04:02:51Z"
+    "time": "2026-07-24T07:48:00Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-3fd13bc6",
+    "finding_uid": "FINDING-cf656a2b",
     "cve": {
       "uid": "CVE-2015-0573",
       "cvss": {
@@ -13761,11 +13761,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 960296369.52
     },
-    "time": "2026-07-03T05:44:28Z"
+    "time": "2026-07-03T09:29:37Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e2c07434",
+    "finding_uid": "FINDING-1b254d8b",
     "cve": {
       "uid": "CVE-2013-1591",
       "cvss": {
@@ -13798,11 +13798,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 575138377.81
     },
-    "time": "2026-07-09T09:50:47Z"
+    "time": "2026-07-09T13:35:56Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-7da6eb20",
+    "finding_uid": "FINDING-605b56d6",
     "cve": {
       "uid": "CVE-2002-1484",
       "cvss": {
@@ -13835,11 +13835,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 565863842.7
     },
-    "time": "2026-09-02T10:46:23Z"
+    "time": "2026-09-02T14:31:32Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-cba8ce47",
+    "finding_uid": "FINDING-59b3efe0",
     "cve": {
       "uid": "CVE-2005-1141",
       "cvss": {
@@ -13872,11 +13872,11 @@
       "mean_inr_millions": 260,
       "sampled_loss_inr": 263220932.62
     },
-    "time": "2026-08-16T23:11:02Z"
+    "time": "2026-08-17T02:56:11Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-815c0fef",
+    "finding_uid": "FINDING-b55bf75b",
     "cve": {
       "uid": "CVE-2016-3088",
       "cvss": {
@@ -13909,11 +13909,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 2430184387.49
     },
-    "time": "2026-08-07T04:22:04Z"
+    "time": "2026-08-07T08:07:13Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-49627d97",
+    "finding_uid": "FINDING-24752df4",
     "cve": {
       "uid": "CVE-2013-5618",
       "cvss": {
@@ -13946,11 +13946,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 97665209.11
     },
-    "time": "2026-07-18T23:18:30Z"
+    "time": "2026-07-19T03:03:39Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-805fca33",
+    "finding_uid": "FINDING-db784f79",
     "cve": {
       "uid": "CVE-2002-1798",
       "cvss": {
@@ -13983,11 +13983,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 25768821.43
     },
-    "time": "2026-08-15T17:15:58Z"
+    "time": "2026-08-15T21:01:07Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-88730a30",
+    "finding_uid": "FINDING-c41147b8",
     "cve": {
       "uid": "CVE-1999-1324",
       "cvss": {
@@ -14020,11 +14020,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 886453262.13
     },
-    "time": "2026-07-28T05:53:01Z"
+    "time": "2026-07-28T09:38:10Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-12212509",
+    "finding_uid": "FINDING-8814e0d8",
     "cve": {
       "uid": "CVE-2015-2590",
       "cvss": {
@@ -14057,11 +14057,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 138029187.97
     },
-    "time": "2026-07-28T18:36:13Z"
+    "time": "2026-07-28T22:21:22Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-e6641fee",
+    "finding_uid": "FINDING-1d5e9fca",
     "cve": {
       "uid": "CVE-2017-9544",
       "cvss": {
@@ -14094,11 +14094,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 112248508.64
     },
-    "time": "2026-08-01T20:53:16Z"
+    "time": "2026-08-02T00:38:26Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-9e3e6b64",
+    "finding_uid": "FINDING-5a297e8d",
     "cve": {
       "uid": "CVE-2008-1160",
       "cvss": {
@@ -14131,11 +14131,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 643723071.61
     },
-    "time": "2026-08-20T23:06:52Z"
+    "time": "2026-08-21T02:52:01Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-58beb641",
+    "finding_uid": "FINDING-486915a8",
     "cve": {
       "uid": "CVE-2016-10145",
       "cvss": {
@@ -14168,11 +14168,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 34090414.95
     },
-    "time": "2026-08-06T12:33:49Z"
+    "time": "2026-08-06T16:18:58Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-a1073594",
+    "finding_uid": "FINDING-6f6c884d",
     "cve": {
       "uid": "CVE-2013-3346",
       "cvss": {
@@ -14205,11 +14205,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 49882790.41
     },
-    "time": "2026-08-30T14:19:00Z"
+    "time": "2026-08-30T18:04:09Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-08cf0a91",
+    "finding_uid": "FINDING-170cfa7e",
     "cve": {
       "uid": "CVE-2008-7109",
       "cvss": {
@@ -14242,11 +14242,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 39880280.78
     },
-    "time": "2026-06-07T23:05:53Z"
+    "time": "2026-06-08T02:51:02Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f9ad2722",
+    "finding_uid": "FINDING-5953533b",
     "cve": {
       "uid": "CVE-2017-2800",
       "cvss": {
@@ -14279,11 +14279,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 51526470.81
     },
-    "time": "2026-06-19T21:17:06Z"
+    "time": "2026-06-20T01:02:15Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-23656a54",
+    "finding_uid": "FINDING-1c070850",
     "cve": {
       "uid": "CVE-2016-4120",
       "cvss": {
@@ -14316,11 +14316,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 196684890.05
     },
-    "time": "2026-07-13T04:36:31Z"
+    "time": "2026-07-13T08:21:40Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-5a5fff8a",
+    "finding_uid": "FINDING-aec7575a",
     "cve": {
       "uid": "CVE-2016-7480",
       "cvss": {
@@ -14353,11 +14353,11 @@
       "mean_inr_millions": 180,
       "sampled_loss_inr": 176390481.61
     },
-    "time": "2026-08-28T02:31:07Z"
+    "time": "2026-08-28T06:16:16Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-84e4446d",
+    "finding_uid": "FINDING-5cda923e",
     "cve": {
       "uid": "CVE-2017-5689",
       "cvss": {
@@ -14390,11 +14390,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 306231183.56
     },
-    "time": "2026-08-11T11:36:07Z"
+    "time": "2026-08-11T15:21:16Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-7bacccc4",
+    "finding_uid": "FINDING-b8c4f737",
     "cve": {
       "uid": "CVE-2016-4437",
       "cvss": {
@@ -14427,11 +14427,11 @@
       "mean_inr_millions": 200,
       "sampled_loss_inr": 23930397.72
     },
-    "time": "2026-06-18T16:27:06Z"
+    "time": "2026-06-18T20:12:15Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-f050846c",
+    "finding_uid": "FINDING-4c6d4001",
     "cve": {
       "uid": "CVE-2015-8857",
       "cvss": {
@@ -14464,11 +14464,11 @@
       "mean_inr_millions": 280,
       "sampled_loss_inr": 12646874.9
     },
-    "time": "2026-07-05T12:18:01Z"
+    "time": "2026-07-05T16:03:10Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-5234a012",
+    "finding_uid": "FINDING-93b054e4",
     "cve": {
       "uid": "CVE-2001-1339",
       "cvss": {
@@ -14501,11 +14501,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 240663845.94
     },
-    "time": "2026-07-23T13:13:27Z"
+    "time": "2026-07-23T16:58:36Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-ae6bb682",
+    "finding_uid": "FINDING-3eff8e02",
     "cve": {
       "uid": "CVE-2007-0681",
       "cvss": {
@@ -14538,11 +14538,11 @@
       "mean_inr_millions": 220,
       "sampled_loss_inr": 73118557.73
     },
-    "time": "2026-06-21T20:16:03Z"
+    "time": "2026-06-22T00:01:12Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-7f08e858",
+    "finding_uid": "FINDING-0a3da68f",
     "cve": {
       "uid": "CVE-2004-2061",
       "cvss": {
@@ -14575,11 +14575,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 373584633.41
     },
-    "time": "2026-07-07T01:37:11Z"
+    "time": "2026-07-07T05:22:20Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-397218a5",
+    "finding_uid": "FINDING-05dee532",
     "cve": {
       "uid": "CVE-2017-5158",
       "cvss": {
@@ -14612,11 +14612,11 @@
       "mean_inr_millions": 350,
       "sampled_loss_inr": 416006337.29
     },
-    "time": "2026-08-14T17:41:29Z"
+    "time": "2026-08-14T21:26:38Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-8b19a4a3",
+    "finding_uid": "FINDING-3be4c4d9",
     "cve": {
       "uid": "CVE-2009-1936",
       "cvss": {
@@ -14649,11 +14649,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 263611957.75
     },
-    "time": "2026-08-03T03:44:28Z"
+    "time": "2026-08-03T07:29:37Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-8fcf3ee3",
+    "finding_uid": "FINDING-683716aa",
     "cve": {
       "uid": "CVE-2016-10045",
       "cvss": {
@@ -14686,11 +14686,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 517839802.49
     },
-    "time": "2026-07-31T03:57:32Z"
+    "time": "2026-07-31T07:42:41Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-c6dbe5cc",
+    "finding_uid": "FINDING-17f42389",
     "cve": {
       "uid": "CVE-2002-0639",
       "cvss": {
@@ -14723,11 +14723,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 290977001.36
     },
-    "time": "2026-06-28T10:40:29Z"
+    "time": "2026-06-28T14:25:38Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-bf554774",
+    "finding_uid": "FINDING-4de93715",
     "cve": {
       "uid": "CVE-2016-2386",
       "cvss": {
@@ -14760,11 +14760,11 @@
       "mean_inr_millions": 409,
       "sampled_loss_inr": 403380664.45
     },
-    "time": "2026-06-26T11:54:22Z"
+    "time": "2026-06-26T15:39:31Z"
   },
   {
     "class_uid": 2001,
-    "finding_uid": "FINDING-3dfb246f",
+    "finding_uid": "FINDING-727cdce0",
     "cve": {
       "uid": "CVE-2017-5611",
       "cvss": {
@@ -14797,6 +14797,6 @@
       "mean_inr_millions": 300,
       "sampled_loss_inr": 77433978.31
     },
-    "time": "2026-07-03T01:02:27Z"
+    "time": "2026-07-03T04:47:36Z"
   }
 ]
