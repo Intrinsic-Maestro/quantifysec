@@ -230,7 +230,22 @@ def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
 
           # Step 6: Generate Technical Drill-down for the UI
           vuln_drilldown = build_vulnerability_drilldown(vuln_res["valid"], portfolio_ale_rupees)
+          # Step 6: Generate Technical Drill-down for the UI
+          vuln_drilldown = build_vulnerability_drilldown(vuln_res["valid"], portfolio_ale_rupees)
           
+          # Guarantee the fields the frontend reads exist at a known path
+          pm = analytics["portfolio_metrics"]
+          mc_dict.setdefault("portfolio_metrics", {})
+          mc_dict["portfolio_metrics"].update({
+              "mean_ale": pm.get("mean_ale"),
+              "p5_ale":   pm.get("p5_ale") or pm.get("percentile_5"),
+              "p25_ale":  pm.get("p25_ale") or pm.get("percentile_25"),
+              "p50_ale":  pm.get("p50_ale") or pm.get("percentile_50"),
+              "p75_ale":  pm.get("p75_ale") or pm.get("percentile_75"),
+              "p95_ale":  pm.get("p95_ale") or pm.get("percentile_95"),
+              "p99_ale":  pm.get("p99_ale") or pm.get("percentile_99"),
+          })
+
           return {
                "status": "success",
                "simulation_run_id": simulation_run_id,
@@ -243,5 +258,7 @@ def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
                "technical_drilldown": vuln_drilldown # <-- Handing this directly to the frontend
           }
           
-     except Exception as e:
+        except HTTPException:
+          raise
+        except Exception as e:
           raise HTTPException(status_code=500, detail=str(e))
