@@ -618,3 +618,54 @@ def insert_quarterly_risk_trend(
     }
     res = get_client().table("quarterly_risk_trend").insert(row).execute()
     return res.data[0]["id"]
+
+# ═══════════════════════════════════════════════════════════════════════════
+# AUTH / MULTI-TENANCY LAYER — append these to db.py
+# ═══════════════════════════════════════════════════════════════════════════
+
+def get_or_create_company(company_name: str) -> str:
+    """
+    Look up a company by name; create it if it doesn't exist yet.
+    Returns the company's UUID (companies.company_id).
+
+    NOTE: this matches on company_name exactly (case-sensitive). If two
+    people sign up with slightly different casing/spacing for the same
+    real company ("Acme Corp" vs "acme corp "), they'll get separate
+    company rows. Fine for a hackathon demo; a real product would
+    normalize the name (lowercase + strip) before matching, or let users
+    pick from existing companies instead of free-typing one.
+    """
+    client = get_client()
+    existing = (
+        client.table("companies")
+        .select("company_id")
+        .eq("company_name", company_name)
+        .limit(1)
+        .execute()
+    )
+    if existing.data:
+        return existing.data[0]["company_id"]
+
+    created = client.table("companies").insert({"company_name": company_name}).execute()
+    return created.data[0]["company_id"]
+
+
+def upsert_profile(email: str, name: str, role: str, company_id: str) -> None:
+    """
+    Create or update the user's profile row, linked to their company.
+
+    Matches on email (assumed unique per user). If profiles.email doesn't
+    have a unique constraint in your schema yet, this on_conflict will
+    fail — add one via:
+        ALTER TABLE profiles ADD CONSTRAINT profiles_email_unique UNIQUE (email);
+    before relying on this upsert.
+    """
+    get_client().table("profiles").upsert(
+        {
+            "email": email,
+            "name": name,
+            "role": role,
+            "company_id": company_id,
+        },
+        on_conflict="email",
+    ).execute()
