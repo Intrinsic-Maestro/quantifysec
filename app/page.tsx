@@ -116,7 +116,7 @@ export default function QuantifySecApp() {
   const [currentUserName, setCurrentUserName] = useState<string>("");
   const [activeEmail, setActiveEmail] = useState<string>("");
   const [authMode, setAuthMode] = useState<"signup" | "login">("signup");
-  
+
   // Modals
   const [isAuditModalOpen, setIsAuditModalOpen] = useState<boolean>(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
@@ -132,7 +132,7 @@ export default function QuantifySecApp() {
   const [mfaError, setMfaError] = useState<string>("");
   const [pendingNavigation, setPendingNavigation] = useState<string>("");
   const [isSendingOtp, setIsSendingOtp] = useState<boolean>(false);
-  
+
   // OCSF Data Upload State
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>("");
@@ -169,7 +169,7 @@ export default function QuantifySecApp() {
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
     const validViews = ["home", "auth", "mfa", "cfo-dashboard", "ciso-dashboard"];
-    
+
     if (hash && validViews.includes(hash)) {
       setCurrentView(hash);
       window.history.replaceState({ view: hash }, "", `#${hash}`);
@@ -252,7 +252,7 @@ export default function QuantifySecApp() {
   // ==========================================
   // REAL BACKEND AUTHENTICATION WITH RESEND
   // ==========================================
-  const triggerMfaFlow = async (email: string, targetDashboard: string) => {
+  const triggerMfaFlow = async (email: string, targetDashboard: string, name?: string, company?: string) => {
     setIsSendingOtp(true);
     setMfaError("");
     setActiveEmail(email);
@@ -261,7 +261,9 @@ export default function QuantifySecApp() {
       const res = await fetch(`${backendBaseUrl}/api/auth/request-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, role: currentRole })
+        // NEW — name/company now included. Both are undefined on login,
+        // which the backend's OTPRequest model already treats as optional.
+        body: JSON.stringify({ email, role: currentRole, name, company })
       });
 
       if (!res.ok) {
@@ -287,7 +289,14 @@ export default function QuantifySecApp() {
     if (signupForm.company.trim()) {
       sessionStorage.setItem("quantifysec_company", signupForm.company.trim());
     }
-    triggerMfaFlow(signupForm.email, currentRole === "cfo" ? "cfo-dashboard" : "ciso-dashboard");
+    // NEW — name and company are now actually passed through, instead of
+    // being collected by the form and silently discarded.
+    triggerMfaFlow(
+      signupForm.email,
+      currentRole === "cfo" ? "cfo-dashboard" : "ciso-dashboard",
+      signupForm.name.trim(),
+      signupForm.company.trim()
+    );
   };
 
   const handleLoginSubmit = (e: React.FormEvent) => {
@@ -377,7 +386,7 @@ export default function QuantifySecApp() {
 
   return (
     <div className="w-full flex flex-col min-h-screen">
-      
+
       {/* FLOATING NAVBAR */}
       <div id="main-nav-wrapper" className={`fixed w-full top-6 z-40 px-4 md:px-6 flex justify-center transition-transform duration-300 ease-in-out ${navVisible ? "translate-y-0" : "-translate-y-36"}`}>
         <nav className={`w-full max-w-[1100px] backdrop-blur-xl rounded-2xl px-4 py-2.5 flex items-center shadow-2xl transition-all duration-500 ${isLight ? "bg-white/85 border border-black/10 shadow-[0_4px_20px_rgba(0,0,0,0.06)]" : "bg-[#09090b]/60 border border-white/10"}`}>
@@ -422,7 +431,7 @@ export default function QuantifySecApp() {
       </div>
 
       <main id="app-container" className="relative z-10 w-full flex-1 flex flex-col pt-32">
-        
+
         {/* ==================== HOME VIEW ==================== */}
         {currentView === "home" && (
           <section id="view-home" className="relative w-full flex flex-col items-center">
@@ -493,7 +502,7 @@ export default function QuantifySecApp() {
                     A swarm of AI Co-Workers that instantly close the loop from technical insight to actionable financial decision.
                   </p>
                 </div>
-                
+
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   <div className="ui-widget rounded-3xl p-8 lg:col-span-2 flex flex-col justify-between">
                     <div className="flex justify-between items-start mb-8">
@@ -632,24 +641,24 @@ export default function QuantifySecApp() {
                     <div className="grid grid-cols-2 gap-5">
                       <div>
                         <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Full Name</label>
-                        <input 
-                          type="text" 
-                          required 
+                        <input
+                          type="text"
+                          required
                           placeholder="Rohan Sharma"
-                          value={signupForm.name} 
-                          onChange={(e) => setSignupForm({ ...signupForm, name: e.target.value })} 
-                          className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
+                          value={signupForm.name}
+                          onChange={(e) => setSignupForm({ ...signupForm, name: e.target.value })}
+                          className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600"
                         />
                       </div>
                       <div>
                         <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Work Email</label>
-                        <input 
-                          type="email" 
-                          required 
+                        <input
+                          type="email"
+                          required
                           placeholder="rohan@company.com"
-                          value={signupForm.email} 
-                          onChange={(e) => setSignupForm({ ...signupForm, email: e.target.value })} 
-                          className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
+                          value={signupForm.email}
+                          onChange={(e) => setSignupForm({ ...signupForm, email: e.target.value })}
+                          className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600"
                         />
                       </div>
                     </div>
@@ -657,25 +666,25 @@ export default function QuantifySecApp() {
                     {/* NEW COMPANY NAME FIELD */}
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Company Name</label>
-                      <input 
-                        type="text" 
-                        required 
+                      <input
+                        type="text"
+                        required
                         placeholder="e.g. Acme Financial Technologies"
-                        value={signupForm.company} 
-                        onChange={(e) => setSignupForm({ ...signupForm, company: e.target.value })} 
-                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
+                        value={signupForm.company}
+                        onChange={(e) => setSignupForm({ ...signupForm, company: e.target.value })}
+                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600"
                       />
                     </div>
 
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Password</label>
-                      <input 
-                        type="password" 
-                        required 
+                      <input
+                        type="password"
+                        required
                         placeholder="••••••••"
-                        value={signupForm.password} 
-                        onChange={(e) => setSignupForm({ ...signupForm, password: e.target.value })} 
-                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
+                        value={signupForm.password}
+                        onChange={(e) => setSignupForm({ ...signupForm, password: e.target.value })}
+                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600"
                       />
                     </div>
 
@@ -717,24 +726,24 @@ export default function QuantifySecApp() {
                   <form className="space-y-5" onSubmit={handleLoginSubmit}>
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Work Email</label>
-                      <input 
-                        type="email" 
-                        required 
+                      <input
+                        type="email"
+                        required
                         placeholder="rohan@company.com"
-                        value={loginForm.email} 
-                        onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })} 
-                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
+                        value={loginForm.email}
+                        onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })}
+                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600"
                       />
                     </div>
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Password</label>
-                      <input 
-                        type="password" 
-                        required 
+                      <input
+                        type="password"
+                        required
                         placeholder="••••••••"
-                        value={loginForm.password} 
-                        onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })} 
-                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
+                        value={loginForm.password}
+                        onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600"
                       />
                     </div>
                     <div>
@@ -770,7 +779,7 @@ export default function QuantifySecApp() {
               </div>
               <h2 className="font-display text-3xl font-bold mb-2">Check Your Email</h2>
               <p className="text-gray-400 text-sm mb-8">
-                We've sent a 6-digit verification code to <br/>
+                We've sent a 6-digit verification code to <br />
                 <span className="text-white font-medium">{activeEmail}</span>.
               </p>
               <form onSubmit={handleMfaSubmit} className="space-y-6">
@@ -976,7 +985,7 @@ export default function QuantifySecApp() {
                   {CFO_MOCK_DATA.scatterPoints.map((p, i) => (
                     <g key={i} transform={`translate(${p.x * 9.5 + 20}, ${280 - (p.y * 3.2)})`}>
                       <circle r={p.selected ? "6" : "4"} fill={p.selected ? "#a78bfa" : "#6b7280"} opacity={p.selected ? "1" : "0.5"} className={p.selected ? "shadow-[0_0_10px_#a78bfa]" : ""} />
-                      {i % 4 === 0 && <text x="10" y="2" fill="rgba(255,255,255,0.3)" fontSize="9" fontFamily="monospace">FINDING-{(i*13).toString(16)}</text>}
+                      {i % 4 === 0 && <text x="10" y="2" fill="rgba(255,255,255,0.3)" fontSize="9" fontFamily="monospace">FINDING-{(i * 13).toString(16)}</text>}
                     </g>
                   ))}
                 </svg>
@@ -1116,7 +1125,7 @@ export default function QuantifySecApp() {
               </div>
               <div className="flex items-center gap-2">
                 <button onClick={() => setIsUploadModalOpen(true)} className="text-xs font-mono uppercase tracking-wider text-qviolet hover:text-white border border-qviolet/30 hover:border-qviolet/60 bg-qviolet/10 px-3 py-2 rounded-lg transition flex items-center gap-1.5 shadow-[0_0_10px_rgba(167,139,250,0.15)]">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> 
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                   INGEST OCSF
                 </button>
                 <button onClick={() => setIsAuditModalOpen(true)} className="text-xs font-mono uppercase tracking-wider text-qemerald hover:text-white border border-qemerald/30 hover:border-qemerald/60 bg-qemerald/10 px-3 py-2 rounded-lg transition flex items-center gap-1.5">
@@ -1254,7 +1263,7 @@ export default function QuantifySecApp() {
                         <td className="py-4 px-2 text-white font-sans font-medium">{c.name}</td>
                         <td className="py-4 px-2 text-qviolet font-sans">{c.category}</td>
                         <td className="py-4 px-2 text-right text-qamber">{c.efficiency}</td>
-                        <td className="py-4 px-2 text-right"><div className="flex items-center justify-end gap-2 text-gray-400"><div className="w-12 h-1 bg-white/10 rounded-full"><div className="h-full bg-gray-500 rounded-full" style={{ width: `${c.weight}%` }}/></div>{c.weight}%</div></td>
+                        <td className="py-4 px-2 text-right"><div className="flex items-center justify-end gap-2 text-gray-400"><div className="w-12 h-1 bg-white/10 rounded-full"><div className="h-full bg-gray-500 rounded-full" style={{ width: `${c.weight}%` }} /></div>{c.weight}%</div></td>
                       </tr>
                     ))}
                   </tbody>
@@ -1290,7 +1299,7 @@ export default function QuantifySecApp() {
                         <td className="py-4 px-2 text-white font-sans font-medium">{c.name}</td>
                         <td className="py-4 px-2 text-qviolet font-sans">{c.category}</td>
                         <td className="py-4 px-2 text-right text-gray-400">{c.efficiency}</td>
-                        <td className="py-4 px-2 text-right"><div className="flex items-center justify-end gap-2 text-gray-400"><div className="w-12 h-1 bg-white/10 rounded-full"><div className="h-full bg-qamber rounded-full" style={{ width: `${c.weight}%` }}/></div>{c.weight}%</div></td>
+                        <td className="py-4 px-2 text-right"><div className="flex items-center justify-end gap-2 text-gray-400"><div className="w-12 h-1 bg-white/10 rounded-full"><div className="h-full bg-qamber rounded-full" style={{ width: `${c.weight}%` }} /></div>{c.weight}%</div></td>
                       </tr>
                     ))}
                   </tbody>
@@ -1319,17 +1328,15 @@ export default function QuantifySecApp() {
             </div>
 
             <div className="space-y-4">
-              <div 
+              <div
                 onClick={() => fileInputRef.current?.click()}
-                className={`w-full border-2 border-dashed rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 ${
-                  fileName 
-                    ? "border-qemerald/50 bg-qemerald/5" 
+                className={`w-full border-2 border-dashed rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 ${fileName
+                    ? "border-qemerald/50 bg-qemerald/5"
                     : "border-white/10 hover:border-qviolet/50 bg-white/[0.02] hover:bg-qviolet/5"
-                }`}
+                  }`}
               >
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 transition ${
-                  fileName ? "bg-qemerald/20 text-qemerald" : "bg-white/5 text-gray-400"
-                }`}>
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 transition ${fileName ? "bg-qemerald/20 text-qemerald" : "bg-white/5 text-gray-400"
+                  }`}>
                   {fileName ? (
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
@@ -1353,31 +1360,30 @@ export default function QuantifySecApp() {
                   </>
                 )}
 
-                <input 
-                  type="file" 
-                  accept=".json" 
-                  ref={fileInputRef} 
-                  className="hidden" 
+                <input
+                  type="file"
+                  accept=".json"
+                  ref={fileInputRef}
+                  className="hidden"
                   onChange={handleFileSelect}
                 />
               </div>
             </div>
 
             <div className="mt-6 pt-4 border-t border-white/10 flex justify-end gap-3">
-              <button 
-                onClick={() => { setIsUploadModalOpen(false); setSelectedFile(null); setFileName(""); }} 
+              <button
+                onClick={() => { setIsUploadModalOpen(false); setSelectedFile(null); setFileName(""); }}
                 className="px-5 py-2.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-white transition"
               >
                 Cancel
               </button>
-              <button 
+              <button
                 onClick={processOcsfData}
                 disabled={isUploading || !fileName}
-                className={`px-5 py-2.5 rounded-lg text-xs font-semibold transition flex items-center gap-2 ${
-                  isUploading || !fileName 
-                    ? "bg-white/10 text-gray-500 cursor-not-allowed" 
+                className={`px-5 py-2.5 rounded-lg text-xs font-semibold transition flex items-center gap-2 ${isUploading || !fileName
+                    ? "bg-white/10 text-gray-500 cursor-not-allowed"
                     : "bg-qviolet text-[#09090b] hover:bg-qviolet/90 shadow-[0_0_15px_rgba(167,139,250,0.4)]"
-                }`}
+                  }`}
               >
                 {isUploading ? (
                   <><div className="w-3 h-3 border-2 border-[#09090b] border-t-transparent rounded-full animate-spin" /> Processing...</>
