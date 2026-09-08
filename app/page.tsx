@@ -299,6 +299,7 @@ export default function QuantifySecApp() {
     );
   };
 
+
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentRole) { alert("Please select your role."); return; }
