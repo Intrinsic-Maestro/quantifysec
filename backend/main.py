@@ -242,7 +242,7 @@ def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
           # dict (it does analytics.get("top_risk_drivers", []) internally) --
           # passing just the list directly throws AttributeError since lists
           # have no .get() method.
-          db.insert_risk_assessments(analytics, simulation_run_id)
+          db.insert_risk_assessments(analytics["top_risk_drivers"], simulation_run_id)
 
           # Step 4: True Bridge to Knapsack (Using actual vulnerabilities, ignoring get_sample_controls)
           portfolio_ale_rupees = analytics["portfolio_metrics"]["mean_ale"]
