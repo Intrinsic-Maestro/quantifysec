@@ -126,7 +126,7 @@ export default function QuantifySecApp() {
   const [isLight, setIsLight] = useState<boolean>(false);
 
   // Forms & MFA
-  const [signupForm, setSignupForm] = useState({ name: "", email: "", password: "" });
+  const [signupForm, setSignupForm] = useState({ name: "", email: "", company: "", password: "" });
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [otpInput, setOtpInput] = useState<string>("");
   const [mfaError, setMfaError] = useState<string>("");
@@ -284,6 +284,9 @@ export default function QuantifySecApp() {
     if (!currentRole) { alert("Please select your role."); return; }
     const name = signupForm.name.trim();
     setCurrentUserName(name ? `, ${name.split(" ")[0]}` : "");
+    if (signupForm.company.trim()) {
+      sessionStorage.setItem("quantifysec_company", signupForm.company.trim());
+    }
     triggerMfaFlow(signupForm.email, currentRole === "cfo" ? "cfo-dashboard" : "ciso-dashboard");
   };
 
@@ -312,7 +315,6 @@ export default function QuantifySecApp() {
       }
 
       const data = await res.json();
-      // Store real signed JWT token in session
       sessionStorage.setItem("quantifysec_jwt", data.access_token);
       navigate(pendingNavigation);
     } catch (err: any) {
@@ -363,7 +365,6 @@ export default function QuantifySecApp() {
         throw new Error("Backend failed to process telemetry file.");
       }
 
-      // Real file parsed successfully by Railway backend
       setIsUploadModalOpen(false);
       setSelectedFile(null);
       setFileName("");
@@ -425,7 +426,6 @@ export default function QuantifySecApp() {
         {/* ==================== HOME VIEW ==================== */}
         {currentView === "home" && (
           <section id="view-home" className="relative w-full flex flex-col items-center">
-            {/* 1. HERO SECTION */}
             <div className="min-h-[85vh] w-full flex flex-col justify-center items-center relative">
               <div className="max-w-4xl mx-auto px-6 text-center relative z-10 -mt-24">
                 <div className="mb-6 flex justify-center items-center gap-3 text-sm tracking-[0.2em] font-medium text-gray-300 uppercase">
@@ -445,7 +445,6 @@ export default function QuantifySecApp() {
               </div>
             </div>
 
-            {/* 2. THE PROBLEM SECTION */}
             <div id="section-problem" className="w-full max-w-[1100px] mx-auto px-6 py-24 border-t border-white/5 relative z-10">
               <div className="text-center mb-20 max-w-3xl mx-auto">
                 <h2 className="font-display text-3xl md:text-4xl font-semibold tracking-tight mb-6">
@@ -484,7 +483,6 @@ export default function QuantifySecApp() {
               </div>
             </div>
 
-            {/* 3. THE SOLUTION SECTION */}
             <div className="w-full relative z-10 pb-24 pt-[250px]" style={{ background: "linear-gradient(to bottom, #09090b 0px, #4c1d95 70px, #8b5cf6 150px, #ffffff 250px, #ffffff 100%)" }}>
               <div id="section-solution" className="w-full max-w-[1100px] mx-auto px-6 pb-32 relative z-10">
                 <div className="text-center mb-16 max-w-3xl mx-auto">
@@ -583,7 +581,6 @@ export default function QuantifySecApp() {
                   </div>
                 </div>
 
-                {/* Candidate Security Controls Portfolio */}
                 <div className="mt-8 ui-widget rounded-3xl p-8 flex flex-col">
                   <div className="flex justify-between items-center mb-6">
                     <h3 className="text-white font-display text-xl font-bold">Candidate Security Controls Portfolio</h3>
@@ -621,7 +618,7 @@ export default function QuantifySecApp() {
           </section>
         )}
 
-        {/* ==================== AUTH VIEW ==================== */}
+        {/* ==================== AUTH VIEW (LOGIN / SIGNUP) ==================== */}
         {currentView === "auth" && (
           <section id="view-auth" className="max-w-xl mx-auto px-6 pb-20 relative z-10 w-full flex flex-col justify-center">
             <div className="glass-panel p-10 rounded-2xl relative">
@@ -635,25 +632,69 @@ export default function QuantifySecApp() {
                     <div className="grid grid-cols-2 gap-5">
                       <div>
                         <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Full Name</label>
-                        <input type="text" required value={signupForm.name} onChange={(e) => setSignupForm({ ...signupForm, name: e.target.value })} className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body" />
+                        <input 
+                          type="text" 
+                          required 
+                          placeholder="Rohan Sharma"
+                          value={signupForm.name} 
+                          onChange={(e) => setSignupForm({ ...signupForm, name: e.target.value })} 
+                          className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
+                        />
                       </div>
                       <div>
                         <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Work Email</label>
-                        <input type="email" required value={signupForm.email} onChange={(e) => setSignupForm({ ...signupForm, email: e.target.value })} className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body" />
+                        <input 
+                          type="email" 
+                          required 
+                          placeholder="rohan@company.com"
+                          value={signupForm.email} 
+                          onChange={(e) => setSignupForm({ ...signupForm, email: e.target.value })} 
+                          className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
+                        />
                       </div>
                     </div>
+
+                    {/* NEW COMPANY NAME FIELD */}
+                    <div>
+                      <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Company Name</label>
+                      <input 
+                        type="text" 
+                        required 
+                        placeholder="e.g. Acme Financial Technologies"
+                        value={signupForm.company} 
+                        onChange={(e) => setSignupForm({ ...signupForm, company: e.target.value })} 
+                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
+                      />
+                    </div>
+
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Password</label>
-                      <input type="password" required value={signupForm.password} onChange={(e) => setSignupForm({ ...signupForm, password: e.target.value })} className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body" />
+                      <input 
+                        type="password" 
+                        required 
+                        placeholder="••••••••"
+                        value={signupForm.password} 
+                        onChange={(e) => setSignupForm({ ...signupForm, password: e.target.value })} 
+                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
+                      />
                     </div>
+
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-3 uppercase">Select Your Role</label>
                       <div className="grid grid-cols-2 gap-3">
                         <button type="button" onClick={() => setCurrentRole("cfo")} className={`text-left p-4 rounded-xl border transition ${currentRole === "cfo" ? "border-qviolet/60 bg-qviolet/10 shadow-[0_0_0_1px_rgba(167,139,250,0.3)]" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.06]"}`}>
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="w-9 h-9 rounded-lg bg-qemerald/12 border border-qemerald/25 flex items-center justify-center"><svg className="w-4 h-4 text-qemerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path></svg></div>
+                            <div className={`w-5 h-5 rounded-full border border-white/25 flex items-center justify-center ${currentRole === "cfo" ? "bg-qviolet border-qviolet" : ""}`}>{currentRole === "cfo" && <div className="w-1.5 h-1.5 rounded-full bg-[#09090b]" />}</div>
+                          </div>
                           <div className="font-display font-semibold text-white text-sm">CFO</div>
                           <div className="text-[11px] text-gray-500 mt-0.5 leading-tight">Financial risk & portfolio view</div>
                         </button>
                         <button type="button" onClick={() => setCurrentRole("ciso")} className={`text-left p-4 rounded-xl border transition ${currentRole === "ciso" ? "border-qviolet/60 bg-qviolet/10 shadow-[0_0_0_1px_rgba(167,139,250,0.3)]" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.06]"}`}>
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="w-9 h-9 rounded-lg bg-qviolet/12 border border-qviolet/25 flex items-center justify-center"><svg className="w-4 h-4 text-qviolet" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg></div>
+                            <div className={`w-5 h-5 rounded-full border border-white/25 flex items-center justify-center ${currentRole === "ciso" ? "bg-qviolet border-qviolet" : ""}`}>{currentRole === "ciso" && <div className="w-1.5 h-1.5 rounded-full bg-[#09090b]" />}</div>
+                          </div>
                           <div className="font-display font-semibold text-white text-sm">CISO</div>
                           <div className="text-[11px] text-gray-500 mt-0.5 leading-tight">Technical posture & coverage view</div>
                         </button>
@@ -676,11 +717,25 @@ export default function QuantifySecApp() {
                   <form className="space-y-5" onSubmit={handleLoginSubmit}>
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Work Email</label>
-                      <input type="email" required value={loginForm.email} onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })} className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body" />
+                      <input 
+                        type="email" 
+                        required 
+                        placeholder="rohan@company.com"
+                        value={loginForm.email} 
+                        onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })} 
+                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
+                      />
                     </div>
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Password</label>
-                      <input type="password" required value={loginForm.password} onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })} className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body" />
+                      <input 
+                        type="password" 
+                        required 
+                        placeholder="••••••••"
+                        value={loginForm.password} 
+                        onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })} 
+                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
+                      />
                     </div>
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-3 uppercase">Sign in as</label>
