@@ -6,7 +6,6 @@ import React, { useState, useEffect, useRef } from "react";
 // CHATBOT DICTIONARY & LOGIC
 // =============================================================================
 const DEFINITIONS: Record<string, { term: string; definition: string }> = {
-  // Financial Risk Metrics
   ale: {
     term: 'ALE — Annualized Loss Expectancy',
     definition: 'ALE is the total financial loss you can expect from a specific cyber risk over one full year.\n\nFormula: ALE = SLE × ARO\n\nExample: If a ransomware attack costs ₹50 Lakhs (SLE) and occurs twice a year on average (ARO = 2), then ALE = ₹100 Lakhs.\n\nQuantifySec uses Monte Carlo simulation (10,000 scenarios) to estimate ALE with statistical confidence intervals rather than a single guess.',
@@ -27,7 +26,6 @@ const DEFINITIONS: Record<string, { term: string; definition: string }> = {
     term: 'ROSI — Return on Security Investment',
     definition: 'ROSI is the security-industry-specific version of ROI. It measures net financial benefit relative to control cost.\n\nFormula: ROSI = (Risk Reduction Achieved − Cost of Control) / Cost of Control\n\nA positive ROSI means the control pays for itself in risk reduction. QuantifySec calculates and ranks ROSI for every candidate control in the portfolio.',
   },
-  // Optimization and Solver Terms
   knapsack: {
     term: 'Knapsack Solver — 0-1 Integer Linear Program',
     definition: 'QuantifySec uses a 0-1 ILP — also known as the "binary knapsack problem" — to find the optimal combination of security controls for a given budget.\n\nHow it works: Each control is either fully selected (1) or not selected at all (0). The solver finds the exact set of controls that maximizes total risk reduction without exceeding your budget.\n\nEngine used: CBC (Coin-or Branch and Cut open-source solver). Typical solve time: under 3 seconds for 25 controls.',
@@ -48,7 +46,6 @@ const DEFINITIONS: Record<string, { term: string; definition: string }> = {
     term: 'Deferred Backlog',
     definition: 'The Deferred Backlog is the list of security controls that the optimizer identified as valuable but could not fund within the current budget cycle.\n\nKey detail: Deferred controls are ranked by ROI — so when additional budget becomes available, you know exactly which controls to fund first for maximum impact.\n\nVisible on both the CFO Dashboard (Deferred Portfolio table) and CISO Dashboard (Deferred Priority Queue).',
   },
-  // Risk Modeling Terms
   montecarlo: {
     term: 'Monte Carlo Simulation',
     definition: 'QuantifySec runs 10,000 randomized attack scenarios to build a full probability distribution of financial losses — instead of giving you a single point estimate that may be wrong.\n\nThis lets you make statements like: "There is a 90% probability that annual losses will stay below ₹300 Lakhs."\n\nThe Monte Carlo engine powers the Loss Exceedance Curve shown on the CFO dashboard.',
@@ -61,7 +58,6 @@ const DEFINITIONS: Record<string, { term: string; definition: string }> = {
     term: 'Capital at Risk',
     definition: 'Capital at Risk is the total financial exposure — measured in ₹ Lakhs — that your organization faces from cyber threats before any security controls are applied.\n\nQuantifySec shows two values:\n• Capital at Risk (Pre-Optimization): raw exposure\n• Capital at Risk (Post-Optimization): reduced exposure after the optimal control portfolio is deployed\n\nThe difference between the two is your Risk Neutralized figure.',
   },
-  // Security Posture Metrics
   posturescore: {
     term: 'Posture Score',
     definition: 'The Posture Score is a composite 0–100 index of your organization\'s overall cybersecurity health.\n\nIt weighs:\n• Control coverage across all six categories\n• Percentage of critical gaps filled\n• Alignment with the current threat model\n\nRating scale:\n• 90–100 → Excellent\n• 75–89 → Strong\n• 60–74 → Moderate\n• Below 60 → At Risk',
@@ -74,7 +70,6 @@ const DEFINITIONS: Record<string, { term: string; definition: string }> = {
     term: 'Portfolio Coverage',
     definition: 'Portfolio Coverage (%) is the percentage of the candidate security controls that have been funded and are actively deployed.\n\nNote: Coverage percentage alone does not fully reflect security strength — the optimizer selects the highest-impact controls first, so even 36% coverage can neutralize over 59% of total financial risk.',
   },
-  // Platform Terms
   quantifysec: {
     term: 'QuantifySec',
     definition: 'QuantifySec is a cyber risk quantification and investment optimization platform developed by Team Cogitare for Smart India Hackathon 2026.\n\nCore capabilities:\n1. Translates technical security gaps into ₹ financial risk\n2. Selects the optimal security control portfolio using ILP\n3. Presents results to CFOs and CISOs.',
@@ -166,7 +161,6 @@ function ChatbotWidget() {
     <>
       {open && (
         <div className="fixed bottom-28 right-6 z-[9998] w-[350px] h-[520px] bg-[#09090b]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden font-sans transition-all duration-300">
-          {/* Header */}
           <div className="bg-gradient-to-r from-qviolet to-[#5b21b6] px-4 py-3 flex items-center justify-between shadow-md z-10">
             <div className="text-white font-bold text-sm flex items-center gap-2">
               <span className="bg-white/20 p-1.5 rounded-lg text-[10px]">🤖</span>
@@ -176,8 +170,6 @@ function ChatbotWidget() {
               ✕
             </button>
           </div>
-
-          {/* Messages */}
           <div ref={logRef} className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 custom-scrollbar">
             {messages.map((msg, index) => (
               <div key={index} className="flex flex-col w-full">
@@ -189,16 +181,10 @@ function ChatbotWidget() {
                     </>
                   )}
                   <span className="whitespace-pre-wrap">{msg.text}</span>
-                  
-                  {/* Action Chips */}
                   {msg.options && (
                     <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-white/10">
                       {msg.options.map((opt: any, i: number) => (
-                        <button 
-                          key={i} 
-                          onClick={() => handleOptionClick(opt.label, opt.term)}
-                          className="text-[10px] font-medium border border-qviolet/30 bg-qviolet/10 hover:bg-qviolet/20 text-c4b5fd text-white px-3 py-1.5 rounded-full transition"
-                        >
+                        <button key={i} onClick={() => handleOptionClick(opt.label, opt.term)} className="text-[10px] font-medium border border-qviolet/30 bg-qviolet/10 hover:bg-qviolet/20 text-c4b5fd text-white px-3 py-1.5 rounded-full transition">
                           {opt.label}
                         </button>
                       ))}
@@ -208,143 +194,70 @@ function ChatbotWidget() {
               </div>
             ))}
           </div>
-
-          {/* Input */}
           <div className="p-3 bg-[#111113] border-t border-white/10 flex items-center gap-2 z-10">
-            <input
-              className="flex-1 bg-[#1c1c1e] border border-white/10 rounded-xl px-4 py-2.5 text-[13px] text-white focus:outline-none focus:border-qviolet transition placeholder:text-gray-500"
-              type="text"
-              placeholder="e.g. 'ALE explain'"
-              value={inputVal}
-              onChange={(e) => setInputVal(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-            <button 
-              onClick={handleSend}
-              className="bg-qviolet hover:bg-[#7c3aed] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition disabled:opacity-50"
-            >
+            <input className="flex-1 bg-[#1c1c1e] border border-white/10 rounded-xl px-4 py-2.5 text-[13px] text-white focus:outline-none focus:border-qviolet transition placeholder:text-gray-500" type="text" placeholder="e.g. 'ALE explain'" value={inputVal} onChange={(e) => setInputVal(e.target.value)} onKeyDown={handleKeyDown} />
+            <button onClick={handleSend} className="bg-qviolet hover:bg-[#7c3aed] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition disabled:opacity-50">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
             </button>
           </div>
         </div>
       )}
-
-      {/* FAB */}
-      <button
-        onClick={() => setOpen(prev => !prev)}
-        className={`fixed bottom-8 right-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-[0_4px_20px_rgba(167,139,250,0.4)] transition-all duration-300 hover:scale-110 ${open ? 'bg-[#3f3f46] text-white shadow-none' : 'bg-gradient-to-br from-qviolet to-[#7c3aed] text-white'}`}
-      >
+      <button onClick={() => setOpen(prev => !prev)} className={`fixed bottom-8 right-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-[0_4px_20px_rgba(167,139,250,0.4)] transition-all duration-300 hover:scale-110 ${open ? 'bg-[#3f3f46] text-white shadow-none' : 'bg-gradient-to-br from-qviolet to-[#7c3aed] text-white'}`}>
         {open ? '✕' : '💬'}
       </button>
     </>
   );
 }
 
-
 // ==========================================
-// MOCK DATA (CFO Dashboard)
+// MOCK DATA (Fallback if DB is empty)
 // ==========================================
 const CFO_MOCK_DATA = {
-  kpis: {
-    capitalAtRisk: 180,
-    riskNeutralized: "3652900.64",
-    budgetDeployed: 75,
-    roi: "11.41",
-    exposureReduction: "59.8%"
-  },
-  trend: {
-    labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-    values: [100, 98, 95, 95, 95, 95, 95, 95, 95, 95, 90, 25]
-  },
-  scatterPoints: Array.from({ length: 60 }).map((_, i) => ({
-    x: Math.random() * 100,
-    y: Math.random() * 80 + (i * 0.5),
-    selected: i > 40
-  })),
+  kpis: { capitalAtRisk: 180, riskNeutralized: "3652900.64", budgetDeployed: 75, roi: "11.41", exposureReduction: "59.8%" },
+  trend: { labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'], values: [100, 98, 95, 95, 95, 95, 95, 95, 95, 95, 90, 25] },
+  scatterPoints: Array.from({ length: 60 }).map((_, i) => ({ x: Math.random() * 100, y: Math.random() * 80 + (i * 0.5), selected: i > 40 })),
   selectedControls: [
     { id: "FINDING-dd5b...", name: "Patch Vuln FINDING- (CVSS 2.5)", cost: "1.25", reduction: "60881.68", efficiency: "48705.34", roi: "48705.34x" },
-    { id: "FINDING-6666...", name: "Patch Vuln FINDING- (CVSS 2.5)", cost: "1.25", reduction: "60881.68", efficiency: "48705.34", roi: "48705.34x" },
     { id: "FINDING-6deb...", name: "Patch Vuln FINDING- (CVSS 2.8)", cost: "1.4", reduction: "68187.48", efficiency: "48705.34", roi: "48705.34x" },
     { id: "FINDING-f568...", name: "Patch Vuln FINDING- (CVSS 2.4)", cost: "1.2", reduction: "58446.41", efficiency: "48705.34", roi: "48705.34x" },
-    { id: "FINDING-6cb2...", name: "Patch Vuln FINDING- (CVSS 2.4)", cost: "1.2", reduction: "58446.41", efficiency: "48705.34", roi: "48705.34x" },
     { id: "FINDING-c329...", name: "Patch Vuln FINDING- (CVSS 3.1)", cost: "1.55", reduction: "75493.28", efficiency: "48705.34", roi: "48705.34x" },
     { id: "FINDING-b45e...", name: "Patch Vuln FINDING- (CVSS 5.5)", cost: "2.75", reduction: "133939.69", efficiency: "48705.34", roi: "48705.34x" },
-    { id: "FINDING-2675...", name: "Patch Vuln FINDING- (CVSS 5.5)", cost: "2.75", reduction: "133939.69", efficiency: "48705.34", roi: "48705.34x" },
   ],
   deferredControls: [
     { rank: "#1", id: "FINDING-a16d...", name: "Patch Vuln FINDING- (CVSS 5.5)", cost: "2.75", reduction: "133939.69", roi: "48705.34x" },
     { rank: "#2", id: "FINDING-f4b3...", name: "Patch Vuln FINDING- (CVSS 5.5)", cost: "2.75", reduction: "133939.69", roi: "48705.34x" },
     { rank: "#3", id: "FINDING-7d4a...", name: "Patch Vuln FINDING- (CVSS 5.5)", cost: "2.75", reduction: "133939.69", roi: "48705.34x" },
     { rank: "#4", id: "FINDING-354f...", name: "Patch Vuln FINDING- (CVSS 5.5)", cost: "2.75", reduction: "133939.69", roi: "48705.34x" },
-    { rank: "#5", id: "FINDING-a670...", name: "Patch Vuln FINDING- (CVSS 5.5)", cost: "2.75", reduction: "133939.69", roi: "48705.34x" },
-    { rank: "#6", id: "FINDING-3850...", name: "Patch Vuln FINDING- (CVSS 5.5)", cost: "2.75", reduction: "133939.69", roi: "48705.34x" },
   ]
 };
 
-// ==========================================
-// MOCK DATA (CISO Dashboard)
-// ==========================================
 const CISO_MOCK_DATA = {
-  heatmap: Array.from({ length: 120 }).map((_, i) => ({
-    id: Math.random().toString(16).substring(2, 6),
-    status: i < 9 ? 'deployed' : (i < 25 ? 'deferred' : 'none')
-  })).sort(() => Math.random() - 0.5),
+  heatmap: Array.from({ length: 120 }).map((_, i) => ({ id: Math.random().toString(16).substring(2, 6), status: i < 9 ? 'deployed' : (i < 25 ? 'deferred' : 'none') })).sort(() => Math.random() - 0.5),
   deployedControls: [
     { status: "LIVE", id: "FINDING-dd5b...", name: "Patch Vuln FINDING- (CVSS 2.5)", category: "Remediation", efficiency: "48705.34", weight: 45 },
     { status: "LIVE", id: "FINDING-6666...", name: "Patch Vuln FINDING- (CVSS 2.5)", category: "Remediation", efficiency: "48705.34", weight: 45 },
     { status: "LIVE", id: "FINDING-6deb...", name: "Patch Vuln FINDING- (CVSS 2.8)", category: "Remediation", efficiency: "48705.34", weight: 51 },
-    { status: "LIVE", id: "FINDING-f568...", name: "Patch Vuln FINDING- (CVSS 2.4)", category: "Remediation", efficiency: "48705.34", weight: 44 },
-    { status: "LIVE", id: "FINDING-6cb2...", name: "Patch Vuln FINDING- (CVSS 2.4)", category: "Remediation", efficiency: "48705.34", weight: 44 },
   ],
   deferredControls: [
     { rank: "#1", id: "FINDING-a16d...", name: "Patch Vuln FINDING- (CVSS 5.5)", category: "Remediation", efficiency: "48705.34", weight: 56 },
     { rank: "#2", id: "FINDING-f4b3...", name: "Patch Vuln FINDING- (CVSS 5.5)", category: "Remediation", efficiency: "48705.34", weight: 56 },
     { rank: "#3", id: "FINDING-7d4a...", name: "Patch Vuln FINDING- (CVSS 5.5)", category: "Remediation", efficiency: "48705.34", weight: 56 },
-    { rank: "#4", id: "FINDING-354f...", name: "Patch Vuln FINDING- (CVSS 5.5)", category: "Remediation", efficiency: "48705.34", weight: 56 },
-    { rank: "#5", id: "FINDING-a670...", name: "Patch Vuln FINDING- (CVSS 5.5)", category: "Remediation", efficiency: "48705.34", weight: 56 },
-    { rank: "#6", id: "FINDING-3850...", name: "Patch Vuln FINDING- (CVSS 5.5)", category: "Remediation", efficiency: "48705.34", weight: 56 },
   ]
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Identity: "#a78bfa",
-  Endpoint: "#f59e0b",
-  Network: "#60a5fa",
-  Data: "#10b981",
-  People: "#f472b6",
-  Monitoring: "#22d3ee",
-  Assessment: "#c084fc",
-  Email: "#fb923c",
-  Cloud: "#818cf8",
-  Physical: "#94a3b8",
-  Response: "#fbbf24",
-  Remediation: "#a78bfa",
-  Application: "#fb7185",
+  Identity: "#a78bfa", Endpoint: "#f59e0b", Network: "#60a5fa", Data: "#10b981", People: "#f472b6",
+  Monitoring: "#22d3ee", Assessment: "#c084fc", Email: "#fb923c", Cloud: "#818cf8", Physical: "#94a3b8",
+  Response: "#fbbf24", Remediation: "#a78bfa", Application: "#fb7185",
 };
 
 interface ControlItem {
-  id: string;
-  name: string;
-  category: string;
-  cost: number;
-  risk_reduction: number;
-  efficiency?: number;
-  priority_rank?: number;
+  id: string; name: string; category: string; cost: number; risk_reduction: number; efficiency?: number; priority_rank?: number;
 }
 
 interface PipelineResponse {
-  selected_controls: ControlItem[];
-  deferred_controls: ControlItem[];
-  total_cost: number;
-  total_risk_reduction: number;
-  budget: number;
-  status: string;
-  solver_time_seconds: number;
-  financial?: {
-    capital_at_risk_before: number;
-    capital_at_risk_after: number;
-    portfolio_roi: number;
-  };
+  selected_controls: ControlItem[]; deferred_controls: ControlItem[]; total_cost: number; total_risk_reduction: number; budget: number; status: string; solver_time_seconds: number;
+  financial?: { capital_at_risk_before: number; capital_at_risk_after: number; portfolio_roi: number; };
 }
 
 // ==========================================
@@ -358,6 +271,9 @@ export default function QuantifySecApp() {
   const [currentUserName, setCurrentUserName] = useState<string>("");
   const [activeEmail, setActiveEmail] = useState<string>("");
   const [authMode, setAuthMode] = useState<"signup" | "login">("signup");
+  
+  // App State
+  const [hasData, setHasData] = useState<boolean>(false);
   
   // Modals
   const [isAuditModalOpen, setIsAuditModalOpen] = useState<boolean>(false);
@@ -399,18 +315,13 @@ export default function QuantifySecApp() {
     budget: 75,
     status: "Optimal",
     solver_time_seconds: 0.0247,
-    financial: {
-      capital_at_risk_before: 180,
-      capital_at_risk_after: 71,
-      portfolio_roi: 11.41
-    }
+    financial: { capital_at_risk_before: 180, capital_at_risk_after: 71, portfolio_roi: 11.41 }
   });
 
   // Browser History Management
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
     const validViews = ["home", "auth", "mfa", "cfo-dashboard", "ciso-dashboard"];
-    
     if (hash && validViews.includes(hash)) {
       setCurrentView(hash);
       window.history.replaceState({ view: hash }, "", `#${hash}`);
@@ -428,9 +339,15 @@ export default function QuantifySecApp() {
         setIsLight(false);
       }
     };
-
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  // Restore session state for data availability
+  useEffect(() => {
+    if (sessionStorage.getItem("quantifysec_has_data") === "true") {
+      setHasData(true);
+    }
   }, []);
 
   const navigate = (view: string) => {
@@ -445,21 +362,14 @@ export default function QuantifySecApp() {
     let lastScrollY = window.scrollY;
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY < 150) {
-        setNavVisible(true);
-      } else if (currentScrollY > lastScrollY) {
-        setNavVisible(false);
-      } else {
-        setNavVisible(true);
-      }
+      if (currentScrollY < 150) setNavVisible(true);
+      else if (currentScrollY > lastScrollY) setNavVisible(false);
+      else setNavVisible(true);
       lastScrollY = currentScrollY;
 
       if (currentView === "home") {
         const solutionSection = document.getElementById("section-solution");
-        if (solutionSection) {
-          const rect = solutionSection.getBoundingClientRect();
-          setIsLight(rect.top < window.innerHeight * 0.4);
-        }
+        if (solutionSection) setIsLight(solutionSection.getBoundingClientRect().top < window.innerHeight * 0.4);
       } else {
         setIsLight(false);
       }
@@ -473,18 +383,21 @@ export default function QuantifySecApp() {
     async function fetchOptimizationData() {
       try {
         let response = await fetch(`${backendBaseUrl}/api/run-pipeline`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" }
+          method: "POST", headers: { "Content-Type": "application/json" }
         });
-        if (response.status === 405) {
-          response = await fetch(`${backendBaseUrl}/api/run-pipeline`, { method: "GET" });
-        }
+        if (response.status === 405) response = await fetch(`${backendBaseUrl}/api/run-pipeline`, { method: "GET" });
+        
         if (response.ok) {
           const apiData = await response.json();
-          setKnapsackData(prev => ({ ...prev, ...apiData }));
+          // Only automatically unlock the dashboard if the backend successfully returned parsed data
+          if (apiData.cfo_budget_optimization && apiData.cfo_budget_optimization.selected_controls) {
+            setKnapsackData(prev => ({ ...prev, ...apiData.cfo_budget_optimization }));
+            setHasData(true);
+            sessionStorage.setItem("quantifysec_has_data", "true");
+          }
         }
       } catch (err) {
-        console.warn("Backend optimization pipeline offline or booting:", err);
+        console.warn("Backend optimization pipeline offline or database empty.");
       }
     }
     fetchOptimizationData();
@@ -500,16 +413,11 @@ export default function QuantifySecApp() {
 
     try {
       const res = await fetch(`${backendBaseUrl}/api/auth/request-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, role: currentRole })
       });
-
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.detail || "Failed to dispatch verification code.");
-      }
-
+      if (!res.ok) throw new Error((await res.json()).detail || "Failed to dispatch verification code.");
+      
       setPendingNavigation(targetDashboard);
       setOtpInput("");
       navigate("mfa");
@@ -525,9 +433,7 @@ export default function QuantifySecApp() {
     if (!currentRole) { alert("Please select your role."); return; }
     const name = signupForm.name.trim();
     setCurrentUserName(name ? `, ${name.split(" ")[0]}` : "");
-    if (signupForm.company.trim()) {
-      sessionStorage.setItem("quantifysec_company", signupForm.company.trim());
-    }
+    if (signupForm.company.trim()) sessionStorage.setItem("quantifysec_company", signupForm.company.trim());
     triggerMfaFlow(signupForm.email, currentRole === "cfo" ? "cfo-dashboard" : "ciso-dashboard");
   };
 
@@ -542,19 +448,13 @@ export default function QuantifySecApp() {
   const handleMfaSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMfaError("");
-
     try {
       const res = await fetch(`${backendBaseUrl}/api/auth/verify-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: activeEmail, otp: otpInput })
       });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.detail || "Invalid code. Verification failed.");
-      }
-
+      if (!res.ok) throw new Error((await res.json()).detail || "Invalid code. Verification failed.");
+      
       const data = await res.json();
       sessionStorage.setItem("quantifysec_jwt", data.access_token);
       navigate(pendingNavigation);
@@ -601,15 +501,11 @@ export default function QuantifySecApp() {
         return newTotal;
       });
     }
-    
-    // Reset file input so the user can select the same file again if they deleted it
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const removeFile = (indexToRemove: number, e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevents opening the file browser when clicking 'X'
+    e.stopPropagation(); 
     setSelectedFiles(prev => prev.filter((_, i) => i !== indexToRemove));
   };
 
@@ -623,26 +519,22 @@ export default function QuantifySecApp() {
     try {
       const token = sessionStorage.getItem("quantifysec_jwt");
       const formData = new FormData();
-      
-      // Append all selected files to the form data payload
-      selectedFiles.forEach((file) => {
-        formData.append("file", file); 
-      });
+      selectedFiles.forEach((file) => formData.append("file", file));
 
       const res = await fetch(`${backendBaseUrl}/api/ingest-ocsf`, {
         method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`
-        },
+        headers: { "Authorization": `Bearer ${token}` },
         body: formData
       });
 
-      if (!res.ok) {
-        throw new Error("Backend failed to process telemetry files.");
-      }
+      if (!res.ok) throw new Error("Backend failed to process telemetry files.");
 
+      // Data is live! Unlock the dashboards.
+      setHasData(true);
+      sessionStorage.setItem("quantifysec_has_data", "true");
       setIsUploadModalOpen(false);
       setSelectedFiles([]);
+      
     } catch (err: any) {
       alert(err.message || "Failed to parse files on Railway backend.");
     } finally {
@@ -907,50 +799,22 @@ export default function QuantifySecApp() {
                     <div className="grid grid-cols-2 gap-5">
                       <div>
                         <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Full Name</label>
-                        <input 
-                          type="text" 
-                          required 
-                          placeholder="Rohan Sharma"
-                          value={signupForm.name} 
-                          onChange={(e) => setSignupForm({ ...signupForm, name: e.target.value })} 
-                          className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
-                        />
+                        <input type="text" required placeholder="Rohan Sharma" value={signupForm.name} onChange={(e) => setSignupForm({ ...signupForm, name: e.target.value })} className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" />
                       </div>
                       <div>
                         <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Work Email</label>
-                        <input 
-                          type="email" 
-                          required 
-                          placeholder="rohan@company.com"
-                          value={signupForm.email} 
-                          onChange={(e) => setSignupForm({ ...signupForm, email: e.target.value })} 
-                          className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
-                        />
+                        <input type="email" required placeholder="rohan@company.com" value={signupForm.email} onChange={(e) => setSignupForm({ ...signupForm, email: e.target.value })} className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" />
                       </div>
                     </div>
 
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Company Name</label>
-                      <input 
-                        type="text" 
-                        required 
-                        placeholder="e.g. Acme Financial Technologies"
-                        value={signupForm.company} 
-                        onChange={(e) => setSignupForm({ ...signupForm, company: e.target.value })} 
-                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
-                      />
+                      <input type="text" required placeholder="e.g. Acme Financial Technologies" value={signupForm.company} onChange={(e) => setSignupForm({ ...signupForm, company: e.target.value })} className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" />
                     </div>
 
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Password</label>
-                      <input 
-                        type="password" 
-                        required 
-                        placeholder="••••••••"
-                        value={signupForm.password} 
-                        onChange={(e) => setSignupForm({ ...signupForm, password: e.target.value })} 
-                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
-                      />
+                      <input type="password" required placeholder="••••••••" value={signupForm.password} onChange={(e) => setSignupForm({ ...signupForm, password: e.target.value })} className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" />
                     </div>
 
                     <div>
@@ -991,25 +855,11 @@ export default function QuantifySecApp() {
                   <form className="space-y-5" onSubmit={handleLoginSubmit}>
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Work Email</label>
-                      <input 
-                        type="email" 
-                        required 
-                        placeholder="rohan@company.com"
-                        value={loginForm.email} 
-                        onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })} 
-                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
-                      />
+                      <input type="email" required placeholder="rohan@company.com" value={loginForm.email} onChange={(e) => setLoginForm({ ...loginForm, email: e.target.value })} className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" />
                     </div>
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Password</label>
-                      <input 
-                        type="password" 
-                        required 
-                        placeholder="••••••••"
-                        value={loginForm.password} 
-                        onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })} 
-                        className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" 
-                      />
+                      <input type="password" required placeholder="••••••••" value={loginForm.password} onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })} className="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body placeholder:text-zinc-600" />
                     </div>
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-3 uppercase">Sign in as</label>
@@ -1061,7 +911,7 @@ export default function QuantifySecApp() {
         {/* ==================== CFO DASHBOARD ==================== */}
         {currentView === "cfo-dashboard" && (
           <section id="view-cfo-dashboard" className="max-w-[1280px] mx-auto px-6 pb-20 relative z-10 w-full space-y-6">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-2">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-2 relative z-30">
               <div>
                 <div className="flex items-center gap-2 text-[10px] font-mono text-qviolet uppercase tracking-widest mb-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-qviolet animate-pulse" />
@@ -1069,306 +919,171 @@ export default function QuantifySecApp() {
                 </div>
                 <h1 className="font-display text-4xl font-bold text-white tracking-tight">Good evening{currentUserName}</h1>
                 <p className="text-sm text-gray-400 mt-2">
-                  Last portfolio recomputation: <span className="text-white font-mono">08 Sept, 06:21 pm</span> · Solver: <span className="text-qemerald font-mono">Optimal</span>
+                  {hasData ? (
+                    <>Last portfolio recomputation: <span className="text-white font-mono">08 Sept, 06:21 pm</span> · Solver: <span className="text-qemerald font-mono">Optimal</span></>
+                  ) : (
+                    <>System Status: <span className="text-qamber font-mono">Awaiting Initial Telemetry Ingestion</span></>
+                  )}
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <button onClick={() => setIsAuditModalOpen(true)} className="text-xs font-mono uppercase tracking-wider text-qemerald hover:text-white border border-qemerald/30 hover:border-qemerald/60 bg-qemerald/10 px-3 py-2 rounded-lg transition flex items-center gap-1.5">
-                  <span className="w-1 h-1 rounded-full bg-qemerald animate-pulse" /> AUDIT LOG
+                <button onClick={() => hasData && setIsAuditModalOpen(true)} className={`text-xs font-mono uppercase tracking-wider transition flex items-center gap-1.5 px-3 py-2 rounded-lg ${hasData ? 'text-qemerald hover:text-white border border-qemerald/30 hover:border-qemerald/60 bg-qemerald/10' : 'text-gray-500 border border-gray-700 bg-gray-800/30 cursor-not-allowed'}`}>
+                  <span className={`w-1 h-1 rounded-full ${hasData ? 'bg-qemerald animate-pulse' : 'bg-gray-600'}`} /> AUDIT LOG
                 </button>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="ui-widget rounded-2xl p-5 glow-rose">
-                <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Capital at Risk (Pre)</div>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-mono font-bold text-white tracking-tight">₹{CFO_MOCK_DATA.kpis.capitalAtRisk}</span>
-                  <span className="text-lg text-gray-500">L</span>
-                </div>
-                <div className="text-[10px] text-gray-500 mt-2 font-body">Annualized Loss Expectancy · pre-optimization</div>
-              </div>
-              <div className="ui-widget rounded-2xl p-5 glow-emerald">
-                <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Risk Neutralized</div>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-mono font-bold text-white tracking-tight">₹{CFO_MOCK_DATA.kpis.riskNeutralized}</span>
-                  <span className="text-lg text-gray-500">L</span>
-                </div>
-                <div className="text-[10px] text-qemerald mt-2 font-mono">↓ {CFO_MOCK_DATA.kpis.exposureReduction} exposure reduction</div>
-              </div>
-              <div className="ui-widget rounded-2xl p-5 glow-violet">
-                <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Budget Deployed</div>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-mono font-bold text-white tracking-tight">₹{CFO_MOCK_DATA.kpis.budgetDeployed}</span>
-                  <span className="text-lg text-gray-500">L <span className="text-gray-600">/ 75L</span></span>
-                </div>
-                <div className="text-[10px] text-gray-500 mt-2 font-body">100% capacity utilized</div>
-              </div>
-              <div className="ui-widget rounded-2xl p-5 glow-amber">
-                <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Portfolio ROI</div>
-                <div className="text-3xl font-mono font-bold text-qamber tracking-tight mt-1">{CFO_MOCK_DATA.kpis.roi}x</div>
-                <div className="text-[10px] text-gray-500 mt-2 font-body">₹ risk reduced per ₹ spent</div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="ui-widget rounded-3xl p-6 lg:col-span-2">
-                <div className="flex justify-between items-start mb-6">
-                  <div>
-                    <h3 className="font-display font-semibold text-white">Loss Exposure Trend</h3>
-                    <p className="text-[11px] text-gray-500 mt-1">12-month rolling ALE · portfolio impact from month 10 onward</p>
-                  </div>
-                  <div className="flex gap-1 text-[10px] font-mono">
-                    <span className="px-2 py-1 rounded bg-white/10 text-white cursor-pointer">12M</span>
-                    <span className="px-2 py-1 rounded text-gray-500 hover:text-white transition cursor-pointer">6M</span>
-                    <span className="px-2 py-1 rounded text-gray-500 hover:text-white transition cursor-pointer">3M</span>
-                  </div>
-                </div>
-                <div className="w-full h-48 relative">
-                  <svg viewBox="0 0 800 200" preserveAspectRatio="none" className="w-full h-full overflow-visible">
-                    <defs>
-                      <linearGradient id="trendGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.2" />
-                        <stop offset="100%" stopColor="#a78bfa" stopOpacity="0" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M 0,20 L 72,24 L 144,30 L 216,30 L 288,30 L 360,30 L 432,30 L 504,30 L 576,30 L 648,30 L 720,40 L 800,150 L 800,200 L 0,200 Z" fill="url(#trendGrad)" />
-                    <path d="M 0,20 L 72,24 L 144,30 L 216,30 L 288,30 L 360,30 L 432,30 L 504,30 L 576,30 L 648,30 L 720,40 L 800,150" fill="none" stroke="#a78bfa" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                    <circle cx="0" cy="20" r="3" fill="#a78bfa" />
-                    <circle cx="72" cy="24" r="3" fill="#a78bfa" />
-                    <circle cx="144" cy="30" r="3" fill="#a78bfa" />
-                    <circle cx="216" cy="30" r="3" fill="#a78bfa" />
-                    <circle cx="288" cy="30" r="3" fill="#a78bfa" />
-                    <circle cx="360" cy="30" r="3" fill="#a78bfa" />
-                    <circle cx="432" cy="30" r="3" fill="#a78bfa" />
-                    <circle cx="504" cy="30" r="3" fill="#a78bfa" />
-                    <circle cx="576" cy="30" r="3" fill="#a78bfa" />
-                    <circle cx="648" cy="30" r="3" fill="#a78bfa" />
-                    <circle cx="720" cy="40" r="3" fill="#a78bfa" />
-                    <circle cx="800" cy="150" r="5" fill="#fff" className="animate-pulse shadow-[0_0_10px_#fff]" />
-                  </svg>
-                </div>
-                <div className="flex justify-between mt-3 text-[10px] font-mono text-gray-600 uppercase">
-                  {CFO_MOCK_DATA.trend.labels.map(l => <span key={l}>{l}</span>)}
-                </div>
-              </div>
-
-              <div className="ui-widget rounded-3xl p-6 flex flex-col">
-                <div>
-                  <h3 className="font-display font-semibold text-white">Budget Allocation</h3>
-                  <p className="text-[11px] text-gray-500 mt-1">By control category</p>
-                </div>
-                <div className="flex-1 flex flex-col items-center justify-center relative mt-4">
-                  <div className="w-40 h-40 relative">
-                    <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
-                      <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.05)" strokeWidth="16" fill="none" />
-                      <circle cx="50" cy="50" r="40" stroke="#a78bfa" strokeWidth="16" fill="none" strokeDasharray="251.2" strokeDashoffset="0" strokeLinecap="round" />
-                    </svg>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-2xl font-bold font-mono text-white tracking-tight">31</span>
-                      <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest mt-0.5">Controls</span>
+            <div className="relative min-h-[600px] w-full">
+              {!hasData && (
+                <div className="absolute inset-0 z-20 flex items-start justify-center pt-32">
+                  <div className="ui-widget rounded-3xl p-10 flex flex-col items-center max-w-md text-center border border-white/10 shadow-2xl bg-[#09090b]/80 backdrop-blur-xl">
+                    <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-6 text-gray-400 border border-white/10">
+                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                    <h2 className="font-display text-2xl font-bold text-white mb-3">Awaiting Telemetry Initialization</h2>
+                    <p className="text-sm text-gray-400 font-body leading-relaxed mb-6">Financial risk exposure and capital allocation models require technical telemetry. The CISO team has not yet uploaded the baseline OCSF dataset.</p>
+                    <div className="text-[10px] font-mono text-qamber bg-qamber/10 px-3 py-1.5 rounded-full border border-qamber/20 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-qamber animate-pulse"></span>
+                      PENDING INGESTION
                     </div>
                   </div>
-                  <div className="w-full flex justify-between items-center text-xs mt-8 px-2">
-                    <div className="flex items-center gap-2 text-gray-300 font-body">
-                      <div className="w-2.5 h-2.5 rounded-full bg-qviolet"></div>
-                      Remediation
+                </div>
+              )}
+
+              <div className={`${!hasData ? 'opacity-20 blur-[10px] pointer-events-none select-none' : ''} transition-all duration-700 space-y-6`}>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="ui-widget rounded-2xl p-5 glow-rose">
+                    <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Capital at Risk (Pre)</div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl font-mono font-bold text-white tracking-tight">₹{CFO_MOCK_DATA.kpis.capitalAtRisk}</span>
+                      <span className="text-lg text-gray-500">L</span>
                     </div>
-                    <span className="font-mono text-gray-400">₹75L</span>
+                    <div className="text-[10px] text-gray-500 mt-2 font-body">Annualized Loss Expectancy · pre-optimization</div>
+                  </div>
+                  <div className="ui-widget rounded-2xl p-5 glow-emerald">
+                    <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Risk Neutralized</div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl font-mono font-bold text-white tracking-tight">₹{CFO_MOCK_DATA.kpis.riskNeutralized}</span>
+                      <span className="text-lg text-gray-500">L</span>
+                    </div>
+                    <div className="text-[10px] text-qemerald mt-2 font-mono">↓ {CFO_MOCK_DATA.kpis.exposureReduction} exposure reduction</div>
+                  </div>
+                  <div className="ui-widget rounded-2xl p-5 glow-violet">
+                    <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Budget Deployed</div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl font-mono font-bold text-white tracking-tight">₹{CFO_MOCK_DATA.kpis.budgetDeployed}</span>
+                      <span className="text-lg text-gray-500">L <span className="text-gray-600">/ 75L</span></span>
+                    </div>
+                    <div className="text-[10px] text-gray-500 mt-2 font-body">100% capacity utilized</div>
+                  </div>
+                  <div className="ui-widget rounded-2xl p-5 glow-amber">
+                    <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Portfolio ROI</div>
+                    <div className="text-3xl font-mono font-bold text-qamber tracking-tight mt-1">{CFO_MOCK_DATA.kpis.roi}x</div>
+                    <div className="text-[10px] text-gray-500 mt-2 font-body">₹ risk reduced per ₹ spent</div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="ui-widget rounded-3xl p-6">
-                <h3 className="font-display font-semibold text-white">Risk Reduction Portfolio</h3>
-                <p className="text-[11px] text-gray-500 mt-1 mb-6">Selected controls ranked by ₹ neutralized</p>
-                <div className="space-y-3.5">
-                  {CFO_MOCK_DATA.selectedControls.slice(0, 10).map((c, i) => (
-                    <div key={i}>
-                      <div className="flex justify-between text-[11px] font-mono mb-1.5">
-                        <span className="text-gray-300">{c.id} · <span className="text-gray-500">{c.name}</span></span>
-                        <span className="text-gray-300">₹{c.reduction}L</span>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  <div className="ui-widget rounded-3xl p-6 lg:col-span-2">
+                    <div className="flex justify-between items-start mb-6">
+                      <div>
+                        <h3 className="font-display font-semibold text-white">Loss Exposure Trend</h3>
+                        <p className="text-[11px] text-gray-500 mt-1">12-month rolling ALE · portfolio impact from month 10 onward</p>
                       </div>
-                      <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                        <div className="h-full bg-qviolet rounded-full" style={{ width: `${100 - (i * 3)}%` }} />
+                      <div className="flex gap-1 text-[10px] font-mono">
+                        <span className="px-2 py-1 rounded bg-white/10 text-white cursor-pointer">12M</span>
+                        <span className="px-2 py-1 rounded text-gray-500 hover:text-white transition cursor-pointer">6M</span>
+                        <span className="px-2 py-1 rounded text-gray-500 hover:text-white transition cursor-pointer">3M</span>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
+                    <div className="w-full h-48 relative">
+                      <svg viewBox="0 0 800 200" preserveAspectRatio="none" className="w-full h-full overflow-visible">
+                        <defs><linearGradient id="trendGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#a78bfa" stopOpacity="0.2" /><stop offset="100%" stopColor="#a78bfa" stopOpacity="0" /></linearGradient></defs>
+                        <path d="M 0,20 L 72,24 L 144,30 L 216,30 L 288,30 L 360,30 L 432,30 L 504,30 L 576,30 L 648,30 L 720,40 L 800,150 L 800,200 L 0,200 Z" fill="url(#trendGrad)" />
+                        <path d="M 0,20 L 72,24 L 144,30 L 216,30 L 288,30 L 360,30 L 432,30 L 504,30 L 576,30 L 648,30 L 720,40 L 800,150" fill="none" stroke="#a78bfa" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                        <circle cx="0" cy="20" r="3" fill="#a78bfa" />
+                        <circle cx="72" cy="24" r="3" fill="#a78bfa" />
+                        <circle cx="144" cy="30" r="3" fill="#a78bfa" />
+                        <circle cx="216" cy="30" r="3" fill="#a78bfa" />
+                        <circle cx="288" cy="30" r="3" fill="#a78bfa" />
+                        <circle cx="360" cy="30" r="3" fill="#a78bfa" />
+                        <circle cx="432" cy="30" r="3" fill="#a78bfa" />
+                        <circle cx="504" cy="30" r="3" fill="#a78bfa" />
+                        <circle cx="576" cy="30" r="3" fill="#a78bfa" />
+                        <circle cx="648" cy="30" r="3" fill="#a78bfa" />
+                        <circle cx="720" cy="40" r="3" fill="#a78bfa" />
+                        <circle cx="800" cy="150" r="5" fill="#fff" className="animate-pulse shadow-[0_0_10px_#fff]" />
+                      </svg>
+                    </div>
+                    <div className="flex justify-between mt-3 text-[10px] font-mono text-gray-600 uppercase">
+                      {CFO_MOCK_DATA.trend.labels.map(l => <span key={l}>{l}</span>)}
+                    </div>
+                  </div>
 
-              <div className="ui-widget rounded-3xl p-6 flex flex-col">
-                <h3 className="font-display font-semibold text-white">Loss Exceedance Curve</h3>
-                <p className="text-[11px] text-gray-500 mt-1 mb-6">P(annual loss {'>'} threshold) · post-optimization</p>
-                <div className="flex-1 w-full relative min-h-[180px]">
-                  <svg viewBox="0 0 500 200" preserveAspectRatio="none" className="w-full h-full overflow-visible">
-                    <defs>
-                      <linearGradient id="exceedGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#f87171" stopOpacity="0.3" />
-                        <stop offset="100%" stopColor="#f87171" stopOpacity="0" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M 0,20 Q 50,25 100,50 T 250,110 T 400,160 T 500,175 L 500,200 L 0,200 Z" fill="url(#exceedGrad)" />
-                    <path d="M 0,20 Q 50,25 100,50 T 250,110 T 400,160 T 500,175" fill="none" stroke="#f87171" strokeWidth="3" strokeLinecap="round" />
-                    <circle cx="500" cy="175" r="4" fill="#fff" className="shadow-[0_0_8px_#f87171]" />
-                  </svg>
-                </div>
-                <div className="grid grid-cols-3 gap-4 mt-6 text-center">
-                  <div>
-                    <div className="font-mono text-white font-bold text-sm tracking-tight">₹200L</div>
-                    <div className="text-[10px] font-mono text-gray-500 mt-1">23% chance</div>
-                  </div>
-                  <div>
-                    <div className="font-mono text-white font-bold text-sm tracking-tight">₹300L</div>
-                    <div className="text-[10px] font-mono text-gray-500 mt-1">9% chance</div>
-                  </div>
-                  <div>
-                    <div className="font-mono text-white font-bold text-sm tracking-tight">₹500L</div>
-                    <div className="text-[10px] font-mono text-gray-500 mt-1">2% chance</div>
+                  <div className="ui-widget rounded-3xl p-6 flex flex-col">
+                    <div>
+                      <h3 className="font-display font-semibold text-white">Budget Allocation</h3>
+                      <p className="text-[11px] text-gray-500 mt-1">By control category</p>
+                    </div>
+                    <div className="flex-1 flex flex-col items-center justify-center relative mt-4">
+                      <div className="w-40 h-40 relative">
+                        <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
+                          <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.05)" strokeWidth="16" fill="none" />
+                          <circle cx="50" cy="50" r="40" stroke="#a78bfa" strokeWidth="16" fill="none" strokeDasharray="251.2" strokeDashoffset="0" strokeLinecap="round" />
+                        </svg>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          <span className="text-2xl font-bold font-mono text-white tracking-tight">31</span>
+                          <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest mt-0.5">Controls</span>
+                        </div>
+                      </div>
+                      <div className="w-full flex justify-between items-center text-xs mt-8 px-2">
+                        <div className="flex items-center gap-2 text-gray-300 font-body">
+                          <div className="w-2.5 h-2.5 rounded-full bg-qviolet"></div>
+                          Remediation
+                        </div>
+                        <span className="font-mono text-gray-400">₹75L</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <div className="ui-widget rounded-3xl p-6">
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h3 className="font-display font-semibold text-white">Efficient Frontier · Cost vs Risk Reduction</h3>
-                  <p className="text-[11px] text-gray-500 mt-1">Every candidate control · selected controls lie on the frontier</p>
-                </div>
-                <div className="flex gap-4 text-[11px] font-mono text-gray-400">
-                  <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-qviolet shadow-[0_0_8px_#a78bfa]"></span> Selected</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-gray-500"></span> Deferred</span>
-                </div>
-              </div>
-              <div className="w-full h-64 relative border-l border-b border-white/10">
-                <svg viewBox="0 0 1000 300" className="w-full h-full overflow-visible">
-                  {[0, 1, 2, 3].map(i => <line key={`y-${i}`} x1="0" y1={i * 75} x2="1000" y2={i * 75} stroke="rgba(255,255,255,0.03)" strokeWidth="1" />)}
-                  {[1, 2, 3, 4, 5].map(i => <line key={`x-${i}`} x1={i * 200} y1="0" x2={i * 200} y2="300" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />)}
-                  {CFO_MOCK_DATA.scatterPoints.map((p, i) => (
-                    <g key={i} transform={`translate(${p.x * 9.5 + 20}, ${280 - (p.y * 3.2)})`}>
-                      <circle r={p.selected ? "6" : "4"} fill={p.selected ? "#a78bfa" : "#6b7280"} opacity={p.selected ? "1" : "0.5"} className={p.selected ? "shadow-[0_0_10px_#a78bfa]" : ""} />
-                      {i % 4 === 0 && <text x="10" y="2" fill="rgba(255,255,255,0.3)" fontSize="9" fontFamily="monospace">FINDING-{(i*13).toString(16)}</text>}
-                    </g>
-                  ))}
-                </svg>
-              </div>
-              <div className="flex justify-between mt-3 text-[10px] font-mono text-gray-500 uppercase">
-                <span>← Lower cost</span>
-                <span>Higher risk reduction ↑</span>
-              </div>
-            </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="ui-widget rounded-3xl p-6">
+                    <h3 className="font-display font-semibold text-white">Risk Reduction Portfolio</h3>
+                    <p className="text-[11px] text-gray-500 mt-1 mb-6">Selected controls ranked by ₹ neutralized</p>
+                    <div className="space-y-3.5">
+                      {CFO_MOCK_DATA.selectedControls.slice(0, 10).map((c, i) => (
+                        <div key={i}>
+                          <div className="flex justify-between text-[11px] font-mono mb-1.5">
+                            <span className="text-gray-300">{c.id} · <span className="text-gray-500">{c.name}</span></span>
+                            <span className="text-gray-300">₹{c.reduction}L</span>
+                          </div>
+                          <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                            <div className="h-full bg-qviolet rounded-full" style={{ width: `${100 - (i * 3)}%` }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="ui-widget rounded-3xl p-6 glow-amber">
-                <div className="flex items-center gap-2 text-[10px] font-mono text-qamber uppercase tracking-widest mb-4">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                  Deferred Backlog Opportunity
-                </div>
-                <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div>
-                    <div className="text-[10px] text-gray-500 font-mono uppercase mb-1">Additional ₹ at Risk Uncovered</div>
-                    <div className="text-2xl font-mono font-bold text-qamber tracking-tight">₹424 L</div>
-                  </div>
-                  <div>
-                    <div className="text-[10px] text-gray-500 font-mono uppercase mb-1">Investment Required</div>
-                    <div className="text-2xl font-mono font-bold text-white tracking-tight">₹214 L</div>
-                  </div>
-                </div>
-                <div className="pt-4 border-t border-white/10 space-y-2.5 text-[11px] font-body">
-                  <div className="flex justify-between text-gray-400"><span>Suggested next-cycle budget</span><span className="font-mono text-white">≈ ₹110 L</span></div>
-                  <div className="flex justify-between text-gray-400"><span>Full-coverage budget (+15% buffer)</span><span className="font-mono text-white">≈ ₹250 L</span></div>
-                  <div className="flex justify-between text-gray-400"><span>Deferred controls count</span><span className="font-mono text-white">16</span></div>
-                </div>
-              </div>
-              <div className="ui-widget rounded-3xl p-6 border-t-0 border-l-0 border-r-0 border-b-2 border-b-qamber/20 bg-[#09090b]">
-                <div className="flex items-start gap-4">
-                  <div className="w-8 h-8 rounded-lg bg-qamber/10 border border-qamber/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <svg className="w-4 h-4 text-qamber" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold font-display text-white mb-1.5">Approximation Notice</div>
-                    <p className="text-[11px] text-gray-400 leading-relaxed font-body">Future budget values are planning-level estimates only. Actual figures will vary with vendor renewal pricing, INR fluctuation, threat-landscape shifts, and re-runs of the Monte Carlo Risk Engine. Re-run the optimizer whenever your cost data or risk model is refreshed.</p>
+                  <div className="ui-widget rounded-3xl p-6 flex flex-col">
+                    <h3 className="font-display font-semibold text-white">Loss Exceedance Curve</h3>
+                    <p className="text-[11px] text-gray-500 mt-1 mb-6">P(annual loss {'>'} threshold) · post-optimization</p>
+                    <div className="flex-1 w-full relative min-h-[180px]">
+                      <svg viewBox="0 0 500 200" preserveAspectRatio="none" className="w-full h-full overflow-visible">
+                        <defs><linearGradient id="exceedGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#f87171" stopOpacity="0.3" /><stop offset="100%" stopColor="#f87171" stopOpacity="0" /></linearGradient></defs>
+                        <path d="M 0,20 Q 50,25 100,50 T 250,110 T 400,160 T 500,175 L 500,200 L 0,200 Z" fill="url(#exceedGrad)" />
+                        <path d="M 0,20 Q 50,25 100,50 T 250,110 T 400,160 T 500,175" fill="none" stroke="#f87171" strokeWidth="3" strokeLinecap="round" />
+                        <circle cx="500" cy="175" r="4" fill="#fff" className="shadow-[0_0_8px_#f87171]" />
+                      </svg>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4 mt-6 text-center">
+                      <div><div className="font-mono text-white font-bold text-sm tracking-tight">₹200L</div><div className="text-[10px] font-mono text-gray-500 mt-1">23% chance</div></div>
+                      <div><div className="font-mono text-white font-bold text-sm tracking-tight">₹300L</div><div className="text-[10px] font-mono text-gray-500 mt-1">9% chance</div></div>
+                      <div><div className="font-mono text-white font-bold text-sm tracking-tight">₹500L</div><div className="text-[10px] font-mono text-gray-500 mt-1">2% chance</div></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="ui-widget rounded-3xl p-6">
-              <div className="flex justify-between items-center mb-6">
-                <div>
-                  <h3 className="font-display font-semibold text-white text-lg">Selected Controls · This Cycle</h3>
-                  <p className="text-[11px] text-gray-500 mt-1">Funded and being deployed · ranked by capital efficiency</p>
-                </div>
-                <span className="text-[10px] font-mono bg-qemerald/10 text-qemerald border border-qemerald/20 px-2.5 py-1 rounded-full">9 funded</span>
-              </div>
-              <div className="overflow-x-auto w-full">
-                <table className="w-full text-left border-collapse min-w-[800px]">
-                  <thead>
-                    <tr className="border-b border-white/10 text-[9px] font-mono text-gray-500 uppercase tracking-widest">
-                      <th className="py-3 px-2 font-medium">ID</th>
-                      <th className="py-3 px-2 font-medium">Control</th>
-                      <th className="py-3 px-2 font-medium">Category</th>
-                      <th className="py-3 px-2 text-right font-medium">Cost (₹L)</th>
-                      <th className="py-3 px-2 text-right font-medium">Reduction (₹L)</th>
-                      <th className="py-3 px-2 text-right font-medium">₹/₹ Efficiency</th>
-                      <th className="py-3 px-2 text-right font-medium">ROI Multiple</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-[11px] font-mono text-gray-300">
-                    {CFO_MOCK_DATA.selectedControls.map((c, i) => (
-                      <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition">
-                        <td className="py-4 px-2 text-gray-500">{c.id}</td>
-                        <td className="py-4 px-2 text-white font-sans font-medium">{c.name}</td>
-                        <td className="py-4 px-2 text-gray-400 font-sans">Remediation</td>
-                        <td className="py-4 px-2 text-right">₹{c.cost}L</td>
-                        <td className="py-4 px-2 text-right text-qemerald">₹{c.reduction}L</td>
-                        <td className="py-4 px-2 text-right text-qamber">{c.efficiency}</td>
-                        <td className="py-4 px-2 text-right text-white font-bold">{c.roi}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div className="ui-widget rounded-3xl p-6">
-              <div className="flex justify-between items-center mb-6">
-                <div>
-                  <h3 className="font-display font-semibold text-white text-lg">Deferred Portfolio · Next Cycle Candidates</h3>
-                  <p className="text-[11px] text-gray-500 mt-1">Ordered by ROI · fund top items first when budget increases</p>
-                </div>
-                <span className="text-[10px] font-mono bg-qamber/10 text-qamber border border-qamber/20 px-2.5 py-1 rounded-full">16 pending</span>
-              </div>
-              <div className="overflow-x-auto w-full">
-                <table className="w-full text-left border-collapse min-w-[800px]">
-                  <thead>
-                    <tr className="border-b border-white/10 text-[9px] font-mono text-gray-500 uppercase tracking-widest">
-                      <th className="py-3 px-2 font-medium">Priority</th>
-                      <th className="py-3 px-2 font-medium">ID</th>
-                      <th className="py-3 px-2 font-medium">Control</th>
-                      <th className="py-3 px-2 font-medium">Category</th>
-                      <th className="py-3 px-2 text-right font-medium">Est. Cost (₹L)</th>
-                      <th className="py-3 px-2 text-right font-medium">Potential (₹L)</th>
-                      <th className="py-3 px-2 text-right font-medium">ROI</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-[11px] font-mono text-gray-300">
-                    {CFO_MOCK_DATA.deferredControls.map((c, i) => (
-                      <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition">
-                        <td className="py-4 px-2 text-qamber font-bold">{c.rank}</td>
-                        <td className="py-4 px-2 text-gray-500">{c.id}</td>
-                        <td className="py-4 px-2 text-white font-sans font-medium">{c.name}</td>
-                        <td className="py-4 px-2 text-gray-400 font-sans">Remediation</td>
-                        <td className="py-4 px-2 text-right">₹{c.cost}L</td>
-                        <td className="py-4 px-2 text-right text-qemerald">₹{c.reduction}L</td>
-                        <td className="py-4 px-2 text-right text-white font-bold">{c.roi}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
               </div>
             </div>
           </section>
@@ -1377,7 +1092,7 @@ export default function QuantifySecApp() {
         {/* ==================== CISO DASHBOARD ==================== */}
         {currentView === "ciso-dashboard" && (
           <section id="view-ciso-dashboard" className="max-w-[1280px] mx-auto px-6 pb-20 relative z-10 w-full space-y-6">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-2">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-2 relative z-30">
               <div>
                 <div className="flex items-center gap-2 text-[10px] font-mono text-qemerald uppercase tracking-widest mb-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-qemerald animate-pulse" />
@@ -1385,7 +1100,11 @@ export default function QuantifySecApp() {
                 </div>
                 <h1 className="font-display text-4xl font-bold text-white tracking-tight">Good evening{currentUserName}</h1>
                 <p className="text-sm text-gray-400 mt-2">
-                  Coverage snapshot: <span className="text-white font-mono">08 Sept, 07:06 pm</span> · <span className="text-qemerald font-mono">9 controls deployed</span> · <span className="text-qamber font-mono">16 gaps</span>
+                  {hasData ? (
+                    <>Coverage snapshot: <span className="text-white font-mono">08 Sept, 07:06 pm</span> · <span className="text-qemerald font-mono">9 controls deployed</span> · <span className="text-qamber font-mono">16 gaps</span></>
+                  ) : (
+                    <>System Status: <span className="text-qamber font-mono">Awaiting Initial Telemetry Ingestion</span></>
+                  )}
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -1393,182 +1112,130 @@ export default function QuantifySecApp() {
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> 
                   INGEST OCSF
                 </button>
-                <button onClick={() => setIsAuditModalOpen(true)} className="text-xs font-mono uppercase tracking-wider text-qemerald hover:text-white border border-qemerald/30 hover:border-qemerald/60 bg-qemerald/10 px-3 py-2 rounded-lg transition flex items-center gap-1.5">
-                  <span className="w-1 h-1 rounded-full bg-qemerald animate-pulse" /> AUDIT LOG
+                <button onClick={() => hasData && setIsAuditModalOpen(true)} className={`text-xs font-mono uppercase tracking-wider transition flex items-center gap-1.5 px-3 py-2 rounded-lg ${hasData ? 'text-qemerald hover:text-white border border-qemerald/30 hover:border-qemerald/60 bg-qemerald/10' : 'text-gray-500 border border-gray-700 bg-gray-800/30 cursor-not-allowed'}`}>
+                  <span className={`w-1 h-1 rounded-full ${hasData ? 'bg-qemerald animate-pulse' : 'bg-gray-600'}`} /> AUDIT LOG
                 </button>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="ui-widget rounded-2xl p-5 glow-violet flex items-center gap-4">
-                <div className="relative w-[52px] h-[52px] flex-shrink-0">
-                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                    <path className="text-white/10" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="2.5" />
-                    <path className="text-qviolet" strokeDasharray="78, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-                  </svg>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-base font-display font-bold text-white">78</span>
+            <div className="relative min-h-[600px] w-full">
+              {!hasData && (
+                <div className="absolute inset-0 z-20 flex items-start justify-center pt-32">
+                  <div className="ui-widget rounded-3xl p-10 flex flex-col items-center max-w-md text-center border border-white/10 shadow-2xl bg-[#09090b]/80 backdrop-blur-xl">
+                    <div className="w-16 h-16 bg-qviolet/10 rounded-full flex items-center justify-center mb-6 text-qviolet border border-qviolet/20">
+                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                    </div>
+                    <h2 className="font-display text-2xl font-bold text-white mb-3">No Telemetry Data Found</h2>
+                    <p className="text-sm text-gray-400 font-body leading-relaxed mb-8">To generate the security posture score and identify control gaps, please ingest the latest OCSF JSON exports from your SIEM/XDR.</p>
+                    <button onClick={() => setIsUploadModalOpen(true)} className="w-full bg-qviolet hover:bg-[#7c3aed] text-white font-semibold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(167,139,250,0.4)]">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> 
+                      Ingest OCSF Data
+                    </button>
                   </div>
                 </div>
-                <div>
-                  <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-1">Posture Score</div>
-                  <div className="text-2xl font-mono font-bold text-white tracking-tight">78<span className="text-sm text-gray-500">/100</span></div>
-                  <div className="text-[10px] text-qemerald mt-1 font-mono">↑ +4 this month</div>
-                </div>
-              </div>
-              <div className="ui-widget rounded-2xl p-5 glow-emerald">
-                <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Controls Deployed</div>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-mono font-bold text-white tracking-tight">31</span>
-                  <span className="text-lg text-gray-500">/25</span>
-                </div>
-                <div className="text-[10px] text-gray-500 mt-2 font-mono">/400</div>
-              </div>
-              <div className="ui-widget rounded-2xl p-5 glow-violet">
-                <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Portfolio Coverage</div>
-                <div className="text-3xl font-mono font-bold text-white tracking-tight mt-1">8%</div>
-                <div className="w-full h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
-                  <div className="h-full bg-qviolet rounded-full" style={{ width: `8%` }} />
-                </div>
-              </div>
-              <div className="ui-widget rounded-2xl p-5 glow-amber">
-                <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Critical Gaps</div>
-                <div className="text-3xl font-mono font-bold text-qamber tracking-tight mt-1">369</div>
-                <div className="text-[10px] text-gray-500 mt-2 font-body">Deferred · awaiting funding</div>
-              </div>
-            </div>
+              )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="ui-widget rounded-3xl p-6 lg:col-span-2">
-                <h3 className="font-display font-semibold text-white">Coverage Heatmap by Category</h3>
-                <p className="text-[11px] text-gray-500 mt-1 mb-6">Each tile is a control · <span className="text-qemerald">green = deployed</span> · <span className="text-qamber">amber = deferred</span></p>
-                <div className="grid grid-cols-12 gap-1.5">
-                  {CISO_MOCK_DATA.heatmap.map((tile, i) => (
-                    <div key={i} className={`h-8 rounded flex items-center justify-center text-[8px] font-mono ${tile.status === 'deployed' ? 'bg-qemerald/80 text-black font-bold' : tile.status === 'deferred' ? 'bg-qamber/70 text-black font-bold' : 'bg-white/5 text-gray-600'}`}>
-                      {tile.id}
+              <div className={`${!hasData ? 'opacity-20 blur-[10px] pointer-events-none select-none' : ''} transition-all duration-700 space-y-6`}>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="ui-widget rounded-2xl p-5 glow-violet flex items-center gap-4">
+                    <div className="relative w-[52px] h-[52px] flex-shrink-0">
+                      <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                        <path className="text-white/10" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="2.5" />
+                        <path className="text-qviolet" strokeDasharray="78, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                      </svg>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <span className="text-base font-display font-bold text-white">78</span>
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="ui-widget rounded-3xl p-6 flex flex-col">
-                <div>
-                  <h3 className="font-display font-semibold text-white">Deployment Status</h3>
-                  <p className="text-[11px] text-gray-500 mt-1">Control portfolio breakdown</p>
-                </div>
-                <div className="flex-1 flex flex-col items-center justify-center relative mt-6">
-                  <div className="w-40 h-40 relative">
-                    <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
-                      <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.05)" strokeWidth="16" fill="none" />
-                      <circle cx="50" cy="50" r="40" stroke="#f59e0b" strokeWidth="16" fill="none" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 0.0625)} strokeLinecap="butt" />
-                      <circle cx="50" cy="50" r="40" stroke="#10b981" strokeWidth="16" fill="none" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 0.0225)} strokeLinecap="butt" />
-                    </svg>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span className="text-2xl font-bold font-mono text-white tracking-tight">400</span>
-                      <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest mt-0.5">Total</span>
+                    <div>
+                      <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-1">Posture Score</div>
+                      <div className="text-2xl font-mono font-bold text-white tracking-tight">78<span className="text-sm text-gray-500">/100</span></div>
+                      <div className="text-[10px] text-qemerald mt-1 font-mono">↑ +4 this month</div>
                     </div>
                   </div>
-                  <div className="w-full mt-10 space-y-2.5 text-xs px-4">
-                    <div className="flex justify-between"><span className="flex items-center gap-2 text-gray-300"><span className="w-2 h-2 rounded-full bg-qemerald" /> Deployed</span><span className="font-mono text-white">9</span></div>
-                    <div className="flex justify-between"><span className="flex items-center gap-2 text-gray-300"><span className="w-2 h-2 rounded-full bg-qamber" /> Deferred</span><span className="font-mono text-white">16</span></div>
-                    <div className="flex justify-between"><span className="flex items-center gap-2 text-gray-300"><span className="w-2 h-2 rounded-full bg-gray-600" /> Not evaluated</span><span className="font-mono text-white">0</span></div>
+                  <div className="ui-widget rounded-2xl p-5 glow-emerald">
+                    <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Controls Deployed</div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl font-mono font-bold text-white tracking-tight">31</span>
+                      <span className="text-lg text-gray-500">/25</span>
+                    </div>
+                    <div className="text-[10px] text-gray-500 mt-2 font-mono">/400</div>
+                  </div>
+                  <div className="ui-widget rounded-2xl p-5 glow-violet">
+                    <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Portfolio Coverage</div>
+                    <div className="text-3xl font-mono font-bold text-white tracking-tight mt-1">8%</div>
+                    <div className="w-full h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+                      <div className="h-full bg-qviolet rounded-full" style={{ width: `8%` }} />
+                    </div>
+                  </div>
+                  <div className="ui-widget rounded-2xl p-5 glow-amber">
+                    <div className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-3">Critical Gaps</div>
+                    <div className="text-3xl font-mono font-bold text-qamber tracking-tight mt-1">369</div>
+                    <div className="text-[10px] text-gray-500 mt-2 font-body">Deferred · awaiting funding</div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="ui-widget rounded-3xl p-6">
-                <h3 className="font-display font-semibold text-white">Deferred Priority Queue</h3>
-                <p className="text-[11px] text-gray-500 mt-1 mb-6">Rank top-10 gaps by control efficiency</p>
-                <div className="space-y-4">
-                  {CISO_MOCK_DATA.deferredControls.map((c, i) => (
-                    <div key={i}>
-                      <div className="flex justify-between text-[11px] font-mono mb-1.5"><span className="text-gray-300">{c.rank} · <span className="text-gray-500">{c.id}</span></span><span className="text-gray-300">{c.efficiency}</span></div>
-                      <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden"><div className="h-full bg-qviolet rounded-full" style={{ width: `${100 - (i * 4)}%` }} /></div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  <div className="ui-widget rounded-3xl p-6 lg:col-span-2">
+                    <h3 className="font-display font-semibold text-white">Coverage Heatmap by Category</h3>
+                    <p className="text-[11px] text-gray-500 mt-1 mb-6">Each tile is a control · <span className="text-qemerald">green = deployed</span> · <span className="text-qamber">amber = deferred</span></p>
+                    <div className="grid grid-cols-12 gap-1.5">
+                      {CISO_MOCK_DATA.heatmap.map((tile, i) => (
+                        <div key={i} className={`h-8 rounded flex items-center justify-center text-[8px] font-mono ${tile.status === 'deployed' ? 'bg-qemerald/80 text-black font-bold' : tile.status === 'deferred' ? 'bg-qamber/70 text-black font-bold' : 'bg-white/5 text-gray-600'}`}>
+                          {tile.id}
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
-              <div className="ui-widget rounded-3xl p-6">
-                <h3 className="font-display font-semibold text-white">Attack Surface by Category</h3>
-                <p className="text-[11px] text-gray-500 mt-1 mb-6">Control counts per category · deployment split</p>
-                <div>
-                  <div className="flex justify-between text-[11px] font-mono mb-1.5"><span className="text-gray-300">Remediation (31/400)</span><span className="text-gray-300">400</span></div>
-                  <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden"><div className="h-full bg-qviolet rounded-full w-full" /></div>
-                </div>
-              </div>
-            </div>
+                  </div>
 
-            <div className="ui-widget rounded-3xl p-6">
-              <div className="flex justify-between items-center mb-6">
-                <div>
-                  <h3 className="font-display font-semibold text-white text-lg">Deployed Controls · Active Coverage</h3>
-                  <p className="text-[11px] text-gray-500 mt-1">Confirmed operational · continuously monitored</p>
+                  <div className="ui-widget rounded-3xl p-6 flex flex-col">
+                    <div>
+                      <h3 className="font-display font-semibold text-white">Deployment Status</h3>
+                      <p className="text-[11px] text-gray-500 mt-1">Control portfolio breakdown</p>
+                    </div>
+                    <div className="flex-1 flex flex-col items-center justify-center relative mt-6">
+                      <div className="w-40 h-40 relative">
+                        <svg viewBox="0 0 100 100" className="w-full h-full transform -rotate-90">
+                          <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.05)" strokeWidth="16" fill="none" />
+                          <circle cx="50" cy="50" r="40" stroke="#f59e0b" strokeWidth="16" fill="none" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 0.0625)} strokeLinecap="butt" />
+                          <circle cx="50" cy="50" r="40" stroke="#10b981" strokeWidth="16" fill="none" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 0.0225)} strokeLinecap="butt" />
+                        </svg>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          <span className="text-2xl font-bold font-mono text-white tracking-tight">400</span>
+                          <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest mt-0.5">Total</span>
+                        </div>
+                      </div>
+                      <div className="w-full mt-10 space-y-2.5 text-xs px-4">
+                        <div className="flex justify-between"><span className="flex items-center gap-2 text-gray-300"><span className="w-2 h-2 rounded-full bg-qemerald" /> Deployed</span><span className="font-mono text-white">9</span></div>
+                        <div className="flex justify-between"><span className="flex items-center gap-2 text-gray-300"><span className="w-2 h-2 rounded-full bg-qamber" /> Deferred</span><span className="font-mono text-white">16</span></div>
+                        <div className="flex justify-between"><span className="flex items-center gap-2 text-gray-300"><span className="w-2 h-2 rounded-full bg-gray-600" /> Not evaluated</span><span className="font-mono text-white">0</span></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <span className="text-[10px] font-mono bg-qemerald/10 text-qemerald border border-qemerald/20 px-2.5 py-1 rounded-full">Live</span>
-              </div>
-              <div className="overflow-x-auto w-full">
-                <table className="w-full text-left border-collapse min-w-[800px]">
-                  <thead>
-                    <tr className="border-b border-white/10 text-[9px] font-mono text-gray-500 uppercase tracking-widest">
-                      <th className="py-3 px-2 font-medium">Status</th>
-                      <th className="py-3 px-2 font-medium">ID</th>
-                      <th className="py-3 px-2 font-medium">Control</th>
-                      <th className="py-3 px-2 font-medium">Category</th>
-                      <th className="py-3 px-2 text-right font-medium">Efficiency</th>
-                      <th className="py-3 px-2 text-right font-medium">Coverage Weight</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-[11px] font-mono text-gray-300">
-                    {CISO_MOCK_DATA.deployedControls.map((c, i) => (
-                      <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition">
-                        <td className="py-4 px-2"><span className="flex items-center gap-1.5 text-[9px] text-qemerald font-bold tracking-wider"><span className="w-1.5 h-1.5 rounded-full bg-qemerald animate-pulse" /> {c.status}</span></td>
-                        <td className="py-4 px-2 text-gray-500">{c.id}</td>
-                        <td className="py-4 px-2 text-white font-sans font-medium">{c.name}</td>
-                        <td className="py-4 px-2 text-qviolet font-sans">{c.category}</td>
-                        <td className="py-4 px-2 text-right text-qamber">{c.efficiency}</td>
-                        <td className="py-4 px-2 text-right"><div className="flex items-center justify-end gap-2 text-gray-400"><div className="w-12 h-1 bg-white/10 rounded-full"><div className="h-full bg-gray-500 rounded-full" style={{ width: `${c.weight}%` }}/></div>{c.weight}%</div></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
 
-            <div className="ui-widget rounded-3xl p-6">
-              <div className="flex justify-between items-center mb-6">
-                <div>
-                  <h3 className="font-display font-semibold text-white text-lg">Coverage Gaps · Deferred Controls</h3>
-                  <p className="text-[11px] text-gray-500 mt-1">Rank-ordered technical remediation queue</p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="ui-widget rounded-3xl p-6">
+                    <h3 className="font-display font-semibold text-white">Deferred Priority Queue</h3>
+                    <p className="text-[11px] text-gray-500 mt-1 mb-6">Rank top-10 gaps by control efficiency</p>
+                    <div className="space-y-4">
+                      {CISO_MOCK_DATA.deferredControls.map((c, i) => (
+                        <div key={i}>
+                          <div className="flex justify-between text-[11px] font-mono mb-1.5"><span className="text-gray-300">{c.rank} · <span className="text-gray-500">{c.id}</span></span><span className="text-gray-300">{c.efficiency}</span></div>
+                          <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden"><div className="h-full bg-qviolet rounded-full" style={{ width: `${100 - (i * 4)}%` }} /></div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="ui-widget rounded-3xl p-6">
+                    <h3 className="font-display font-semibold text-white">Attack Surface by Category</h3>
+                    <p className="text-[11px] text-gray-500 mt-1 mb-6">Control counts per category · deployment split</p>
+                    <div>
+                      <div className="flex justify-between text-[11px] font-mono mb-1.5"><span className="text-gray-300">Remediation (31/400)</span><span className="text-gray-300">400</span></div>
+                      <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden"><div className="h-full bg-qviolet rounded-full w-full" /></div>
+                    </div>
+                  </div>
                 </div>
-                <span className="text-[10px] font-mono bg-qamber/10 text-qamber border border-qamber/20 px-2.5 py-1 rounded-full">16 gaps</span>
-              </div>
-              <div className="overflow-x-auto w-full">
-                <table className="w-full text-left border-collapse min-w-[800px]">
-                  <thead>
-                    <tr className="border-b border-white/10 text-[9px] font-mono text-gray-500 uppercase tracking-widest">
-                      <th className="py-3 px-2 font-medium">Rank</th>
-                      <th className="py-3 px-2 font-medium">ID</th>
-                      <th className="py-3 px-2 font-medium">Control</th>
-                      <th className="py-3 px-2 font-medium">Category</th>
-                      <th className="py-3 px-2 text-right font-medium">Efficiency</th>
-                      <th className="py-3 px-2 text-right font-medium">Priority Weight</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-[11px] font-mono text-gray-300">
-                    {CISO_MOCK_DATA.deferredControls.map((c, i) => (
-                      <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition">
-                        <td className="py-4 px-2 text-qamber font-bold">{c.rank}</td>
-                        <td className="py-4 px-2 text-gray-500">{c.id}</td>
-                        <td className="py-4 px-2 text-white font-sans font-medium">{c.name}</td>
-                        <td className="py-4 px-2 text-qviolet font-sans">{c.category}</td>
-                        <td className="py-4 px-2 text-right text-gray-400">{c.efficiency}</td>
-                        <td className="py-4 px-2 text-right"><div className="flex items-center justify-end gap-2 text-gray-400"><div className="w-12 h-1 bg-white/10 rounded-full"><div className="h-full bg-qamber rounded-full" style={{ width: `${c.weight}%` }}/></div>{c.weight}%</div></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
               </div>
             </div>
           </section>
