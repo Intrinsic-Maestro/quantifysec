@@ -56,10 +56,11 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Security(security))
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM], options={"verify_aud": False})
         return {
-            "sub": payload.get("sub"),
-            "email": payload.get("email", payload.get("sub")),
-            "role": payload.get("role", "ciso")
-        }
+    "sub": payload.get("sub"),
+    "email": payload.get("email", payload.get("sub")),
+    "role": payload.get("role", "ciso"),
+    "company_id": payload.get("app_metadata", {}).get("company_id"),
+}
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Invalid authentication token or expired session.")
 
@@ -290,10 +291,13 @@ async def ingest_ocsf_telemetry(file: UploadFile = File(...), user: dict = Depen
         content = await file.read()
         json_data = json.loads(content.decode("utf-8"))
         
-        # Ingestion validation
         vuln_res = ingest_vulnerabilities(json_data)
         if not vuln_res["valid"]:
             raise HTTPException(status_code=400, detail="Uploaded file contained no valid OCSF vulnerability records.")
+        
+        combined_res = ingest_combined_findings(json_data)
+        company_name = user.get("company_name") or "Unknown Company"  # see note below
+        
         db.upsert_vulnerabilities(vuln_res["valid"], company_name, raw_combined=combined_res["valid"])
         
         return {
@@ -304,6 +308,8 @@ async def ingest_ocsf_telemetry(file: UploadFile = File(...), user: dict = Depen
         }
     except json.JSONDecodeError:
         raise HTTPException(status_code=400, detail="Invalid JSON file syntax.")
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Ingestion failed: {str(e)}")
 
@@ -313,7 +319,7 @@ async def ingest_ocsf_telemetry(file: UploadFile = File(...), user: dict = Depen
 @app.post("/api/run-pipeline")
 def run_full_enterprise_pipeline(user: dict = Depends(verify_token)):
     try:
-        company_name = "QuantifySec Demo Co"  # TODO: replace with real logged-in user's company once auth is wired up
+        company_name = db.get_company_name(user.get("company_id"))
         raw_assets = load_json_file("../output/synthetic_assets.json")
         raw_vulns = load_json_file("../output/synthetic_combined.json")
 
