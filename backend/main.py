@@ -259,10 +259,10 @@ def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
           portfolio_ale_lakh = portfolio_ale_rupees / 100_000.0
 
           # FIX (Bug 2): argument order corrected to match db.py's actual
-          # signature: (opt_result, simulation_run_id, portfolio_ale_lakh, vuln_id_to_action_id).
+          # signature: (opt_result, simulation_run_id, vuln_id_to_action_id, portfolio_ale_lakh).
           # The dict and float were previously swapped, which would raise
           # TypeError partway through the request.
-          db.insert_optimization_run(opt_result, simulation_run_id, portfolio_ale_lakh, vuln_id_to_action_id)
+          db.insert_optimization_run(opt_result, simulation_run_id, vuln_id_to_action_id, portfolio_ale_lakh)
 
           # Step 6: Generate Technical Drill-down for the UI
           # (duplicate call removed -- was computed twice back to back)
