@@ -228,16 +228,34 @@ export default function QuantifySecApp() {
   }, [currentView]);
 
   // Sync Landing Table with Railway Pipeline
+  // Sync Landing Table with Railway Pipeline
   useEffect(() => {
     async function fetchOptimizationData() {
       try {
+        // 1. Grab the token from sessionStorage
+        const token = sessionStorage.getItem("quantifysec_jwt");
+
+        // 2. Setup headers, optionally adding Authorization if the token exists
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json"
+        };
+
+        if (token) {
+          headers["Authorization"] = `Bearer ${token}`;
+        }
+
         let response = await fetch(`${backendBaseUrl}/api/run-pipeline`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" }
+          headers // 3. Pass the headers here
         });
+
         if (response.status === 405) {
-          response = await fetch(`${backendBaseUrl}/api/run-pipeline`, { method: "GET" });
+          response = await fetch(`${backendBaseUrl}/api/run-pipeline`, {
+            method: "GET",
+            headers // ...and pass them here for the fallback
+          });
         }
+
         if (response.ok) {
           const apiData = await response.json();
           setKnapsackData(prev => ({ ...prev, ...apiData }));
@@ -246,8 +264,11 @@ export default function QuantifySecApp() {
         console.warn("Backend optimization pipeline offline or booting:", err);
       }
     }
+
     fetchOptimizationData();
-  }, [backendBaseUrl]);
+
+    // 4. Add currentView here so it refetches after successful login navigation
+  }, [backendBaseUrl, currentView]);
 
   // ==========================================
   // REAL BACKEND AUTHENTICATION WITH RESEND
@@ -1332,8 +1353,8 @@ export default function QuantifySecApp() {
               <div
                 onClick={() => fileInputRef.current?.click()}
                 className={`w-full border-2 border-dashed rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 ${fileName
-                    ? "border-qemerald/50 bg-qemerald/5"
-                    : "border-white/10 hover:border-qviolet/50 bg-white/[0.02] hover:bg-qviolet/5"
+                  ? "border-qemerald/50 bg-qemerald/5"
+                  : "border-white/10 hover:border-qviolet/50 bg-white/[0.02] hover:bg-qviolet/5"
                   }`}
               >
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 transition ${fileName ? "bg-qemerald/20 text-qemerald" : "bg-white/5 text-gray-400"
@@ -1382,8 +1403,8 @@ export default function QuantifySecApp() {
                 onClick={processOcsfData}
                 disabled={isUploading || !fileName}
                 className={`px-5 py-2.5 rounded-lg text-xs font-semibold transition flex items-center gap-2 ${isUploading || !fileName
-                    ? "bg-white/10 text-gray-500 cursor-not-allowed"
-                    : "bg-qviolet text-[#09090b] hover:bg-qviolet/90 shadow-[0_0_15px_rgba(167,139,250,0.4)]"
+                  ? "bg-white/10 text-gray-500 cursor-not-allowed"
+                  : "bg-qviolet text-[#09090b] hover:bg-qviolet/90 shadow-[0_0_15px_rgba(167,139,250,0.4)]"
                   }`}
               >
                 {isUploading ? (
