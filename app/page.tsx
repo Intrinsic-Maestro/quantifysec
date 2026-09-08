@@ -376,8 +376,7 @@ export default function QuantifySecApp() {
   const [isSendingOtp, setIsSendingOtp] = useState<boolean>(false);
   
   // OCSF Data Upload State
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [fileName, setFileName] = useState<string>("");
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -576,16 +575,47 @@ export default function QuantifySecApp() {
   // REAL OCSF FILE UPLOAD TO BACKEND
   // ==========================================
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      setFileName(file.name);
+    if (e.target.files) {
+      const incomingFiles = Array.from(e.target.files);
+      const validFiles: File[] = [];
+      const maxSize = 100 * 1024 * 1024; // 100MB constraint
+
+      for (const file of incomingFiles) {
+        if (file.size > maxSize) {
+          alert(`File "${file.name}" exceeds the 100MB limit and was skipped.`);
+          continue;
+        }
+        if (!file.name.endsWith('.json')) {
+          alert(`File "${file.name}" is not a valid JSON file and was skipped.`);
+          continue;
+        }
+        validFiles.push(file);
+      }
+
+      setSelectedFiles(prev => {
+        const newTotal = [...prev, ...validFiles];
+        if (newTotal.length > 6) {
+          alert("You can only upload a maximum of 6 files at once. Extra files were discarded.");
+          return newTotal.slice(0, 6);
+        }
+        return newTotal;
+      });
+    }
+    
+    // Reset file input so the user can select the same file again if they deleted it
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
+  const removeFile = (indexToRemove: number, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevents opening the file browser when clicking 'X'
+    setSelectedFiles(prev => prev.filter((_, i) => i !== indexToRemove));
+  };
+
   const processOcsfData = async () => {
-    if (!selectedFile) {
-      alert("Please upload a valid JSON file first.");
+    if (selectedFiles.length === 0) {
+      alert("Please upload at least one valid JSON file.");
       return;
     }
     setIsUploading(true);
@@ -593,7 +623,11 @@ export default function QuantifySecApp() {
     try {
       const token = sessionStorage.getItem("quantifysec_jwt");
       const formData = new FormData();
-      formData.append("file", selectedFile);
+      
+      // Append all selected files to the form data payload
+      selectedFiles.forEach((file) => {
+        formData.append("file", file); 
+      });
 
       const res = await fetch(`${backendBaseUrl}/api/ingest-ocsf`, {
         method: "POST",
@@ -604,14 +638,13 @@ export default function QuantifySecApp() {
       });
 
       if (!res.ok) {
-        throw new Error("Backend failed to process telemetry file.");
+        throw new Error("Backend failed to process telemetry files.");
       }
 
       setIsUploadModalOpen(false);
-      setSelectedFile(null);
-      setFileName("");
+      setSelectedFiles([]);
     } catch (err: any) {
-      alert(err.message || "Failed to parse file on Railway backend.");
+      alert(err.message || "Failed to parse files on Railway backend.");
     } finally {
       setIsUploading(false);
     }
@@ -729,7 +762,7 @@ export default function QuantifySecApp() {
               <div id="section-solution" className="w-full max-w-[1100px] mx-auto px-6 pb-32 relative z-10">
                 <div className="text-center mb-16 max-w-3xl mx-auto">
                   <h2 className="text-[#09090b] font-display text-3xl md:text-5xl font-bold tracking-tight mb-6">
-                    Meet Your  <span className="text-qviolet">Risk Quantifier</span>
+                    Meet Your AI <span className="text-qviolet">Risk Quantifier</span>
                   </h2>
                   <p className="text-gray-500 text-lg font-body leading-relaxed">
                     A swarm of AI Co-Workers that instantly close the loop from technical insight to actionable financial decision.
@@ -1554,7 +1587,7 @@ export default function QuantifySecApp() {
                 </h3>
                 <p className="text-[11px] text-gray-500 mt-1">Upload JSON arrays mapping to the Open Cybersecurity Schema Framework.</p>
               </div>
-              <button onClick={() => { setIsUploadModalOpen(false); setSelectedFile(null); setFileName(""); }} className="text-gray-400 hover:text-white transition">
+              <button onClick={() => { setIsUploadModalOpen(false); setSelectedFiles([]); }} className="text-gray-400 hover:text-white transition">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
@@ -1563,15 +1596,15 @@ export default function QuantifySecApp() {
               <div 
                 onClick={() => fileInputRef.current?.click()}
                 className={`w-full border-2 border-dashed rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 ${
-                  fileName 
+                  selectedFiles.length > 0 
                     ? "border-qemerald/50 bg-qemerald/5" 
                     : "border-white/10 hover:border-qviolet/50 bg-white/[0.02] hover:bg-qviolet/5"
                 }`}
               >
                 <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-3 transition ${
-                  fileName ? "bg-qemerald/20 text-qemerald" : "bg-white/5 text-gray-400"
+                  selectedFiles.length > 0 ? "bg-qemerald/20 text-qemerald" : "bg-white/5 text-gray-400"
                 }`}>
-                  {fileName ? (
+                  {selectedFiles.length > 0 ? (
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                     </svg>
@@ -1582,21 +1615,32 @@ export default function QuantifySecApp() {
                   )}
                 </div>
 
-                {fileName ? (
-                  <>
-                    <div className="text-sm font-semibold text-white mb-1">{fileName}</div>
-                    <div className="text-[11px] text-qemerald font-mono">Ready to process · Click to choose a different file</div>
-                  </>
+                {selectedFiles.length > 0 ? (
+                  <div className="w-full flex flex-col items-center">
+                    <div className="text-sm font-semibold text-white mb-3 text-center">{selectedFiles.length} File(s) Selected</div>
+                    <div className="w-full max-w-sm space-y-2 max-h-32 overflow-y-auto custom-scrollbar pr-2">
+                      {selectedFiles.map((f, i) => (
+                         <div key={i} className="flex justify-between items-center bg-black/40 px-3 py-2 rounded-lg border border-white/5 w-full">
+                            <span className="text-[11px] text-gray-300 truncate pr-3">{f.name}</span>
+                            <button onClick={(e) => removeFile(i, e)} className="text-gray-500 hover:text-qrose transition p-1">✕</button>
+                         </div>
+                      ))}
+                    </div>
+                    {selectedFiles.length < 6 && (
+                      <div className="text-[11px] text-qemerald font-mono text-center mt-4">Ready to process · Click to add more (Max 6)</div>
+                    )}
+                  </div>
                 ) : (
                   <>
-                    <div className="text-sm font-semibold text-white mb-1">Click to select an OCSF JSON file</div>
-                    <div className="text-[11px] text-gray-500 font-mono">Strict format: .json files only (up to 50MB)</div>
+                    <div className="text-sm font-semibold text-white mb-1">Click to select OCSF JSON files</div>
+                    <div className="text-[11px] text-gray-500 font-mono">Strict format: .json files only (up to 100MB each, max 6)</div>
                   </>
                 )}
 
                 <input 
                   type="file" 
-                  accept=".json" 
+                  accept=".json"
+                  multiple
                   ref={fileInputRef} 
                   className="hidden" 
                   onChange={handleFileSelect}
@@ -1606,16 +1650,16 @@ export default function QuantifySecApp() {
 
             <div className="mt-6 pt-4 border-t border-white/10 flex justify-end gap-3">
               <button 
-                onClick={() => { setIsUploadModalOpen(false); setSelectedFile(null); setFileName(""); }} 
+                onClick={() => { setIsUploadModalOpen(false); setSelectedFiles([]); }} 
                 className="px-5 py-2.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-white transition"
               >
                 Cancel
               </button>
               <button 
                 onClick={processOcsfData}
-                disabled={isUploading || !fileName}
+                disabled={isUploading || selectedFiles.length === 0}
                 className={`px-5 py-2.5 rounded-lg text-xs font-semibold transition flex items-center gap-2 ${
-                  isUploading || !fileName 
+                  isUploading || selectedFiles.length === 0 
                     ? "bg-white/10 text-gray-500 cursor-not-allowed" 
                     : "bg-qviolet text-[#09090b] hover:bg-qviolet/90 shadow-[0_0_15px_rgba(167,139,250,0.4)]"
                 }`}
