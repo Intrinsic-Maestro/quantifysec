@@ -144,6 +144,38 @@ def ingest_vulnerabilities(raw_records: list[dict]) -> dict:
     return {"valid": valid_records, "errors": errors}
 
 
+def ingest_combined_findings(raw_records: list[dict]) -> dict:
+    """
+    Validates each raw combined-finding dict against CombinedFindingRecord
+    and returns the validated objects — WITHOUT deriving exploit_status or
+    building VulnerabilityRecord.
+
+    Use this alongside ingest_vulnerabilities() when you need access to
+    the source-level kev_listed / known_ransomware_use fields (e.g. to
+    populate db.upsert_vulnerabilities(raw_combined=...)).
+
+    Returns:
+        {
+            "valid": [CombinedFindingRecord, ...],
+            "errors": [{"row": i, "reason": ..., "raw": ...}, ...]
+        }
+    """
+    valid_records: list[CombinedFindingRecord] = []
+    errors: list[dict] = []
+
+    for i, raw in enumerate(raw_records):
+        try:
+            cleaned = sanitize_row(raw)
+            finding = CombinedFindingRecord(**cleaned)
+            valid_records.append(finding)
+        except ValidationError as e:
+            errors.append({"row": i, "reason": e.errors(), "raw": raw})
+        except Exception as e:
+            errors.append({"row": i, "reason": str(e), "raw": raw})
+
+    return {"valid": valid_records, "errors": errors}
+
+
 # ══════════════════════════════════════════════════════════════════════
 # CVE -> ASSET INDEX  (runs only on already-validated data)
 # ══════════════════════════════════════════════════════════════════════

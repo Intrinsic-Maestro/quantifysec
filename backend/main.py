@@ -5,6 +5,7 @@ import time
 import random
 import json
 import traceback
+from datetime import date
 from typing import List, Dict, Any
 
 from dotenv import load_dotenv
@@ -25,7 +26,7 @@ import db
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(ROOT_DIR))
 
-from data_ingestion.ingestion import load_json_file, ingest_assets, ingest_vulnerabilities
+from data_ingestion.ingestion import load_json_file, ingest_assets, ingest_vulnerabilities, ingest_combined_findings
 from math_engine.monte_carlo.simulator import run_portfolio_simulation
 from math_engine.monte_carlo.analytics import generate_portfolio_analytics_summary
 from math_engine.monte_carlo.schema_exporter import serialize_simulation_results
@@ -263,8 +264,7 @@ async def ingest_ocsf_telemetry(file: UploadFile = File(...), user: dict = Depen
         vuln_res = ingest_vulnerabilities(json_data)
         if not vuln_res["valid"]:
             raise HTTPException(status_code=400, detail="Uploaded file contained no valid OCSF vulnerability records.")
-            
-        db.upsert_vulnerabilities(vuln_res["valid"])
+        db.upsert_vulnerabilities(vuln_res["valid"], company_name, raw_combined=combined_res["valid"])
         
         return {
             "status": "success",
@@ -283,37 +283,99 @@ async def ingest_ocsf_telemetry(file: UploadFile = File(...), user: dict = Depen
 @app.post("/api/run-pipeline")
 def run_full_enterprise_pipeline(user: dict = Depends(verify_token)):
     try:
+        company_name = "QuantifySec Demo Co"  # TODO: replace with real logged-in user's company once auth is wired up
         raw_assets = load_json_file("../output/synthetic_assets.json")
         raw_vulns = load_json_file("../output/synthetic_combined.json")
-        
+
         asset_res = ingest_assets(raw_assets)
         vuln_res = ingest_vulnerabilities(raw_vulns)
-        
+
         if not asset_res["valid"] or not vuln_res["valid"]:
             raise HTTPException(status_code=400, detail="Data ingestion failed. No valid records found.")
 
-        db.upsert_assets(asset_res["valid"])
-        db.upsert_vulnerabilities(vuln_res["valid"])
+        # Validate raw combined records to get kev_listed / known_ransomware_use
+        # for upsert_vulnerabilities (CISO Metric #7 — Exploitability Index).
+        combined_res = ingest_combined_findings(raw_vulns)
 
+        db.upsert_assets(asset_res["valid"])
+        db.upsert_vulnerabilities(vuln_res["valid"],company_name, raw_combined=combined_res["valid"])
+
+        # ── Monte Carlo ──────────────────────────────────────────────────
         mc_payload = build_mc_payload(asset_res["valid"], vuln_res["valid"])
         raw_sim_results = run_portfolio_simulation(mc_payload)
         analytics = generate_portfolio_analytics_summary(raw_sim_results)
         mc_api_response = serialize_simulation_results(analytics, total_iterations=10000, random_seed=42)
 
         mc_dict = mc_api_response.model_dump()
-        simulation_run_id = db.insert_simulation_run(mc_dict)
-        db.insert_risk_assessments(analytics["top_risk_drivers"], simulation_run_id)
+        simulation_run_id = db.insert_simulation_run(mc_dict, company_name)
+        db.insert_risk_assessments(analytics["top_risk_drivers"], simulation_run_id, company_name)
 
+        # ── Knapsack ─────────────────────────────────────────────────────
         portfolio_ale_rupees = analytics["portfolio_metrics"]["mean_ale"]
         dynamic_vuln_controls = build_dynamic_vuln_controls(vuln_res["valid"], portfolio_ale_rupees)
-        vuln_id_to_action_id = db.insert_remediation_actions(dynamic_vuln_controls, simulation_run_id)
+        vuln_id_to_action_id = db.insert_remediation_actions(dynamic_vuln_controls, simulation_run_id, company_name)
 
         opt_request = OptimizationRequest(controls=dynamic_vuln_controls, budget=DEFAULT_BUDGET_LAKH)
         opt_result = solve_knapsack(opt_request)
 
         portfolio_ale_lakh = portfolio_ale_rupees / 100_000.0
-        db.insert_optimization_run(opt_result, simulation_run_id, vuln_id_to_action_id, portfolio_ale_lakh)
+        db.insert_optimization_run(
+    opt_result,
+    simulation_run_id,
+    vuln_id_to_action_id,
+    portfolio_ale_lakh,
+    company_name,
+    dynamic_controls=dynamic_vuln_controls,
+)
 
+        # ── CISO Snapshot (all 11 technical metrics) ─────────────────────
+        _ciso_id, posture_score = db.insert_ciso_snapshot(
+    asset_res["valid"],
+    vuln_res["valid"],
+    opt_result,
+    simulation_run_id,
+    company_name,
+)
+
+        # ── CFO Snapshot (all 11 financial metrics) ──────────────────────
+        _cfo_id = db.insert_cfo_snapshot(
+    analytics,
+    opt_result,
+    simulation_run_id,
+    company_name,
+)
+
+        # ── Quarterly Risk Trend (QoQ time series, CFO Metric #11) ───────
+        # Compute current Indian FY quarter dynamically.
+        today = date.today()
+        month = today.month
+        if month >= 4:
+            # Indian FY starts April — Q1=Apr-Jun, Q2=Jul-Sep, Q3=Oct-Dec
+            quarter = (month - 4) // 3 + 1
+            fy_year = today.year + 1
+            q_start_month = 4 + (quarter - 1) * 3
+            q_start_year = today.year
+        else:
+            # Q4 = Jan-Mar
+            quarter = 4
+            fy_year = today.year
+            q_start_month = 1
+            q_start_year = today.year
+
+        period_label = f"Q{quarter} FY{str(fy_year)[2:]}"
+        period_start = date(q_start_year, q_start_month, 1).isoformat()
+
+        db.insert_quarterly_risk_trend(
+    simulation_run_id,
+    period_label,
+    period_start,
+    analytics,
+    opt_result,
+    posture_score,
+    company_name,
+)
+
+        # ── Vulnerability drill-down (CISO Metric #5) ────────────────────
         vuln_drilldown = build_vulnerability_drilldown(vuln_res["valid"], portfolio_ale_rupees)
 
         pm = analytics["portfolio_metrics"]
@@ -331,15 +393,20 @@ def run_full_enterprise_pipeline(user: dict = Depends(verify_token)):
         return {
             "status": "success",
             "simulation_run_id": simulation_run_id,
+            "period_label": period_label,
             "ingestion_metrics": {
                 "assets_processed": len(asset_res["valid"]),
-                "vulns_processed": len(vuln_res["valid"])
+                "vulns_processed": len(vuln_res["valid"]),
+                "combined_records_validated": len(combined_res["valid"]),
+            },
+            "ciso_metrics": {
+                "posture_score": posture_score,
             },
             "monte_carlo_risk_profile": mc_dict,
             "cfo_budget_optimization": opt_result.model_dump(),
-            "technical_drilldown": vuln_drilldown
+            "technical_drilldown": vuln_drilldown,
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
