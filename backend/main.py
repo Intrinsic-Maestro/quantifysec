@@ -302,4 +302,8 @@ def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
      except HTTPException:
           raise
      except Exception as e:
+          import traceback
+          print("=== PIPELINE ERROR TRACEBACK ===")
+          print(traceback.format_exc())
+          print("=================================")
           raise HTTPException(status_code=500, detail=str(e))
