@@ -229,56 +229,60 @@ def request_otp(payload: OTPRequest):
 def verify_otp(payload: OTPVerify):
     email = payload.email.strip().lower()
     otp = payload.otp.strip()
- 
+
     record = OTP_STORE.get(email)
     if not record:
         raise HTTPException(status_code=400, detail="No verification code requested for this email.")
- 
+
     if time.time() > record["expires_at"]:
         del OTP_STORE[email]
         raise HTTPException(status_code=400, detail="Verification code expired. Please request a new code.")
- 
+
     if record["otp"] != otp:
         raise HTTPException(status_code=400, detail="Invalid verification code.")
- 
-    # ── NEW: persist to Supabase now that the code is verified ──────────
-    # Login requests won't have a company name (existing users skip
-    # re-entering it) -- fall back to a placeholder company only if truly
-    # nothing is on file yet. In a real system you'd look up the existing
-    # profile's company_id instead of creating a new "Unknown" company on
-    # every login; flagging this as a known gap for a returning-user flow,
-    # not something this hackathon timeline needs solved today.
-    company_name = record.get("company") or "Unknown Company"
-    name = record.get("name") or email.split("@")[0]
- 
+
+    # ── SMART UPSERT: Check existence before overwriting ──────────
     try:
-        company_id = db.get_or_create_company(company_name)
-        db.upsert_profile(email=email, name=name, role=record["role"], company_id=company_id)
+        # 1. Check if the user already exists in the database
+        existing_profile = db.get_profile_by_email(email)
+        
+        if existing_profile:
+            # LOGIN MODE: Use the real name and company_id from the database
+            name = existing_profile.get("name")
+            company_id = existing_profile.get("company_id")
+            role = existing_profile.get("role") or record["role"]
+        else:
+            # SIGNUP MODE: Brand new user. Use form data or fallbacks.
+            company_name = record.get("company") or "Unknown Company"
+            name = record.get("name") or email.split("@")[0]
+            role = record["role"]
+            
+            company_id = db.get_or_create_company(company_name)
+            db.upsert_profile(email=email, name=name, role=role, company_id=company_id)
+            
     except Exception as e:
-        # Don't silently issue a token if Supabase persistence fails --
-        # surfacing this now is much easier to debug than discovering
-        # later that company_id is missing from every JWT.
-        raise HTTPException(status_code=500, detail=f"Failed to save profile to Supabase: {str(e)}")
- 
+        raise HTTPException(status_code=500, detail=f"Failed to access or save profile in Supabase: {str(e)}")
+
+    # ── GENERATE JWT WITH NAME INCLUDED ──────────
     token_payload = {
         "sub": email,
         "email": email,
-        "role": record["role"],
-        "aud": "authenticated",  # required for Supabase RLS's auth.jwt() to recognize this token
-        "app_metadata": {"company_id": company_id},  # NOT user-editable — this is what RLS policies will key on
+        "name": name,  # NEW: Added name so the frontend can display it!
+        "role": role,
+        "aud": "authenticated", 
+        "app_metadata": {"company_id": company_id}, 
         "exp": time.time() + (60 * 60 * 24),
     }
     access_token = jwt.encode(token_payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
     del OTP_STORE[email]
- 
+
     return {
         "status": "authenticated",
         "access_token": access_token,
-        "role": record["role"],
+        "role": role,
         "email": email,
         "company_id": company_id,
     }
-
 # ============================================================
 # API Endpoint: OCSF Telemetry Ingestion
 # ============================================================
