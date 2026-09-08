@@ -241,18 +241,23 @@ def verify_otp(payload: OTPVerify):
     if record["otp"] != otp:
         raise HTTPException(status_code=400, detail="Invalid verification code.")
 
-    # ── SMART UPSERT: Check existence before overwriting ──────────
+    # ── SMART UPSERT: Check existence and auto-heal missing companies ──
     try:
-        # 1. Check if the user already exists in the database
         existing_profile = db.get_profile_by_email(email)
         
         if existing_profile:
-            # LOGIN MODE: Use the real name and company_id from the database
+            # LOGIN MODE: Reuse existing profile details
             name = existing_profile.get("name")
             company_id = existing_profile.get("company_id")
             role = existing_profile.get("role") or record["role"]
+            
+            # Auto-heal: If company_id was wiped or null, regenerate it
+            if not company_id:
+                company_name = record.get("company") or "Unknown Company"
+                company_id = db.get_or_create_company(company_name)
+                db.upsert_profile(email=email, name=name, role=role, company_id=company_id)
         else:
-            # SIGNUP MODE: Brand new user. Use form data or fallbacks.
+            # SIGNUP MODE: Create brand new profile and company
             company_name = record.get("company") or "Unknown Company"
             name = record.get("name") or email.split("@")[0]
             role = record["role"]
@@ -263,11 +268,10 @@ def verify_otp(payload: OTPVerify):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to access or save profile in Supabase: {str(e)}")
 
-    # ── GENERATE JWT WITH NAME INCLUDED ──────────
     token_payload = {
         "sub": email,
         "email": email,
-        "name": name,  # NEW: Added name so the frontend can display it!
+        "name": name,  # Included so frontend extracts the real name cleanly
         "role": role,
         "aud": "authenticated", 
         "app_metadata": {"company_id": company_id}, 
