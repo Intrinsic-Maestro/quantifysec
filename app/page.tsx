@@ -109,9 +109,12 @@ interface PipelineResponse {
 }
 
 export default function QuantifySecApp() {
+  const backendBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://quantifysec-production.up.railway.app";
+
   const [currentView, setCurrentView] = useState<string>("home");
   const [currentRole, setCurrentRole] = useState<string | null>(null);
   const [currentUserName, setCurrentUserName] = useState<string>("");
+  const [activeEmail, setActiveEmail] = useState<string>("");
   const [authMode, setAuthMode] = useState<"signup" | "login">("signup");
   
   // Modals
@@ -122,17 +125,16 @@ export default function QuantifySecApp() {
   const [navVisible, setNavVisible] = useState<boolean>(true);
   const [isLight, setIsLight] = useState<boolean>(false);
 
-  // Forms, MFA, & Uploads
-  const [signupForm, setSignupForm] = useState({ name: "", email: "", company: "", workId: "", password: "" });
-  const [loginForm, setLoginForm] = useState({ email: "", workId: "", password: "" });
+  // Forms & MFA
+  const [signupForm, setSignupForm] = useState({ name: "", email: "", password: "" });
+  const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [otpInput, setOtpInput] = useState<string>("");
-  const [expectedOtp, setExpectedOtp] = useState<string>("");
   const [mfaError, setMfaError] = useState<string>("");
   const [pendingNavigation, setPendingNavigation] = useState<string>("");
-  const [simulatedEmail, setSimulatedEmail] = useState({ show: false, code: "", to: "" });
+  const [isSendingOtp, setIsSendingOtp] = useState<boolean>(false);
   
   // OCSF Data Upload State
-  const [uploadJson, setUploadJson] = useState<string>("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>("");
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -166,7 +168,7 @@ export default function QuantifySecApp() {
   // Browser History Management
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");
-    const validViews = ["home", "auth", "mfa", "terminal", "cfo-dashboard", "ciso-dashboard"];
+    const validViews = ["home", "auth", "mfa", "cfo-dashboard", "ciso-dashboard"];
     
     if (hash && validViews.includes(hash)) {
       setCurrentView(hash);
@@ -225,37 +227,56 @@ export default function QuantifySecApp() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [currentView]);
 
-  // Backend Sync
+  // Sync Landing Table with Railway Pipeline
   useEffect(() => {
     async function fetchOptimizationData() {
-      const url = "https://quantifysec-production.up.railway.app/api/run-pipeline";
       try {
-        let response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" } });
-        if (response.status === 405) response = await fetch(url, { method: "GET" });
+        let response = await fetch(`${backendBaseUrl}/api/run-pipeline`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" }
+        });
+        if (response.status === 405) {
+          response = await fetch(`${backendBaseUrl}/api/run-pipeline`, { method: "GET" });
+        }
         if (response.ok) {
           const apiData = await response.json();
           setKnapsackData(prev => ({ ...prev, ...apiData }));
         }
       } catch (err) {
-        console.warn("Backend sync notice:", err);
+        console.warn("Backend optimization pipeline offline or booting:", err);
       }
     }
     fetchOptimizationData();
-  }, []);
+  }, [backendBaseUrl]);
 
-  // Authentication Logic
-  const triggerMfaFlow = (email: string, targetDashboard: string) => {
-    const array = new Uint32Array(1);
-    window.crypto.getRandomValues(array);
-    const generatedCode = (array[0] % 1000000).toString().padStart(6, '0');
-    setExpectedOtp(generatedCode);
-    setPendingNavigation(targetDashboard);
-    setOtpInput("");
+  // ==========================================
+  // REAL BACKEND AUTHENTICATION WITH RESEND
+  // ==========================================
+  const triggerMfaFlow = async (email: string, targetDashboard: string) => {
+    setIsSendingOtp(true);
     setMfaError("");
-    navigate("mfa");
-    setTimeout(() => {
-      setSimulatedEmail({ show: true, code: generatedCode, to: email });
-    }, 1500);
+    setActiveEmail(email);
+
+    try {
+      const res = await fetch(`${backendBaseUrl}/api/auth/request-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, role: currentRole })
+      });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.detail || "Failed to dispatch verification code.");
+      }
+
+      setPendingNavigation(targetDashboard);
+      setOtpInput("");
+      navigate("mfa");
+    } catch (err: any) {
+      alert(err.message || "Could not connect to Railway backend.");
+    } finally {
+      setIsSendingOtp(false);
+    }
   };
 
   const handleSignupSubmit = (e: React.FormEvent) => {
@@ -274,80 +295,88 @@ export default function QuantifySecApp() {
     triggerMfaFlow(loginForm.email, currentRole === "cfo" ? "cfo-dashboard" : "ciso-dashboard");
   };
 
-  const handleMfaSubmit = (e: React.FormEvent) => {
+  const handleMfaSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (otpInput === expectedOtp) {
-      setMfaError("");
-      setSimulatedEmail({ show: false, code: "", to: "" });
+    setMfaError("");
+
+    try {
+      const res = await fetch(`${backendBaseUrl}/api/auth/verify-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: activeEmail, otp: otpInput })
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.detail || "Invalid code. Verification failed.");
+      }
+
+      const data = await res.json();
+      // Store real signed JWT token in session
+      sessionStorage.setItem("quantifysec_jwt", data.access_token);
       navigate(pendingNavigation);
-    } else {
-      setMfaError("Invalid verification code. Please try again.");
+    } catch (err: any) {
+      setMfaError(err.message);
     }
   };
 
   const signOut = () => {
+    sessionStorage.removeItem("quantifysec_jwt");
     setCurrentRole(null);
     setCurrentUserName("");
+    setActiveEmail("");
     navigate("home");
   };
 
-  // OCSF Data Upload Handlers
+  // ==========================================
+  // REAL OCSF FILE UPLOAD TO BACKEND
+  // ==========================================
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setSelectedFile(file);
       setFileName(file.name);
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        if (evt.target?.result) {
-          setUploadJson(evt.target.result as string);
-        }
-      };
-      reader.readAsText(file);
     }
   };
 
-  const processOcsfData = () => {
-    if (!uploadJson.trim()) {
+  const processOcsfData = async () => {
+    if (!selectedFile) {
       alert("Please upload a valid JSON file first.");
       return;
     }
     setIsUploading(true);
-    // Simulate parsing and backend pipeline execution
-    setTimeout(() => {
-      setIsUploading(false);
+
+    try {
+      const token = sessionStorage.getItem("quantifysec_jwt");
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      const res = await fetch(`${backendBaseUrl}/api/ingest-ocsf`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      if (!res.ok) {
+        throw new Error("Backend failed to process telemetry file.");
+      }
+
+      // Real file parsed successfully by Railway backend
       setIsUploadModalOpen(false);
-      setUploadJson("");
+      setSelectedFile(null);
       setFileName("");
-      // Real backend integration will occur here later
-    }, 1500);
+    } catch (err: any) {
+      alert(err.message || "Failed to parse file on Railway backend.");
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
     <div className="w-full flex flex-col min-h-screen">
       
-      {/* SIMULATED INBOX TOAST */}
-      {simulatedEmail.show && (
-        <div className="fixed top-28 right-6 z-[100] bg-[#18181b]/95 backdrop-blur-xl border border-white/10 rounded-2xl p-5 w-80 shadow-[0_15px_40px_rgba(167,139,250,0.15)] transition-all duration-500 ease-out">
-          <div className="flex justify-between items-start mb-3 border-b border-white/10 pb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-qviolet animate-pulse" />
-              <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">Mail Simulator</span>
-            </div>
-            <button onClick={() => setSimulatedEmail({ ...simulatedEmail, show: false })} className="text-gray-500 hover:text-white transition">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
-          </div>
-          <div className="text-sm font-semibold text-white mb-1">Security Authentication</div>
-          <div className="text-xs text-gray-400 mb-4">To: <span className="text-gray-300">{simulatedEmail.to}</span></div>
-          <div className="text-sm text-gray-300 bg-black/40 rounded-xl p-4 border border-white/5 text-center">
-            Verification Code: <br/>
-            <span className="inline-block mt-2 text-2xl tracking-[0.2em] font-mono font-bold text-white">
-              {simulatedEmail.code}
-            </span>
-          </div>
-        </div>
-      )}
-
       {/* FLOATING NAVBAR */}
       <div id="main-nav-wrapper" className={`fixed w-full top-6 z-40 px-4 md:px-6 flex justify-center transition-transform duration-300 ease-in-out ${navVisible ? "translate-y-0" : "-translate-y-36"}`}>
         <nav className={`w-full max-w-[1100px] backdrop-blur-xl rounded-2xl px-4 py-2.5 flex items-center shadow-2xl transition-all duration-500 ${isLight ? "bg-white/85 border border-black/10 shadow-[0_4px_20px_rgba(0,0,0,0.06)]" : "bg-[#09090b]/60 border border-white/10"}`}>
@@ -455,7 +484,7 @@ export default function QuantifySecApp() {
               </div>
             </div>
 
-            {/* 3. THE SOLUTION SECTION (Gradient into White background with widgets and tables) */}
+            {/* 3. THE SOLUTION SECTION */}
             <div className="w-full relative z-10 pb-24 pt-[250px]" style={{ background: "linear-gradient(to bottom, #09090b 0px, #4c1d95 70px, #8b5cf6 150px, #ffffff 250px, #ffffff 100%)" }}>
               <div id="section-solution" className="w-full max-w-[1100px] mx-auto px-6 pb-32 relative z-10">
                 <div className="text-center mb-16 max-w-3xl mx-auto">
@@ -468,7 +497,6 @@ export default function QuantifySecApp() {
                 </div>
                 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {/* Main Dashboard Widget (CTEM / Line Chart) */}
                   <div className="ui-widget rounded-3xl p-8 lg:col-span-2 flex flex-col justify-between">
                     <div className="flex justify-between items-start mb-8">
                       <div className="flex items-center gap-3">
@@ -480,9 +508,6 @@ export default function QuantifySecApp() {
                           <span className="text-gray-400 text-xs font-mono">Live</span>
                         </div>
                       </div>
-                      <button className="text-gray-500 hover:text-white">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 8a2 2 0 110-4 2 2 0 010 4zm0 6a2 2 0 110-4 2 2 0 010 4z" /></svg>
-                      </button>
                     </div>
 
                     <div>
@@ -511,24 +536,15 @@ export default function QuantifySecApp() {
                     </div>
 
                     <div className="mt-6 flex flex-col gap-3">
-                      <div className="bg-qviolet/10 border border-qviolet/20 rounded-xl p-3 flex justify-between items-center hover:bg-qviolet/20 transition cursor-pointer">
-                        <div className="flex items-center gap-3">
-                          <div className="bg-qviolet/20 p-1.5 rounded-lg text-qviolet">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                          </div>
-                          <span className="text-sm text-gray-200">Note : This is just estimation and does not represent exact values</span>
-                        </div>
+                      <div className="bg-qviolet/10 border border-qviolet/20 rounded-xl p-3 flex justify-between items-center">
+                        <span className="text-sm text-gray-200">Note: Estimation model based on live knapsack telemetry.</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Side Widgets */}
                   <div className="flex flex-col gap-6">
-                    {/* Posture score card */}
                     <div className="ui-widget rounded-3xl p-6 flex flex-col relative overflow-hidden">
-                      <div className="absolute -top-10 -right-10 w-32 h-32 bg-qviolet/30 blur-[40px] rounded-full" />
                       <span className="text-gray-400 text-sm font-medium mb-6 relative z-10">Security Posture Score</span>
-
                       <div className="flex items-center justify-between relative z-10">
                         <div className="relative w-24 h-24">
                           <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
@@ -540,19 +556,14 @@ export default function QuantifySecApp() {
                             <span className="text-[9px] text-gray-400 uppercase tracking-wide">Strong</span>
                           </div>
                         </div>
-
                         <div className="text-right">
                           <div className="text-xs text-gray-400 mb-1">Target Score</div>
                           <div className="text-lg font-mono text-white mb-3">85/100</div>
-                          <div className="text-xs text-qemerald flex items-center justify-end gap-1">
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
-                            +4 this month
-                          </div>
+                          <div className="text-xs text-qemerald flex items-center justify-end gap-1">+4 this month</div>
                         </div>
                       </div>
                     </div>
 
-                    {/* Most Effective Controls */}
                     <div className="ui-widget rounded-3xl p-6 flex-grow flex flex-col">
                       <div className="flex justify-between items-center mb-5">
                         <span className="text-gray-400 text-sm font-medium">Most Effective Controls</span>
@@ -566,10 +577,6 @@ export default function QuantifySecApp() {
                         <div>
                           <div className="flex justify-between text-xs mb-1"><span className="text-gray-200">Cloud WAF Update</span><span className="text-qviolet">-$800k Risk</span></div>
                           <div className="w-full h-1.5"><div className="bg-qviolet w-[45%] h-full rounded-full" /></div>
-                        </div>
-                        <div>
-                          <div className="flex justify-between text-xs mb-1"><span className="text-gray-200">Privilege Escalation</span><span className="text-gray-400">-$300k Risk</span></div>
-                          <div className="w-full h-1.5"><div className="bg-gray-500 w-[15%] h-full rounded-full" /></div>
                         </div>
                       </div>
                     </div>
@@ -609,68 +616,12 @@ export default function QuantifySecApp() {
                     </table>
                   </div>
                 </div>
-
-                {/* Optimization Summary & Deferred Controls */}
-                <div className="mt-8 ui-widget rounded-3xl p-8 flex flex-col">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 pb-8 border-b border-white/10">
-                    <div>
-                      <div className="text-xs text-gray-500 font-mono mb-1 uppercase tracking-wider">Total Cost</div>
-                      <div className="text-2xl font-bold text-white font-mono">₹{knapsackData.total_cost} L <span className="text-sm text-gray-500 font-normal">/ ₹{knapsackData.budget} L</span></div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-gray-500 font-mono mb-1 uppercase tracking-wider">Budget Utilization</div>
-                      <div className="text-2xl font-bold text-qemerald font-mono">100.0%</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-gray-500 font-mono mb-1 uppercase tracking-wider">Total Risk Reduction</div>
-                      <div className="text-2xl font-bold text-qviolet font-mono">₹{knapsackData.total_risk_reduction} L</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-gray-500 font-mono mb-1 uppercase tracking-wider">Deferred Controls</div>
-                      <div className="text-2xl font-bold text-gray-400 font-mono">{knapsackData.deferred_controls.length}</div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center mb-6">
-                    <h3 className="text-white font-display text-xl font-bold">Deferred Controls</h3>
-                    <span className="text-xs bg-qamber/10 text-qamber px-3 py-1.5 rounded-full border border-qamber/20">Next Budget Cycle</span>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
-                      <thead>
-                        <tr className="border-b border-white/10 text-xs font-mono text-gray-500 uppercase tracking-wider">
-                          <th className="py-3 px-4">Priority</th>
-                          <th className="py-3 px-4">ID</th>
-                          <th className="py-3 px-4">Control</th>
-                          <th className="py-3 px-4">Category</th>
-                          <th className="py-3 px-4 text-right">Est. Cost (₹L)</th>
-                          <th className="py-3 px-4 text-right">Potential (₹L)</th>
-                          <th className="py-3 px-4 text-right">Efficiency</th>
-                        </tr>
-                      </thead>
-                      <tbody className="text-sm font-body text-gray-300">
-                        {knapsackData.deferred_controls.slice(0, 5).map((c, i) => (
-                          <tr key={i} className="border-b border-white/5 hover:bg-white/5 transition">
-                            <td className="py-4 px-4 font-mono text-qamber font-bold">#{c.priority_rank || i + 1}</td>
-                            <td className="py-4 px-4 font-mono text-gray-500">{c.id}</td>
-                            <td className="py-4 px-4 text-white font-medium">{c.name}</td>
-                            <td className="py-4 px-4" style={{ color: CATEGORY_COLORS[c.category] || "#a78bfa" }}>{c.category}</td>
-                            <td className="py-4 px-4 text-right font-mono">{c.cost}</td>
-                            <td className="py-4 px-4 text-right font-mono text-qemerald font-medium">{c.risk_reduction}</td>
-                            <td className="py-4 px-4 text-right font-mono text-gray-400">{c.efficiency ? c.efficiency.toFixed(2) : (c.risk_reduction / c.cost).toFixed(2)}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
               </div>
             </div>
           </section>
         )}
 
-        {/* ==================== AUTH VIEW (LOGIN / SIGNUP) ==================== */}
+        {/* ==================== AUTH VIEW ==================== */}
         {currentView === "auth" && (
           <section id="view-auth" className="max-w-xl mx-auto px-6 pb-20 relative z-10 w-full flex flex-col justify-center">
             <div className="glass-panel p-10 rounded-2xl relative">
@@ -678,7 +629,7 @@ export default function QuantifySecApp() {
                 <div>
                   <div className="text-center mb-10">
                     <h2 className="font-display text-3xl font-bold mb-2">Initialize Instance</h2>
-                    <p className="text-gray-400 text-sm">Corporate credentials required for quantified risk access.</p>
+                    <p className="text-gray-400 text-sm">Real email required for multi-factor code delivery.</p>
                   </div>
                   <form className="space-y-5" onSubmit={handleSignupSubmit}>
                     <div className="grid grid-cols-2 gap-5">
@@ -699,24 +650,18 @@ export default function QuantifySecApp() {
                       <label className="block text-xs font-mono text-gray-400 mb-3 uppercase">Select Your Role</label>
                       <div className="grid grid-cols-2 gap-3">
                         <button type="button" onClick={() => setCurrentRole("cfo")} className={`text-left p-4 rounded-xl border transition ${currentRole === "cfo" ? "border-qviolet/60 bg-qviolet/10 shadow-[0_0_0_1px_rgba(167,139,250,0.3)]" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.06]"}`}>
-                          <div className="flex items-center justify-between mb-3">
-                            <div className="w-9 h-9 rounded-lg bg-qemerald/12 border border-qemerald/25 flex items-center justify-center"><svg className="w-4 h-4 text-qemerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path></svg></div>
-                            <div className={`w-5 h-5 rounded-full border border-white/25 flex items-center justify-center ${currentRole === "cfo" ? "bg-qviolet border-qviolet" : ""}`}>{currentRole === "cfo" && <div className="w-1.5 h-1.5 rounded-full bg-[#09090b]" />}</div>
-                          </div>
                           <div className="font-display font-semibold text-white text-sm">CFO</div>
                           <div className="text-[11px] text-gray-500 mt-0.5 leading-tight">Financial risk & portfolio view</div>
                         </button>
                         <button type="button" onClick={() => setCurrentRole("ciso")} className={`text-left p-4 rounded-xl border transition ${currentRole === "ciso" ? "border-qviolet/60 bg-qviolet/10 shadow-[0_0_0_1px_rgba(167,139,250,0.3)]" : "border-white/10 bg-white/[0.02] hover:bg-white/[0.06]"}`}>
-                          <div className="flex items-center justify-between mb-3">
-                            <div className="w-9 h-9 rounded-lg bg-qviolet/12 border border-qviolet/25 flex items-center justify-center"><svg className="w-4 h-4 text-qviolet" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg></div>
-                            <div className={`w-5 h-5 rounded-full border border-white/25 flex items-center justify-center ${currentRole === "ciso" ? "bg-qviolet border-qviolet" : ""}`}>{currentRole === "ciso" && <div className="w-1.5 h-1.5 rounded-full bg-[#09090b]" />}</div>
-                          </div>
                           <div className="font-display font-semibold text-white text-sm">CISO</div>
                           <div className="text-[11px] text-gray-500 mt-0.5 leading-tight">Technical posture & coverage view</div>
                         </button>
                       </div>
                     </div>
-                    <button type="submit" className="w-full bg-white text-[#09090b] font-semibold py-3.5 rounded-lg mt-6 hover:bg-gray-200 transition">Request Provisioning</button>
+                    <button type="submit" disabled={isSendingOtp} className="w-full bg-white text-[#09090b] font-semibold py-3.5 rounded-lg mt-6 hover:bg-gray-200 transition flex items-center justify-center gap-2">
+                      {isSendingOtp ? "Dispatching Code to Inbox..." : "Request Provisioning"}
+                    </button>
                     <div className="text-center mt-6">
                       <button type="button" onClick={() => setAuthMode("login")} className="text-xs text-gray-500 hover:text-white transition">Already have an instance? <span className="text-qviolet underline">Log in</span></button>
                     </div>
@@ -748,7 +693,9 @@ export default function QuantifySecApp() {
                         </button>
                       </div>
                     </div>
-                    <button type="submit" className="w-full bg-white text-[#09090b] font-semibold py-3.5 rounded-lg mt-6 hover:bg-gray-200 transition">Log In</button>
+                    <button type="submit" disabled={isSendingOtp} className="w-full bg-white text-[#09090b] font-semibold py-3.5 rounded-lg mt-6 hover:bg-gray-200 transition flex items-center justify-center gap-2">
+                      {isSendingOtp ? "Dispatching Code to Inbox..." : "Log In"}
+                    </button>
                     <div className="text-center mt-6">
                       <button type="button" onClick={() => setAuthMode("signup")} className="text-xs text-gray-500 hover:text-white transition">Need an instance? <span className="text-qviolet underline">Sign up</span></button>
                     </div>
@@ -766,10 +713,10 @@ export default function QuantifySecApp() {
               <div className="w-12 h-12 mx-auto bg-qviolet/10 border border-qviolet/20 text-qviolet rounded-full flex items-center justify-center mb-6">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
               </div>
-              <h2 className="font-display text-3xl font-bold mb-2">Two-Step Verification</h2>
+              <h2 className="font-display text-3xl font-bold mb-2">Check Your Email</h2>
               <p className="text-gray-400 text-sm mb-8">
                 We've sent a 6-digit verification code to <br/>
-                <span className="text-white font-medium">{pendingNavigation.includes('dashboard') ? (authMode === 'signup' ? signupForm.email : loginForm.email) : ''}</span>.
+                <span className="text-white font-medium">{activeEmail}</span>.
               </p>
               <form onSubmit={handleMfaSubmit} className="space-y-6">
                 <div>
@@ -1311,13 +1258,12 @@ export default function QuantifySecApp() {
                 </h3>
                 <p className="text-[11px] text-gray-500 mt-1">Upload JSON arrays mapping to the Open Cybersecurity Schema Framework.</p>
               </div>
-              <button onClick={() => { setIsUploadModalOpen(false); setUploadJson(""); setFileName(""); }} className="text-gray-400 hover:text-white transition">
+              <button onClick={() => { setIsUploadModalOpen(false); setSelectedFile(null); setFileName(""); }} className="text-gray-400 hover:text-white transition">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
 
             <div className="space-y-4">
-              {/* File-Only Dropzone */}
               <div 
                 onClick={() => fileInputRef.current?.click()}
                 className={`w-full border-2 border-dashed rounded-2xl p-10 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 ${
@@ -1364,7 +1310,7 @@ export default function QuantifySecApp() {
 
             <div className="mt-6 pt-4 border-t border-white/10 flex justify-end gap-3">
               <button 
-                onClick={() => { setIsUploadModalOpen(false); setUploadJson(""); setFileName(""); }} 
+                onClick={() => { setIsUploadModalOpen(false); setSelectedFile(null); setFileName(""); }} 
                 className="px-5 py-2.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-white transition"
               >
                 Cancel
