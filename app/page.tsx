@@ -324,8 +324,8 @@ export default function QuantifySecApp() {
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentRole) { alert("Please select your role."); return; }
-    const email = loginForm.email.trim();
-    setCurrentUserName(email ? `, ${email.split("@")[0]}` : "");
+
+    // Just trigger the MFA flow, don't set the name yet
     triggerMfaFlow(loginForm.email, currentRole === "cfo" ? "cfo-dashboard" : "ciso-dashboard");
   };
 
@@ -346,7 +346,23 @@ export default function QuantifySecApp() {
       }
 
       const data = await res.json();
-      sessionStorage.setItem("quantifysec_jwt", data.access_token);
+      const token = data.access_token;
+      sessionStorage.setItem("quantifysec_jwt", token);
+
+      // NEW: Decode the JWT payload to get your actual name
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        if (payload.name) {
+          // Grab the first name from the token payload
+          setCurrentUserName(`, ${payload.name.split(" ")[0]}`);
+        } else {
+          setCurrentUserName("");
+        }
+      } catch (parseError) {
+        console.warn("Could not parse name from JWT", parseError);
+        setCurrentUserName("");
+      }
+
       navigate(pendingNavigation);
     } catch (err: any) {
       setMfaError(err.message);
