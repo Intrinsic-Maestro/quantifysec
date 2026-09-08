@@ -669,3 +669,34 @@ def upsert_profile(email: str, name: str, role: str, company_id: str) -> None:
         },
         on_conflict="email",
     ).execute()
+def get_profile_by_email(email: str) -> dict | None:
+    """
+    Fetches an existing profile from Supabase by email.
+    Used during login to prevent overwriting existing names/companies with nulls.
+    """
+    try:
+        res = get_client().table("profiles").select("*").eq("email", email).limit(1).execute()
+        if res.data:
+            return res.data[0]
+        return None
+    except Exception as e:
+        print(f"Error fetching profile: {e}")
+        return None
+
+
+def get_company_name(company_id: str | None) -> str:
+    """
+    Looks up a company name by its UUID.
+    Required by /api/run-pipeline to tag all metrics with the correct tenant.
+    """
+    if not company_id:
+        return "Unknown Company"
+        
+    try:
+        res = get_client().table("companies").select("company_name").eq("company_id", company_id).limit(1).execute()
+        if res.data:
+            return res.data[0]["company_name"]
+        return "Unknown Company"
+    except Exception as e:
+        print(f"Error fetching company name: {e}")
+        return "Unknown Company"
