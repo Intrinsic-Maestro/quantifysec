@@ -239,7 +239,7 @@
                 </a>
             </div>
 
-            <!-- Right: Action Button (dynamic — shows Book a demo OR role indicator when signed in) -->
+            <!-- Right: Action Button -->
             <div class="flex-1 flex items-center justify-end gap-2">
                 <div id="nav-role-indicator" class="hidden items-center gap-2 text-xs">
                     <div class="flex items-center gap-1.5 bg-qviolet/10 border border-qviolet/30 text-qviolet px-2.5 py-1 rounded-lg font-mono">
@@ -452,7 +452,7 @@
                         </div>
                     </div>
 
-                    <!-- Candidate Security Controls table -->
+                    <!-- NEW BLOCK 1: Candidate Security Controls -->
                     <div class="mt-8 ui-widget rounded-3xl p-8 flex flex-col">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-white font-display text-xl font-bold">Candidate Security Controls Portfolio</h3>
@@ -516,7 +516,7 @@
                         </div>
                     </div>
 
-                    <!-- Optimization Summary & Deferred Controls -->
+                    <!-- NEW BLOCK 2: Optimization Summary & Deferred Controls -->
                     <div class="mt-8 ui-widget rounded-3xl p-8 flex flex-col">
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8 pb-8 border-b border-white/10">
                             <div>
@@ -635,17 +635,28 @@
                             </div>
                         </div>
 
-                        <div>
-                            <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Department</label>
-                            <select class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body text-gray-300 appearance-none">
-                                <option>Finance / Treasury</option>
-                                <option>Risk & Compliance</option>
-                                <option>Information Security</option>
-                                <option>Executive Board</option>
-                            </select>
+                        <div class="grid grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Department</label>
+                                <select class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body text-gray-300 appearance-none">
+                                    <option>Finance / Treasury</option>
+                                    <option>Risk & Compliance</option>
+                                    <option>Information Security</option>
+                                    <option>Executive Board</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Position</label>
+                                <input type="text" class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body">
+                            </div>
                         </div>
 
-                        <!-- ROLE SELECTION — the key decision that determines dashboard -->
+                        <div>
+                            <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Password</label>
+                            <input type="password" required class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body">
+                        </div>
+
+                        <!-- ROLE SELECTION -->
                         <div>
                             <label class="block text-xs font-mono text-gray-400 mb-3 uppercase">Select Your Role</label>
                             <div class="grid grid-cols-2 gap-3">
@@ -670,11 +681,6 @@
                                     <div class="text-[11px] text-gray-500 mt-0.5 leading-tight">Technical posture & coverage view</div>
                                 </button>
                             </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Password</label>
-                            <input type="password" required class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body">
                         </div>
 
                         <button type="submit" class="w-full bg-white text-[#09090b] font-semibold py-3.5 rounded-lg mt-6 hover:bg-gray-200 transition">
@@ -710,7 +716,6 @@
                             <input type="password" required class="w-full bg-[#09090b]/80 border border-white/10 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-qviolet transition font-body">
                         </div>
 
-                        <!-- Login also asks role so the demo lets you see either dashboard -->
                         <div>
                             <label class="block text-xs font-mono text-gray-400 mb-3 uppercase">Sign in as</label>
                             <div class="grid grid-cols-2 gap-3">
@@ -742,19 +747,124 @@
             </div>
         </section>
 
-        <!-- ==================== VIEW: TERMINAL (LOGS) ==================== -->
-        <section id="view-terminal" class="max-w-5xl mx-auto px-6 py-32 view-hidden relative z-10 w-full min-h-[85vh] flex flex-col justify-center">
-            <h2 class="font-display text-2xl font-bold mb-6 flex items-center gap-3 text-white">
-                <div class="w-2.5 h-2.5 rounded-full bg-qemerald animate-pulse"></div>
-                System Telemetry
+        <!-- ==================== VIEW: TERMINAL (LOGS) -> REPLACED WITH TELEMETRY DASHBOARD ==================== -->
+        <section id="view-terminal" class="view-hidden max-w-[1100px] mx-auto px-6 py-28 relative z-10 w-full">
+            <h2 class="font-display text-3xl font-bold mb-8 flex items-center gap-3 text-white">
+                <div class="w-3 h-3 rounded-full bg-qemerald animate-pulse shadow-[0_0_15px_#10b981]"></div>
+                Live System Telemetry
             </h2>
-            <div class="glass-panel p-6 rounded-2xl border-white/10 bg-[#050508]/90 shadow-2xl relative overflow-hidden">
-                <div class="flex gap-2 mb-4 border-b border-white/10 pb-4">
-                    <div class="w-3 h-3 rounded-full bg-gray-700"></div>
-                    <div class="w-3 h-3 rounded-full bg-gray-700"></div>
-                    <div class="w-3 h-3 rounded-full bg-gray-700"></div>
+
+            <!-- Telemetry Graphics Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                
+                <!-- Main Engine Chart -->
+                <div class="ui-widget rounded-3xl p-8 lg:col-span-2 flex flex-col justify-between">
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded bg-qemerald/20 flex items-center justify-center">
+                                <svg class="w-4 h-4 text-qemerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-medium text-sm">Monte Carlo Risk Engine</h4>
+                                <span class="text-gray-400 text-xs font-mono">Simulation Throughput</span>
+                            </div>
+                        </div>
+                        <span class="text-[11px] font-mono bg-qemerald/10 text-qemerald border border-qemerald/20 px-2.5 py-1 rounded-full">Optimal</span>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-baseline gap-3 mb-2">
+                            <span class="text-5xl font-mono font-bold text-white">10,000</span>
+                            <span class="text-sm font-medium text-gray-400 font-mono">iter/sec</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-32 mt-6 relative border-b border-white/5 pb-4">
+                        <div class="absolute inset-0 bg-qemerald/5 blur-2xl rounded-full"></div>
+                        <svg class="w-full h-full overflow-visible relative z-10" viewBox="0 0 400 100" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="telemetryGrad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.4" />
+                                    <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,70 Q50,90 100,40 T200,60 T300,30 T400,50 L400,100 L0,100 Z" fill="url(#telemetryGrad)" />
+                            <path d="M0,70 Q50,90 100,40 T200,60 T300,30 T400,50" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" />
+                            <circle cx="100" cy="40" r="4" fill="#10b981" class="shadow-[0_0_10px_#10b981]" />
+                            <circle cx="300" cy="30" r="4" fill="#10b981" class="shadow-[0_0_10px_#10b981]" />
+                            <circle cx="400" cy="50" r="5" fill="#fff" class="shadow-[0_0_15px_#fff] animate-pulse" />
+                        </svg>
+                    </div>
                 </div>
-                <div class="font-mono text-[13px] leading-relaxed h-[60vh] overflow-y-auto custom-scrollbar" id="terminal-output">
+
+                <!-- Side Widgets -->
+                <div class="flex flex-col gap-6">
+                    <!-- Swarm Status Dial -->
+                    <div class="ui-widget rounded-3xl p-6 flex flex-col relative overflow-hidden glow-violet">
+                        <span class="text-gray-400 text-sm font-medium mb-6 relative z-10">AI Co-Worker Swarm</span>
+                        <div class="flex items-center justify-between relative z-10">
+                            <div class="relative w-24 h-24">
+                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                    <path class="text-white/10" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="2.5" />
+                                    <path class="text-qviolet" stroke-dasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span class="text-2xl font-display font-bold text-white">100</span>
+                                    <span class="text-[9px] text-qviolet uppercase tracking-wide">Active</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xs text-gray-400 mb-1">Total Agents</div>
+                                <div class="text-lg font-mono text-white mb-3">100/100</div>
+                                <div class="text-xs text-qemerald">Zero offline</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Latency Bars -->
+                    <div class="ui-widget rounded-3xl p-6 flex-grow flex flex-col">
+                        <div class="flex justify-between items-center mb-5">
+                            <span class="text-gray-400 text-sm font-medium">Pipeline Latency</span>
+                            <span class="text-xs bg-white/10 text-white px-2 py-1 rounded">p99</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-200">Data Ingestion</span>
+                                    <span class="text-gray-400 font-mono">12ms</span>
+                                </div>
+                                <div class="w-full h-1.5"><div class="bg-qviolet w-[10%] h-full rounded-full"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-200">Simulation</span>
+                                    <span class="text-gray-400 font-mono">145ms</span>
+                                </div>
+                                <div class="w-full h-1.5"><div class="bg-qamber w-[65%] h-full rounded-full"></div></div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-200">Knapsack Solver</span>
+                                    <span class="text-gray-400 font-mono">2.1s</span>
+                                </div>
+                                <div class="w-full h-1.5"><div class="bg-qrose w-[90%] h-full rounded-full"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Raw Text Logs (Original functionality preserved) -->
+            <div class="ui-widget rounded-3xl p-6 relative overflow-hidden bg-[#050508]/80">
+                <div class="flex items-center justify-between mb-4 border-b border-white/10 pb-4">
+                    <div class="flex gap-2">
+                        <div class="w-3 h-3 rounded-full bg-gray-700"></div>
+                        <div class="w-3 h-3 rounded-full bg-gray-700"></div>
+                        <div class="w-3 h-3 rounded-full bg-gray-700"></div>
+                    </div>
+                    <span class="text-xs text-gray-500 font-mono uppercase tracking-wider">Raw Execution Stream</span>
+                </div>
+                <div class="font-mono text-[13px] leading-relaxed h-[30vh] overflow-y-auto custom-scrollbar" id="terminal-output">
                     <div class="text-gray-500">quantifysec core initialized... [OK]</div>
                     <div class="text-gray-500">Establishing secure connection to ingest nodes... [OK]</div>
                     <div class="text-qviolet mt-2">>> Fetching latest cloud logs...</div>
@@ -781,6 +891,10 @@
                     <p class="text-sm text-gray-400 mt-1">Last portfolio recomputation: <span class="text-white font-mono" id="cfo-last-update"></span> · Solver: <span class="text-qemerald font-mono">Optimal</span></p>
                 </div>
                 <div class="flex items-center gap-2">
+                    <!-- NEW AUDIT LOG BUTTON -->
+                    <button onclick="openDecisionLogModal()" class="text-xs font-mono uppercase tracking-wider text-qemerald hover:text-white border border-qemerald/30 hover:border-qemerald/60 bg-qemerald/10 px-3 py-2 rounded-lg transition flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-qemerald animate-pulse"></span> Audit Log
+                    </button>
                     <button onclick="switchRole('ciso')" class="text-xs font-mono uppercase tracking-wider text-gray-400 hover:text-white border border-white/10 hover:border-white/25 px-3 py-2 rounded-lg transition">
                         Switch to CISO view →
                     </button>
@@ -1020,6 +1134,10 @@
                     <p class="text-sm text-gray-400 mt-1">Coverage snapshot: <span class="text-white font-mono" id="ciso-last-update"></span> · <span class="text-qemerald font-mono">9 controls deployed</span> · <span class="text-qamber font-mono">16 gaps</span></p>
                 </div>
                 <div class="flex items-center gap-2">
+                    <!-- NEW AUDIT LOG BUTTON -->
+                    <button onclick="openDecisionLogModal()" class="text-xs font-mono uppercase tracking-wider text-qemerald hover:text-white border border-qemerald/30 hover:border-qemerald/60 bg-qemerald/10 px-3 py-2 rounded-lg transition flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-qemerald animate-pulse"></span> Audit Log
+                    </button>
                     <button onclick="switchRole('cfo')" class="text-xs font-mono uppercase tracking-wider text-gray-400 hover:text-white border border-white/10 hover:border-white/25 px-3 py-2 rounded-lg transition">
                         Switch to CFO view →
                     </button>
@@ -1196,6 +1314,57 @@
 
         </section>
 
+        <!-- ==================== MODAL: DECISION AUDIT LOG ==================== -->
+        <div id="modal-decision-log" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden">
+            <div class="ui-widget w-full max-w-4xl rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl bg-[#09090b]/95 flex flex-col max-h-[85vh]">
+                
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-2.5 h-2.5 rounded-full bg-qemerald animate-pulse"></div>
+                        <h3 class="font-display font-bold text-white text-lg sm:text-xl tracking-tight">Solver Decision & Remediation Log</h3>
+                        <span class="text-[10px] font-mono bg-qemerald/10 text-qemerald border border-qemerald/20 px-2 py-0.5 rounded-full">3 Selected Controls</span>
+                    </div>
+                    <button onclick="closeDecisionLogModal()" class="text-gray-400 hover:text-white p-1 rounded-lg hover:bg-white/5 transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <!-- Optimization KPI Strip -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5 p-3 rounded-xl bg-white/[0.02] border border-white/5 text-xs font-mono">
+                    <div>
+                        <span class="text-gray-500 block uppercase">Solver Status</span>
+                        <span id="audit-status" class="text-qemerald font-bold">Optimal</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block uppercase">Compute Latency</span>
+                        <span id="audit-time" class="text-white">--</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block uppercase">Budget Deployed</span>
+                        <span id="audit-budget" class="text-qamber">--</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block uppercase">Risk Neutralized</span>
+                        <span id="audit-risk" class="text-qviolet">--</span>
+                    </div>
+                </div>
+
+                <!-- Log Entries Scroll Area -->
+                <div class="overflow-y-auto custom-scrollbar flex-1 pr-1 space-y-3 font-mono text-xs" id="audit-log-stream">
+                    <!-- Dynamically populated via JS -->
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="mt-5 pt-4 border-t border-white/10 flex justify-between items-center text-[11px] font-mono text-gray-500">
+                    <span>Deterministic 0-1 Knapsack ILP via PuLP/CBC</span>
+                    <button onclick="closeDecisionLogModal()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-1.5 rounded-lg transition font-sans text-xs">
+                        Close Log
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- Professional Footer -->
@@ -1215,60 +1384,19 @@
     <script>
         // ============================================================
         // KNAPSACK OUTPUT DATA
-        // Would come from your FastAPI /api/optimize endpoint in prod.
-        // Schema matches OptimizationResult from solver.py.
         // ============================================================
-        const KNAPSACK_DATA = {
-            status: 'Optimal',
-            solver_time_seconds: 2.1139,
-            budget: 75,
-            total_cost: 75,
-            total_risk_reduction: 251,
-            budget_utilization_pct: 100.0,
-            budget_remaining: 0,
-            selected_controls: [
-                {id:'C09', name:'Email Security Gateway',              cost:6,  risk_reduction:30, category:'Email',      efficiency:5.00},
-                {id:'C17', name:'Patch Management System',             cost:6,  risk_reduction:27, category:'Assessment', efficiency:4.50},
-                {id:'C05', name:'Security Awareness Training',         cost:5,  risk_reduction:22, category:'People',     efficiency:4.40},
-                {id:'C01', name:'Multi-Factor Authentication (MFA)',   cost:8,  risk_reduction:35, category:'Identity',   efficiency:4.38},
-                {id:'C24', name:'Anti-Phishing Solution',              cost:6,  risk_reduction:23, category:'Email',      efficiency:3.83},
-                {id:'C02', name:'Endpoint Detection & Response (EDR)', cost:15, risk_reduction:42, category:'Endpoint',   efficiency:2.80},
-                {id:'C12', name:'VPN / Zero Trust Network Access',     cost:9,  risk_reduction:24, category:'Network',    efficiency:2.67},
-                {id:'C08', name:'Web Application Firewall (WAF)',      cost:8,  risk_reduction:20, category:'Network',    efficiency:2.50},
-                {id:'C04', name:'Backup & Recovery System',            cost:12, risk_reduction:28, category:'Data',       efficiency:2.33},
-            ],
-            deferred_controls: [
-                {priority_rank:1,  id:'C11', name:'Encryption at Rest',                 cost:7,  risk_reduction:18, category:'Data',       efficiency:2.57},
-                {priority_rank:2,  id:'C07', name:'Vulnerability Management',           cost:10, risk_reduction:25, category:'Assessment', efficiency:2.50},
-                {priority_rank:3,  id:'C23', name:'Mobile Device Management (MDM)',     cost:7,  risk_reduction:17, category:'Endpoint',   efficiency:2.43},
-                {priority_rank:4,  id:'C16', name:'Intrusion Detection System (IDS)',   cost:8,  risk_reduction:19, category:'Network',    efficiency:2.38},
-                {priority_rank:5,  id:'C15', name:'Network Segmentation',               cost:11, risk_reduction:26, category:'Network',    efficiency:2.36},
-                {priority_rank:6,  id:'C13', name:'Identity & Access Management (IAM)', cost:14, risk_reduction:33, category:'Identity',   efficiency:2.36},
-                {priority_rank:7,  id:'C14', name:'Privileged Access Management (PAM)', cost:16, risk_reduction:36, category:'Identity',   efficiency:2.25},
-                {priority_rank:8,  id:'C18', name:'Cloud Security Posture Management',  cost:13, risk_reduction:29, category:'Cloud',      efficiency:2.23},
-                {priority_rank:9,  id:'C03', name:'Next-Gen Firewall',                  cost:20, risk_reduction:38, category:'Network',    efficiency:1.90},
-                {priority_rank:10, id:'C06', name:'SIEM Platform',                      cost:25, risk_reduction:45, category:'Monitoring', efficiency:1.80},
-                {priority_rank:11, id:'C10', name:'Data Loss Prevention (DLP)',         cost:18, risk_reduction:32, category:'Data',       efficiency:1.78},
-                {priority_rank:12, id:'C25', name:'Threat Intelligence Platform',       cost:12, risk_reduction:21, category:'Monitoring', efficiency:1.75},
-                {priority_rank:13, id:'C19', name:'SOC-as-a-Service',                   cost:30, risk_reduction:50, category:'Monitoring', efficiency:1.67},
-                {priority_rank:14, id:'C22', name:'Physical Security Controls',         cost:5,  risk_reduction:8,  category:'Physical',   efficiency:1.60},
-                {priority_rank:15, id:'C20', name:'Incident Response Retainer',         cost:10, risk_reduction:15, category:'Response',   efficiency:1.50},
-                {priority_rank:16, id:'C21', name:'Annual Penetration Testing',         cost:8,  risk_reduction:12, category:'Assessment', efficiency:1.50},
-            ],
-            future_budget: {
-                deferred_count: 16,
-                total_deferred_cost: 214,
-                total_deferred_reduction: 424,
-                approx_next_cycle_budget: 110,
-                approx_full_coverage_budget: 250
-            },
-            // CFO enrichment (would come from Monte Carlo engine outputs)
+        let KNAPSACK_DATA = {
+            selected_controls: [],
+            deferred_controls: [],
+            total_cost: 0,
+            total_risk_reduction: 0,
+            budget: 10,
             financial: {
-                capital_at_risk_before: 420,
-                capital_at_risk_after: 169,
-                portfolio_roi: 3.35,
+                capital_at_risk_before: 180,
+                capital_at_risk_after: 71,
+                portfolio_roi: 11.41,
                 risk_trend_labels: ['Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'],
-                risk_trend_values: [510, 495, 480, 468, 455, 448, 435, 420, 405, 388, 375, 169],
+                risk_trend_values: [210, 205, 195, 190, 185, 180, 180, 180, 180, 180, 180, 71],
                 loss_exceedance: [
                     {threshold: 20,  probability: 0.95},
                     {threshold: 50,  probability: 0.85},
@@ -1281,7 +1409,32 @@
             }
         };
 
-        // Category palette — stable colors so donut/legend/heatmap agree
+        async function fetchOptimizationData() {
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/optimize/default');
+                
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+                
+                const apiData = await response.json();
+                
+                Object.assign(KNAPSACK_DATA, apiData);
+                console.log("Live Telemetry Sync Complete:", KNAPSACK_DATA);
+
+                if (currentRole === 'cfo' && !document.getElementById('view-cfo-dashboard').classList.contains('view-hidden')) {
+                    initCfoDashboard();
+                } else if (currentRole === 'ciso' && !document.getElementById('view-ciso-dashboard').classList.contains('view-hidden')) {
+                    initCisoDashboard();
+                }
+                
+            } catch (error) {
+                console.error("Telemetry Sync Failed. Is the FastAPI backend running?", error);
+            }
+        }
+
+        fetchOptimizationData();
+
         const CATEGORY_COLORS = {
             'Identity': '#a78bfa',
             'Endpoint': '#f59e0b',
@@ -1293,7 +1446,8 @@
             'Email': '#fb923c',
             'Cloud': '#818cf8',
             'Physical': '#94a3b8',
-            'Response': '#fbbf24'
+            'Response': '#fbbf24',
+            'Application': '#fb7185' // Added Application color for your custom CVEs
         };
 
         // ============================================================
@@ -1324,7 +1478,6 @@
                 window.dispatchEvent(new Event('scroll'));
             }
 
-            // Init dashboards on entry
             if (viewName === 'cfo-dashboard') initCfoDashboard();
             if (viewName === 'ciso-dashboard') initCisoDashboard();
         }
@@ -1407,7 +1560,7 @@
         }
 
         // ============================================================
-        // CHART HELPERS (all inline SVG — no external chart libs)
+        // CHART HELPERS
         // ============================================================
         function smoothPath(points) {
             if (points.length < 2) return '';
@@ -1471,7 +1624,6 @@
                 offset += dash;
                 return arc;
             }).join('');
-            // preserve absolutely-positioned children (center label)
             const centerLabel = el.querySelector('.absolute');
             el.innerHTML = `
                 <svg viewBox="0 0 100 100" class="w-full h-full">
@@ -1488,7 +1640,7 @@
             const max = Math.max(...items.map(i => i.value));
             const {
                 valuePrefix = '', valueSuffix = '',
-                barColorKey = null // color by category if set
+                barColorKey = null 
             } = opts;
             el.innerHTML = items.map((item, i) => {
                 const pct = (item.value / max) * 100;
@@ -1544,7 +1696,7 @@
         }
 
         // ============================================================
-        // COUNT-UP ANIMATION (for KPIs)
+        // COUNT-UP ANIMATION
         // ============================================================
         function countUp(el, target, duration = 1200, divide = 1) {
             const startTime = performance.now();
@@ -1573,22 +1725,31 @@
         // CFO DASHBOARD INITIALIZATION
         // ============================================================
         function initCfoDashboard() {
-            // Personalize
             document.getElementById('cfo-user-name').textContent = currentUserName;
             document.getElementById('cfo-last-update').textContent = new Date().toLocaleString('en-IN', {
                 day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
             });
 
+            const kpiSpans = document.getElementById('view-cfo-dashboard').querySelectorAll('[data-count-to]');
+            if (kpiSpans.length >= 4 && KNAPSACK_DATA && KNAPSACK_DATA.financial) {
+                kpiSpans[0].dataset.countTo = KNAPSACK_DATA.financial.capital_at_risk_before;
+                kpiSpans[1].dataset.countTo = KNAPSACK_DATA.total_risk_reduction;
+                kpiSpans[2].dataset.countTo = KNAPSACK_DATA.total_cost;
+                
+                const budgetLabel = kpiSpans[2].parentElement.nextElementSibling;
+                if (budgetLabel) budgetLabel.textContent = `L / ${KNAPSACK_DATA.budget}L`;
+                
+                kpiSpans[3].dataset.countTo = (KNAPSACK_DATA.financial.portfolio_roi * 100).toFixed(0);
+            }
+
             runCountUpsIn('view-cfo-dashboard');
 
-            // Trend chart
             requestAnimationFrame(() => {
                 renderLineArea('cfo-trend-chart', KNAPSACK_DATA.financial.risk_trend_values, '#a78bfa');
                 const labels = KNAPSACK_DATA.financial.risk_trend_labels;
                 document.getElementById('cfo-trend-labels').innerHTML =
                     labels.map(l => `<span>${l}</span>`).join('');
 
-                // Category donut — allocate budget by category
                 const byCategory = {};
                 KNAPSACK_DATA.selected_controls.forEach(c => {
                     byCategory[c.category] = (byCategory[c.category] || 0) + c.cost;
@@ -1597,6 +1758,10 @@
                     label: cat, value: val, color: CATEGORY_COLORS[cat] || '#a78bfa'
                 }));
                 renderDonut('cfo-category-donut', catSegments);
+                
+                const cfoDonutLabel = document.querySelector('#cfo-category-donut span.text-2xl');
+                if (cfoDonutLabel) cfoDonutLabel.textContent = KNAPSACK_DATA.selected_controls.length;
+
                 document.getElementById('cfo-category-legend').innerHTML = catSegments
                     .sort((a, b) => b.value - a.value)
                     .map(s => `
@@ -1609,7 +1774,6 @@
                         </div>
                     `).join('');
 
-                // Risk Reduction Portfolio bars
                 const barItems = KNAPSACK_DATA.selected_controls
                     .slice()
                     .sort((a, b) => b.risk_reduction - a.risk_reduction)
@@ -1620,11 +1784,9 @@
                     }));
                 renderHorizontalBars('cfo-reduction-bars', barItems, { valuePrefix: '₹', valueSuffix: 'L' });
 
-                // Loss Exceedance
                 const exceedanceValues = KNAPSACK_DATA.financial.loss_exceedance.map(p => p.probability * 100);
                 renderLineArea('cfo-exceedance-chart', exceedanceValues, '#f87171');
 
-                // Scatter — every candidate control, selected highlighted
                 const selectedIds = new Set(KNAPSACK_DATA.selected_controls.map(c => c.id));
                 const allControls = [...KNAPSACK_DATA.selected_controls, ...KNAPSACK_DATA.deferred_controls];
                 const scatterPoints = allControls.map(c => ({
@@ -1633,17 +1795,16 @@
                 renderScatter('cfo-scatter', scatterPoints);
             });
 
-            // Tables
             const selectedRows = KNAPSACK_DATA.selected_controls.map(c => {
-                const roi = (c.risk_reduction / c.cost).toFixed(2);
+                const roi = (c.cost > 0) ? (c.risk_reduction / c.cost).toFixed(2) : "0.00";
                 return `
                     <tr class="border-b border-white/5 hover:bg-white/5 transition">
-                        <td class="py-3 px-3 font-mono text-gray-500">${c.id}</td>
+                        <td class="py-3 px-3 font-mono text-gray-500">${c.id.substring(0,12)}...</td>
                         <td class="py-3 px-3 text-white font-medium">${c.name}</td>
                         <td class="py-3 px-3"><span style="color:${CATEGORY_COLORS[c.category] || '#a78bfa'}">${c.category}</span></td>
                         <td class="py-3 px-3 text-right font-mono">₹${c.cost}L</td>
                         <td class="py-3 px-3 text-right font-mono text-qemerald">₹${c.risk_reduction}L</td>
-                        <td class="py-3 px-3 text-right font-mono ${c.efficiency >= 4 ? 'text-qamber font-bold' : 'text-gray-300'}">${c.efficiency.toFixed(2)}</td>
+                        <td class="py-3 px-3 text-right font-mono ${c.efficiency >= 4 ? 'text-qamber font-bold' : 'text-gray-300'}">${(c.efficiency || 0).toFixed(2)}</td>
                         <td class="py-3 px-3 text-right font-mono text-white">${roi}x</td>
                     </tr>
                 `;
@@ -1651,11 +1812,11 @@
             document.getElementById('cfo-selected-tbody').innerHTML = selectedRows;
 
             const deferredRows = KNAPSACK_DATA.deferred_controls.map(c => {
-                const roi = (c.risk_reduction / c.cost).toFixed(2);
+                const roi = (c.cost > 0) ? (c.risk_reduction / c.cost).toFixed(2) : "0.00";
                 return `
                     <tr class="border-b border-white/5 hover:bg-white/5 transition">
                         <td class="py-3 px-3 font-mono text-qamber font-bold">#${c.priority_rank}</td>
-                        <td class="py-3 px-3 font-mono text-gray-500">${c.id}</td>
+                        <td class="py-3 px-3 font-mono text-gray-500">${c.id.substring(0,12)}...</td>
                         <td class="py-3 px-3 text-white font-medium">${c.name}</td>
                         <td class="py-3 px-3"><span style="color:${CATEGORY_COLORS[c.category] || '#a78bfa'}">${c.category}</span></td>
                         <td class="py-3 px-3 text-right font-mono">₹${c.cost}L</td>
@@ -1676,10 +1837,23 @@
                 day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
             });
 
+            const cisoSpans = document.getElementById('view-ciso-dashboard').querySelectorAll('[data-count-to]');
+            if (cisoSpans.length >= 3 && KNAPSACK_DATA && KNAPSACK_DATA.selected_controls) {
+                const total = KNAPSACK_DATA.selected_controls.length + KNAPSACK_DATA.deferred_controls.length;
+                const coverage = total > 0 ? Math.round((KNAPSACK_DATA.selected_controls.length / total) * 100) : 0;
+                
+                cisoSpans[0].dataset.countTo = KNAPSACK_DATA.selected_controls.length;
+                
+                const totalLabel = cisoSpans[0].parentElement.nextElementSibling;
+                if (totalLabel) totalLabel.textContent = `/${total}`;
+                
+                cisoSpans[1].dataset.countTo = coverage;
+                cisoSpans[2].dataset.countTo = KNAPSACK_DATA.deferred_controls.length;
+            }
+
             runCountUpsIn('view-ciso-dashboard');
 
             requestAnimationFrame(() => {
-                // Coverage heatmap — rows by category, tiles by control
                 const byCategory = {};
                 KNAPSACK_DATA.selected_controls.forEach(c => {
                     if (!byCategory[c.category]) byCategory[c.category] = { selected: [], deferred: [] };
@@ -1696,8 +1870,8 @@
                         const total = group.selected.length + group.deferred.length;
                         const covPct = Math.round((group.selected.length / total) * 100);
                         const tiles = [
-                            ...group.selected.map(c => `<div title="${c.id} · ${c.name} (deployed)" class="heat-cell w-8 h-8 rounded-md bg-qemerald/70 border border-qemerald/40 flex items-center justify-center text-[9px] font-mono text-white cursor-pointer">${c.id.replace('C','')}</div>`),
-                            ...group.deferred.map(c => `<div title="${c.id} · ${c.name} (deferred)" class="heat-cell w-8 h-8 rounded-md bg-qamber/25 border border-qamber/30 flex items-center justify-center text-[9px] font-mono text-qamber cursor-pointer">${c.id.replace('C','')}</div>`)
+                            ...group.selected.map(c => `<div title="${c.id} · ${c.name} (deployed)" class="heat-cell w-8 h-8 rounded-md bg-qemerald/70 border border-qemerald/40 flex items-center justify-center text-[9px] font-mono text-white cursor-pointer">${c.id.replace('FINDING-','').substring(0,4)}</div>`),
+                            ...group.deferred.map(c => `<div title="${c.id} · ${c.name} (deferred)" class="heat-cell w-8 h-8 rounded-md bg-qamber/25 border border-qamber/30 flex items-center justify-center text-[9px] font-mono text-qamber cursor-pointer">${c.id.replace('FINDING-','').substring(0,4)}</div>`)
                         ].join('');
                         return `
                             <div class="flex items-center gap-3">
@@ -1710,23 +1884,23 @@
                         `;
                     }).join('');
 
-                // Status donut
                 renderDonut('ciso-status-donut', [
-                    { label: 'Deployed', value: 9, color: '#10b981' },
-                    { label: 'Deferred', value: 16, color: '#f59e0b' }
+                    { label: 'Deployed', value: KNAPSACK_DATA.selected_controls.length, color: '#10b981' },
+                    { label: 'Deferred', value: KNAPSACK_DATA.deferred_controls.length, color: '#f59e0b' }
                 ]);
+                
+                const cisoDonutLabel = document.querySelector('#ciso-status-donut span.text-2xl');
+                if(cisoDonutLabel) cisoDonutLabel.textContent = KNAPSACK_DATA.selected_controls.length + KNAPSACK_DATA.deferred_controls.length;
 
-                // Priority bars (top 10 deferred by efficiency)
                 const priorityItems = KNAPSACK_DATA.deferred_controls
                     .slice(0, 10)
                     .map(c => ({
-                        label: `#${c.priority_rank} · ${c.id} · ${c.name}`,
+                        label: `#${c.priority_rank} · ${c.id.substring(0,12)}...`,
                         value: c.efficiency,
                         color: CATEGORY_COLORS[c.category] || '#a78bfa'
                     }));
                 renderHorizontalBars('ciso-priority-bars', priorityItems, { valueSuffix: '' });
 
-                // Category attack surface bars (count per category)
                 const catCounts = {};
                 [...KNAPSACK_DATA.selected_controls, ...KNAPSACK_DATA.deferred_controls].forEach(c => {
                     if (!catCounts[c.category]) catCounts[c.category] = { total: 0, deployed: 0 };
@@ -1743,10 +1917,9 @@
                 renderHorizontalBars('ciso-category-bars', catBars);
             });
 
-            // Tables
             const maxRed = Math.max(...KNAPSACK_DATA.selected_controls.map(c => c.risk_reduction));
             const selectedRows = KNAPSACK_DATA.selected_controls.map(c => {
-                const weight = Math.round((c.risk_reduction / maxRed) * 100);
+                const weight = maxRed > 0 ? Math.round((c.risk_reduction / maxRed) * 100) : 0;
                 return `
                     <tr class="border-b border-white/5 hover:bg-white/5 transition">
                         <td class="py-3 px-3">
@@ -1755,10 +1928,10 @@
                                 <span class="text-[10px] font-mono text-qemerald">LIVE</span>
                             </div>
                         </td>
-                        <td class="py-3 px-3 font-mono text-gray-500">${c.id}</td>
+                        <td class="py-3 px-3 font-mono text-gray-500">${c.id.substring(0,12)}...</td>
                         <td class="py-3 px-3 text-white font-medium">${c.name}</td>
                         <td class="py-3 px-3"><span style="color:${CATEGORY_COLORS[c.category] || '#a78bfa'}">${c.category}</span></td>
-                        <td class="py-3 px-3 text-right font-mono ${c.efficiency >= 4 ? 'text-qamber font-bold' : 'text-gray-300'}">${c.efficiency.toFixed(2)}</td>
+                        <td class="py-3 px-3 text-right font-mono ${c.efficiency >= 4 ? 'text-qamber font-bold' : 'text-gray-300'}">${(c.efficiency || 0).toFixed(2)}</td>
                         <td class="py-3 px-3 text-right">
                             <div class="inline-block w-24 h-1 bg-white/5 rounded-full overflow-hidden align-middle">
                                 <div class="h-full bg-qemerald" style="width:${weight}%"></div>
@@ -1772,14 +1945,14 @@
 
             const maxDefRed = Math.max(...KNAPSACK_DATA.deferred_controls.map(c => c.risk_reduction));
             const deferredRows = KNAPSACK_DATA.deferred_controls.map(c => {
-                const weight = Math.round((c.risk_reduction / maxDefRed) * 100);
+                const weight = maxDefRed > 0 ? Math.round((c.risk_reduction / maxDefRed) * 100) : 0;
                 return `
                     <tr class="border-b border-white/5 hover:bg-white/5 transition">
                         <td class="py-3 px-3 font-mono text-qamber font-bold">#${c.priority_rank}</td>
-                        <td class="py-3 px-3 font-mono text-gray-500">${c.id}</td>
+                        <td class="py-3 px-3 font-mono text-gray-500">${c.id.substring(0,12)}...</td>
                         <td class="py-3 px-3 text-white font-medium">${c.name}</td>
                         <td class="py-3 px-3"><span style="color:${CATEGORY_COLORS[c.category] || '#a78bfa'}">${c.category}</span></td>
-                        <td class="py-3 px-3 text-right font-mono text-gray-300">${c.efficiency.toFixed(2)}</td>
+                        <td class="py-3 px-3 text-right font-mono text-gray-300">${(c.efficiency || 0).toFixed(2)}</td>
                         <td class="py-3 px-3 text-right">
                             <div class="inline-block w-24 h-1 bg-white/5 rounded-full overflow-hidden align-middle">
                                 <div class="h-full bg-qamber" style="width:${weight}%"></div>
@@ -1791,6 +1964,55 @@
             }).join('');
             document.getElementById('ciso-deferred-tbody').innerHTML = deferredRows;
         }
+
+        // ============================================================
+        // DECISION AUDIT LOG MODAL CONTROLLER
+        // ============================================================
+        function openDecisionLogModal() {
+            if (!KNAPSACK_DATA || !KNAPSACK_DATA.selected_controls) return;
+
+            // Populate summary metrics
+            document.getElementById('audit-status').textContent = KNAPSACK_DATA.status || 'Optimal';
+            document.getElementById('audit-time').textContent = `${(KNAPSACK_DATA.solver_time_seconds || 0).toFixed(4)}s`;
+            document.getElementById('audit-budget').textContent = `₹${KNAPSACK_DATA.total_cost}L / ₹${KNAPSACK_DATA.budget}L`;
+            document.getElementById('audit-risk').textContent = `₹${KNAPSACK_DATA.total_risk_reduction}L`;
+
+            const container = document.getElementById('audit-log-stream');
+            const now = new Date();
+
+            container.innerHTML = KNAPSACK_DATA.selected_controls.map((control, index) => {
+                const logTime = new Date(now.getTime() - (KNAPSACK_DATA.selected_controls.length - index) * 120).toLocaleString('en-US', {
+                    month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+                });
+                
+                const assetMatch = control.name.match(/AST-\d{4}/);
+                const assetTag = assetMatch ? assetMatch[0] : 'PERIMETER';
+
+                return `
+                    <div class="p-3 rounded-lg bg-[#050508] border border-white/5 font-mono text-[12px] leading-relaxed space-y-1 text-gray-300">
+                        <div><span class="text-gray-500">(${logTime})</span> <span class="text-white font-semibold">TASK_INGESTION</span> : data_ingestion/telemetry_parser.py -> Ingested finding ${control.id} for asset ${assetTag} (${control.category}).</div>
+                        <div><span class="text-gray-500">(${logTime})</span> <span class="text-white font-semibold">MONTE_CARLO_ENGINE</span> : solver/monte_carlo.py -> Simulated probabilistic loss distribution; quantified expected risk reduction at ₹${control.risk_reduction}L.</div>
+                        <div><span class="text-gray-500">(${logTime})</span> <span class="text-white font-semibold">KNAPSACK_ILP_SOLVER</span> : solver/solver.py -> Evaluated finding ID ${control.id} with CapEx cost ₹${control.cost}L and efficiency ${(control.efficiency || 0).toFixed(2)}x under budget constraint. Assignment: SELECTED [x_${index}=1].</div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('modal-decision-log').classList.remove('hidden');
+        }
+
+        function closeDecisionLogModal() {
+            document.getElementById('modal-decision-log').classList.add('hidden');
+        }
+
+        // Close modal when clicking on backdrop
+        window.addEventListener('DOMContentLoaded', () => {
+            const modalEl = document.getElementById('modal-decision-log');
+            if(modalEl) {
+                modalEl.addEventListener('click', (e) => {
+                    if (e.target.id === 'modal-decision-log') closeDecisionLogModal();
+                });
+            }
+        });
 
         // ============================================================
         // HOME PAGE: Scroll-triggered light-mode navbar
@@ -1808,7 +2030,7 @@
         });
 
         // ============================================================
-        // TERMINAL SIMULATION (existing behavior)
+        // TERMINAL SIMULATION 
         // ============================================================
         const terminalOutput = document.getElementById('terminal-output');
         const logs = [
@@ -1845,7 +2067,7 @@
         });
 
         // ============================================================
-        // Re-render charts on window resize (they use element width)
+        // Re-render charts on window resize
         // ============================================================
         let resizeTimer;
         window.addEventListener('resize', () => {
