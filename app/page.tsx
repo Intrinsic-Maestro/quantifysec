@@ -2,6 +2,245 @@
 
 import React, { useState, useEffect, useRef } from "react";
 
+// =============================================================================
+// CHATBOT DICTIONARY & LOGIC
+// =============================================================================
+const DEFINITIONS: Record<string, { term: string; definition: string }> = {
+  // Financial Risk Metrics
+  ale: {
+    term: 'ALE — Annualized Loss Expectancy',
+    definition: 'ALE is the total financial loss you can expect from a specific cyber risk over one full year.\n\nFormula: ALE = SLE × ARO\n\nExample: If a ransomware attack costs ₹50 Lakhs (SLE) and occurs twice a year on average (ARO = 2), then ALE = ₹100 Lakhs.\n\nQuantifySec uses Monte Carlo simulation (10,000 scenarios) to estimate ALE with statistical confidence intervals rather than a single guess.',
+  },
+  sle: {
+    term: 'SLE — Single Loss Expectancy',
+    definition: 'SLE is the estimated monetary loss every time a specific threat event occurs once.\n\nIt accounts for: asset replacement value, data recovery costs, business downtime revenue loss, legal liability, regulatory fines, and reputational damage.\n\nSLE is the foundation of the ALE calculation: ALE = SLE × ARO.',
+  },
+  aro: {
+    term: 'ARO — Annual Rate of Occurrence',
+    definition: 'ARO is the estimated number of times a particular threat is expected to happen within a single year.\n\nExamples:\n• ARO of 0.5 = once every two years\n• ARO of 1.0 = once per year\n• ARO of 2.0 = twice per year\n\nARO is multiplied by SLE to calculate your Annualized Loss Expectancy (ALE).',
+  },
+  roi: {
+    term: 'ROI — Return on Investment',
+    definition: 'In QuantifySec, ROI measures how much financial risk is eliminated relative to the cost of implementing a security control.\n\nFormula: ROI = Risk Reduction Achieved / Cost of Control\n\nExample: A Portfolio ROI of 3.35x means that for every ₹1 spent on your security portfolio, ₹3.35 worth of financial risk is neutralized.\n\nHigher ROI = smarter, more efficient security spending.',
+  },
+  rosi: {
+    term: 'ROSI — Return on Security Investment',
+    definition: 'ROSI is the security-industry-specific version of ROI. It measures net financial benefit relative to control cost.\n\nFormula: ROSI = (Risk Reduction Achieved − Cost of Control) / Cost of Control\n\nA positive ROSI means the control pays for itself in risk reduction. QuantifySec calculates and ranks ROSI for every candidate control in the portfolio.',
+  },
+  // Optimization and Solver Terms
+  knapsack: {
+    term: 'Knapsack Solver — 0-1 Integer Linear Program',
+    definition: 'QuantifySec uses a 0-1 ILP — also known as the "binary knapsack problem" — to find the optimal combination of security controls for a given budget.\n\nHow it works: Each control is either fully selected (1) or not selected at all (0). The solver finds the exact set of controls that maximizes total risk reduction without exceeding your budget.\n\nEngine used: CBC (Coin-or Branch and Cut open-source solver). Typical solve time: under 3 seconds for 25 controls.',
+  },
+  ilp: {
+    term: 'ILP — Integer Linear Programming',
+    definition: 'ILP is the mathematical technique QuantifySec uses to find the globally optimal security investment portfolio.\n\n"Integer" means each decision variable (include control or not) must be a whole number — 0 or 1. There are no fractional selections.\n\nUnlike greedy heuristics that pick controls one-by-one, ILP guarantees the provably best portfolio for the given budget and risk data.',
+  },
+  efficientfrontier: {
+    term: 'Efficient Frontier',
+    definition: 'Borrowed from financial portfolio theory, the Efficient Frontier is a curve showing the best possible trade-off between cost and risk reduction across all candidate controls.\n\nInterpretation:\n• Controls ON the frontier: maximum risk reduction achievable for their cost tier\n• Controls ABOVE the frontier: over-priced relative to their risk reduction\n• Controls BELOW the frontier: underperforming relative to their cost\n\nVisible on the CFO dashboard as the Cost vs. Risk Reduction scatter chart.',
+  },
+  budgetutilization: {
+    term: 'Budget Utilization',
+    definition: 'Budget Utilization (%) shows what percentage of your approved cybersecurity budget was actually deployed by the optimizer.\n\n100% means the solver found controls that fill the budget exactly.\n\nLower utilization can occur when the remaining unspent budget is smaller than the cheapest available unfunded control — the solver cannot include a partial control.',
+  },
+  deferredbacklog: {
+    term: 'Deferred Backlog',
+    definition: 'The Deferred Backlog is the list of security controls that the optimizer identified as valuable but could not fund within the current budget cycle.\n\nKey detail: Deferred controls are ranked by ROI — so when additional budget becomes available, you know exactly which controls to fund first for maximum impact.\n\nVisible on both the CFO Dashboard (Deferred Portfolio table) and CISO Dashboard (Deferred Priority Queue).',
+  },
+  // Risk Modeling Terms
+  montecarlo: {
+    term: 'Monte Carlo Simulation',
+    definition: 'QuantifySec runs 10,000 randomized attack scenarios to build a full probability distribution of financial losses — instead of giving you a single point estimate that may be wrong.\n\nThis lets you make statements like: "There is a 90% probability that annual losses will stay below ₹300 Lakhs."\n\nThe Monte Carlo engine powers the Loss Exceedance Curve shown on the CFO dashboard.',
+  },
+  lossexceedance: {
+    term: 'Loss Exceedance Curve',
+    definition: 'The Loss Exceedance Curve shows the probability that your annual cyber loss will exceed any given financial threshold.\n\nHow to read it: A point at (₹300L, 9%) means there is a 9% chance your losses in a given year will exceed ₹300 Lakhs.\n\nIt is generated from the Monte Carlo simulation and is the primary tool for communicating tail-risk to boards and executives.',
+  },
+  capitalatrisk: {
+    term: 'Capital at Risk',
+    definition: 'Capital at Risk is the total financial exposure — measured in ₹ Lakhs — that your organization faces from cyber threats before any security controls are applied.\n\nQuantifySec shows two values:\n• Capital at Risk (Pre-Optimization): raw exposure\n• Capital at Risk (Post-Optimization): reduced exposure after the optimal control portfolio is deployed\n\nThe difference between the two is your Risk Neutralized figure.',
+  },
+  // Security Posture Metrics
+  posturescore: {
+    term: 'Posture Score',
+    definition: 'The Posture Score is a composite 0–100 index of your organization\'s overall cybersecurity health.\n\nIt weighs:\n• Control coverage across all six categories\n• Percentage of critical gaps filled\n• Alignment with the current threat model\n\nRating scale:\n• 90–100 → Excellent\n• 75–89 → Strong\n• 60–74 → Moderate\n• Below 60 → At Risk',
+  },
+  cvss: {
+    term: 'CVSS — Common Vulnerability Scoring System',
+    definition: 'CVSS is an industry-standard framework that assigns a severity score (0 to 10) to individual software vulnerabilities.\n\nQuantifySec translates CVSS scores into ₹ financial impact estimates so security teams can communicate risk in board-level language instead of technical severity ratings.',
+  },
+  portfoliocoverage: {
+    term: 'Portfolio Coverage',
+    definition: 'Portfolio Coverage (%) is the percentage of the candidate security controls that have been funded and are actively deployed.\n\nNote: Coverage percentage alone does not fully reflect security strength — the optimizer selects the highest-impact controls first, so even 36% coverage can neutralize over 59% of total financial risk.',
+  },
+  // Platform Terms
+  quantifysec: {
+    term: 'QuantifySec',
+    definition: 'QuantifySec is a cyber risk quantification and investment optimization platform developed by Team Cogitare for Smart India Hackathon 2026.\n\nCore capabilities:\n1. Translates technical security gaps into ₹ financial risk\n2. Selects the optimal security control portfolio using ILP\n3. Presents results to CFOs and CISOs.',
+  }
+};
+
+const SAMPLE_TERMS = ['ALE', 'ROI', 'Monte Carlo', 'Knapsack', 'Posture Score', 'Loss Exceedance'];
+
+function parseQuery(rawInput: string) {
+  const trimmed = rawInput.trim();
+  if (!/\bexplain\b/i.test(trimmed)) return null;
+  const termRaw = trimmed.replace(/\bexplain\b/gi, '').replace(/[?.,!;:]/g, '').trim();
+  if (!termRaw) return null;
+  const key = termRaw.toLowerCase().replace(/[\s\-_]/g, '');
+  return DEFINITIONS[key] || null;
+}
+
+function ChatbotWidget() {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState<any[]>([
+    {
+      role: 'bot',
+      text: 'Hey! How can I help you today? I can explain any metric or term from the QuantifySec dashboard.',
+      options: [
+        { label: 'What is ALE?', term: 'ale' },
+        { label: 'Explain Posture Score', term: 'posturescore' },
+        { label: 'How does Knapsack work?', term: 'knapsack' },
+      ]
+    },
+  ]);
+  const [inputVal, setInputVal] = useState('');
+  const logRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
+  }, [messages, open]);
+
+  const handleSend = () => {
+    const trimmed = inputVal.trim();
+    if (!trimmed) return;
+
+    const userMsg = { role: 'user', text: trimmed };
+
+    if (!/\bexplain\b/i.test(trimmed)) {
+      setMessages(prev => [
+        ...prev, userMsg,
+        {
+          role: 'bot',
+          text: 'To get a definition, type a term followed by the word "explain".\n\nFor example:\n• "ALE explain"\n• "Knapsack explain"\n\nHere are some terms I know:\n' + SAMPLE_TERMS.slice(0, 5).map(t => '• ' + t).join('\n'),
+        },
+      ]);
+      setInputVal('');
+      return;
+    }
+
+    const result = parseQuery(trimmed);
+
+    if (result) {
+      setMessages(prev => [...prev, userMsg, { role: 'bot', term: result.term, text: result.definition }]);
+    } else {
+      const termAttempt = trimmed.replace(/\bexplain\b/gi, '').replace(/[?.,!;:]/g, '').trim();
+      setMessages(prev => [
+        ...prev, userMsg,
+        {
+          role: 'bot',
+          text: `Sorry, I do not have a definition for "${termAttempt}" yet.\n\nHere are terms I can explain:\n` + SAMPLE_TERMS.map(t => '• ' + t + ' explain').join('\n'),
+        },
+      ]);
+    }
+    setInputVal('');
+  };
+
+  const handleOptionClick = (label: string, termKey: string) => {
+    const userMsg = { role: 'user', text: label };
+    const result = DEFINITIONS[termKey];
+    if (result) {
+      setMessages(prev => [...prev, userMsg, { role: 'bot', term: result.term, text: result.definition }]);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  return (
+    <>
+      {open && (
+        <div className="fixed bottom-28 right-6 z-[9998] w-[350px] h-[520px] bg-[#09090b]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden font-sans transition-all duration-300">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-qviolet to-[#5b21b6] px-4 py-3 flex items-center justify-between shadow-md z-10">
+            <div className="text-white font-bold text-sm flex items-center gap-2">
+              <span className="bg-white/20 p-1.5 rounded-lg text-[10px]">🤖</span>
+              QuantifySec Assistant
+            </div>
+            <button onClick={() => setOpen(false)} className="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 rounded-full w-7 h-7 flex items-center justify-center transition">
+              ✕
+            </button>
+          </div>
+
+          {/* Messages */}
+          <div ref={logRef} className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 custom-scrollbar">
+            {messages.map((msg, index) => (
+              <div key={index} className="flex flex-col w-full">
+                <div className={`max-w-[88%] p-3 text-[13px] leading-relaxed ${msg.role === 'user' ? 'bg-qviolet text-white self-end rounded-2xl rounded-tr-sm shadow-sm' : 'bg-white/5 border border-white/10 text-gray-300 self-start rounded-2xl rounded-tl-sm'}`}>
+                  {msg.term && (
+                    <>
+                      <div className="inline-block bg-qviolet/20 text-qviolet rounded px-2 py-0.5 text-[10px] font-bold font-mono mb-2 uppercase tracking-wider">{msg.term}</div>
+                      <div className="h-[1px] bg-white/10 mb-2 w-full" />
+                    </>
+                  )}
+                  <span className="whitespace-pre-wrap">{msg.text}</span>
+                  
+                  {/* Action Chips */}
+                  {msg.options && (
+                    <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t border-white/10">
+                      {msg.options.map((opt: any, i: number) => (
+                        <button 
+                          key={i} 
+                          onClick={() => handleOptionClick(opt.label, opt.term)}
+                          className="text-[10px] font-medium border border-qviolet/30 bg-qviolet/10 hover:bg-qviolet/20 text-c4b5fd text-white px-3 py-1.5 rounded-full transition"
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Input */}
+          <div className="p-3 bg-[#111113] border-t border-white/10 flex items-center gap-2 z-10">
+            <input
+              className="flex-1 bg-[#1c1c1e] border border-white/10 rounded-xl px-4 py-2.5 text-[13px] text-white focus:outline-none focus:border-qviolet transition placeholder:text-gray-500"
+              type="text"
+              placeholder="e.g. 'ALE explain'"
+              value={inputVal}
+              onChange={(e) => setInputVal(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <button 
+              onClick={handleSend}
+              className="bg-qviolet hover:bg-[#7c3aed] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition disabled:opacity-50"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* FAB */}
+      <button
+        onClick={() => setOpen(prev => !prev)}
+        className={`fixed bottom-8 right-6 z-[9999] w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-[0_4px_20px_rgba(167,139,250,0.4)] transition-all duration-300 hover:scale-110 ${open ? 'bg-[#3f3f46] text-white shadow-none' : 'bg-gradient-to-br from-qviolet to-[#7c3aed] text-white'}`}
+      >
+        {open ? '✕' : '💬'}
+      </button>
+    </>
+  );
+}
+
+
 // ==========================================
 // MOCK DATA (CFO Dashboard)
 // ==========================================
@@ -108,6 +347,9 @@ interface PipelineResponse {
   };
 }
 
+// ==========================================
+// MAIN APP COMPONENT
+// ==========================================
 export default function QuantifySecApp() {
   const backendBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://quantifysec-production.up.railway.app";
 
@@ -376,7 +618,7 @@ export default function QuantifySecApp() {
   };
 
   return (
-    <div className="w-full flex flex-col min-h-screen">
+    <div className="w-full flex flex-col min-h-screen relative">
       
       {/* FLOATING NAVBAR */}
       <div id="main-nav-wrapper" className={`fixed w-full top-6 z-40 px-4 md:px-6 flex justify-center transition-transform duration-300 ease-in-out ${navVisible ? "translate-y-0" : "-translate-y-36"}`}>
@@ -654,7 +896,6 @@ export default function QuantifySecApp() {
                       </div>
                     </div>
 
-                    {/* NEW COMPANY NAME FIELD */}
                     <div>
                       <label className="block text-xs font-mono text-gray-400 mb-1.5 uppercase">Company Name</label>
                       <input 
@@ -1439,6 +1680,9 @@ export default function QuantifySecApp() {
       <footer className="border-t border-white/5 bg-[#09090b] relative z-10 mt-auto py-8 px-6 text-xs text-gray-500 text-center">
         &copy; 2026 QuantifySec. All rights reserved. Deterministic Risk Pipeline.
       </footer>
+
+      {/* CHATBOT INTEGRATION */}
+      <ChatbotWidget />
     </div>
   );
 }
