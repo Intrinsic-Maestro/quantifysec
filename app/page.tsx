@@ -729,7 +729,7 @@ export default function QuantifySecApp() {
               <div id="section-solution" className="w-full max-w-[1100px] mx-auto px-6 pb-32 relative z-10">
                 <div className="text-center mb-16 max-w-3xl mx-auto">
                   <h2 className="text-[#09090b] font-display text-3xl md:text-5xl font-bold tracking-tight mb-6">
-                    Meet Your AI <span className="text-qviolet">Risk Quantifier</span>
+                    Meet Your  <span className="text-qviolet">Risk Quantifier</span>
                   </h2>
                   <p className="text-gray-500 text-lg font-body leading-relaxed">
                     A swarm of AI Co-Workers that instantly close the loop from technical insight to actionable financial decision.
