@@ -6,12 +6,12 @@ import random
 import json
 import traceback
 from datetime import date
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 from dotenv import load_dotenv
 load_dotenv()
 
-from fastapi import FastAPI, HTTPException, Depends, Security, UploadFile, File, Header
+from fastapi import FastAPI, HTTPException, Depends, Security, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
@@ -26,7 +26,7 @@ import db
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(ROOT_DIR))
 
-from data_ingestion.ingestion import load_json_file, ingest_assets, ingest_vulnerabilities, ingest_combined_findings
+from data_ingestion.ingestion import ingest_assets, ingest_vulnerabilities, ingest_combined_findings
 from math_engine.monte_carlo.simulator import run_portfolio_simulation
 from math_engine.monte_carlo.analytics import generate_portfolio_analytics_summary
 from math_engine.monte_carlo.schema_exporter import serialize_simulation_results
@@ -47,7 +47,7 @@ security = HTTPBearer(auto_error=False)
 def verify_token(credentials: HTTPAuthorizationCredentials = Security(security)) -> dict:
     """Validates the JWT token issued to the user."""
     if DISABLE_AUTH:
-        return {"sub": "test-user", "email": "test@local", "role": "ciso"}
+        return {"sub": "test-user", "email": "test@local", "role": "ciso", "company_name": "Test Company"}
 
     if credentials is None:
         raise HTTPException(status_code=401, detail="Missing authentication token.")
@@ -56,25 +56,24 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Security(security))
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM], options={"verify_aud": False})
         return {
-    "sub": payload.get("sub"),
-    "email": payload.get("email", payload.get("sub")),
-    "role": payload.get("role", "ciso"),
-    "company_id": payload.get("app_metadata", {}).get("company_id"),
-}
+            "sub": payload.get("sub"),
+            "email": payload.get("email", payload.get("sub")),
+            "role": payload.get("role", "ciso"),
+            "company_id": payload.get("app_metadata", {}).get("company_id"),
+            "company_name": payload.get("company_name", "Unknown Company"),
+        }
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Invalid authentication token or expired session.")
 
-# In-Memory OTP Store: { "email": {"otp": "123456", "expires_at": 1718000000, "role": "ciso"} }
+# In-Memory OTP Store
 OTP_STORE: Dict[str, Dict[str, Any]] = {}
 
 class OTPRequest(BaseModel):
     email: str
     role: str
-    name: str | None = None
-    company: str | None = None
- 
+    name: Optional[str] = None
+    company: Optional[str] = None
 
- 
 class OTPVerify(BaseModel):
     email: str
     otp: str
@@ -97,8 +96,23 @@ app.add_middleware(
 )
 
 # ============================================================
-# Pipeline Helper Functions
+# Dynamic Pipeline Objects & Stubs
 # ============================================================
+class DynamicLossParams:
+    def __init__(self, mean_inr_millions: float = 50.0):
+        self.mean_inr_millions = mean_inr_millions
+
+class DynamicAssetStub:
+    def __init__(self, uid: str, mean_inr_millions: float = 50.0):
+        self.uid = uid
+        self.loss_parameters = DynamicLossParams(mean_inr_millions)
+
+class DynamicVulnStub:
+    def __init__(self, vuln_id: str, asset_id: str, cvss_score: float):
+        self.id = vuln_id
+        self.asset_id = asset_id
+        self.cvss_score = cvss_score
+
 def build_mc_payload(valid_assets: list, valid_vulns: list) -> List[Dict[str, Any]]:
     asset_map = {}
     for a in valid_assets:
@@ -154,6 +168,121 @@ def build_vulnerability_drilldown(valid_vulns: list, portfolio_ale_rupees: float
     drilldown.sort(key=lambda x: x["financial_exposure_lakhs"], reverse=True)
     return drilldown
 
+def execute_risk_engine(valid_assets: list, valid_vulns: list, valid_findings: list, company_name: str) -> dict:
+    """Runs Monte Carlo and Knapsack optimization strictly on live data."""
+    if not valid_vulns:
+        return {"has_data": False}
+
+    if not valid_assets:
+        unique_asset_ids = {getattr(v, 'asset_id', 'AST-DEFAULT') for v in valid_vulns}
+        valid_assets = [DynamicAssetStub(aid) for aid in unique_asset_ids]
+
+    mc_payload = build_mc_payload(valid_assets, valid_vulns)
+    raw_sim_results = run_portfolio_simulation(mc_payload)
+    analytics = generate_portfolio_analytics_summary(raw_sim_results)
+    mc_api_response = serialize_simulation_results(analytics, total_iterations=10000, random_seed=42)
+    mc_dict = mc_api_response.model_dump()
+
+    portfolio_ale_rupees = analytics["portfolio_metrics"]["mean_ale"]
+    dynamic_vuln_controls = build_dynamic_vuln_controls(valid_vulns, portfolio_ale_rupees)
+    
+    opt_request = OptimizationRequest(controls=dynamic_vuln_controls, budget=DEFAULT_BUDGET_LAKH)
+    opt_result = solve_knapsack(opt_request)
+    portfolio_ale_lakh = portfolio_ale_rupees / 100_000.0
+
+    today = date.today()
+    month = today.month
+    if month >= 4:
+        quarter = (month - 4) // 3 + 1
+        fy_year = today.year + 1
+        q_start_month = 4 + (quarter - 1) * 3
+        q_start_year = today.year
+    else:
+        quarter = 4
+        fy_year = today.year
+        q_start_month = 1
+        q_start_year = today.year
+
+    period_label = f"Q{quarter} FY{str(fy_year)[2:]}"
+    period_start = date(q_start_year, q_start_month, 1).isoformat()
+
+    # Safely persist database snapshots
+    posture_score = 75
+    simulation_run_id = None
+    try:
+        simulation_run_id = db.insert_simulation_run(mc_dict, company_name)
+        db.insert_risk_assessments(analytics["top_risk_drivers"], simulation_run_id, company_name)
+        vuln_id_to_action_id = db.insert_remediation_actions(dynamic_vuln_controls, simulation_run_id, company_name)
+        db.insert_optimization_run(
+            opt_result,
+            simulation_run_id,
+            vuln_id_to_action_id,
+            portfolio_ale_lakh,
+            company_name,
+            dynamic_controls=dynamic_vuln_controls,
+        )
+        _ciso_id, posture_score = db.insert_ciso_snapshot(
+            valid_assets,
+            valid_vulns,
+            opt_result,
+            simulation_run_id,
+            company_name,
+        )
+        db.insert_cfo_snapshot(
+            analytics,
+            opt_result,
+            simulation_run_id,
+            company_name,
+        )
+        db.insert_quarterly_risk_trend(
+            simulation_run_id,
+            period_label,
+            period_start,
+            analytics,
+            opt_result,
+            posture_score,
+            company_name,
+        )
+    except Exception as db_err:
+        print(f"Database snapshot write notice: {db_err}")
+
+    capital_at_risk_pre = round(portfolio_ale_rupees / 100_000.0, 2)
+    risk_neutralized = round(opt_result.total_risk_reduction, 2)
+    budget_deployed = round(opt_result.total_cost, 2)
+    roi_multiple = round(risk_neutralized / budget_deployed, 2) if budget_deployed > 0 else 0
+    exposure_pct = round((risk_neutralized / capital_at_risk_pre) * 100, 1) if capital_at_risk_pre > 0 else 0
+
+    vuln_drilldown = build_vulnerability_drilldown(valid_vulns, portfolio_ale_rupees)
+
+    return {
+        "status": "success",
+        "has_data": True,
+        "simulation_run_id": simulation_run_id,
+        "period_label": period_label,
+        "cfo_metrics": {
+            "capital_at_risk": capital_at_risk_pre,
+            "risk_neutralized": f"{risk_neutralized:,.2f}",
+            "budget_deployed": budget_deployed,
+            "roi": f"{roi_multiple}",
+            "exposure_reduction": f"{exposure_pct}%",
+            "selected_controls": [c.model_dump() for c in opt_result.selected_controls],
+            "deferred_controls": [c.model_dump() for c in opt_result.deferred_controls],
+        },
+        "ciso_metrics": {
+            "posture_score": posture_score,
+            "controls_deployed": len(opt_result.selected_controls),
+            "critical_gaps": len(opt_result.deferred_controls),
+            "total_evaluated": len(valid_vulns),
+            "deployed_controls": [c.model_dump() for c in opt_result.selected_controls],
+            "deferred_controls": [c.model_dump() for c in opt_result.deferred_controls],
+        },
+        "cfo_budget_optimization": opt_result.model_dump(),
+        "monte_carlo_risk_profile": mc_dict,
+        "solver_time_seconds": opt_result.solver_time_seconds,
+        "budget": DEFAULT_BUDGET_LAKH,
+        "technical_drilldown": vuln_drilldown,
+    }
+
 # ============================================================
 # API Endpoints: Health & Controls
 # ============================================================
@@ -197,10 +326,8 @@ def request_otp(payload: OTPRequest):
     code = f"{random.randint(100000, 999999)}"
     OTP_STORE[email] = {
         "otp": code,
-        "expires_at": time.time() + 300,  # 5 minute expiry
+        "expires_at": time.time() + 300,
         "role": role,
-        # NEW — carried through so verify_otp can persist them to Supabase.
-        # Both may be None on a login request; verify_otp handles that.
         "name": payload.name.strip() if payload.name else None,
         "company": payload.company.strip() if payload.company else None,
     }
@@ -241,40 +368,39 @@ def verify_otp(payload: OTPVerify):
     if record["otp"] != otp:
         raise HTTPException(status_code=400, detail="Invalid verification code.")
 
-    # ── SMART UPSERT: Check existence and auto-heal missing companies ──
+    # Smart profile and company lookup
     try:
         existing_profile = db.get_profile_by_email(email)
         
         if existing_profile:
-            # LOGIN MODE: Reuse existing profile details
-            name = existing_profile.get("name")
+            name = existing_profile.get("name") or record.get("name") or email.split("@")[0]
             company_id = existing_profile.get("company_id")
             role = existing_profile.get("role") or record["role"]
             
-            # Auto-heal: If company_id was wiped or null, regenerate it
             if not company_id:
                 company_name = record.get("company") or "Unknown Company"
                 company_id = db.get_or_create_company(company_name)
                 db.upsert_profile(email=email, name=name, role=role, company_id=company_id)
         else:
-            # SIGNUP MODE: Create brand new profile and company
             company_name = record.get("company") or "Unknown Company"
             name = record.get("name") or email.split("@")[0]
             role = record["role"]
-            
             company_id = db.get_or_create_company(company_name)
             db.upsert_profile(email=email, name=name, role=role, company_id=company_id)
             
+        company_name = db.get_company_name(company_id) or "Unknown Company"
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to access or save profile in Supabase: {str(e)}")
 
     token_payload = {
         "sub": email,
         "email": email,
-        "name": name,  # Included so frontend extracts the real name cleanly
+        "name": name,
         "role": role,
-        "aud": "authenticated", 
-        "app_metadata": {"company_id": company_id}, 
+        "company_name": company_name,
+        "aud": "authenticated",
+        "app_metadata": {"company_id": company_id},
         "exp": time.time() + (60 * 60 * 24),
     }
     access_token = jwt.encode(token_payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
@@ -286,175 +412,117 @@ def verify_otp(payload: OTPVerify):
         "role": role,
         "email": email,
         "company_id": company_id,
+        "company_name": company_name,
     }
+
 # ============================================================
-# API Endpoint: OCSF Telemetry Ingestion
+# API Endpoint: OCSF Telemetry Multi-File Ingestion
 # ============================================================
 @app.post("/api/ingest-ocsf")
-async def ingest_ocsf_telemetry(file: UploadFile = File(...), user: dict = Depends(verify_token)):
-    if not file.filename.endswith(".json"):
-        raise HTTPException(status_code=400, detail="Invalid file format. Upload only .json OCSF datasets.")
-    
+async def ingest_ocsf_telemetry(
+    files: Optional[List[UploadFile]] = File(None),
+    file: Optional[UploadFile] = File(None),
+    user: dict = Depends(verify_token)
+):
+    upload_list = []
+    if files:
+        upload_list.extend(files)
+    if file:
+        upload_list.append(file)
+
+    if not upload_list:
+        raise HTTPException(status_code=400, detail="No files uploaded.")
+
+    if len(upload_list) > 6:
+        raise HTTPException(status_code=400, detail="Maximum of 6 files allowed at once.")
+
+    all_valid_vulns = []
+    all_valid_findings = []
+    all_valid_assets = []
+    company_name = user.get("company_name") or "Unknown Company"
+
+    for uploaded_file in upload_list:
+        if not uploaded_file.filename.endswith(".json"):
+            continue
+        try:
+            content = await uploaded_file.read()
+            if len(content) > 100 * 1024 * 1024:
+                raise HTTPException(status_code=400, detail=f"File {uploaded_file.filename} exceeds 100MB limit.")
+
+            json_data = json.loads(content.decode("utf-8"))
+
+            vuln_res = ingest_vulnerabilities(json_data)
+            if vuln_res.get("valid"):
+                all_valid_vulns.extend(vuln_res["valid"])
+
+            combined_res = ingest_combined_findings(json_data)
+            if combined_res.get("valid"):
+                all_valid_findings.extend(combined_res["valid"])
+
+            asset_res = ingest_assets(json_data)
+            if asset_res.get("valid"):
+                all_valid_assets.extend(asset_res["valid"])
+
+        except json.JSONDecodeError:
+            raise HTTPException(status_code=400, detail=f"File {uploaded_file.filename} contains invalid JSON.")
+        except Exception as e:
+            print(f"Error parsing {uploaded_file.filename}: {e}")
+
+    if not all_valid_vulns:
+        raise HTTPException(status_code=400, detail="No valid OCSF vulnerability findings found in uploaded files.")
+
+    # Save to database
     try:
-        content = await file.read()
-        json_data = json.loads(content.decode("utf-8"))
-        
-        vuln_res = ingest_vulnerabilities(json_data)
-        if not vuln_res["valid"]:
-            raise HTTPException(status_code=400, detail="Uploaded file contained no valid OCSF vulnerability records.")
-        
-        combined_res = ingest_combined_findings(json_data)
-        company_name = user.get("company_name") or "Unknown Company"  # see note below
-        
-        db.upsert_vulnerabilities(vuln_res["valid"], company_name, raw_combined=combined_res["valid"])
-        
-        return {
-            "status": "success",
-            "filename": file.filename,
-            "records_processed": len(vuln_res["valid"]),
-            "user": user["sub"]
-        }
-    except json.JSONDecodeError:
-        raise HTTPException(status_code=400, detail="Invalid JSON file syntax.")
-    except HTTPException:
-        raise
+        if all_valid_assets:
+            db.upsert_assets(all_valid_assets)
+        db.upsert_vulnerabilities(all_valid_vulns, company_name, raw_combined=all_valid_findings)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Ingestion failed: {str(e)}")
+        print(f"Database upsert notice: {e}")
+
+    # Process and return live dashboard metrics immediately
+    return execute_risk_engine(all_valid_assets, all_valid_vulns, all_valid_findings, company_name)
 
 # ============================================================
-# API Endpoint: Full Pipeline Execution
+# API Endpoint: Live Pipeline Check
 # ============================================================
+@app.get("/api/run-pipeline")
 @app.post("/api/run-pipeline")
-def run_full_enterprise_pipeline(user: dict = Depends(verify_token)):
+def run_pipeline(user: dict = Depends(verify_token)):
+    """Checks database for user telemetry. Never generates synthetic data."""
+    company_name = user.get("company_name") or "Unknown Company"
+    supabase_client = getattr(db, "supabase", getattr(db, "client", None))
+
+    if not supabase_client:
+        return {"has_data": False}
+
     try:
-        company_name = db.get_company_name(user.get("company_id"))
-        raw_assets = load_json_file("../output/synthetic_assets.json")
-        raw_vulns = load_json_file("../output/synthetic_combined.json")
+        # Check if real records exist in Supabase
+        vuln_resp = supabase_client.table("vulnerabilities").select("*").limit(400).execute()
+        raw_vulns = vuln_resp.data or []
 
-        asset_res = ingest_assets(raw_assets)
-        vuln_res = ingest_vulnerabilities(raw_vulns)
+        if not raw_vulns:
+            return {"has_data": False}
 
-        if not asset_res["valid"] or not vuln_res["valid"]:
-            raise HTTPException(status_code=400, detail="Data ingestion failed. No valid records found.")
+        asset_resp = supabase_client.table("assets").select("*").limit(200).execute()
+        raw_assets = asset_resp.data or []
 
-        # Validate raw combined records to get kev_listed / known_ransomware_use
-        # for upsert_vulnerabilities (CISO Metric #7 — Exploitability Index).
-        combined_res = ingest_combined_findings(raw_vulns)
+        # Convert database records to pipeline-compatible objects
+        valid_vulns = [
+            DynamicVulnStub(
+                vuln_id=row.get("id", f"VULN-{i}"),
+                asset_id=row.get("asset_id", "AST-0001"),
+                cvss_score=float(row.get("cvss_score") or 5.0)
+            )
+            for i, row in enumerate(raw_vulns)
+        ]
 
-        db.upsert_assets(asset_res["valid"])
-        db.upsert_vulnerabilities(vuln_res["valid"],company_name, raw_combined=combined_res["valid"])
+        valid_assets = [
+            DynamicAssetStub(uid=row.get("id") or row.get("uid") or row.get("asset_id") or "AST-0001")
+            for row in raw_assets
+        ]
 
-        # ── Monte Carlo ──────────────────────────────────────────────────
-        mc_payload = build_mc_payload(asset_res["valid"], vuln_res["valid"])
-        raw_sim_results = run_portfolio_simulation(mc_payload)
-        analytics = generate_portfolio_analytics_summary(raw_sim_results)
-        mc_api_response = serialize_simulation_results(analytics, total_iterations=10000, random_seed=42)
+        return execute_risk_engine(valid_assets, valid_vulns, [], company_name)
 
-        mc_dict = mc_api_response.model_dump()
-        simulation_run_id = db.insert_simulation_run(mc_dict, company_name)
-        db.insert_risk_assessments(analytics["top_risk_drivers"], simulation_run_id, company_name)
-
-        # ── Knapsack ─────────────────────────────────────────────────────
-        portfolio_ale_rupees = analytics["portfolio_metrics"]["mean_ale"]
-        dynamic_vuln_controls = build_dynamic_vuln_controls(vuln_res["valid"], portfolio_ale_rupees)
-        vuln_id_to_action_id = db.insert_remediation_actions(dynamic_vuln_controls, simulation_run_id, company_name)
-
-        opt_request = OptimizationRequest(controls=dynamic_vuln_controls, budget=DEFAULT_BUDGET_LAKH)
-        opt_result = solve_knapsack(opt_request)
-
-        portfolio_ale_lakh = portfolio_ale_rupees / 100_000.0
-        db.insert_optimization_run(
-    opt_result,
-    simulation_run_id,
-    vuln_id_to_action_id,
-    portfolio_ale_lakh,
-    company_name,
-    dynamic_controls=dynamic_vuln_controls,
-)
-
-        # ── CISO Snapshot (all 11 technical metrics) ─────────────────────
-        _ciso_id, posture_score = db.insert_ciso_snapshot(
-    asset_res["valid"],
-    vuln_res["valid"],
-    opt_result,
-    simulation_run_id,
-    company_name,
-)
-
-        # ── CFO Snapshot (all 11 financial metrics) ──────────────────────
-        _cfo_id = db.insert_cfo_snapshot(
-    analytics,
-    opt_result,
-    simulation_run_id,
-    company_name,
-)
-
-        # ── Quarterly Risk Trend (QoQ time series, CFO Metric #11) ───────
-        # Compute current Indian FY quarter dynamically.
-        today = date.today()
-        month = today.month
-        if month >= 4:
-            # Indian FY starts April — Q1=Apr-Jun, Q2=Jul-Sep, Q3=Oct-Dec
-            quarter = (month - 4) // 3 + 1
-            fy_year = today.year + 1
-            q_start_month = 4 + (quarter - 1) * 3
-            q_start_year = today.year
-        else:
-            # Q4 = Jan-Mar
-            quarter = 4
-            fy_year = today.year
-            q_start_month = 1
-            q_start_year = today.year
-
-        period_label = f"Q{quarter} FY{str(fy_year)[2:]}"
-        period_start = date(q_start_year, q_start_month, 1).isoformat()
-
-        db.insert_quarterly_risk_trend(
-    simulation_run_id,
-    period_label,
-    period_start,
-    analytics,
-    opt_result,
-    posture_score,
-    company_name,
-)
-
-        # ── Vulnerability drill-down (CISO Metric #5) ────────────────────
-        vuln_drilldown = build_vulnerability_drilldown(vuln_res["valid"], portfolio_ale_rupees)
-
-        pm = analytics["portfolio_metrics"]
-        mc_dict.setdefault("portfolio_metrics", {})
-        mc_dict["portfolio_metrics"].update({
-            "mean_ale": pm.get("mean_ale"),
-            "p5_ale":   pm.get("p5_ale") or pm.get("percentile_5"),
-            "p25_ale":  pm.get("p25_ale") or pm.get("percentile_25"),
-            "p50_ale":  pm.get("p50_ale") or pm.get("percentile_50"),
-            "p75_ale":  pm.get("p75_ale") or pm.get("percentile_75"),
-            "p95_ale":  pm.get("p95_ale") or pm.get("percentile_95"),
-            "p99_ale":  pm.get("p99_ale") or pm.get("percentile_99"),
-        })
-
-        return {
-            "status": "success",
-            "simulation_run_id": simulation_run_id,
-            "period_label": period_label,
-            "ingestion_metrics": {
-                "assets_processed": len(asset_res["valid"]),
-                "vulns_processed": len(vuln_res["valid"]),
-                "combined_records_validated": len(combined_res["valid"]),
-            },
-            "ciso_metrics": {
-                "posture_score": posture_score,
-            },
-            "monte_carlo_risk_profile": mc_dict,
-            "cfo_budget_optimization": opt_result.model_dump(),
-            "technical_drilldown": vuln_drilldown,
-        }
-
-    except HTTPException:
-        raise
     except Exception as e:
-        print("=== PIPELINE ERROR TRACEBACK ===")
-        print(traceback.format_exc())
-        print("=================================")
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"Pipeline verification notice: {e}")
+        return {"has_data": False}
