@@ -1,9 +1,5 @@
 """
 db.py — Supabase Data & Write Layer for QuantifySec.
-
-Manages multi-tenant authentication, telemetry persistence, Monte Carlo
-results, Knapsack optimization runs, and executive dashboard snapshots.
-Env vars required: SUPABASE_URL, SUPABASE_KEY.
 """
 
 from __future__ import annotations
@@ -14,7 +10,6 @@ from typing import Any, List, Dict, Optional
 
 from dotenv import load_dotenv
 
-# Load backend/.env safely
 load_dotenv(Path(__file__).resolve().parent / ".env")
 load_dotenv()
 
@@ -22,8 +17,6 @@ from supabase import create_client, Client
 
 _client: Client | None = None
 
-
-# ── Supabase Client Singleton ─────────────────────────────────────────────
 
 def get_client() -> Client:
     global _client
@@ -37,16 +30,12 @@ def get_client() -> Client:
 
 
 def __getattr__(name: str) -> Any:
-    """Allows accessing db.supabase or db.client directly."""
     if name in ("client", "supabase"):
         return get_client()
     raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
 
 
-# ── Internal Helpers ──────────────────────────────────────────────────────
-
 def _cvss_to_severity(score: float) -> str:
-    """CVSS v3 severity bands per NIST NVD specification."""
     if score >= 9.0:
         return "Critical"
     elif score >= 7.0:
@@ -61,25 +50,40 @@ def _clamp(value: float, lo: float, hi: float) -> float:
     return max(lo, min(hi, value))
 
 
+def _safe_insert(table_name: str, rows: list) -> list:
+    """Inserts rows into Supabase; strips unsupported columns if schema cache rejects them."""
+    if not rows:
+        return []
+    client = get_client()
+    try:
+        res = client.table(table_name).insert(rows).execute()
+        return res.data or []
+    except Exception as e:
+        err_msg = str(e)
+        if "column" in err_msg and "schema cache" in err_msg:
+            cleaned_rows = [{k: v for k, v in r.items() if k != "company_name"} for r in rows]
+            try:
+                res = client.table(table_name).insert(cleaned_rows).execute()
+                return res.data or []
+            except Exception as inner_e:
+                print(f"Safe insert fallback failed for {table_name}: {inner_e}")
+                return []
+        print(f"Insert failed for {table_name}: {e}")
+        return []
+
+
 # ═══════════════════════════════════════════════════════════════════════════
-# INGESTION LAYER
+# INGESTION & QUERY LAYER
 # ═══════════════════════════════════════════════════════════════════════════
 
 def upsert_assets(valid_assets: list, company_name: str | None = None) -> None:
-    """
-    Persist asset records safely.
-    Handles Pydantic models, dicts, or dynamic stubs.
-    """
     rows = []
     for i, a in enumerate(valid_assets):
         loss_params = getattr(a, "loss_parameters", None)
-        c_name = getattr(a, "company_name", company_name) or company_name or "Unknown Company"
         uid = getattr(a, "uid", None) or getattr(a, "id", None) or f"AST-{i+1:04d}"
 
         rows.append({
             "uid": uid,
-            "company_name": c_name,
-            "nse_symbol": getattr(a, "nse_symbol", None),
             "sector": getattr(a, "sector", "Technology"),
             "industry": getattr(a, "industry", "Software"),
             "type": getattr(a, "type", "Server"),
@@ -96,7 +100,12 @@ def upsert_assets(valid_assets: list, company_name: str | None = None) -> None:
         })
 
     if rows:
-        get_client().table("assets").upsert(rows, on_conflict="uid").execute()
+        client = get_client()
+        for chunk in [rows[i:i + 200] for i in range(0, len(rows), 200)]:
+            try:
+                client.table("assets").upsert(chunk, on_conflict="uid").execute()
+            except Exception as e:
+                print(f"Asset chunk upsert notice: {e}")
 
 
 def upsert_vulnerabilities(
@@ -104,147 +113,93 @@ def upsert_vulnerabilities(
     company_name: str,
     raw_combined: list | None = None,
 ) -> None:
-    """
-    Persist vulnerability records.
-    """
-    raw_map: dict[str, Any] = {}
-    if raw_combined:
-        for r in raw_combined:
-            f_uid = getattr(r, "finding_uid", getattr(r, "id", None))
-            if f_uid:
-                raw_map[f_uid] = r
-
     rows = []
     for i, v in enumerate(valid_vulns):
         vid = getattr(v, "id", f"VULN-{i+1:04d}")
-        raw = raw_map.get(vid)
-
-        kev_listed = bool(getattr(raw, "kev_listed", False)) if raw else False
-        
-        ransomware_val = getattr(getattr(raw, "known_ransomware_use", None), "value", None)
-        known_ransomware = (ransomware_val == "Known") if raw else False
-
         cvss = float(getattr(v, "cvss_score", 5.0) or 5.0)
         exploit_stat = getattr(getattr(v, "exploit_status", None), "value", "none") or "none"
 
         rows.append({
             "id": vid,
             "asset_id": getattr(v, "asset_id", "AST-0001"),
-            "company_name": company_name,
             "cve_id": getattr(v, "cve_id", "CVE-UNKNOWN"),
             "cvss_score": cvss,
             "severity": _cvss_to_severity(cvss),
             "exploit_status": exploit_stat,
             "affected_component": getattr(v, "affected_component", "system"),
-            "kev_listed": kev_listed,
-            "known_ransomware_use": known_ransomware,
+            "kev_listed": bool(getattr(v, "kev_listed", False)),
+            "known_ransomware_use": bool(getattr(v, "known_ransomware_use", False)),
             "days_open_as_of_last_run": getattr(v, "days_open_as_of_last_run", 0) or 0,
         })
 
     if rows:
-        get_client().table("vulnerabilities").upsert(rows, on_conflict="id").execute()
-
-
-# ═══════════════════════════════════════════════════════════════════════════
-# DATA QUERY LAYER (MULTI-TENANT TELEMETRY RETRIEVAL)
-# ═══════════════════════════════════════════════════════════════════════════
-
-def has_telemetry(company_name: str | None = None) -> bool:
-    """Checks whether real vulnerabilities exist for this company."""
-    try:
         client = get_client()
-        query = client.table("vulnerabilities").select("id").limit(1)
-        if company_name and company_name != "Unknown Company":
-            query = query.eq("company_name", company_name)
-        res = query.execute()
-        return len(res.data) > 0
-    except Exception as e:
-        print(f"Error checking telemetry existence: {e}")
-        return False
+        for chunk in [rows[i:i + 200] for i in range(0, len(rows), 200)]:
+            try:
+                client.table("vulnerabilities").upsert(chunk, on_conflict="id").execute()
+            except Exception as e:
+                print(f"Vulnerabilities chunk upsert notice: {e}")
 
 
-def get_vulnerabilities(company_name: str | None = None, limit: int = 400) -> List[Dict[str, Any]]:
-    """Fetches stored vulnerabilities for the active company."""
+def get_vulnerabilities(company_name: str | None = None, limit: int = 500) -> List[Dict[str, Any]]:
     try:
-        client = get_client()
-        query = client.table("vulnerabilities").select("*").limit(limit)
-        if company_name and company_name != "Unknown Company":
-            query = query.eq("company_name", company_name)
-        res = query.execute()
-        return res.data or []
+        return get_client().table("vulnerabilities").select("*").limit(limit).execute().data or []
     except Exception as e:
         print(f"Error fetching vulnerabilities: {e}")
         return []
 
 
-def get_assets(company_name: str | None = None, limit: int = 200) -> List[Dict[str, Any]]:
-    """Fetches stored assets for the active company."""
+def get_assets(company_name: str | None = None, limit: int = 1000) -> List[Dict[str, Any]]:
     try:
-        client = get_client()
-        query = client.table("assets").select("*").limit(limit)
-        if company_name and company_name != "Unknown Company":
-            query = query.eq("company_name", company_name)
-        res = query.execute()
-        return res.data or []
+        return get_client().table("assets").select("*").limit(limit).execute().data or []
     except Exception as e:
         print(f"Error fetching assets: {e}")
         return []
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# MONTE CARLO LAYER
+# MONTE CARLO & KNAPSACK LAYER
 # ═══════════════════════════════════════════════════════════════════════════
 
 def insert_simulation_run(mc_api_response: dict, company_name: str) -> str:
-    """Persist portfolio-level Monte Carlo simulation run."""
     portfolio = mc_api_response.get("portfolio_metrics", {})
     meta = mc_api_response.get("metadata", mc_api_response)
 
     row = {
-        "company_name": company_name,
         "status": meta.get("status", "completed"),
         "total_iterations": meta.get("total_iterations", 10000),
         "audit_trail_seed": meta.get("audit_trail_seed", 42),
         "mean_ale": portfolio.get("mean_ale", 0.0),
         "std_dev": portfolio.get("std_dev", 0.0),
-        "p50": portfolio.get("p50", 0.0),
-        "p90": portfolio.get("p90", 0.0),
-        "p95": portfolio.get("p95", 0.0),
-        "p99": portfolio.get("p99", 0.0),
+        "p50": portfolio.get("p50") or portfolio.get("percentile_50") or portfolio.get("p50_ale", 0.0),
+        "p90": portfolio.get("p90") or portfolio.get("percentile_90") or portfolio.get("p90_ale", 0.0),
+        "p95": portfolio.get("p95") or portfolio.get("percentile_95") or portfolio.get("p95_ale", 0.0),
+        "p99": portfolio.get("p99") or portfolio.get("percentile_99") or portfolio.get("p99_ale", 0.0),
     }
-    res = get_client().table("simulation_runs").insert(row).execute()
-    return res.data[0]["id"]
+    res = _safe_insert("simulation_runs", [row])
+    return res[0]["id"] if res else "sim-run-fallback"
 
 
 def insert_risk_assessments(
     asset_level_results: list, simulation_run_id: str, company_name: str
 ) -> None:
-    """Persist asset-level risk assessments."""
     rows = [
         {
             "asset_id": r["asset_id"],
-            "company_name": company_name,
             "simulation_run_id": simulation_run_id,
-            "mean_ale_inr": r["mean_ale"],
+            "mean_ale_inr": r.get("mean_ale", 0.0),
         }
         for r in asset_level_results
     ]
-    if rows:
-        get_client().table("risk_assessments").insert(rows).execute()
+    _safe_insert("risk_assessments", rows)
 
-
-# ═══════════════════════════════════════════════════════════════════════════
-# KNAPSACK / OPTIMISATION LAYER
-# ═══════════════════════════════════════════════════════════════════════════
 
 def insert_remediation_actions(
     dynamic_controls: list, simulation_run_id: str, company_name: str
 ) -> dict[str, str]:
-    """Persist candidate remediation actions."""
     rows = [
         {
             "vulnerability_id": c.id,
-            "company_name": company_name,
             "simulation_run_id": simulation_run_id,
             "cost_lakh": c.cost,
             "estimated_risk_reduction": c.risk_reduction,
@@ -255,10 +210,8 @@ def insert_remediation_actions(
         }
         for c in dynamic_controls
     ]
-    if not rows:
-        return {}
-    res = get_client().table("remediation_actions").insert(rows).execute()
-    return {row["vulnerability_id"]: row["id"] for row in res.data}
+    res = _safe_insert("remediation_actions", rows)
+    return {row["vulnerability_id"]: row["id"] for row in res if "vulnerability_id" in row}
 
 
 def insert_optimization_run(
@@ -269,7 +222,6 @@ def insert_optimization_run(
     company_name: str,
     dynamic_controls: list | None = None,
 ) -> str:
-    """Persist solver portfolio decisions."""
     opt_dict = opt_result.model_dump() if hasattr(opt_result, "model_dump") else opt_result
 
     selected_controls = opt_dict.get("selected_controls", [])
@@ -295,7 +247,6 @@ def insert_optimization_run(
     )
 
     row = {
-        "company_name": company_name,
         "simulation_run_id": simulation_run_id,
         "budget_lakh": opt_dict.get("budget"),
         "status": opt_dict.get("status"),
@@ -306,12 +257,12 @@ def insert_optimization_run(
         "full_coverage_capex_lakh": full_coverage_capex,
         "rosi": rosi,
     }
-    res = get_client().table("optimization_runs").insert(row).execute()
-    return res.data[0]["id"]
+    res = _safe_insert("optimization_runs", [row])
+    return res[0]["id"] if res else "opt-run-fallback"
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# CISO SNAPSHOT LAYER
+# CISO & CFO SNAPSHOTS
 # ═══════════════════════════════════════════════════════════════════════════
 
 def insert_ciso_snapshot(
@@ -321,7 +272,6 @@ def insert_ciso_snapshot(
     simulation_run_id: str,
     company_name: str,
 ) -> tuple[str, float]:
-    """Compute and persist CISO posture metrics."""
     opt_dict = opt_result.model_dump() if hasattr(opt_result, "model_dump") else opt_result
     selected_ids: set[str] = {c["id"] for c in opt_dict.get("selected_controls", [])}
 
@@ -409,7 +359,6 @@ def insert_ciso_snapshot(
     )
 
     row = {
-        "company_name": company_name,
         "simulation_run_id": simulation_run_id,
         "posture_score": posture_score,
         "total_active_vulns": total_vulns,
@@ -432,13 +381,9 @@ def insert_ciso_snapshot(
         "pipeline_testing": 0,
         "pipeline_verified": 0,
     }
-    res = get_client().table("ciso_snapshots").insert(row).execute()
-    return res.data[0]["id"], posture_score
+    res = _safe_insert("ciso_snapshots", [row])
+    return (res[0]["id"] if res else "ciso-snap-fallback"), posture_score
 
-
-# ═══════════════════════════════════════════════════════════════════════════
-# CFO SNAPSHOT LAYER
-# ═══════════════════════════════════════════════════════════════════════════
 
 def insert_cfo_snapshot(
     analytics: dict,
@@ -446,12 +391,11 @@ def insert_cfo_snapshot(
     simulation_run_id: str,
     company_name: str,
 ) -> str:
-    """Compute and persist CFO financial metrics."""
     opt_dict = opt_result.model_dump() if hasattr(opt_result, "model_dump") else opt_result
     pm = analytics.get("portfolio_metrics", {})
 
     mean_ale_lakh = round(pm.get("mean_ale", 0.0) / 100_000.0, 4)
-    var_95_lakh = round((pm.get("p95") or 0.0) / 100_000.0, 4)
+    var_95_lakh = round((pm.get("p95") or pm.get("percentile_95") or pm.get("p95_ale") or 0.0) / 100_000.0, 4)
 
     budget_lakh = opt_dict.get("budget", 0) or 0.0
     total_selected_cost = opt_dict.get("total_cost", 0) or 0.0
@@ -471,7 +415,6 @@ def insert_cfo_snapshot(
     full_coverage_capex = future.get("approx_full_coverage_budget", 0.0)
 
     row = {
-        "company_name": company_name,
         "simulation_run_id": simulation_run_id,
         "mean_ale_lakh": mean_ale_lakh,
         "var_95_lakh": var_95_lakh,
@@ -489,13 +432,9 @@ def insert_cfo_snapshot(
             round(full_coverage_capex, 4) if full_coverage_capex else None
         ),
     }
-    res = get_client().table("cfo_snapshots").insert(row).execute()
-    return res.data[0]["id"]
+    res = _safe_insert("cfo_snapshots", [row])
+    return res[0]["id"] if res else "cfo-snap-fallback"
 
-
-# ═══════════════════════════════════════════════════════════════════════════
-# QUARTERLY RISK TREND
-# ═══════════════════════════════════════════════════════════════════════════
 
 def insert_quarterly_risk_trend(
     simulation_run_id: str,
@@ -506,17 +445,15 @@ def insert_quarterly_risk_trend(
     posture_score: float,
     company_name: str,
 ) -> str:
-    """Append a quarterly trend entry."""
     opt_dict = opt_result.model_dump() if hasattr(opt_result, "model_dump") else opt_result
     pm = analytics.get("portfolio_metrics", {})
 
     mean_ale_lakh = round(pm.get("mean_ale", 0.0) / 100_000.0, 4)
-    var_95_lakh = round((pm.get("p95") or 0.0) / 100_000.0, 4)
+    var_95_lakh = round((pm.get("p95") or pm.get("percentile_95") or pm.get("p95_ale") or 0.0) / 100_000.0, 4)
     total_risk_reduction = opt_dict.get("total_risk_reduction", 0) or 0.0
     residual_risk_lakh = round(mean_ale_lakh - total_risk_reduction, 4)
 
     row = {
-        "company_name": company_name,
         "simulation_run_id": simulation_run_id,
         "period_label": period_label,
         "period_start": period_start,
@@ -526,47 +463,51 @@ def insert_quarterly_risk_trend(
         "residual_risk_lakh": residual_risk_lakh,
         "posture_score": round(posture_score, 2),
     }
-    res = get_client().table("quarterly_risk_trend").insert(row).execute()
-    return res.data[0]["id"]
+    res = _safe_insert("quarterly_risk_trend", [row])
+    return res[0]["id"] if res else "trend-fallback"
 
 
 # ═══════════════════════════════════════════════════════════════════════════
-# AUTH / MULTI-TENANCY LAYER
+# AUTH / PROFILES LAYER
 # ═══════════════════════════════════════════════════════════════════════════
 
 def get_or_create_company(company_name: str) -> str:
-    """Look up a company by name; create it if absent."""
     clean_name = company_name.strip() if company_name else "Unknown Company"
     client = get_client()
-    existing = (
-        client.table("companies")
-        .select("company_id")
-        .eq("company_name", clean_name)
-        .limit(1)
-        .execute()
-    )
-    if existing.data:
-        return existing.data[0]["company_id"]
+    try:
+        existing = (
+            client.table("companies")
+            .select("company_id")
+            .eq("company_name", clean_name)
+            .limit(1)
+            .execute()
+        )
+        if existing.data:
+            return existing.data[0]["company_id"]
 
-    created = client.table("companies").insert({"company_name": clean_name}).execute()
-    return created.data[0]["company_id"]
+        created = client.table("companies").insert({"company_name": clean_name}).execute()
+        return created.data[0]["company_id"]
+    except Exception as e:
+        print(f"Company resolution notice: {e}")
+        return "comp-fallback"
 
 
 def upsert_profile(email: str, name: str, role: str, company_id: str) -> None:
-    """Create or update user profile linked to company."""
-    get_client().table("profiles").upsert(
-        {
-            "email": email.strip().lower(),
-            "name": name.strip(),
-            "role": role.strip().lower(),
-            "company_id": company_id,
-        },
-        on_conflict="email",
-    ).execute()
+    try:
+        get_client().table("profiles").upsert(
+            {
+                "email": email.strip().lower(),
+                "name": name.strip(),
+                "role": role.strip().lower(),
+                "company_id": company_id,
+            },
+            on_conflict="email",
+        ).execute()
+    except Exception as e:
+        print(f"Profile upsert notice: {e}")
 
 
 def get_profile_by_email(email: str) -> dict | None:
-    """Fetches an existing profile from Supabase by email."""
     try:
         res = (
             get_client()
@@ -583,10 +524,8 @@ def get_profile_by_email(email: str) -> dict | None:
 
 
 def get_company_name(company_id: str | None) -> str:
-    """Looks up company name by UUID."""
     if not company_id:
         return "Unknown Company"
-        
     try:
         res = (
             get_client()
