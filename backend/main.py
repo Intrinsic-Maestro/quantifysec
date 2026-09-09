@@ -21,18 +21,23 @@ import resend
 import db
 
 # ============================================================
-# Root Directory Setup
+# Root Directory Setup & Path Resolutions
 # ============================================================
-ROOT_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = Path(__file__).resolve().parent.parent  # Points to quantifysec/
 sys.path.append(str(ROOT_DIR))
+sys.path.append(str(Path(__file__).resolve().parent))  # Points to backend/
 
-from data_ingestion.ingestion import load_json_file, ingest_assets, ingest_vulnerabilities, ingest_combined_findings
+# Import modular components
+from data_ingestion.pipeline import run_ingestion_pipeline
+from data_ingestion.ingestion import ingest_assets, ingest_vulnerabilities, ingest_combined_findings
+
 from math_engine.monte_carlo.simulator import run_portfolio_simulation
 from math_engine.monte_carlo.analytics import generate_portfolio_analytics_summary
 from math_engine.monte_carlo.schema_exporter import serialize_simulation_results
-from knapsack_solver.solver import solve_knapsack
+
+from math_engine.pso.optimizer import PSOSecurityOptimizer
 from knapsack_solver.data import get_sample_controls, DEFAULT_BUDGET_LAKH
-from knapsack_solver.models import OptimizationRequest, OptimizationResult, SecurityControl
+from knapsack_solver.models import SecurityControl, OptimizationResult, OptimizationRequest
 
 # ============================================================
 # Environment & Auth Config
@@ -47,7 +52,7 @@ security = HTTPBearer(auto_error=False)
 def verify_token(credentials: HTTPAuthorizationCredentials = Security(security)) -> dict:
     """Validates the JWT token issued to the user."""
     if DISABLE_AUTH:
-        return {"sub": "test-user", "email": "test@local", "role": "ciso"}
+        return {"sub": "test-user", "email": "test@local", "role": "ciso", "company_id": "mock-company-id"}
 
     if credentials is None:
         raise HTTPException(status_code=401, detail="Missing authentication token.")
@@ -56,15 +61,15 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Security(security))
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM], options={"verify_aud": False})
         return {
-    "sub": payload.get("sub"),
-    "email": payload.get("email", payload.get("sub")),
-    "role": payload.get("role", "ciso"),
-    "company_id": payload.get("app_metadata", {}).get("company_id"),
-}
+            "sub": payload.get("sub"),
+            "email": payload.get("email", payload.get("sub")),
+            "role": payload.get("role", "ciso"),
+            "company_id": payload.get("app_metadata", {}).get("company_id"),
+        }
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Invalid authentication token or expired session.")
 
-# In-Memory OTP Store: { "email": {"otp": "123456", "expires_at": 1718000000, "role": "ciso"} }
+# In-Memory OTP Store
 OTP_STORE: Dict[str, Dict[str, Any]] = {}
 
 class OTPRequest(BaseModel):
@@ -72,9 +77,7 @@ class OTPRequest(BaseModel):
     role: str
     name: str | None = None
     company: str | None = None
- 
 
- 
 class OTPVerify(BaseModel):
     email: str
     otp: str
@@ -84,8 +87,8 @@ class OTPVerify(BaseModel):
 # ============================================================
 app = FastAPI(
     title="QuantifySec Enterprise API", 
-    version="1.0.0",
-    description="End-to-End Cyber Risk Quantification & Optimization Pipeline"
+    version="2.0.0",
+    description="CTEM-Aligned Graph Risk Quantification & PSO Optimization Pipeline"
 )
 
 app.add_middleware(
@@ -97,37 +100,23 @@ app.add_middleware(
 )
 
 # ============================================================
-# Pipeline Helper Functions
+# Pipeline Helper Bridge Functions
 # ============================================================
-def build_mc_payload(valid_assets: list, valid_vulns: list) -> List[Dict[str, Any]]:
-    asset_map = {}
-    for a in valid_assets:
-        asset_map[a.uid] = a.loss_parameters.mean_inr_millions * 1_000_000 
-    
-    payload = []
-    for v in valid_vulns:
-        if v.asset_id in asset_map:
-            payload.append({
-                "asset_id": v.asset_id,
-                "asset_value": asset_map[v.asset_id],
-                "cvss_score": v.cvss_score
-            })
-    return payload
-
-def build_dynamic_vuln_controls(valid_vulns: list, portfolio_ale_rupees: float) -> List[SecurityControl]:
+def build_dynamic_vuln_controls(security_graph: dict, portfolio_ale_rupees: float) -> List[SecurityControl]:
+    """Generates dynamic remediation controls from the security graph nodes."""
     dynamic_controls = []
-    total_cvss = sum(v.cvss_score for v in valid_vulns)
+    nodes = list(security_graph.values())
+    total_score = sum(n.base_score for n in nodes) if nodes else 1.0
     
-    for i, v in enumerate(valid_vulns):
-        vuln_share = v.cvss_score / total_cvss if total_cvss > 0 else 0
+    for i, node in enumerate(nodes):
+        vuln_share = node.base_score / total_score if total_score > 0 else 0
         reduction_lakhs = (portfolio_ale_rupees * vuln_share) / 100_000.0
-        estimated_cost_lakh = round(max(0.5, v.cvss_score * 0.5), 2)
-        vuln_id = getattr(v, 'id', f"vuln-{i}")
+        estimated_cost_lakh = round(max(0.5, node.base_score * 0.5), 2)
         
         dynamic_controls.append(
             SecurityControl(
-                id=vuln_id,
-                name=f"Patch Vuln {vuln_id[:8]} (CVSS {v.cvss_score})",
+                id=node.cve_id,
+                name=f"Remediate {node.cve_id} on {node.asset_id}",
                 cost=estimated_cost_lakh,
                 risk_reduction=round(reduction_lakhs, 2),
                 category="Remediation"
@@ -135,19 +124,21 @@ def build_dynamic_vuln_controls(valid_vulns: list, portfolio_ale_rupees: float) 
         )
     return dynamic_controls
 
-def build_vulnerability_drilldown(valid_vulns: list, portfolio_ale_rupees: float) -> List[dict]:
-    total_cvss = sum(v.cvss_score for v in valid_vulns)
+def build_vulnerability_drilldown(security_graph: dict, portfolio_ale_rupees: float) -> List[dict]:
+    """Builds technical exposure drill-down metrics for the CISO view."""
     drilldown = []
+    nodes = list(security_graph.values())
+    total_score = sum(n.base_score for n in nodes) if nodes else 1.0
     
-    for i, v in enumerate(valid_vulns):
-        vuln_share = v.cvss_score / total_cvss if total_cvss > 0 else 0
+    for node in nodes:
+        vuln_share = node.base_score / total_score if total_score > 0 else 0
         exposure_rupees = portfolio_ale_rupees * vuln_share
-        vuln_id = getattr(v, 'id', f"VULN-{i}")
         
         drilldown.append({
-            "vulnerability_id": vuln_id,
-            "asset_id": v.asset_id,
-            "cvss_score": v.cvss_score,
+            "vulnerability_id": node.cve_id,
+            "asset_id": node.asset_id,
+            "cvss_score": node.base_score,
+            "is_toxic": node.is_toxic_combination,
             "financial_exposure_lakhs": round(exposure_rupees / 100_000.0, 2)
         })
         
@@ -155,56 +146,44 @@ def build_vulnerability_drilldown(valid_vulns: list, portfolio_ale_rupees: float
     return drilldown
 
 # ============================================================
-# API Endpoints: Health & Controls
+# API Endpoints: Health & Default Optimization
 # ============================================================
 @app.get("/api/health")
 def health() -> dict:
-    return {"status": "ok"}
+    return {"status": "ok", "engine": "CTEM Graph + PSO active"}
 
 @app.get("/api/controls", response_model=List[SecurityControl])
 def list_default_controls() -> List[SecurityControl]:
     return get_sample_controls()
 
-@app.get("/api/optimize/default", response_model=OptimizationResult)
-def optimize_default() -> OptimizationResult:
-    req = OptimizationRequest(
-        controls=get_sample_controls(),
-        budget=DEFAULT_BUDGET_LAKH,
-    )
-    return solve_knapsack(req)
-
 @app.post("/api/optimize", response_model=OptimizationResult)
 def optimize(request: OptimizationRequest) -> OptimizationResult:
+    """Fallback manual endpoint using the Particle Swarm Optimizer."""
     if not request.controls:
         raise HTTPException(400, "No controls provided.")
 
-    result = solve_knapsack(request)
-    if result.status == "Infeasible":
-        raise HTTPException(422, "No feasible combination satisfies the given budget and constraints.")
-    if result.status not in ("Optimal", "Not Solved"):
-        raise HTTPException(500, f"Solver returned status: {result.status}")
-
-    return result
+    controls_dict_list = [c.dict() if hasattr(c, 'dict') else c for c in request.controls]
+    optimizer = PSOSecurityOptimizer(controls=controls_dict_list, budget_lakhs=request.budget)
+    res = optimizer.optimize()
+    return OptimizationResult(**res)
 
 # ============================================================
-# API Endpoints: Real Email MFA (Resend) & JWT Auth
+# API Endpoints: Auth (Resend OTP)
 # ============================================================
 @app.post("/api/auth/request-otp")
 def request_otp(payload: OTPRequest):
     email = payload.email.strip().lower()
     role = payload.role.strip().lower()
- 
     code = f"{random.randint(100000, 999999)}"
+    
     OTP_STORE[email] = {
         "otp": code,
-        "expires_at": time.time() + 300,  # 5 minute expiry
+        "expires_at": time.time() + 300,
         "role": role,
-        # NEW — carried through so verify_otp can persist them to Supabase.
-        # Both may be None on a login request; verify_otp handles that.
         "name": payload.name.strip() if payload.name else None,
         "company": payload.company.strip() if payload.company else None,
     }
- 
+    
     try:
         resend.Emails.send({
             "from": "QuantifySec <onboarding@resend.dev>",
@@ -213,15 +192,15 @@ def request_otp(payload: OTPRequest):
             "html": f"""
                 <div style="font-family: sans-serif; background: #09090b; color: #ffffff; padding: 30px; border-radius: 12px;">
                     <h2 style="color: #a78bfa; margin-bottom: 10px;">QuantifySec Authentication</h2>
-                    <p style="color: #a1a1aa; font-size: 14px;">Your single-use authorization code is:</p>
+                    <p style="color: #a1a1aa; font-size: 14px;">Your verification code is:</p>
                     <div style="font-size: 28px; font-weight: bold; letter-spacing: 6px; padding: 16px; background: #18181b; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; display: inline-block; color: #a78bfa; margin: 15px 0;">
                         {code}
                     </div>
-                    <p style="color: #71717a; font-size: 12px;">This code will expire in 5 minutes.</p>
+                    <p style="color: #71717a; font-size: 12px;">Expires in 5 minutes.</p>
                 </div>
             """
         })
-        return {"status": "success", "message": "Verification code dispatched to your email."}
+        return {"status": "success", "message": "Verification code dispatched."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to dispatch email: {str(e)}")
 
@@ -231,47 +210,33 @@ def verify_otp(payload: OTPVerify):
     otp = payload.otp.strip()
 
     record = OTP_STORE.get(email)
-    if not record:
-        raise HTTPException(status_code=400, detail="No verification code requested for this email.")
-
-    if time.time() > record["expires_at"]:
-        del OTP_STORE[email]
-        raise HTTPException(status_code=400, detail="Verification code expired. Please request a new code.")
-
+    if not record or time.time() > record["expires_at"]:
+        raise HTTPException(status_code=400, detail="Invalid or expired verification code.")
     if record["otp"] != otp:
-        raise HTTPException(status_code=400, detail="Invalid verification code.")
+        raise HTTPException(status_code=400, detail="Incorrect verification code.")
 
-    # ── SMART UPSERT: Check existence and auto-heal missing companies ──
     try:
         existing_profile = db.get_profile_by_email(email)
-        
         if existing_profile:
-            # LOGIN MODE: Reuse existing profile details
             name = existing_profile.get("name")
             company_id = existing_profile.get("company_id")
             role = existing_profile.get("role") or record["role"]
-            
-            # Auto-heal: If company_id was wiped or null, regenerate it
             if not company_id:
-                company_name = record.get("company") or "Unknown Company"
-                company_id = db.get_or_create_company(company_name)
+                company_id = db.get_or_create_company(record.get("company") or "Unknown Company")
                 db.upsert_profile(email=email, name=name, role=role, company_id=company_id)
         else:
-            # SIGNUP MODE: Create brand new profile and company
             company_name = record.get("company") or "Unknown Company"
             name = record.get("name") or email.split("@")[0]
             role = record["role"]
-            
             company_id = db.get_or_create_company(company_name)
             db.upsert_profile(email=email, name=name, role=role, company_id=company_id)
-            
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to access or save profile in Supabase: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Database synchronization error: {str(e)}")
 
     token_payload = {
         "sub": email,
         "email": email,
-        "name": name,  # Included so frontend extracts the real name cleanly
+        "name": name,
         "role": role,
         "aud": "authenticated", 
         "app_metadata": {"company_id": company_id}, 
@@ -287,168 +252,87 @@ def verify_otp(payload: OTPVerify):
         "email": email,
         "company_id": company_id,
     }
-# ============================================================
-# API Endpoint: OCSF Telemetry Ingestion
-# ============================================================
-@app.post("/api/ingest-ocsf")
-async def ingest_ocsf_telemetry(file: UploadFile = File(...), user: dict = Depends(verify_token)):
-    if not file.filename.endswith(".json"):
-        raise HTTPException(status_code=400, detail="Invalid file format. Upload only .json OCSF datasets.")
-    
-    try:
-        content = await file.read()
-        json_data = json.loads(content.decode("utf-8"))
-        
-        vuln_res = ingest_vulnerabilities(json_data)
-        if not vuln_res["valid"]:
-            raise HTTPException(status_code=400, detail="Uploaded file contained no valid OCSF vulnerability records.")
-        
-        combined_res = ingest_combined_findings(json_data)
-        company_name = user.get("company_name") or "Unknown Company"  # see note below
-        
-        db.upsert_vulnerabilities(vuln_res["valid"], company_name, raw_combined=combined_res["valid"])
-        
-        return {
-            "status": "success",
-            "filename": file.filename,
-            "records_processed": len(vuln_res["valid"]),
-            "user": user["sub"]
-        }
-    except json.JSONDecodeError:
-        raise HTTPException(status_code=400, detail="Invalid JSON file syntax.")
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Ingestion failed: {str(e)}")
 
 # ============================================================
-# API Endpoint: Full Pipeline Execution
+# API Endpoint: Full CTEM Pipeline Execution
 # ============================================================
 @app.post("/api/run-pipeline")
 def run_full_enterprise_pipeline(user: dict = Depends(verify_token)):
     try:
         company_name = db.get_company_name(user.get("company_id"))
-        raw_assets = load_json_file("../output/synthetic_assets.json")
-        raw_vulns = load_json_file("../output/synthetic_combined.json")
 
-        asset_res = ingest_assets(raw_assets)
-        vuln_res = ingest_vulnerabilities(raw_vulns)
+        # ── Step 1: Ingestion Pipeline (Consuming your 4 JSON files) ──
+        output_dir = ROOT_DIR / "output"
+        ingested_state = run_ingestion_pipeline(
+            ocsf_path=str(output_dir / "synthetic_findings.json"),
+            context_path=str(output_dir / "asset_business_context.json"),
+            finance_path=str(output_dir / "financial_parameters.json"),
+            interactions_path=str(output_dir / "toxic_combinations.json")
+        )
 
-        if not asset_res["valid"] or not vuln_res["valid"]:
-            raise HTTPException(status_code=400, detail="Data ingestion failed. No valid records found.")
+        security_graph = ingested_state["security_graph"]
+        asset_financials = ingested_state["asset_financials"]
+        global_constraints = ingested_state["global_constraints"]
 
-        # Validate raw combined records to get kev_listed / known_ransomware_use
-        # for upsert_vulnerabilities (CISO Metric #7 — Exploitability Index).
-        combined_res = ingest_combined_findings(raw_vulns)
+        if not security_graph:
+            raise HTTPException(status_code=400, detail="Graph ingestion failed. No valid node records found.")
 
-        db.upsert_assets(asset_res["valid"])
-        db.upsert_vulnerabilities(vuln_res["valid"],company_name, raw_combined=combined_res["valid"])
+        # ── Step 2: Stochastic Monte Carlo Simulation (10,000 runs) ──
+        mc_metrics = run_portfolio_simulation(
+            security_graph=security_graph,
+            asset_financials=asset_financials,
+            iterations=10000
+        )
 
-        # ── Monte Carlo ──────────────────────────────────────────────────
-        mc_payload = build_mc_payload(asset_res["valid"], vuln_res["valid"])
-        raw_sim_results = run_portfolio_simulation(mc_payload)
-        analytics = generate_portfolio_analytics_summary(raw_sim_results)
-        mc_api_response = serialize_simulation_results(analytics, total_iterations=10000, random_seed=42)
+        portfolio_ale_rupees = mc_metrics["mean_ale_lakhs"] * 100_000.0
 
-        mc_dict = mc_api_response.model_dump()
-        simulation_run_id = db.insert_simulation_run(mc_dict, company_name)
-        db.insert_risk_assessments(analytics["top_risk_drivers"], simulation_run_id, company_name)
+        # ── Step 3: Particle Swarm Optimization (PSO) Solver ──
+        dynamic_controls = build_dynamic_vuln_controls(security_graph, portfolio_ale_rupees)
+        
+        # Inject toxic combination flags into control records for PSO fitness boost
+        controls_for_pso = []
+        for ctrl in dynamic_controls:
+            c_dict = ctrl.dict()
+            node_key = next((k for k, v in security_graph.items() if v.cve_id == ctrl.id), None)
+            c_dict["is_toxic"] = security_graph[node_key].is_toxic_combination if node_key else False
+            controls_for_pso.append(c_dict)
 
-        # ── Knapsack ─────────────────────────────────────────────────────
-        portfolio_ale_rupees = analytics["portfolio_metrics"]["mean_ale"]
-        dynamic_vuln_controls = build_dynamic_vuln_controls(vuln_res["valid"], portfolio_ale_rupees)
-        vuln_id_to_action_id = db.insert_remediation_actions(dynamic_vuln_controls, simulation_run_id, company_name)
+        optimizer = PSOSecurityOptimizer(
+            controls=controls_for_pso,
+            budget_lakhs=global_constraints.allocated_security_budget_lakhs
+        )
+        opt_result_dict = optimizer.optimize()
+        opt_result = OptimizationResult(**opt_result_dict)
 
-        opt_request = OptimizationRequest(controls=dynamic_vuln_controls, budget=DEFAULT_BUDGET_LAKH)
-        opt_result = solve_knapsack(opt_request)
+        # ── Step 4: Persistence & Telemetry Recording ──
+        simulation_run_id = db.insert_simulation_run(mc_metrics, company_name)
+        
+        # Calculate posture score based on toxic combinations and active risks
+        toxic_count = sum(1 for n in security_graph.values() if n.is_toxic_combination)
+        posture_score = max(15.0, round(100.0 - (toxic_count * 4.5) - (len(security_graph) * 0.2), 1))
 
-        portfolio_ale_lakh = portfolio_ale_rupees / 100_000.0
-        db.insert_optimization_run(
-    opt_result,
-    simulation_run_id,
-    vuln_id_to_action_id,
-    portfolio_ale_lakh,
-    company_name,
-    dynamic_controls=dynamic_vuln_controls,
-)
-
-        # ── CISO Snapshot (all 11 technical metrics) ─────────────────────
-        _ciso_id, posture_score = db.insert_ciso_snapshot(
-    asset_res["valid"],
-    vuln_res["valid"],
-    opt_result,
-    simulation_run_id,
-    company_name,
-)
-
-        # ── CFO Snapshot (all 11 financial metrics) ──────────────────────
-        _cfo_id = db.insert_cfo_snapshot(
-    analytics,
-    opt_result,
-    simulation_run_id,
-    company_name,
-)
-
-        # ── Quarterly Risk Trend (QoQ time series, CFO Metric #11) ───────
-        # Compute current Indian FY quarter dynamically.
-        today = date.today()
-        month = today.month
-        if month >= 4:
-            # Indian FY starts April — Q1=Apr-Jun, Q2=Jul-Sep, Q3=Oct-Dec
-            quarter = (month - 4) // 3 + 1
-            fy_year = today.year + 1
-            q_start_month = 4 + (quarter - 1) * 3
-            q_start_year = today.year
-        else:
-            # Q4 = Jan-Mar
-            quarter = 4
-            fy_year = today.year
-            q_start_month = 1
-            q_start_year = today.year
-
-        period_label = f"Q{quarter} FY{str(fy_year)[2:]}"
-        period_start = date(q_start_year, q_start_month, 1).isoformat()
-
-        db.insert_quarterly_risk_trend(
-    simulation_run_id,
-    period_label,
-    period_start,
-    analytics,
-    opt_result,
-    posture_score,
-    company_name,
-)
-
-        # ── Vulnerability drill-down (CISO Metric #5) ────────────────────
-        vuln_drilldown = build_vulnerability_drilldown(vuln_res["valid"], portfolio_ale_rupees)
-
-        pm = analytics["portfolio_metrics"]
-        mc_dict.setdefault("portfolio_metrics", {})
-        mc_dict["portfolio_metrics"].update({
-            "mean_ale": pm.get("mean_ale"),
-            "p5_ale":   pm.get("p5_ale") or pm.get("percentile_5"),
-            "p25_ale":  pm.get("p25_ale") or pm.get("percentile_25"),
-            "p50_ale":  pm.get("p50_ale") or pm.get("percentile_50"),
-            "p75_ale":  pm.get("p75_ale") or pm.get("percentile_75"),
-            "p95_ale":  pm.get("p95_ale") or pm.get("percentile_95"),
-            "p99_ale":  pm.get("p99_ale") or pm.get("percentile_99"),
-        })
+        # ── Step 5: Drill-down & Frontend Response Payload ──
+        vuln_drilldown = build_vulnerability_drilldown(security_graph, portfolio_ale_rupees)
 
         return {
             "status": "success",
             "simulation_run_id": simulation_run_id,
-            "period_label": period_label,
             "ingestion_metrics": {
-                "assets_processed": len(asset_res["valid"]),
-                "vulns_processed": len(vuln_res["valid"]),
-                "combined_records_validated": len(combined_res["valid"]),
+                "graph_nodes_processed": len(security_graph),
+                "toxic_combinations_detected": toxic_count,
             },
             "ciso_metrics": {
                 "posture_score": posture_score,
+                "toxic_combinations_identified": toxic_count,
+                "technical_drilldown": vuln_drilldown
             },
-            "monte_carlo_risk_profile": mc_dict,
+            "cfo_metrics": {
+                "mean_ale_lakhs": mc_metrics["mean_ale_lakhs"],
+                "p95_var_lakhs": mc_metrics["p95_var_lakhs"],
+                "p99_var_lakhs": mc_metrics["p99_var_lakhs"],
+                "allocated_budget_lakhs": global_constraints.allocated_security_budget_lakhs
+            },
             "cfo_budget_optimization": opt_result.model_dump(),
-            "technical_drilldown": vuln_drilldown,
         }
 
     except HTTPException:
