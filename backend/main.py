@@ -195,10 +195,24 @@ def request_otp(payload: OTPRequest):
     email = payload.email.strip().lower()
     code = f"{random.randint(100000, 999999)}"
     print(f"🔑 [DEBUG OTP FOR {email}]: {code}")
+
     OTP_STORE[email] = {
         "otp": code, "expires_at": time.time() + 300, "role": payload.role.strip().lower(),
-        "name": payload.name.strip() if payload.name else None, "company": payload.company.strip() if payload.company else None,
+        "name": payload.name.strip() if payload.name else None,
+        "company": payload.company.strip() if payload.company else None,
     }
+
+    try:
+        resend.Emails.send({
+            "from": "QuantifySec <onboarding@resend.dev>",  # see note below
+            "to": [email],
+            "subject": "Your QuantifySec verification code",
+            "html": f"<p>Your verification code is: <strong>{code}</strong></p><p>This code expires in 5 minutes.</p>",
+        })
+    except Exception as e:
+        print(f"❌ Resend send failed: {e}")
+        raise HTTPException(status_code=502, detail="Failed to send verification email. Please try again.")
+
     return {"status": "success", "message": "Verification code dispatched"}
 
 @app.post("/api/auth/verify-otp")
