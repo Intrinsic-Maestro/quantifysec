@@ -109,7 +109,7 @@ interface PipelineResponse {
 }
 
 export default function QuantifySecApp() {
-  const backendBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://quantifysec-production.up.railway.app";
+  const backendBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "https://quantifysec-production.up.railway.app/";
 
   const [currentView, setCurrentView] = useState<string>("home");
   const [currentRole, setCurrentRole] = useState<string | null>(null);
