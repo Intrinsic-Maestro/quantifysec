@@ -1,309 +1,486 @@
-import db
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from typing import List, Dict, Any
+from __future__ import annotations
 
-import sys
-from pathlib import Path
-
+import json
+import logging
 import os
-from dotenv import load_dotenv
+import sys
+import time
+import uuid
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
 
-from fastapi import Depends, HTTPException, Security
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-import jwt # Make sure PyJWT is installed in your requirements.txt
+from fastapi import FastAPI, File, HTTPException, Query, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 
+BACKEND_DIR = Path(__file__).resolve().parent
+ROOT_DIR = BACKEND_DIR.parent
+sys.path.insert(0, str(ROOT_DIR))
+sys.path.insert(0, str(BACKEND_DIR))
 
-# ============================================================
-# Auth setup.
-# DISABLE_AUTH bypasses real token verification for local/demo use.
-# HTTPBearer(auto_error=False) lets requests with no Authorization
-# header through as credentials=None, so the DISABLE_AUTH check inside
-# verify_supabase_token can run instead of being blocked upstream.
-# ============================================================
-
-DISABLE_AUTH = os.getenv("DISABLE_AUTH", "false").lower() == "true"
-
-security = HTTPBearer(auto_error=False)
-
-# Replace with your actual Supabase project JWT secret or use JWKS verification
-SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET", "fallback-secret")
-
-
-def verify_supabase_token(credentials: HTTPAuthorizationCredentials = Security(security)) -> dict:
-     """Validates the Supabase JWT sent from the Next.js frontend header."""
-     if DISABLE_AUTH:
-          # Local/demo bypass -- returns a fake user so downstream code
-          # that reads `user["sub"]` etc. doesn't break.
-          return {"sub": "test-user", "email": "test@local", "role": "ciso"}
-
-     if credentials is None:
-          raise HTTPException(status_code=401, detail="Missing authentication token.")
-
-     token = credentials.credentials
-     try:
-          # Decode and verify the token signature
-          payload = jwt.decode(token, SUPABASE_JWT_SECRET, algorithms=["HS256"], audience="authenticated")
-          return {
-               "sub": payload.get("sub"), # User UUID
-               "email": payload.get("email"),
-               "role": payload.get("app_metadata", {}).get("role", "ciso")
-          }
-     except jwt.PyJWTError:
-          raise HTTPException(status_code=401, detail="Invalid authentication token or expired session.")
-
-
-ROOT_DIR = Path(__file__).resolve().parent.parent
-sys.path.append(str(ROOT_DIR))
-
-from data_ingestion.ingestion import load_json_file, ingest_assets, ingest_vulnerabilities
-
-# FIX (Bug 1): these were relative imports (".math_engine...") which crash
-# at startup with "attempted relative import with no known parent package"
-# when main.py is run as a plain script via `uvicorn main:app` after `cd backend`.
-# sys.path.append(ROOT_DIR) above already makes math_engine importable as a
-# top-level package, same as knapsack_solver and data_ingestion below.
+from data_ingestion.loaders import load_json_source, iter_jsonl
+from data_ingestion.schemas import AssetBusinessContext, FinancialParameters
+from data_ingestion.graph_builder import parse_ocsf_to_graph
 from math_engine.monte_carlo.simulator import run_portfolio_simulation
-from math_engine.monte_carlo.analytics import generate_portfolio_analytics_summary
-from math_engine.monte_carlo.schema_exporter import serialize_simulation_results
+from math_engine.pso.optimizer import PSOSecurityOptimizer
 
-from knapsack_solver.solver import solve_knapsack
-from knapsack_solver.data import get_sample_controls, DEFAULT_BUDGET_LAKH
-from knapsack_solver.models import OptimizationRequest, OptimizationResult, SecurityControl
+logger = logging.getLogger("quantifysec")
+logging.basicConfig(level=os.getenv("LOG_LEVEL", "INFO"))
 
+DATA_DIR = Path(os.getenv("QUANTIFYSEC_DATA_DIR", str(ROOT_DIR / "output")))
+MC_ITERATIONS = int(os.getenv("MC_ITERATIONS", "10000"))
+MC_BATCH_SIZE = int(os.getenv("MC_BATCH_SIZE", "2048"))
+PSO_PARTICLES = int(os.getenv("PSO_PARTICLES", "30"))
+PSO_ITERATIONS = int(os.getenv("PSO_ITERATIONS", "30"))
+RANDOM_SEED = os.getenv("QUANTIFYSEC_SEED")
+RANDOM_SEED = int(RANDOM_SEED) if RANDOM_SEED else None
 
+FILES = {
+    "assets": "asset_business_context.json",
+    "finance": "financial_parameters.json",
+    "history": "historical_risk_trends.json",
+    "ocsf": "ocsf_vulnerability_findings.json",
+}
 
 app = FastAPI(
-     title="QuantifySec Enterprise API", 
-     version="1.0.0",
-     description="End-to-End Cyber Risk Quantification & Optimization Pipeline"
+    title="QuantifySec Enterprise API",
+    version="3.0.0",
+    description="Four-file CTEM ingestion -> Monte Carlo risk quantification -> budget-constrained PSO remediation.",
 )
-
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Update to ["http://localhost:3000"] for stricter security
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-
-def build_mc_payload(valid_assets: list, valid_vulns: list) -> List[Dict[str, Any]]:
-     """Bridge 1: Maps ingested assets and vulnerabilities into Monte Carlo inputs."""
-     asset_map = {}
-     for a in valid_assets:
-          asset_map[a.uid] = a.loss_parameters.mean_inr_millions * 1_000_000 
-     
-     payload = []
-     for v in valid_vulns:
-          if v.asset_id in asset_map:
-               payload.append({
-                    "asset_id": v.asset_id,
-                    "asset_value": asset_map[v.asset_id],
-                    "cvss_score": v.cvss_score
-               })
-     return payload
-
-def build_dynamic_vuln_controls(valid_vulns: list, portfolio_ale_rupees: float) -> List[SecurityControl]:
-     """
-     Bridge 2 (True Dynamic): Kicks out the hardcoded controls. 
-     Generates knapsack items directly from the actual vulnerabilities ingested, 
-     scaled against the total Monte Carlo ALE.
-     """
-     dynamic_controls = []
-     
-     # Baseline risk distribution: weight the ALE by CVSS severity
-     total_cvss = sum(v.cvss_score for v in valid_vulns)
-     
-     for i, v in enumerate(valid_vulns):
-          # Calculate how much financial risk this specific vulnerability is responsible for
-          vuln_share = v.cvss_score / total_cvss if total_cvss > 0 else 0
-          reduction_lakhs = (portfolio_ale_rupees * vuln_share) / 100_000.0
-          
-          # Estimate a cost to patch (Heuristic for prototype: CVSS 10 = 5 Lakhs, CVSS 5 = 2.5 Lakhs)
-          estimated_cost_lakh = round(max(0.5, v.cvss_score * 0.5), 2)
-          
-          # Fallback for ID if v doesn't have uid attribute directly accessible
-          vuln_id = getattr(v, 'id', f"vuln-{i}")
-          
-          dynamic_controls.append(
-               SecurityControl(
-                    id=vuln_id,
-                    name=f"Patch Vuln {vuln_id[:8]} (CVSS {v.cvss_score})",
-                    cost=estimated_cost_lakh,
-                    risk_reduction=round(reduction_lakhs, 2),
-                    category="Remediation"
-               )
-          )
-          
-     return dynamic_controls
+def _locate(name: str) -> Path:
+    candidates = [DATA_DIR / name, ROOT_DIR / name, ROOT_DIR / "data_ingestion" / name]
+    for path in candidates:
+        if path.exists():
+            return path
+    raise FileNotFoundError(f"Cannot find {name}. Checked: {[str(x) for x in candidates]}")
 
 
-def build_vulnerability_drilldown(valid_vulns: list, portfolio_ale_rupees: float) -> List[dict]:
-     """
-     Creates a ranked list of specific vulnerabilities and their exact financial impact.
-     This provides the technical drill-down panel for the CFO's dashboard.
-     """
-     total_cvss = sum(v.cvss_score for v in valid_vulns)
-     drilldown = []
-     
-     for i, v in enumerate(valid_vulns):
-          # Weight the vulnerability's financial impact by its severity
-          vuln_share = v.cvss_score / total_cvss if total_cvss > 0 else 0
-          exposure_rupees = portfolio_ale_rupees * vuln_share
-          
-          # Safely grab the ID (using whatever field Ri named it)
-          vuln_id = getattr(v, 'id', f"VULN-{i}")
-          
-          drilldown.append({
-               "vulnerability_id": vuln_id,
-               "asset_id": v.asset_id,
-               "cvss_score": v.cvss_score,
-               "financial_exposure_lakhs": round(exposure_rupees / 100_000.0, 2)
-          })
-          
-     # Sort by highest financial exposure first
-     drilldown.sort(key=lambda x: x["financial_exposure_lakhs"], reverse=True)
-     return drilldown
+def _first_vuln(f: dict) -> dict:
+    return (f.get("vulnerabilities") or [{}])[0]
+
+
+def _asset_id(f: dict) -> str | None:
+    return f.get("device", {}).get("uid") or f.get("affected_asset", {}).get("uid")
+
+
+def _cve_id(f: dict) -> str | None:
+    v = _first_vuln(f)
+    cve = v.get("cve", {})
+    return cve.get("id") or cve.get("uid")
+
+
+def _cvss(f: dict) -> float:
+    v = _first_vuln(f)
+    return float(v.get("cvss", {}).get("base_score") or 0.0)
+
+
+def _severity(f: dict) -> str:
+    return str(f.get("severity") or "Unknown").title()
+
+
+def _exploited(f: dict) -> bool:
+    v = _first_vuln(f)
+    return bool(v.get("is_known_exploited") or f.get("kev_listed") or f.get("is_known_exploited"))
+
+
+def _status(f: dict) -> str:
+    return str(f.get("finding_info", {}).get("status") or "Open")
+
+
+def _created(f: dict) -> datetime | None:
+    raw = f.get("finding_info", {}).get("created_time") or f.get("first_seen_time")
+    if not raw:
+        return None
+    try:
+        dt = datetime.fromisoformat(str(raw).replace("Z", "+00:00"))
+        return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+    except ValueError:
+        return None
+
+
+def _compact_finding(f: dict, asset_map: dict[str, AssetBusinessContext]) -> dict | None:
+    asset_id = _asset_id(f)
+    cve_id = _cve_id(f)
+    if not asset_id or not cve_id or asset_id not in asset_map:
+        return None
+
+    remediation = f.get("remediation") or {}
+    device = f.get("device") or {}
+    agent = device.get("agent") or {}
+    controls = f.get("applied_controls") or []
+
+    return {
+        "cve_id": cve_id,
+        "asset_id": asset_id,
+        "severity": _severity(f),
+        "cvss_score": _cvss(f),
+        "known_exploited": _exploited(f),
+        "status": _status(f),
+        "created_time": _created(f),
+        "external": bool(device.get("is_ip_external", False)),
+        "agent_status": str(agent.get("status") or "Unknown"),
+        "controls": controls,
+        "patch_available": bool(remediation.get("patch_available", False)),
+        "remediation_cost_lakhs": float(remediation.get("estimated_remediation_cost_lakhs") or 0.0),
+        "risk_reduction_percentage": float(remediation.get("risk_reduction_percentage") or 0.0),
+        "asset_criticality": asset_map[asset_id].criticality_score,
+        "business_unit": asset_map[asset_id].business_unit,
+    }
+
+
+def _ingest(assets_path: Path, finance_path: Path, history_path: Path, ocsf_path: Path):
+    """Load the four package files. OCSF is streamed, so the 40+ MB JSONL file
+    is never loaded wholesale into memory."""
+    raw_assets = load_json_source(str(assets_path))
+    raw_finance = load_json_source(str(finance_path))
+    history = load_json_source(str(history_path))
+
+    assets = [AssetBusinessContext(**x) for x in raw_assets]
+    asset_map = {a.asset_id: a for a in assets}
+
+    compact: list[dict] = []
+    valid = malformed = 0
+
+    def records():
+        nonlocal valid, malformed
+        for raw in iter_jsonl(str(ocsf_path)):
+            rec = _compact_finding(raw, asset_map)
+            if rec is None:
+                malformed += 1
+                continue
+            valid += 1
+            compact.append(rec)
+            yield raw
+
+    # Graph parsing consumes the stream once. Compact records are retained for
+    # dashboard aggregation only, not the original 40 MB raw dictionaries.
+    graph = parse_ocsf_to_graph(records(), assets, {})
+
+    finance = FinancialParameters(**raw_finance)
+    return assets, asset_map, finance, history, graph, compact, valid, malformed
+
+
+def _severity_distribution(records: list[dict]) -> dict:
+    counts = {"Critical": 0, "High": 0, "Medium": 0, "Low": 0}
+    for r in records:
+        if r["severity"] in counts:
+            counts[r["severity"]] += 1
+    total = sum(counts.values())
+    return {"counts": counts, "percentages": {k: round(v / total * 100, 2) if total else 0 for k, v in counts.items()}, "total": total}
+
+
+def _heatmap(records: list[dict]) -> list[dict]:
+    rows: dict[str, dict] = {}
+    for r in records:
+        row = rows.setdefault(r["asset_id"], {
+            "asset_id": r["asset_id"], "business_unit": r["business_unit"],
+            "criticality_score": r["asset_criticality"], "Critical": 0, "High": 0, "Medium": 0, "Low": 0,
+        })
+        if r["severity"] in ("Critical", "High", "Medium", "Low"):
+            row[r["severity"]] += 1
+    return sorted(rows.values(), key=lambda x: (x["criticality_score"], x["Critical"], x["High"]), reverse=True)[:100]
+
+
+def _technical_metrics(records: list[dict], node_risk: list[dict]) -> dict:
+    dist = _severity_distribution(records)
+    total = len(records)
+    exploited = sum(r["known_exploited"] for r in records)
+    covered = sum(bool(r["controls"]) for r in records)
+    external = sum(r["external"] for r in records)
+    healthy = sum(r["agent_status"].lower() == "healthy" for r in records)
+    unhealthy = sum(r["agent_status"].lower() == "unhealthy" for r in records)
+
+    ages = []
+    now = datetime.now(timezone.utc)
+    for r in records:
+        if r["severity"] == "Critical" and r["status"].lower() != "verified" and r["created_time"]:
+            ages.append(max(0.0, (now - r["created_time"]).total_seconds() / 86400))
+
+    stages = {"Open": 0, "In-Progress": 0, "Testing": 0, "Verified": 0}
+    for r in records:
+        s = r["status"] if r["status"] in stages else "Open"
+        stages[s] += 1
+
+    drivers = []
+    risk_map = {x["graph_key"]: x for x in node_risk}
+    for r in records:
+        key = f'{r["asset_id"]}_{r["cve_id"]}'
+        risk = risk_map.get(key, {})
+        drivers.append({
+            "cve_id": r["cve_id"], "asset_id": r["asset_id"], "cvss_score": r["cvss_score"],
+            "severity": r["severity"], "asset_criticality": r["asset_criticality"],
+            "known_exploited": r["known_exploited"],
+            "expected_annual_loss_lakhs": risk.get("expected_annual_loss_lakhs", 0),
+        })
+    drivers.sort(key=lambda x: x["expected_annual_loss_lakhs"], reverse=True)
+
+    # Transparent dashboard score, not a claim of a formal industry standard.
+    severity_penalty = sum(
+        {"Critical": 1.0, "High": 0.55, "Medium": 0.25, "Low": 0.08}.get(r["severity"], 0)
+        for r in records
+    )
+    severity_health = max(0, 100 - severity_penalty / total * 100) if total else 0
+    avg_criticality = sum(r["asset_criticality"] for r in records) / total if total else 1
+    criticality_health = max(0, 100 - ((avg_criticality - 1) / 4) * 100)
+    control_health = covered / total * 100 if total else 0
+    exploit_health = 100 - exploited / total * 100 if total else 100
+    posture = round(severity_health * .40 + criticality_health * .25 + control_health * .20 + exploit_health * .15, 1)
+
+    controls = {}
+    for r in records:
+        for c in r["controls"]:
+            controls[c] = controls.get(c, 0) + 1
+
+    return {
+        "overall_security_posture_score": posture,
+        "total_active_vulnerabilities": total,
+        "cvss_severity_distribution": dist,
+        "asset_criticality_heatmap": _heatmap(records),
+        "top_technical_risk_drivers": drivers[:25],
+        "security_control_coverage_ratio": {
+            "covered_vectors": covered, "total_risk_vectors": total,
+            "coverage_ratio_percent": round(covered / total * 100, 2) if total else 0,
+            "control_frequency": sorted(({"control": k, "findings_covered": v} for k, v in controls.items()), key=lambda x: x["findings_covered"], reverse=True),
+        },
+        "exploitability_threat_index": {
+            "theoretical_vulnerabilities": total - exploited,
+            "actively_exploited_cves": exploited,
+            "exploited_ratio_percent": round(exploited / total * 100, 2) if total else 0,
+        },
+        "unpatched_vulnerability_aging": {
+            "average_open_days": round(sum(ages) / len(ages), 2) if ages else 0,
+            "critical_open_count": len(ages),
+        },
+        "attack_surface_exposure_index": {
+            "external_facing_vulnerable_endpoints": external,
+            "internal_only_vulnerable_endpoints": total - external,
+            "external_exposure_percent": round(external / total * 100, 2) if total else 0,
+        },
+        "endpoint_agent_coverage": {
+            "covered_endpoints": healthy + unhealthy,
+            "healthy_agents": healthy,
+            "unhealthy_agents": unhealthy,
+            "deployment_coverage_percent": round((healthy + unhealthy) / total * 100, 2) if total else 0,
+            "healthy_deployment_percent": round(healthy / (healthy + unhealthy) * 100, 2) if healthy + unhealthy else 0,
+        },
+        "remediation_pipeline_status": {"stages": stages, "total": total},
+    }
+
+
+def _build_controls(records: list[dict], node_risk: list[dict]) -> list[dict]:
+    risk = {x["graph_key"]: x["expected_annual_loss_lakhs"] for x in node_risk}
+    controls = []
+    for index, r in enumerate(records):
+        if r["status"].lower() == "verified" or not r["patch_available"] or r["remediation_cost_lakhs"] <= 0:
+            continue
+        key = f'{r["asset_id"]}_{r["cve_id"]}'
+        monetary_risk = float(risk.get(key, 0.0))
+        controls.append({
+            "id": f'{r["cve_id"]}::{r["asset_id"]}::{index}',
+            "name": f'Remediate {r["cve_id"]} on {r["asset_id"]}',
+            "cost": r["remediation_cost_lakhs"],
+            "risk_reduction": monetary_risk * max(0.0, min(1.0, r["risk_reduction_percentage"])),
+            "category": "Remediation",
+            "is_toxic": r["cvss_score"] >= 9.0 and r["asset_criticality"] >= 4,
+            "cve_id": r["cve_id"],
+            "asset_id": r["asset_id"],
+        })
+    return controls
+
+
+def _treemap(records: list[dict], assets: dict[str, AssetBusinessContext]) -> list[dict]:
+    grouped: dict[str, dict] = {}
+    for r in records:
+        a = assets[r["asset_id"]]
+        row = grouped.setdefault(r["asset_id"], {
+            "asset_id": r["asset_id"], "business_unit": a.business_unit,
+            "financial_exposure_lakhs": a.single_loss_expectancy_inr_lakhs,
+            "vulnerability_count": 0, "criticality_score": a.criticality_score,
+        })
+        row["vulnerability_count"] += 1
+    return sorted(grouped.values(), key=lambda x: x["financial_exposure_lakhs"], reverse=True)[:100]
+
+
+def _run_pipeline(iterations: int) -> dict:
+    started = time.perf_counter()
+    assets_path, finance_path, history_path, ocsf_path = (_locate(FILES[x]) for x in ("assets", "finance", "history", "ocsf"))
+    assets, asset_map, finance, history, graph, records, valid, malformed = _ingest(assets_path, finance_path, history_path, ocsf_path)
+
+    if not graph:
+        raise HTTPException(400, "No valid vulnerability nodes were created from the OCSF dataset.")
+
+    mc = run_portfolio_simulation(
+        graph, assets, iterations=iterations, batch_size=MC_BATCH_SIZE, seed=RANDOM_SEED
+    )
+    ale = float(mc["mean_ale_lakhs"])
+
+    controls = _build_controls(records, mc["node_risk"])
+    pso = PSOSecurityOptimizer(
+        controls=controls,
+        budget_lakhs=finance.allocated_security_budget_lakhs,
+        num_particles=PSO_PARTICLES,
+        max_iterations=PSO_ITERATIONS,
+        seed=RANDOM_SEED,
+    ).optimize()
+
+    selected = pso["selected_controls"]
+    selected_cost = float(pso["total_cost"])
+    gross_reduction = float(pso["total_risk_reduction"])
+    effective_reduction = float(pso["effective_risk_reduction"])
+    residual = max(0.0, ale - effective_reduction)
+    rosi = effective_reduction / selected_cost if selected_cost else 0.0
+
+    deferred = pso["deferred_controls"]
+    deferred_cost = sum(float(x["cost"]) for x in deferred)
+    deferred_reduction = sum(float(x["risk_reduction"]) for x in deferred)
+
+    trend = list(history.get("quarterly_history", []))
+    trend.append({"quarter": "Current Simulation", "mean_ale_lakhs": ale, "var_95_lakhs": mc["p95_var_lakhs"], "total_vulnerabilities": len(records)})
+
+    ciso = _technical_metrics(records, mc["node_risk"])
+    cfo = {
+        "mean_annual_loss_expectancy_lakhs": ale,
+        "p95_value_at_risk_lakhs": mc["p95_var_lakhs"],
+        "budget_utilization": {
+            "allocated_budget_lakhs": finance.allocated_security_budget_lakhs,
+            "proposed_remediation_cost_lakhs": selected_cost,
+            "utilization_percent": round(selected_cost / finance.allocated_security_budget_lakhs * 100, 2) if finance.allocated_security_budget_lakhs else 0,
+            "remaining_budget_lakhs": round(finance.allocated_security_budget_lakhs - selected_cost, 2),
+        },
+        "total_financial_risk_reduction_lakhs": round(effective_reduction, 2),
+        "return_on_security_investment": {"risk_reduction_lakhs": round(effective_reduction, 2), "investment_lakhs": round(selected_cost, 2), "rosi_ratio": round(rosi, 3)},
+        "deferred_backlog_financial_impact": {
+            "deferred_backlog_budget_lakhs": finance.deferred_backlog_budget_lakhs,
+            "deferred_remediation_cost_lakhs": round(deferred_cost, 2),
+            "deferred_risk_reduction_lakhs": round(deferred_reduction, 2),
+            "residual_risk_lakhs": round(residual, 2),
+        },
+        "next_cycle_budget_forecast": {"forecast_lakhs": round(min(deferred_cost, finance.deferred_backlog_budget_lakhs), 2)},
+        "full_coverage_capital_requirement_lakhs": finance.target_full_coverage_capital_lakhs,
+        "asset_level_financial_loss_treemap": _treemap(records, asset_map),
+        "remediation_cost_efficiency_table": sorted([
+            {"id": x["id"], "name": x["name"], "cve_id": x["cve_id"], "asset_id": x["asset_id"], "cost_lakhs": x["cost"], "risk_reduction_lakhs": round(x["risk_reduction"], 4), "risk_reduction_per_lakh": round(x["risk_reduction"] / x["cost"], 4)}
+            for x in controls if x["cost"] > 0
+        ], key=lambda x: x["risk_reduction_per_lakh"], reverse=True)[:50],
+        "quarter_over_quarter_risk_trend": trend,
+    }
+
+    # Never send tens of thousands of deferred controls to the browser.
+    pso_public = dict(pso)
+    pso_public["selected_controls"] = selected[:100]
+    pso_public["deferred_controls"] = sorted(deferred, key=lambda x: x["risk_reduction"] / max(x["cost"], 1e-9), reverse=True)[:100]
+
+    elapsed = round(time.perf_counter() - started, 3)
+    return {
+        "status": "success",
+        "run_id": str(uuid.uuid4()),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "performance": {"pipeline_seconds": elapsed, "monte_carlo_iterations": iterations, "mc_batch_size": MC_BATCH_SIZE},
+        "ingestion_metrics": {"raw_valid_findings": valid, "malformed_or_unmapped_findings": malformed, "graph_nodes_processed": len(graph), "assets_loaded": len(assets)},
+        "company_context": {
+            "annual_revenue_lakhs": finance.annual_revenue_inr_lakhs,
+            "allocated_security_budget_lakhs": finance.allocated_security_budget_lakhs,
+            "deferred_backlog_budget_lakhs": finance.deferred_backlog_budget_lakhs,
+            "target_full_coverage_capital_lakhs": finance.target_full_coverage_capital_lakhs,
+        },
+        "ciso_metrics": ciso,
+        "cfo_metrics": cfo,
+        "monte_carlo": {k: v for k, v in mc.items() if k != "node_risk"},
+        "risk_quantification": {"vulnerability_count": len(mc["node_risk"]), "top_risks": mc["node_risk"][:100], "all_risks_available": True},
+        "pso_optimization": pso_public,
+    }
 
 
 @app.get("/api/health")
-def health() -> dict:
-     """Liveness check endpoint."""
-     return {"status": "ok"}
-
-
-@app.get("/api/controls", response_model=List[SecurityControl])
-def list_default_controls() -> List[SecurityControl]:
-     """Return default sample security controls."""
-     return get_sample_controls()
-
-
-@app.get("/api/optimize/default", response_model=OptimizationResult)
-def optimize_default() -> OptimizationResult:
-     """Convenience endpoint: runs the solver on the hardcoded sample set."""
-     req = OptimizationRequest(
-          controls=get_sample_controls(),
-          budget=DEFAULT_BUDGET_LAKH,
-     )
-     return solve_knapsack(req)
-
-
-@app.post("/api/optimize", response_model=OptimizationResult)
-def optimize(request: OptimizationRequest) -> OptimizationResult:
-     """Run 0-1 knapsack optimization on user-supplied controls and budget."""
-     if not request.controls:
-          raise HTTPException(400, "No controls provided.")
-
-     result = solve_knapsack(request)
-
-     if result.status == "Infeasible":
-          raise HTTPException(
-               422,
-               "No feasible combination satisfies the given budget and constraints.",
-          )
-     if result.status not in ("Optimal", "Not Solved"):
-          raise HTTPException(500, f"Solver returned status: {result.status}")
-
-     return result
+def health():
+    return {"status": "ok", "service": "QuantifySec Enterprise API"}
 
 
 @app.post("/api/run-pipeline")
-def run_full_enterprise_pipeline(user: dict = Depends(verify_supabase_token)):
-     """Executes the full automated pipeline: Ingestion -> Monte Carlo -> True Dynamic Knapsack."""
-     try:
-          # Step 1: Ingest synthetic JSON outputs
-          raw_assets = load_json_file("../output/synthetic_assets.json")
-          raw_vulns = load_json_file("../output/synthetic_combined.json")
-          
-          asset_res = ingest_assets(raw_assets)
-          vuln_res = ingest_vulnerabilities(raw_vulns)
-          
-          if not asset_res["valid"] or not vuln_res["valid"]:
-               raise HTTPException(status_code=400, detail="Data ingestion failed. No valid records found.")
+def run_pipeline(iterations: int = Query(MC_ITERATIONS, ge=100, le=10000)):
+    return _run_pipeline(iterations)
 
-          db.upsert_assets(asset_res["valid"])
-          db.upsert_vulnerabilities(vuln_res["valid"])
 
-          # Step 2: Bridge to Monte Carlo
-          mc_payload = build_mc_payload(asset_res["valid"], vuln_res["valid"])
-          
-          # Step 3: Run Monte Carlo Simulation
-          raw_sim_results = run_portfolio_simulation(mc_payload)
-          analytics = generate_portfolio_analytics_summary(raw_sim_results)
-          mc_api_response = serialize_simulation_results(analytics, total_iterations=10000, random_seed=42)
+@app.get("/api/dashboard/ciso")
+def ciso_dashboard(iterations: int = Query(MC_ITERATIONS, ge=100, le=10000)):
+    result = _run_pipeline(iterations)
+    return {"status": result["status"], "generated_at": result["generated_at"], "company_context": result["company_context"], "ingestion_metrics": result["ingestion_metrics"], "ciso_metrics": result["ciso_metrics"], "risk_quantification": result["risk_quantification"]}
 
-          mc_dict = mc_api_response.model_dump()
-          simulation_run_id = db.insert_simulation_run(mc_dict)
 
-          # FIX (Bug 3): db.insert_risk_assessments expects the whole `analytics`
-          # dict (it does analytics.get("top_risk_drivers", []) internally) --
-          # passing just the list directly throws AttributeError since lists
-          # have no .get() method.
-          db.insert_risk_assessments(analytics["top_risk_drivers"], simulation_run_id)
+@app.get("/api/dashboard/cfo")
+def cfo_dashboard(iterations: int = Query(MC_ITERATIONS, ge=100, le=10000)):
+    result = _run_pipeline(iterations)
+    return {"status": result["status"], "generated_at": result["generated_at"], "company_context": result["company_context"], "ingestion_metrics": result["ingestion_metrics"], "cfo_metrics": result["cfo_metrics"], "monte_carlo": result["monte_carlo"], "pso_optimization": result["pso_optimization"]}
 
-          # Step 4: True Bridge to Knapsack (Using actual vulnerabilities, ignoring get_sample_controls)
-          portfolio_ale_rupees = analytics["portfolio_metrics"]["mean_ale"]
-          
-          # Pass the valid_vulns directly into our new dynamic control builder
-          dynamic_vuln_controls = build_dynamic_vuln_controls(vuln_res["valid"], portfolio_ale_rupees)
 
-          vuln_id_to_action_id = db.insert_remediation_actions(dynamic_vuln_controls, simulation_run_id)
+@app.post("/api/run-pipeline/upload")
+async def run_uploaded_pipeline(
+    asset_business_context: UploadFile = File(...),
+    financial_parameters: UploadFile = File(...),
+    historical_risk_trends: UploadFile = File(...),
+    ocsf_vulnerability_findings: UploadFile = File(...),
+    iterations: int = Query(MC_ITERATIONS, ge=100, le=10000),
+):
+    """Upload variant for clients that do not keep the four files on the API host."""
+    temp_dir = ROOT_DIR / ".quantifysec_uploads"
+    temp_dir.mkdir(exist_ok=True)
+    run_id = uuid.uuid4().hex
+    paths = {}
+    try:
+        for key, upload in (("assets", asset_business_context), ("finance", financial_parameters), ("history", historical_risk_trends), ("ocsf", ocsf_vulnerability_findings)):
+            suffix = ".json"
+            path = temp_dir / f"{run_id}_{key}{suffix}"
+            with path.open("wb") as out:
+                while chunk := await upload.read(1024 * 1024):
+                    out.write(chunk)
+            paths[key] = path
 
-          # Step 5: Run Knapsack Optimizer
-          opt_request = OptimizationRequest(controls=dynamic_vuln_controls, budget=DEFAULT_BUDGET_LAKH)
-          opt_result = solve_knapsack(opt_request)
+        # Same pipeline, but with the uploaded paths.
+        assets, asset_map, finance, history, graph, records, valid, malformed = _ingest(paths["assets"], paths["finance"], paths["history"], paths["ocsf"])
+        if not graph:
+            raise HTTPException(400, "No valid vulnerability nodes were created from uploaded OCSF data.")
 
-          portfolio_ale_lakh = portfolio_ale_rupees / 100_000.0
+        # Reuse the core calculation by temporarily invoking the same stages.
+        mc = run_portfolio_simulation(graph, assets, iterations=iterations, batch_size=MC_BATCH_SIZE, seed=RANDOM_SEED)
+        controls = _build_controls(records, mc["node_risk"])
+        pso = PSOSecurityOptimizer(controls, finance.allocated_security_budget_lakhs, PSO_PARTICLES, PSO_ITERATIONS, RANDOM_SEED).optimize()
+        # Return a compact but complete frontend payload by mirroring the main result structure.
+        ale = mc["mean_ale_lakhs"]
+        selected_cost = pso["total_cost"]
+        reduction = pso["effective_risk_reduction"]
+        trend = list(history.get("quarterly_history", [])) + [{"quarter": "Current Simulation", "mean_ale_lakhs": ale, "var_95_lakhs": mc["p95_var_lakhs"], "total_vulnerabilities": len(records)}]
+        ciso = _technical_metrics(records, mc["node_risk"])
+        cfo = {
+            "mean_annual_loss_expectancy_lakhs": ale,
+            "p95_value_at_risk_lakhs": mc["p95_var_lakhs"],
+            "budget_utilization": {"allocated_budget_lakhs": finance.allocated_security_budget_lakhs, "proposed_remediation_cost_lakhs": selected_cost, "utilization_percent": round(selected_cost / finance.allocated_security_budget_lakhs * 100, 2) if finance.allocated_security_budget_lakhs else 0},
+            "total_financial_risk_reduction_lakhs": round(reduction, 2),
+            "return_on_security_investment": {"rosi_ratio": round(reduction / selected_cost, 3) if selected_cost else 0},
+            "deferred_backlog_financial_impact": {"deferred_backlog_budget_lakhs": finance.deferred_backlog_budget_lakhs},
+            "next_cycle_budget_forecast": {"forecast_lakhs": finance.deferred_backlog_budget_lakhs},
+            "full_coverage_capital_requirement_lakhs": finance.target_full_coverage_capital_lakhs,
+            "asset_level_financial_loss_treemap": _treemap(records, asset_map),
+            "remediation_cost_efficiency_table": [],
+            "quarter_over_quarter_risk_trend": trend,
+        }
+        return {"status": "success", "ingestion_metrics": {"raw_valid_findings": valid, "malformed_or_unmapped_findings": malformed, "graph_nodes_processed": len(graph)}, "ciso_metrics": ciso, "cfo_metrics": cfo, "monte_carlo": {k: v for k, v in mc.items() if k != "node_risk"}, "risk_quantification": {"top_risks": mc["node_risk"][:100]}, "pso_optimization": {**pso, "selected_controls": pso["selected_controls"][:100], "deferred_controls": pso["deferred_controls"][:100]}}
+    finally:
+        for path in paths.values():
+            try:
+                path.unlink(missing_ok=True)
+            except Exception:
+                pass
 
-          # FIX (Bug 2): argument order corrected to match db.py's actual
-          # signature: (opt_result, simulation_run_id, vuln_id_to_action_id, portfolio_ale_lakh).
-          # The dict and float were previously swapped, which would raise
-          # TypeError partway through the request.
-          db.insert_optimization_run(opt_result, simulation_run_id, vuln_id_to_action_id, portfolio_ale_lakh)
 
-          # Step 6: Generate Technical Drill-down for the UI
-          # (duplicate call removed -- was computed twice back to back)
-          vuln_drilldown = build_vulnerability_drilldown(vuln_res["valid"], portfolio_ale_rupees)
-
-          # Guarantee the fields the frontend reads exist at a known path.
-          # NOTE: pm.get("p5_ale") / "p25_ale" / "percentile_5" / "percentile_25"
-          # do not exist anywhere in the confirmed analytics.py output shape
-          # (only mean_ale, std_dev, p50, p90, p95, p99 are ever returned) --
-          # these will resolve to None. Kept here since removing them wasn't
-          # requested, but flagging: frontend code relying on p5_ale/p25_ale
-          # will receive null, not real values.
-          pm = analytics["portfolio_metrics"]
-          mc_dict.setdefault("portfolio_metrics", {})
-          mc_dict["portfolio_metrics"].update({
-              "mean_ale": pm.get("mean_ale"),
-              "p5_ale":   pm.get("p5_ale") or pm.get("percentile_5"),
-              "p25_ale":  pm.get("p25_ale") or pm.get("percentile_25"),
-              "p50_ale":  pm.get("p50_ale") or pm.get("percentile_50"),
-              "p75_ale":  pm.get("p75_ale") or pm.get("percentile_75"),
-              "p95_ale":  pm.get("p95_ale") or pm.get("percentile_95"),
-              "p99_ale":  pm.get("p99_ale") or pm.get("percentile_99"),
-          })
-
-          return {
-               "status": "success",
-               "simulation_run_id": simulation_run_id,
-               "ingestion_metrics": {
-                    "assets_processed": len(asset_res["valid"]),
-                    "vulns_processed": len(vuln_res["valid"])
-               },
-               "monte_carlo_risk_profile": mc_dict,
-               "cfo_budget_optimization": opt_result.model_dump(),
-               "technical_drilldown": vuln_drilldown # <-- Handing this directly to the frontend
-          }
-          
-     except HTTPException:
-          raise
-     except Exception as e:
-          import traceback
-          print("=== PIPELINE ERROR TRACEBACK ===")
-          print(traceback.format_exc())
-          print("=================================")
-          raise HTTPException(status_code=500, detail=str(e))
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("backend.main:app", host="0.0.0.0", port=int(os.getenv("PORT", "8000")), reload=False)
