@@ -37,16 +37,16 @@ resend.api_key = os.getenv("RESEND_API_KEY")
 
 security = HTTPBearer(auto_error=False)
 
+def get_cache_path(company_name: str) -> str:
+    """Provides a safe temporary file path to instantly cache the heavy 3-minute math results."""
+    safe_name = "".join(c for c in company_name if c.isalnum()) or "default"
+    return f"/tmp/qsec_cache_{safe_name}.json"
+
 def verify_token(credentials: HTTPAuthorizationCredentials = Security(security)) -> dict:
-    if DISABLE_AUTH:
-        return {"sub": "test-user", "email": "test@local", "role": "ciso", "company_name": "Test Company"}
-
-    if credentials is None:
-        raise HTTPException(status_code=401, detail="Missing authentication token.")
-
-    token = credentials.credentials
+    if DISABLE_AUTH: return {"sub": "test-user", "email": "test@local", "role": "ciso", "company_name": "Test Company"}
+    if credentials is None: raise HTTPException(status_code=401, detail="Missing auth token.")
     try:
-        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM], options={"verify_aud": False})
+        payload = jwt.decode(credentials.credentials, JWT_SECRET, algorithms=[JWT_ALGORITHM], options={"verify_aud": False})
         return {
             "sub": payload.get("sub"),
             "email": payload.get("email", payload.get("sub")),
@@ -54,8 +54,7 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Security(security))
             "company_id": payload.get("app_metadata", {}).get("company_id"),
             "company_name": payload.get("company_name", "Unknown Company"),
         }
-    except jwt.PyJWTError:
-        raise HTTPException(status_code=401, detail="Invalid authentication token or expired session.")
+    except jwt.PyJWTError: raise HTTPException(status_code=401, detail="Invalid token.")
 
 OTP_STORE: Dict[str, Dict[str, Any]] = {}
 
@@ -69,18 +68,10 @@ class OTPVerify(BaseModel):
     email: str
     otp: str
 
-app = FastAPI(
-    title="QuantifySec Enterprise API", 
-    version="1.0.0",
-    description="Deterministic Cyber Risk Quantification & Optimization Pipeline"
-)
+app = FastAPI(title="QuantifySec Enterprise API", version="1.0.0")
 
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"],
 )
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -97,35 +88,19 @@ class DynamicLossParams:
         self.benchmark_source = "Custom"
 
 class DynamicAssetStub:
-    def __init__(self, uid: str, mean_inr_millions: float = 50.0, internet_facing: bool = False, agent_installed: bool = True):
+    def __init__(self, uid: str, mean_inr_millions: float = 50.0):
         self.uid = uid
         self.loss_parameters = DynamicLossParams(mean_inr_millions)
-        self.company_name = "Unknown Company"
-        self.nse_symbol = None
         self.sector = "Technology"
         self.industry = "Software"
         self.type = "Server"
-        self.criticality = "Medium"
-        self.internet_facing = internet_facing
-        self.agent_installed = agent_installed
-        self.annual_revenue_dependency_inr = 0
-        self.market_cap_inr = 0
 
 class DynamicExploitStatus:
     def __init__(self, value: str = "none"):
         self.value = value
 
 class DynamicVulnStub:
-    def __init__(
-        self, 
-        vuln_id: str, 
-        asset_id: str, 
-        cvss_score: float, 
-        cost_lakh: Optional[float] = None, 
-        exploit_status: str = "none",
-        cve_id: str = "CVE-UNKNOWN",
-        category: str = "Remediation"
-    ):
+    def __init__(self, vuln_id: str, asset_id: str, cvss_score: float, cost_lakh: Optional[float] = None, exploit_status: str = "none", cve_id: str = "CVE-UNKNOWN", category: str = "Remediation"):
         self.id = vuln_id
         self.asset_id = asset_id
         self.cvss_score = cvss_score
@@ -133,10 +108,6 @@ class DynamicVulnStub:
         self.exploit_status = DynamicExploitStatus(exploit_status)
         self.cve_id = cve_id
         self.category = category
-        self.affected_component = "system"
-        self.days_open_as_of_last_run = 0
-        self.kev_listed = (exploit_status == "active")
-        self.known_ransomware_use = False
 
 def build_mc_payload(valid_assets: list, valid_vulns: list) -> List[Dict[str, Any]]:
     asset_map = {a.uid: a.loss_parameters.mean_inr_millions * 1_000_000 for a in valid_assets}
@@ -144,10 +115,9 @@ def build_mc_payload(valid_assets: list, valid_vulns: list) -> List[Dict[str, An
     
     payload = []
     for v in valid_vulns:
-        val = asset_map.get(v.asset_id, default_loss)
         payload.append({
             "asset_id": v.asset_id,
-            "asset_value": val,
+            "asset_value": asset_map.get(v.asset_id, default_loss),
             "cvss_score": v.cvss_score
         })
     return payload
@@ -159,32 +129,21 @@ def build_dynamic_vuln_controls(valid_vulns: list, portfolio_ale_rupees: float) 
     for i, v in enumerate(valid_vulns):
         vuln_share = v.cvss_score / total_cvss if total_cvss > 0 else 0
         reduction_lakhs = (portfolio_ale_rupees * vuln_share) / 100_000.0
-        
         cost_lakh = getattr(v, "cost_lakh", None)
         if cost_lakh is None or cost_lakh <= 0:
             cost_lakh = round(max(0.5, v.cvss_score * 0.5), 2)
             
         vuln_id = getattr(v, "id", f"vuln-{i}")
-        cve = getattr(v, "cve_id", "VULN")
-        
-        dynamic_controls.append(
-            SecurityControl(
-                id=vuln_id,
-                name=f"Remediate {cve} ({vuln_id[:10]})",
-                cost=cost_lakh,
-                risk_reduction=round(reduction_lakhs, 2),
-                category=getattr(v, "category", "Remediation")
-            )
-        )
+        dynamic_controls.append(SecurityControl(
+            id=vuln_id,
+            name=f"Remediate {getattr(v, 'cve_id', 'VULN')} ({vuln_id[:10]})",
+            cost=cost_lakh,
+            risk_reduction=round(reduction_lakhs, 2),
+            category=getattr(v, "category", "Remediation")
+        ))
     return dynamic_controls
 
-def execute_risk_engine(
-    valid_assets: list, 
-    valid_vulns: list, 
-    valid_findings: list, 
-    company_name: str,
-    custom_budget: float = DEFAULT_BUDGET_LAKH
-) -> dict:
+def execute_risk_engine(valid_assets: list, valid_vulns: list, company_name: str, custom_budget: float = DEFAULT_BUDGET_LAKH) -> dict:
     if not valid_vulns:
         return {"has_data": False}
 
@@ -209,11 +168,8 @@ def execute_risk_engine(
     month = today.month
     quarter = (month - 4) // 3 + 1 if month >= 4 else 4
     fy_year = today.year + 1 if month >= 4 else today.year
-    q_start_month = 4 + (quarter - 1) * 3 if month >= 4 else 1
-    q_start_year = today.year
-
     period_label = f"Q{quarter} FY{str(fy_year)[2:]}"
-    period_start = date(q_start_year, q_start_month, 1).isoformat()
+    period_start = date(today.year, 4 + (quarter - 1) * 3 if month >= 4 else 1, 1).isoformat()
 
     posture_score = 75.0
     simulation_run_id = None
@@ -221,39 +177,12 @@ def execute_risk_engine(
         simulation_run_id = db.insert_simulation_run(mc_dict, company_name)
         db.insert_risk_assessments(analytics.get("top_risk_drivers", []), simulation_run_id, company_name)
         vuln_id_to_action_id = db.insert_remediation_actions(dynamic_vuln_controls, simulation_run_id, company_name)
-        db.insert_optimization_run(
-            opt_result,
-            simulation_run_id,
-            vuln_id_to_action_id,
-            portfolio_ale_lakh,
-            company_name,
-            dynamic_controls=dynamic_vuln_controls,
-        )
-        _ciso_id, posture_score = db.insert_ciso_snapshot(
-            valid_assets,
-            valid_vulns,
-            opt_result,
-            simulation_run_id,
-            company_name,
-        )
-        db.insert_cfo_snapshot(
-            analytics,
-            opt_result,
-            simulation_run_id,
-            company_name,
-        )
-        db.insert_quarterly_risk_trend(
-            simulation_run_id,
-            period_label,
-            period_start,
-            analytics,
-            opt_result,
-            posture_score,
-            company_name,
-        )
+        db.insert_optimization_run(opt_result, simulation_run_id, vuln_id_to_action_id, portfolio_ale_lakh, company_name, dynamic_controls)
+        _ciso_id, posture_score = db.insert_ciso_snapshot(valid_assets, valid_vulns, opt_result, simulation_run_id, company_name)
+        db.insert_cfo_snapshot(analytics, opt_result, simulation_run_id, company_name)
+        db.insert_quarterly_risk_trend(simulation_run_id, period_label, period_start, analytics, opt_result, posture_score, company_name)
     except Exception as db_err:
         print(f"Database write notice: {db_err}")
-        traceback.print_exc()
 
     capital_at_risk_pre = round(portfolio_ale_rupees / 100_000.0, 2)
     risk_neutralized = round(opt_result.total_risk_reduction, 2)
@@ -261,7 +190,7 @@ def execute_risk_engine(
     roi_multiple = round(risk_neutralized / budget_deployed, 2) if budget_deployed > 0 else 0.0
     exposure_pct = round((risk_neutralized / capital_at_risk_pre) * 100, 1) if capital_at_risk_pre > 0 else 0.0
 
-    return {
+    payload = {
         "status": "success",
         "has_data": True,
         "simulation_run_id": simulation_run_id,
@@ -289,27 +218,30 @@ def execute_risk_engine(
         "budget": custom_budget,
     }
 
+    # QUICK-CACHE: Save it immediately so tab switches take 0.01 seconds instead of 3 minutes
+    try:
+        with open(get_cache_path(company_name), "w") as f:
+            json.dump(payload, f)
+    except Exception as e:
+        print(f"Failed to cache dashboard: {e}")
+
+    return payload
+
 # ═══════════════════════════════════════════════════════════════════════════
 # AUTH ENDPOINTS
 # ═══════════════════════════════════════════════════════════════════════════
 
-@app.get("/api/health")
-def health() -> dict:
-    return {"status": "ok"}
-
 @app.post("/api/auth/request-otp")
 def request_otp(payload: OTPRequest):
     email = payload.email.strip().lower()
-    role = payload.role.strip().lower()
     code = f"{random.randint(100000, 999999)}"
     OTP_STORE[email] = {
         "otp": code,
         "expires_at": time.time() + 300,
-        "role": role,
+        "role": payload.role.strip().lower(),
         "name": payload.name.strip() if payload.name else None,
         "company": payload.company.strip() if payload.company else None,
     }
- 
     try:
         resend.Emails.send({
             "from": "QuantifySec <onboarding@resend.dev>",
@@ -324,10 +256,8 @@ def request_otp(payload: OTPRequest):
 @app.post("/api/auth/verify-otp")
 def verify_otp(payload: OTPVerify):
     email = payload.email.strip().lower()
-    otp = payload.otp.strip()
-
     record = OTP_STORE.get(email)
-    if not record or time.time() > record["expires_at"] or record["otp"] != otp:
+    if not record or time.time() > record["expires_at"] or record["otp"] != payload.otp.strip():
         raise HTTPException(status_code=400, detail="Invalid or expired verification code.")
 
     try:
@@ -351,59 +281,35 @@ def verify_otp(payload: OTPVerify):
         raise HTTPException(status_code=500, detail=f"Database profile error: {str(e)}")
 
     token_payload = {
-        "sub": email,
-        "email": email,
-        "name": name,
-        "role": role,
-        "company_name": company_name,
-        "aud": "authenticated",
-        "app_metadata": {"company_id": company_id},
-        "exp": time.time() + 86400,
+        "sub": email, "email": email, "name": name, "role": role,
+        "company_name": company_name, "aud": "authenticated",
+        "app_metadata": {"company_id": company_id}, "exp": time.time() + 86400,
     }
     access_token = jwt.encode(token_payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
     del OTP_STORE[email]
 
-    return {
-        "status": "authenticated",
-        "access_token": access_token,
-        "role": role,
-        "email": email,
-        "company_name": company_name,
-    }
+    return {"status": "authenticated", "access_token": access_token, "role": role, "email": email, "company_name": company_name}
 
 # ═══════════════════════════════════════════════════════════════════════════
 # TELEMETRY INGESTION (PARSES 1111, 1112, 1113, 1114)
 # ═══════════════════════════════════════════════════════════════════════════
 
 @app.post("/api/ingest-ocsf")
-async def ingest_ocsf_telemetry(
-    files: Optional[List[UploadFile]] = File(None),
-    file: Optional[UploadFile] = File(None),
-    user: dict = Depends(verify_token)
-):
-    try:
-        upload_list = []
-        if files:
-            upload_list.extend(files)
-        if file and file not in upload_list:
-            upload_list.append(file)
+async def ingest_ocsf_telemetry(files: Optional[List[UploadFile]] = File(None), file: Optional[UploadFile] = File(None), user: dict = Depends(verify_token)):
+    upload_list = []
+    if files: upload_list.extend(files)
+    if file and file not in upload_list: upload_list.append(file)
+    if not upload_list: raise HTTPException(status_code=400, detail="No files received.")
 
-        if not upload_list:
-            raise HTTPException(status_code=400, detail="No files received.")
+    all_valid_vulns, all_valid_assets = [], []
+    company_name = user.get("company_name") or "Unknown Company"
+    budget_lakh = DEFAULT_BUDGET_LAKH
 
-        all_valid_vulns = []
-        all_valid_assets = []
-        company_name = user.get("company_name") or "Unknown Company"
-        budget_lakh = DEFAULT_BUDGET_LAKH
-
-        for uploaded_file in upload_list:
-            if not uploaded_file.filename.endswith(".json"):
-                continue
-            
-            raw_bytes = await uploaded_file.read()
-            text_content = raw_bytes.decode("utf-8").strip()
-            if not text_content:
-                continue
+    for uploaded_file in upload_list:
+        if not uploaded_file.filename.endswith(".json"): continue
+        try:
+            text_content = (await uploaded_file.read()).decode("utf-8").strip()
+            if not text_content: continue
 
             items = []
             try:
@@ -412,111 +318,89 @@ async def ingest_ocsf_telemetry(
                     if "company_profile" in parsed:
                         budget_lakh = float(parsed["company_profile"].get("allocated_security_budget_lakhs", DEFAULT_BUDGET_LAKH))
                         continue
-                    if "quarterly_history" in parsed:
-                        continue
+                    if "quarterly_history" in parsed: continue
                     items = parsed.get("findings") or parsed.get("vulnerabilities") or [parsed]
                 elif isinstance(parsed, list):
                     items = parsed
             except json.JSONDecodeError:
-                # Fallback parser for NDJSON files like 1114.json
+                # 1114.json is NDJSON (line-by-line JSON format)
                 for line in text_content.splitlines():
-                    line = line.strip()
-                    if line:
-                        try:
-                            items.append(json.loads(line))
-                        except Exception:
-                            pass
+                    if line.strip():
+                        try: items.append(json.loads(line.strip()))
+                        except Exception: pass
 
             for item in items:
-                if not isinstance(item, dict):
-                    continue
+                if not isinstance(item, dict): continue
 
-                # Parse Asset Inventory (e.g. 1111_2.json)
+                # Extract Assets (1111_2.json)
                 if "asset_id" in item and "financial_exposure" in item:
                     sle = float(item["financial_exposure"].get("single_loss_expectancy_lakhs", 50.0))
-                    all_valid_assets.append(DynamicAssetStub(
-                        uid=item["asset_id"],
-                        mean_inr_millions=sle / 10.0
-                    ))
+                    all_valid_assets.append(DynamicAssetStub(uid=item["asset_id"], mean_inr_millions=sle / 10.0))
 
-                # Parse OCSF Findings (e.g. 1114.json)
+                # Extract Vulns (1114.json)
                 if "finding_info" in item and "vulnerabilities" in item:
                     device_uid = item.get("device", {}).get("uid", "AST-UNKNOWN")
                     finding_uid = item.get("finding_info", {}).get("uid", f"FINDING-{len(all_valid_vulns)}")
                     applied = item.get("applied_controls", ["Remediation"])
-                    primary_category = applied[0] if applied else "Remediation"
-                    remediation_cost = float(item.get("remediation", {}).get("estimated_remediation_cost_lakhs", 1.0))
+                    primary_cat = applied[0] if applied else "Remediation"
+                    rem_cost = float(item.get("remediation", {}).get("estimated_remediation_cost_lakhs", 1.0))
 
                     for v in item.get("vulnerabilities", []):
                         score = float(v.get("cvss", {}).get("base_score", 5.0))
                         cve = v.get("cve", {}).get("id", "CVE-UNKNOWN")
                         is_exploited = "active" if v.get("is_known_exploited", False) else "none"
-                        
                         all_valid_vulns.append(DynamicVulnStub(
-                            vuln_id=finding_uid,
-                            asset_id=device_uid,
-                            cvss_score=score,
-                            cost_lakh=remediation_cost,
-                            exploit_status=is_exploited,
-                            cve_id=cve,
-                            category=primary_category
+                            vuln_id=finding_uid, asset_id=device_uid, cvss_score=score, cost_lakh=rem_cost, 
+                            exploit_status=is_exploited, cve_id=cve, category=primary_cat
                         ))
 
-        if not all_valid_vulns:
-            raise HTTPException(
-                status_code=400, 
-                detail="No vulnerability findings detected. Ensure 1114.json is uploaded."
-            )
+        except Exception as e: print(f"Error parsing {uploaded_file.filename}: {e}")
 
-        # Upsert records safely
-        try:
-            if all_valid_assets:
-                db.upsert_assets(all_valid_assets, company_name)
-            db.upsert_vulnerabilities(all_valid_vulns, company_name)
-        except Exception as db_e:
-            print(f"Upsert warning: {db_e}")
+    if not all_valid_vulns:
+        raise HTTPException(status_code=400, detail="No vulnerability findings detected. Ensure 1114.json is uploaded.")
 
-        return execute_risk_engine(
-            all_valid_assets, 
-            all_valid_vulns, 
-            [], 
-            company_name, 
-            custom_budget=budget_lakh
-        )
+    # Save to Supabase using the self-healing DB inserter
+    try:
+        if all_valid_assets: db.upsert_assets(all_valid_assets, company_name)
+        db.upsert_vulnerabilities(all_valid_vulns, company_name)
+    except Exception as db_e:
+        print(f"Upsert warning: {db_e}")
 
-    except HTTPException:
-        raise
-    except Exception as e:
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+    # Process all math logic, write to DB, and cache the response to disk instantly
+    return execute_risk_engine(all_valid_assets, all_valid_vulns, company_name, custom_budget=budget_lakh)
 
 # ═══════════════════════════════════════════════════════════════════════════
-# REFRESH / RUN-PIPELINE (READ-ONLY)
+# FAST CACHED DASHBOARD FETCH (ZERO LAG TAB-SWITCHING)
 # ═══════════════════════════════════════════════════════════════════════════
 
 @app.get("/api/run-pipeline")
 @app.post("/api/run-pipeline")
 def run_pipeline(user: dict = Depends(verify_token)):
     company_name = user.get("company_name") or "Unknown Company"
-    raw_vulns = db.get_vulnerabilities(company_name)
+    
+    # 1. READ INSTANT CACHE FIRST: Bypasses 3-minute recalculation!
+    cache_path = get_cache_path(company_name)
+    if os.path.exists(cache_path):
+        try:
+            with open(cache_path, "r") as f:
+                return json.load(f)
+        except Exception: pass
 
-    if not raw_vulns:
+    # 2. If no cache exists, ensure user actually has telemetry in Supabase
+    if not db.has_telemetry(company_name):
         return {"has_data": False}
 
+    # 3. If cache was deleted but DB has data (e.g., server restart), rebuild
+    raw_vulns = db.get_vulnerabilities(company_name)
     raw_assets = db.get_assets(company_name)
 
     valid_vulns = [
         DynamicVulnStub(
-            vuln_id=row.get("id", f"VULN-{i}"),
-            asset_id=row.get("asset_id", "AST-0001"),
-            cvss_score=float(row.get("cvss_score") or 5.0)
-        )
-        for i, row in enumerate(raw_vulns)
+            vuln_id=row.get("id", f"VULN-{i}"), asset_id=row.get("asset_id", "AST-0001"), cvss_score=float(row.get("cvss_score") or 5.0)
+        ) for i, row in enumerate(raw_vulns)
     ]
-
     valid_assets = [
-        DynamicAssetStub(uid=row.get("uid") or row.get("id") or row.get("asset_id") or "AST-0001")
-        for row in raw_assets
+        DynamicAssetStub(uid=row.get("uid") or row.get("id") or row.get("asset_id") or "AST-0001") for row in raw_assets
     ]
 
-    return execute_risk_engine(valid_assets, valid_vulns, [], company_name)
+    return execute_risk_engine(valid_assets, valid_vulns, company_name)
