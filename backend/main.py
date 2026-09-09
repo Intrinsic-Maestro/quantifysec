@@ -186,7 +186,7 @@ def execute_risk_engine(valid_assets: list, valid_vulns: list, valid_findings: l
     portfolio_ale_rupees = analytics["portfolio_metrics"]["mean_ale"]
     dynamic_vuln_controls = build_dynamic_vuln_controls(valid_vulns, portfolio_ale_rupees)
     
-    opt_request = OptimizationRequest(controls=dynamic_vuln_controls, budget=DEFAULT_BUDGET_LAKH)
+    opt_request = OptimizationRequest(controls=dynamic_vuln_controls, budget=custom_budget)
     opt_result = solve_knapsack(opt_request)
     portfolio_ale_lakh = portfolio_ale_rupees / 100_000.0
 
@@ -416,7 +416,7 @@ def verify_otp(payload: OTPVerify):
     }
 
 # ============================================================
-# API Endpoint: OCSF Telemetry Multi-File Ingestion
+# API Endpoint: Multi-File Ingestion (Supports JSON & NDJSON)
 # ============================================================
 @app.post("/api/ingest-ocsf")
 async def ingest_ocsf_telemetry(
@@ -427,60 +427,94 @@ async def ingest_ocsf_telemetry(
     upload_list = []
     if files:
         upload_list.extend(files)
-    if file:
+    if file and file not in upload_list:
         upload_list.append(file)
 
     if not upload_list:
-        raise HTTPException(status_code=400, detail="No files uploaded.")
+        raise HTTPException(status_code=400, detail="No files received by backend.")
 
     if len(upload_list) > 6:
         raise HTTPException(status_code=400, detail="Maximum of 6 files allowed at once.")
 
     all_valid_vulns = []
-    all_valid_findings = []
     all_valid_assets = []
     company_name = user.get("company_name") or "Unknown Company"
+    budget_lakh = DEFAULT_BUDGET_LAKH
 
     for uploaded_file in upload_list:
         if not uploaded_file.filename.endswith(".json"):
             continue
         try:
-            content = await uploaded_file.read()
-            if len(content) > 100 * 1024 * 1024:
-                raise HTTPException(status_code=400, detail=f"File {uploaded_file.filename} exceeds 100MB limit.")
+            raw_bytes = await uploaded_file.read()
+            text_content = raw_bytes.decode("utf-8").strip()
 
-            json_data = json.loads(content.decode("utf-8"))
+            # 1. Parse JSON or NDJSON safely
+            try:
+                parsed_data = json.loads(text_content)
+                if isinstance(parsed_data, dict):
+                    # Check if it's the budget profile (1112.json)
+                    if "company_profile" in parsed_data:
+                        budget_lakh = float(parsed_data["company_profile"].get("allocated_security_budget_lakhs", DEFAULT_BUDGET_LAKH))
+                        continue
+                    # Check if it's the quarterly trend history (1113.json)
+                    if "quarterly_history" in parsed_data:
+                        continue
+                    items = parsed_data.get("findings") or parsed_data.get("vulnerabilities") or [parsed_data]
+                else:
+                    items = parsed_data
+            except json.JSONDecodeError:
+                # Fallback parser for NDJSON (line-by-line JSON like 1114.json)
+                items = []
+                for line in text_content.splitlines():
+                    line = line.strip()
+                    if line:
+                        try:
+                            items.append(json.loads(line))
+                        except json.JSONDecodeError:
+                            continue
 
-            vuln_res = ingest_vulnerabilities(json_data)
-            if vuln_res.get("valid"):
-                all_valid_vulns.extend(vuln_res["valid"])
+            # 2. Extract Assets (e.g. 1111_2.json)
+            for item in items:
+                if "asset_id" in item and "financial_exposure" in item:
+                    sle = item["financial_exposure"].get("single_loss_expectancy_lakhs", 50.0)
+                    all_valid_assets.append(DynamicAssetStub(
+                        uid=item["asset_id"],
+                        mean_inr_millions=float(sle) / 10.0
+                    ))
 
-            combined_res = ingest_combined_findings(json_data)
-            if combined_res.get("valid"):
-                all_valid_findings.extend(combined_res["valid"])
+                # 3. Extract Vulnerability Findings (e.g. 1114.json or standard OCSF)
+                if "finding_info" in item and "vulnerabilities" in item:
+                    vuln_list = item.get("vulnerabilities", [])
+                    device_uid = item.get("device", {}).get("uid", "AST-UNKNOWN")
+                    finding_uid = item.get("finding_info", {}).get("uid", f"FINDING-{len(all_valid_vulns)}")
 
-            asset_res = ingest_assets(json_data)
-            if asset_res.get("valid"):
-                all_valid_assets.extend(asset_res["valid"])
+                    for v in vuln_list:
+                        cvss_score = float(v.get("cvss", {}).get("base_score", 5.0))
+                        all_valid_vulns.append(DynamicVulnStub(
+                            vuln_id=finding_uid,
+                            asset_id=device_uid,
+                            cvss_score=cvss_score
+                        ))
 
-        except json.JSONDecodeError:
-            raise HTTPException(status_code=400, detail=f"File {uploaded_file.filename} contains invalid JSON.")
         except Exception as e:
             print(f"Error parsing {uploaded_file.filename}: {e}")
 
     if not all_valid_vulns:
-        raise HTTPException(status_code=400, detail="No valid OCSF vulnerability findings found in uploaded files.")
+        raise HTTPException(
+            status_code=400,
+            detail="No valid vulnerability findings detected. Ensure the OCSF findings file (1114.json) is included."
+        )
 
-    # Save to database
+    # 4. Upsert records to Supabase
     try:
         if all_valid_assets:
-            db.upsert_assets(all_valid_assets)
-        db.upsert_vulnerabilities(all_valid_vulns, company_name, raw_combined=all_valid_findings)
+            db.upsert_assets(all_valid_assets, company_name)
+        db.upsert_vulnerabilities(all_valid_vulns, company_name)
     except Exception as e:
-        print(f"Database upsert notice: {e}")
+        print(f"Database upsert warning: {e}")
 
-    # Process and return live dashboard metrics immediately
-    return execute_risk_engine(all_valid_assets, all_valid_vulns, all_valid_findings, company_name)
+    # 5. Run Monte Carlo simulation & Knapsack solver using parsed budget
+    return execute_risk_engine(all_valid_assets, all_valid_vulns, [], company_name, custom_budget=budget_lakh)
 
 # ============================================================
 # API Endpoint: Live Pipeline Check (Database-Driven, No Synthetic Data)
