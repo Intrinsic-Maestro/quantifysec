@@ -483,46 +483,39 @@ async def ingest_ocsf_telemetry(
     return execute_risk_engine(all_valid_assets, all_valid_vulns, all_valid_findings, company_name)
 
 # ============================================================
-# API Endpoint: Live Pipeline Check
+# API Endpoint: Live Pipeline Check (Database-Driven, No Synthetic Data)
 # ============================================================
 @app.get("/api/run-pipeline")
 @app.post("/api/run-pipeline")
 def run_pipeline(user: dict = Depends(verify_token)):
-    """Checks database for user telemetry. Never generates synthetic data."""
+    """
+    Checks Supabase for real user telemetry.
+    Never loads synthetic files or auto-inserts demo records.
+    """
     company_name = user.get("company_name") or "Unknown Company"
-    supabase_client = getattr(db, "supabase", getattr(db, "client", None))
 
-    if not supabase_client:
+    # 1. Fetch live records from Supabase
+    raw_vulns = db.get_vulnerabilities(company_name)
+
+    # 2. If the database is empty, return has_data: False immediately
+    if not raw_vulns:
         return {"has_data": False}
 
-    try:
-        # Check if real records exist in Supabase
-        vuln_resp = supabase_client.table("vulnerabilities").select("*").limit(400).execute()
-        raw_vulns = vuln_resp.data or []
+    # 3. If real telemetry exists, read assets and execute the risk engine
+    raw_assets = db.get_assets(company_name)
 
-        if not raw_vulns:
-            return {"has_data": False}
+    valid_vulns = [
+        DynamicVulnStub(
+            vuln_id=row.get("id", f"VULN-{i}"),
+            asset_id=row.get("asset_id", "AST-0001"),
+            cvss_score=float(row.get("cvss_score") or 5.0)
+        )
+        for i, row in enumerate(raw_vulns)
+    ]
 
-        asset_resp = supabase_client.table("assets").select("*").limit(200).execute()
-        raw_assets = asset_resp.data or []
+    valid_assets = [
+        DynamicAssetStub(uid=row.get("uid") or row.get("id") or row.get("asset_id") or "AST-0001")
+        for row in raw_assets
+    ]
 
-        # Convert database records to pipeline-compatible objects
-        valid_vulns = [
-            DynamicVulnStub(
-                vuln_id=row.get("id", f"VULN-{i}"),
-                asset_id=row.get("asset_id", "AST-0001"),
-                cvss_score=float(row.get("cvss_score") or 5.0)
-            )
-            for i, row in enumerate(raw_vulns)
-        ]
-
-        valid_assets = [
-            DynamicAssetStub(uid=row.get("id") or row.get("uid") or row.get("asset_id") or "AST-0001")
-            for row in raw_assets
-        ]
-
-        return execute_risk_engine(valid_assets, valid_vulns, [], company_name)
-
-    except Exception as e:
-        print(f"Pipeline verification notice: {e}")
-        return {"has_data": False}
+    return execute_risk_engine(valid_assets, valid_vulns, [], company_name)
