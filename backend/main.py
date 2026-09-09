@@ -194,6 +194,7 @@ def execute_risk_engine(valid_assets: list, valid_vulns: list, company_name: str
 def request_otp(payload: OTPRequest):
     email = payload.email.strip().lower()
     code = f"{random.randint(100000, 999999)}"
+    print(f"🔑 [DEBUG OTP FOR {email}]: {code}")
     OTP_STORE[email] = {
         "otp": code, "expires_at": time.time() + 300, "role": payload.role.strip().lower(),
         "name": payload.name.strip() if payload.name else None, "company": payload.company.strip() if payload.company else None,
