@@ -1,0 +1,34 @@
+{
+  "quarterly_history": [
+    {
+      "quarter": "Q1 2025",
+      "mean_ale_lakhs": 820.0,
+      "var_95_lakhs": 1850.0,
+      "total_vulnerabilities": 14200
+    },
+    {
+      "quarter": "Q2 2025",
+      "mean_ale_lakhs": 710.0,
+      "var_95_lakhs": 1620.0,
+      "total_vulnerabilities": 12800
+    },
+    {
+      "quarter": "Q3 2025",
+      "mean_ale_lakhs": 590.0,
+      "var_95_lakhs": 1340.0,
+      "total_vulnerabilities": 10500
+    },
+    {
+      "quarter": "Q4 2025",
+      "mean_ale_lakhs": 480.0,
+      "var_95_lakhs": 1100.0,
+      "total_vulnerabilities": 8900
+    },
+    {
+      "quarter": "Q1 2026",
+      "mean_ale_lakhs": 340.0,
+      "var_95_lakhs": 890.0,
+      "total_vulnerabilities": 6400
+    }
+  ]
+}

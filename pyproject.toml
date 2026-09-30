@@ -1,2 +1,16 @@
+[project]
+name = "quantifysec"
+version = "1.0.0"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "PyJWT",
+    "python-dotenv",
+    "numpy",
+    "pandas",
+    "pulp"
+]
+
 [tool.vercel]
 entrypoint = "backend.main:app"

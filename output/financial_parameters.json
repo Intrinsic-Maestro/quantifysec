@@ -1,0 +1,14 @@
+{
+  "company_profile": {
+    "annual_revenue_inr_lakhs": 50000.0,
+    "allocated_security_budget_lakhs": 800.0,
+    "deferred_backlog_budget_lakhs": 150.0
+  },
+  "remediation_cost_table": {
+    "critical_tier_cost_lakhs": 2.5,
+    "high_tier_cost_lakhs": 1.0,
+    "medium_tier_cost_lakhs": 0.4,
+    "low_tier_cost_lakhs": 0.1
+  },
+  "target_full_coverage_capital_lakhs": 1450.0
+}
