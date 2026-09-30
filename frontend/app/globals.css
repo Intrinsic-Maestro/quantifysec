@@ -152,7 +152,7 @@
 
 @theme inline {
   --font-sans: "Styrene", "Inter", "Geist", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Styrene", "Inter", "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Tiempo", ui-serif, Georgia, serif;
   --font-editorial: "Tiempo", ui-serif, Georgia, serif;
   --font-mono: "JetBrains Mono", "Geist Mono", ui-monospace, monospace;
   --color-background: var(--background);
@@ -211,24 +211,18 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
-    font-family: var(--font-display);
+    @apply tracking-tight;
     color: var(--foreground);
-  }
-
-  /* Major numbers and dashboard KPIs */
-  .text-2xl, .text-3xl, .text-4xl, .text-5xl, .text-6xl {
-    font-family: var(--font-display) !important;
+    /* By default headings are Styrene, unless font-display is applied */
   }
 
   /* Editorial typography (Tiempo) for descriptions, reports, and AI explanations */
-  p:not([class*="font-bold"]):not([class*="font-semibold"]):not([class*="font-medium"]):not([class*="uppercase"]):not([class*="tracking-widest"]):not([class*="font-mono"]) {
+  .editorial-text, .font-editorial, .font-display {
     font-family: var(--font-editorial);
   }
   
-  .ai-message-assistant,
-  .editorial-text {
-    font-family: var(--font-editorial) !important;
+  .ai-message-assistant {
+    font-family: var(--font-sans);
   }
 
   /* Structural overrides back to Sans (Styrene) */

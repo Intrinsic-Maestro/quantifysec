@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
+import { getPrimaryCISO, getPrimaryCFO } from "@/lib/users"
 import {
   Shield, Search, Bell, User, Settings, LogOut,
   ChevronDown, Sun, Moon, AlertTriangle, Brain, FileBarChart,
@@ -274,8 +275,8 @@ export function DashboardTopNav() {
                 <span className="text-xs font-bold" style={{ color: 'var(--qs-green)', fontFamily: 'monospace' }}>{isCfo ? "SR" : "AJ"}</span>
               </div>
               <div className="hidden md:flex flex-col text-left">
-                <span className="text-xs font-semibold leading-none" style={{ color: 'var(--foreground)' }}>{isCfo ? "Sarah Rogers" : "Alex Johnson"}</span>
-                <span className="text-[10px] uppercase tracking-widest leading-none mt-0.5" style={{ color: 'var(--muted-foreground)' }}>{isCfo ? "CFO" : "CISO"}</span>
+                <span className="text-xs font-semibold leading-none" style={{ color: 'var(--foreground)' }}>{isCfo ? getPrimaryCFO().name : getPrimaryCISO().name}</span>
+                <span className="text-[10px] uppercase tracking-widest leading-none mt-0.5" style={{ color: 'var(--muted-foreground)' }}>{isCfo ? getPrimaryCFO().role : getPrimaryCISO().role}</span>
               </div>
               <ChevronDown className="w-3.5 h-3.5" style={{ color: 'var(--muted-foreground)' }} />
             </button>
@@ -283,8 +284,8 @@ export function DashboardTopNav() {
             {profileOpen && (
               <div className="absolute right-0 top-11 w-52 rounded-xl shadow-2xl z-50 overflow-hidden animate-scale-in p-1" style={{ backgroundColor: 'var(--card)', border: '1px solid var(--border)' }}>
                 <div className="px-3 py-2.5 border-b mb-1" style={{ borderColor: 'var(--border)' }}>
-                  <p className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>{isCfo ? "Sarah Rogers" : "Alex Johnson"}</p>
-                  <p className="text-xs font-mono mt-0.5" style={{ color: 'var(--muted-foreground)', fontFamily: 'monospace' }}>{isCfo ? "cfo@acme.com" : "ciso@acme.com"}</p>
+                  <p className="text-sm font-semibold" style={{ color: 'var(--foreground)' }}>{isCfo ? getPrimaryCFO().name : getPrimaryCISO().name}</p>
+                  <p className="text-xs font-mono mt-0.5" style={{ color: 'var(--muted-foreground)', fontFamily: 'monospace' }}>{isCfo ? getPrimaryCFO().email : getPrimaryCISO().email}</p>
                 </div>
                 {[
                   { icon: User, label: "Profile Settings", href: "#" },

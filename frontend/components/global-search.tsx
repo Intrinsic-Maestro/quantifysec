@@ -6,6 +6,7 @@ import {
   Search, X, ArrowRight, Clock, Server, AlertTriangle,
   ShieldAlert, FileBarChart, Users, Activity, Hash
 } from "lucide-react"
+import { getPrimaryCISO, getPrimaryCFO } from "@/lib/users"
 
 // ─── Search Index (frontend mock layer — replace with API later) ──────────────
 const SEARCH_INDEX = [
@@ -32,8 +33,8 @@ const SEARCH_INDEX = [
   { id: "rep-2", type: "Report", category: "Reports", title: "Vulnerability Assessment Report", description: "Full scan results · 47 findings", href: "/dashboard/ciso", icon: FileBarChart, tags: ["report", "vulnerability", "assessment"] },
   { id: "rep-3", type: "Report", category: "Reports", title: "CFO Risk & Financial Report", description: "Financial exposure analysis · $4.2M total", href: "/dashboard/cfo", icon: FileBarChart, tags: ["report", "cfo", "financial", "risk"] },
   // Users
-  { id: "usr-1", type: "User", category: "Users", title: "Alex Johnson — CISO", description: "ciso@acme.com · Last login 2h ago", href: "/dashboard/ciso", icon: Users, tags: ["user", "ciso", "alex", "admin"] },
-  { id: "usr-2", type: "User", category: "Users", title: "Sarah Rogers — CFO", description: "cfo@acme.com · Last login 4h ago", href: "/dashboard/cfo", icon: Users, tags: ["user", "cfo", "sarah"] },
+  { id: "usr-1", type: "User", category: "Users", title: `${getPrimaryCISO().name} — CISO`, description: `${getPrimaryCISO().email} · Last login 2h ago`, href: "/dashboard/ciso", icon: Users, tags: ["user", "ciso", "admin"] },
+  { id: "usr-2", type: "User", category: "Users", title: `${getPrimaryCFO().name} — CFO`, description: `${getPrimaryCFO().email} · Last login 4h ago`, href: "/dashboard/cfo", icon: Users, tags: ["user", "cfo"] },
 ]
 
 const RECENT_SEARCHES = ["CVE-2024-3400", "API vulnerability", "INC-0291", "Risk exposure"]

@@ -6,13 +6,13 @@ export default function Testimonials() {
   const testimonials = [
     {
       quote: "We blocked 98% of threats within minutes after switching. This is a game-changer.",
-      author: "Sarah Chen",
+      author: "Aditi Singh",
       role: "CTO, FinTech Startup",
       stats: "98% threat blockage",
     },
     {
       quote: "The zero-trust model saved us from a potential breach. Best investment we made.",
-      author: "Michael Rodriguez",
+      author: "Vikram Malhotra",
       role: "Security Lead, Healthcare Corp",
       stats: "0 successful breaches",
     },

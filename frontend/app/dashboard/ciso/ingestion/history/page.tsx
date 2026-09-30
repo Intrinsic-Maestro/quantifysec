@@ -6,11 +6,13 @@ import {
   FileJson, Eye, BarChart2, Upload, Filter, Search
 } from "lucide-react"
 
+import { USERS } from "@/lib/users"
+
 const HISTORY = [
   {
     id: "OCSF-20260927-001",
     filename: "security_events.json",
-    uploadedBy: "Alex Johnson (CISO)",
+    uploadedBy: `${USERS.CISO.name} (CISO)`,
     uploadedAt: "27 Sep 2026 · 16:52",
     events: 18429,
     valid: 18412,
@@ -24,7 +26,7 @@ const HISTORY = [
   {
     id: "OCSF-20260926-003",
     filename: "endpoint_telemetry.jsonl",
-    uploadedBy: "Sarah Chen (Analyst)",
+    uploadedBy: `${USERS.ANALYST_1.name} (Analyst)`,
     uploadedAt: "26 Sep 2026 · 11:14",
     events: 8201,
     valid: 8198,
@@ -38,7 +40,7 @@ const HISTORY = [
   {
     id: "OCSF-20260926-002",
     filename: "cloud_audit.json",
-    uploadedBy: "Alex Johnson (CISO)",
+    uploadedBy: `${USERS.CISO.name} (CISO)`,
     uploadedAt: "26 Sep 2026 · 08:33",
     events: 4122,
     valid: 4122,
@@ -52,7 +54,7 @@ const HISTORY = [
   {
     id: "OCSF-20260925-001",
     filename: "firewall_logs_malformed.json",
-    uploadedBy: "Ryan Patel (Analyst)",
+    uploadedBy: `${USERS.ANALYST_2.name} (Analyst)`,
     uploadedAt: "25 Sep 2026 · 14:07",
     events: 0,
     valid: 0,
@@ -66,7 +68,7 @@ const HISTORY = [
   {
     id: "OCSF-20260924-002",
     filename: "identity_events.json",
-    uploadedBy: "Alex Johnson (CISO)",
+    uploadedBy: `${USERS.CISO.name} (CISO)`,
     uploadedAt: "24 Sep 2026 · 16:20",
     events: 2847,
     valid: 2847,

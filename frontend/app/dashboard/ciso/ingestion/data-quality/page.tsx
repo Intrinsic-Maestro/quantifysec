@@ -21,7 +21,7 @@ const INVALID_EVENTS = [
     issue: "Invalid ISO-8601 timestamp",
     field: "time",
     reason: "The 'time' field must be an integer epoch millisecond or ISO-8601 string. Received: '2026/09/26 09:31' (slash-separated date not accepted by OCSF v1.1.0 schema).",
-    raw: '{\n  "class_uid": 3001,\n  "category_uid": 3,\n  "time": "2026/09/26 09:31",\n  "severity_id": 3,\n  "activity_id": 1,\n  "actor": { "user": { "name": "jsmith" } }\n}',
+    raw: '{\n  "class_uid": 3001,\n  "category_uid": 3,\n  "time": "2026/09/26 09:31",\n  "severity_id": 3,\n  "activity_id": 1,\n  "actor": { "user": { "name": "rsharma" } }\n}',
   },
   {
     id: "EVT-9204",

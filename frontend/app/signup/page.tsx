@@ -194,7 +194,7 @@ export default function SignupPage() {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    placeholder="Alex"
+                    placeholder="Ram"
                     className="w-full px-4 py-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition"
                   />
                   {errors.firstName && <p className="text-rose-500 text-xs">{errors.firstName}</p>}
@@ -206,7 +206,7 @@ export default function SignupPage() {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    placeholder="Johnson"
+                    placeholder="Ramson"
                     className="w-full px-4 py-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition"
                   />
                   {errors.lastName && <p className="text-rose-500 text-xs">{errors.lastName}</p>}
@@ -221,7 +221,7 @@ export default function SignupPage() {
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="alex@company.com"
+                  placeholder="ram@company.com"
                   className="w-full px-4 py-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition"
                 />
                 {errors.email && <p className="text-rose-500 text-xs">{errors.email}</p>}

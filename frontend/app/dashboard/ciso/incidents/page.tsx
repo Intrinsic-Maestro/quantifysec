@@ -2,13 +2,15 @@
 
 import { Flame, Clock, User, ChevronRight } from "lucide-react"
 
+import { USERS } from "@/lib/users"
+
 const incidents = [
-  { id: "INC-0292", title: "Ransomware alert — endpoint isolation triggered", severity: "Critical", assigned: "Sarah Chen", opened: "1h ago", status: "Investigating" },
-  { id: "INC-0291", title: "Suspicious login from unknown IP — 45.33.32.156", severity: "High", assigned: "Ryan Patel", opened: "2h ago", status: "Investigating" },
-  { id: "INC-0290", title: "Brute force attempt on VPN gateway", severity: "Medium", assigned: "Ryan Patel", opened: "5h ago", status: "Resolved" },
-  { id: "INC-0289", title: "Malware signature detected on ACME-LAPTOP-0192", severity: "Critical", assigned: "Sarah Chen", opened: "8h ago", status: "Contained" },
-  { id: "INC-0288", title: "Anomalous data exfiltration pattern in S3 logs", severity: "High", assigned: "Alex Johnson", opened: "1d ago", status: "Resolved" },
-  { id: "INC-0287", title: "Privilege escalation attempt detected", severity: "High", assigned: "Sarah Chen", opened: "2d ago", status: "Resolved" },
+  { id: "INC-0292", title: "Ransomware alert — endpoint isolation triggered", severity: "Critical", assigned: USERS.ANALYST_1.name, opened: "1h ago", status: "Investigating" },
+  { id: "INC-0291", title: "Suspicious login from unknown IP — 45.33.32.156", severity: "High", assigned: USERS.ANALYST_2.name, opened: "2h ago", status: "Investigating" },
+  { id: "INC-0290", title: "Brute force attempt on VPN gateway", severity: "Medium", assigned: USERS.ANALYST_2.name, opened: "5h ago", status: "Resolved" },
+  { id: "INC-0289", title: "Malware signature detected on ACME-LAPTOP-0192", severity: "Critical", assigned: USERS.ANALYST_1.name, opened: "8h ago", status: "Contained" },
+  { id: "INC-0288", title: "Anomalous data exfiltration pattern in S3 logs", severity: "High", assigned: USERS.CISO.name, opened: "1d ago", status: "Resolved" },
+  { id: "INC-0287", title: "Privilege escalation attempt detected", severity: "High", assigned: USERS.ANALYST_1.name, opened: "2d ago", status: "Resolved" },
 ]
 
 function SevBadge({ s }: { s: string }) {

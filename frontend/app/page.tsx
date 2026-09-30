@@ -111,7 +111,7 @@ function Hero() {
 
         {/* Headline */}
         <div className="text-center max-w-4xl mx-auto mb-6">
-          <h1 className="text-5xl md:text-6xl font-black tracking-tight leading-[1.05] text-foreground">
+          <h1 className="text-5xl md:text-6xl font-black font-display tracking-tight leading-[1.05] text-foreground">
             Turn security data into<br />
             <span className="text-primary">business decisions</span>
           </h1>
@@ -270,7 +270,7 @@ function HowItWorks() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-2xl mb-16">
           <p className="section-label">How It Works</p>
-          <h2 className="text-4xl font-bold tracking-tight">Security data is valuable. Only when it speaks business.</h2>
+          <h2 className="text-4xl font-bold font-display tracking-tight">Security data is valuable. Only when it speaks business.</h2>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((s, i) => (
@@ -298,7 +298,7 @@ function DualPersonas() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <p className="section-label">Built for Two Audiences</p>
-          <h2 className="text-4xl font-bold tracking-tight">One platform. Two perspectives.</h2>
+          <h2 className="text-4xl font-bold font-display tracking-tight">One platform. Two perspectives.</h2>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
@@ -370,7 +370,7 @@ function RiskGraph() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <p className="section-label">Risk Intelligence Graph</p>
-            <h2 className="text-4xl font-bold tracking-tight mb-4">See the chain from threat to business impact</h2>
+            <h2 className="text-4xl font-bold font-display tracking-tight mb-4">See the chain from threat to business impact</h2>
             <p className="text-muted-foreground leading-relaxed mb-6">
               Every security finding is linked to its origin threat, the assets it affects, and the financial exposure it creates. QuantifySec makes this chain visible — so your team knows exactly what to fix and why.
             </p>
@@ -463,7 +463,7 @@ function CTA() {
         <div className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(59,91,219,0.5)]">
           <Shield className="w-7 h-7 text-white" />
         </div>
-        <h2 className="text-4xl font-bold tracking-tight mb-4">
+        <h2 className="text-4xl font-bold font-display tracking-tight mb-4">
           Make cybersecurity<br />financially measurable
         </h2>
         <p className="text-muted-foreground mb-8 leading-relaxed">

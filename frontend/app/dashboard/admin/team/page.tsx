@@ -2,13 +2,15 @@
 
 import { Users, Plus, MoreHorizontal } from "lucide-react"
 
+import { USERS } from "@/lib/users"
+
 const team = [
-  { name: "Alex Johnson", email: "alex.johnson@acme.com", role: "CISO", status: "Active", lastLogin: "2h ago", mfa: true },
-  { name: "Lisa Park", email: "lisa.park@acme.com", role: "CFO", status: "Active", lastLogin: "5h ago", mfa: true },
-  { name: "Sarah Chen", email: "sarah.chen@acme.com", role: "Security Analyst", status: "Active", lastLogin: "1h ago", mfa: true },
-  { name: "Ryan Patel", email: "ryan.patel@acme.com", role: "Security Analyst", status: "Active", lastLogin: "30m ago", mfa: false },
-  { name: "Michael Torres", email: "michael.torres@acme.com", role: "Administrator", status: "Active", lastLogin: "4h ago", mfa: true },
-  { name: "Emma Wilson", email: "emma.wilson@acme.com", role: "Viewer", status: "Inactive", lastLogin: "14d ago", mfa: false },
+  { name: USERS.CISO.name, email: USERS.CISO.email, role: USERS.CISO.role, status: "Active", lastLogin: "2h ago", mfa: true },
+  { name: USERS.CFO.name, email: USERS.CFO.email, role: USERS.CFO.role, status: "Active", lastLogin: "5h ago", mfa: true },
+  { name: USERS.ANALYST_1.name, email: USERS.ANALYST_1.email, role: USERS.ANALYST_1.role, status: "Active", lastLogin: "1h ago", mfa: true },
+  { name: USERS.ANALYST_2.name, email: USERS.ANALYST_2.email, role: USERS.ANALYST_2.role, status: "Active", lastLogin: "30m ago", mfa: false },
+  { name: USERS.ADMIN.name, email: USERS.ADMIN.email, role: USERS.ADMIN.role, status: "Active", lastLogin: "4h ago", mfa: true },
+  { name: USERS.EXEC.name, email: USERS.EXEC.email, role: USERS.EXEC.role, status: "Inactive", lastLogin: "14d ago", mfa: false },
 ]
 
 export default function TeamPage() {

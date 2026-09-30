@@ -4,6 +4,7 @@ import { useState, useCallback } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
+import { getPrimaryCISO, getPrimaryCFO } from "@/lib/users"
 import {
   Shield,
   LayoutDashboard,
@@ -199,8 +200,8 @@ export function DashboardSidebar() {
           </div>
           {!collapsed && (
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-white/90 truncate">{isCfo ? "Sarah Rogers" : "Alex Johnson"}</p>
-              <p className="text-xs truncate" style={{ color: "var(--sidebar-foreground)" }}>{isCfo ? "CFO" : "CISO"}</p>
+              <p className="text-sm font-semibold text-white/90 truncate">{isCfo ? getPrimaryCFO().name : getPrimaryCISO().name}</p>
+              <p className="text-xs truncate" style={{ color: "var(--sidebar-foreground)" }}>{isCfo ? getPrimaryCFO().role : getPrimaryCISO().role}</p>
             </div>
           )}
         </div>
@@ -299,8 +300,8 @@ export function DashboardTopBar({ title }: { title?: string }) {
           {profileOpen && (
             <div className="absolute right-0 top-11 w-52 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden animate-scale-in">
               <div className="px-4 py-3 border-b border-border">
-                <p className="font-semibold text-sm">Alex Johnson</p>
-                <p className="text-xs text-muted-foreground">CISO · alex@acme.com</p>
+                <p className="font-semibold text-sm">{getPrimaryCISO().name}</p>
+                <p className="text-xs text-muted-foreground">{getPrimaryCISO().role} · {getPrimaryCISO().email}</p>
               </div>
               <div className="py-1">
                 {[

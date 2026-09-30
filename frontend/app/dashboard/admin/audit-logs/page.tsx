@@ -24,19 +24,21 @@ interface AuditEvent {
 }
 
 // ─── Demo Data ────────────────────────────────────────────────────────────────
+import { USERS } from "@/lib/users"
+
 const auditEvents: AuditEvent[] = [
-  { id: "EVT-8291", timestamp: "2026-09-26T21:12:04Z", user: "alex.johnson@acme.com", role: "CISO", action: "Changed risk threshold", resource: "Risk Policy — Critical", ip: "192.168.1.45", status: "Success", category: "Configuration", prevValue: "8.0", newValue: "7.5", metadata: { reason: "Board directive to lower acceptable risk", ticketId: "CRM-5512" } },
-  { id: "EVT-8290", timestamp: "2026-09-26T20:58:11Z", user: "sarah.chen@acme.com", role: "Security Analyst", action: "Viewed incident details", resource: "INC-0291", ip: "10.0.0.22", status: "Success", category: "Access" },
-  { id: "EVT-8289", timestamp: "2026-09-26T20:41:33Z", user: "michael.torres@acme.com", role: "Administrator", action: "Changed user role", resource: "ryan.patel@acme.com", ip: "10.0.0.5", status: "Success", category: "IAM", prevValue: "Security Analyst", newValue: "Team Lead", metadata: { approvedBy: "alex.johnson@acme.com" } },
+  { id: "EVT-8291", timestamp: "2026-09-26T21:12:04Z", user: USERS.CISO.email, role: "CISO", action: "Changed risk threshold", resource: "Risk Policy — Critical", ip: "192.168.1.45", status: "Success", category: "Configuration", prevValue: "8.0", newValue: "7.5", metadata: { reason: "Board directive to lower acceptable risk", ticketId: "CRM-5512" } },
+  { id: "EVT-8290", timestamp: "2026-09-26T20:58:11Z", user: USERS.ANALYST_1.email, role: "Security Analyst", action: "Viewed incident details", resource: "INC-0291", ip: "10.0.0.22", status: "Success", category: "Access" },
+  { id: "EVT-8289", timestamp: "2026-09-26T20:41:33Z", user: USERS.ADMIN.email, role: "Administrator", action: "Changed user role", resource: USERS.ANALYST_2.email, ip: "10.0.0.5", status: "Success", category: "IAM", prevValue: "Security Analyst", newValue: "Team Lead", metadata: { approvedBy: USERS.CISO.email } },
   { id: "EVT-8288", timestamp: "2026-09-26T20:15:22Z", user: "external-api", role: "API Service", action: "Integration connected", resource: "Splunk SIEM v8.2", ip: "203.0.113.10", status: "Success", category: "Integration" },
-  { id: "EVT-8287", timestamp: "2026-09-26T19:58:07Z", user: "lisa.park@acme.com", role: "CFO", action: "Exported financial report", resource: "Q4 Risk Report — PDF", ip: "192.168.1.78", status: "Success", category: "Export" },
+  { id: "EVT-8287", timestamp: "2026-09-26T19:58:07Z", user: USERS.CFO.email, role: "CFO", action: "Exported financial report", resource: "Q4 Risk Report — PDF", ip: "192.168.1.78", status: "Success", category: "Export" },
   { id: "EVT-8286", timestamp: "2026-09-26T19:33:44Z", user: "unknown@external.com", role: "Unknown", action: "Failed login attempt", resource: "QuantifySec Platform", ip: "45.33.32.156", status: "Failure", category: "Auth", metadata: { attempts: "7", blocked: "true", country: "Russia" } },
-  { id: "EVT-8285", timestamp: "2026-09-26T19:21:18Z", user: "alex.johnson@acme.com", role: "CISO", action: "Updated security configuration", resource: "MFA Policy — All Users", ip: "192.168.1.45", status: "Success", category: "Configuration", prevValue: "Optional", newValue: "Required" },
-  { id: "EVT-8284", timestamp: "2026-09-26T18:47:52Z", user: "ryan.patel@acme.com", role: "Security Analyst", action: "Created incident", resource: "INC-0292 — Ransomware Alert", ip: "10.0.0.31", status: "Success", category: "Incident" },
-  { id: "EVT-8283", timestamp: "2026-09-26T18:22:09Z", user: "michael.torres@acme.com", role: "Administrator", action: "Deleted user account", resource: "former.employee@acme.com", ip: "10.0.0.5", status: "Warning", category: "IAM", metadata: { reason: "Employee offboarding", deprovisioned: "true" } },
-  { id: "EVT-8282", timestamp: "2026-09-26T17:55:30Z", user: "sarah.chen@acme.com", role: "Security Analyst", action: "Closed incident", resource: "INC-0290", ip: "10.0.0.22", status: "Success", category: "Incident", prevValue: "Open", newValue: "Resolved" },
+  { id: "EVT-8285", timestamp: "2026-09-26T19:21:18Z", user: USERS.CISO.email, role: "CISO", action: "Updated security configuration", resource: "MFA Policy — All Users", ip: "192.168.1.45", status: "Success", category: "Configuration", prevValue: "Optional", newValue: "Required" },
+  { id: "EVT-8284", timestamp: "2026-09-26T18:47:52Z", user: USERS.ANALYST_2.email, role: "Security Analyst", action: "Created incident", resource: "INC-0292 — Ransomware Alert", ip: "10.0.0.31", status: "Success", category: "Incident" },
+  { id: "EVT-8283", timestamp: "2026-09-26T18:22:09Z", user: USERS.ADMIN.email, role: "Administrator", action: "Deleted user account", resource: USERS.EXEC.email, ip: "10.0.0.5", status: "Warning", category: "IAM", metadata: { reason: "Employee offboarding", deprovisioned: "true" } },
+  { id: "EVT-8282", timestamp: "2026-09-26T17:55:30Z", user: USERS.ANALYST_1.email, role: "Security Analyst", action: "Closed incident", resource: "INC-0290", ip: "10.0.0.22", status: "Success", category: "Incident", prevValue: "Open", newValue: "Resolved" },
   { id: "EVT-8281", timestamp: "2026-09-26T17:30:12Z", user: "api-scanner", role: "API Service", action: "Vulnerability scan completed", resource: "Production Network Segment", ip: "10.0.0.100", status: "Success", category: "Scan", metadata: { findings: "47", critical: "3", high: "12" } },
-  { id: "EVT-8280", timestamp: "2026-09-26T16:44:07Z", user: "lisa.park@acme.com", role: "CFO", action: "Viewed risk intelligence", resource: "Financial Risk Register", ip: "192.168.1.78", status: "Success", category: "Access" },
+  { id: "EVT-8280", timestamp: "2026-09-26T16:44:07Z", user: USERS.CFO.email, role: "CFO", action: "Viewed risk intelligence", resource: "Financial Risk Register", ip: "192.168.1.78", status: "Success", category: "Access" },
 ]
 
 const categories = ["All", "Configuration", "Access", "IAM", "Integration", "Export", "Auth", "Incident", "Scan"]

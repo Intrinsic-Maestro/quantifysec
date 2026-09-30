@@ -286,7 +286,7 @@ The backend `run_portfolio_simulation` maps CVE CVSS scores (divided by 10) to d
 
 *[IMPLEMENTED]*
 - **Why it is used:** Deterministic math (e.g., CVSS 8 = High) fails to account for uncertainty. Monte Carlo provides probabilistic distributions of loss.
-- **Inputs:** Asset Value, Vulnerability Exploit Probability, Exposure Multipliers.
+- **Inputs:** Asset Value, Vulnerability Exploit Probability, Exposure Multipliers.![alt text](image.png)
 - **Simulations:** Runs 10,000 iterations per analysis.
 - **Expected Loss (ALE):** The mathematical mean of all 10,000 simulation losses.
 - **Value at Risk (p95):** The 95th percentile of the loss distribution (worst-case scenario).
