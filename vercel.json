@@ -9,14 +9,8 @@
       "use": "@vercel/static"
     }
   ],
-  "redirects": [
-    {
-      "source": "/demo",
-      "destination": "https://www.youtube.com/watch?v=iDd03MLux1E",
-      "permanent": false
-    }
-  ],
   "routes": [
+    { "src": "/demo", "headers": { "Location": "https://www.youtube.com/watch?v=iDd03MLux1E"}, "status": 307},
     { "src": "/api/(.*)", "dest": "backend/main.py" },
     { "src": "/(.*)", "dest": "frontend/index.html" }
   ]
