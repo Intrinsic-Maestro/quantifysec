@@ -55,6 +55,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# In-memory cache: holds the most recent pipeline result (uploaded or on-disk).
+# Dashboard endpoints serve from this cache instead of re-running from disk.
+_last_result: dict | None = None
+
 
 def _locate(name: str) -> Path:
     candidates = [DATA_DIR / name, ROOT_DIR / name, ROOT_DIR / "data_ingestion" / name]
@@ -407,19 +411,21 @@ def health():
 
 @app.post("/api/run-pipeline")
 def run_pipeline(iterations: int = Query(MC_ITERATIONS, ge=100, le=10000)):
-    return _run_pipeline(iterations)
+    global _last_result
+    _last_result = _run_pipeline(iterations)
+    return _last_result
 
 
 @app.get("/api/dashboard/ciso")
 def ciso_dashboard(iterations: int = Query(MC_ITERATIONS, ge=100, le=10000)):
-    result = _run_pipeline(iterations)
-    return {"status": result["status"], "generated_at": result["generated_at"], "company_context": result["company_context"], "ingestion_metrics": result["ingestion_metrics"], "ciso_metrics": result["ciso_metrics"], "risk_quantification": result["risk_quantification"]}
+    result = _last_result if _last_result else _run_pipeline(iterations)
+    return {"status": result["status"], "generated_at": result["generated_at"], "company_context": result.get("company_context", {}), "ingestion_metrics": result["ingestion_metrics"], "ciso_metrics": result["ciso_metrics"], "risk_quantification": result["risk_quantification"]}
 
 
 @app.get("/api/dashboard/cfo")
 def cfo_dashboard(iterations: int = Query(MC_ITERATIONS, ge=100, le=10000)):
-    result = _run_pipeline(iterations)
-    return {"status": result["status"], "generated_at": result["generated_at"], "company_context": result["company_context"], "ingestion_metrics": result["ingestion_metrics"], "cfo_metrics": result["cfo_metrics"], "monte_carlo": result["monte_carlo"], "pso_optimization": result["pso_optimization"]}
+    result = _last_result if _last_result else _run_pipeline(iterations)
+    return {"status": result["status"], "generated_at": result["generated_at"], "company_context": result.get("company_context", {}), "ingestion_metrics": result["ingestion_metrics"], "cfo_metrics": result["cfo_metrics"], "monte_carlo": result["monte_carlo"], "pso_optimization": result["pso_optimization"]}
 
 
 @app.post("/api/run-pipeline/upload")
@@ -472,7 +478,11 @@ async def run_uploaded_pipeline(
             "remediation_cost_efficiency_table": [],
             "quarter_over_quarter_risk_trend": trend,
         }
-        return {"status": "success", "ingestion_metrics": {"raw_valid_findings": valid, "malformed_or_unmapped_findings": malformed, "graph_nodes_processed": len(graph)}, "ciso_metrics": ciso, "cfo_metrics": cfo, "monte_carlo": {k: v for k, v in mc.items() if k != "node_risk"}, "risk_quantification": {"top_risks": mc["node_risk"][:100]}, "pso_optimization": {**pso, "selected_controls": pso["selected_controls"][:100], "deferred_controls": pso["deferred_controls"][:100]}}
+        upload_result = {"status": "success", "generated_at": datetime.now(timezone.utc).isoformat(), "ingestion_metrics": {"raw_valid_findings": valid, "malformed_or_unmapped_findings": malformed, "graph_nodes_processed": len(graph), "assets_loaded": len(assets)}, "company_context": {"annual_revenue_lakhs": finance.annual_revenue_inr_lakhs, "allocated_security_budget_lakhs": finance.allocated_security_budget_lakhs, "deferred_backlog_budget_lakhs": finance.deferred_backlog_budget_lakhs, "target_full_coverage_capital_lakhs": finance.target_full_coverage_capital_lakhs}, "ciso_metrics": ciso, "cfo_metrics": cfo, "monte_carlo": {k: v for k, v in mc.items() if k != "node_risk"}, "risk_quantification": {"vulnerability_count": len(records), "top_risks": mc["node_risk"][:100], "all_risks_available": True}, "pso_optimization": {**pso, "selected_controls": pso["selected_controls"][:100], "deferred_controls": pso["deferred_controls"][:100]}}
+        # Store in global cache so dashboard endpoints reflect uploaded data immediately.
+        global _last_result
+        _last_result = upload_result
+        return upload_result
     finally:
         for path in paths.values():
             try:

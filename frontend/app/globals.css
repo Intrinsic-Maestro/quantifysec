@@ -1,0 +1,576 @@
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   QUANTIFYSEC DESIGN SYSTEM
+   Identity: Security · Precision · Trust · Control · Intelligence
+   Palette: BLACK / WHITE / GREEN / RED / AMBER / CYAN(accent)
+   NO NAVY. NO BLUE DOMINANCE. NO GRAY TEXT.
+   ============================================================ */
+
+/* ── LIGHT MODE ─────────────────────────────────────────────── */
+:root {
+  /* Base surfaces */
+  --background: #fafafa;
+  --foreground: #080808;
+  --card: #ffffff;
+  --card-foreground: #080808;
+  --popover: #ffffff;
+  --popover-foreground: #080808;
+
+  /* Brand — Green is the primary positive/CTA color */
+  --primary: #00C878;
+  --primary-foreground: #000000;
+  --secondary: #f2f2f2;
+  --secondary-foreground: #111111;
+
+  /* States */
+  --muted: #efefef;
+  --muted-foreground: #525252;
+  --accent: #00B8A9;
+  --accent-foreground: #000000;
+  --destructive: #FF3B30;
+  --destructive-foreground: #ffffff;
+
+  /* Borders & Inputs */
+  --border: #e0e0e0;
+  --input: #f2f2f2;
+  --ring: #00C878;
+
+  /* Charts */
+  --chart-1: #00C878;
+  --chart-2: #FF3B30;
+  --chart-3: #FFB020;
+  --chart-4: #00B8A9;
+  --chart-5: #FF6B35;
+
+  /* Radius */
+  --radius: 0.625rem;
+
+  /* Sidebar — always dark */
+  --sidebar: #080808;
+  --sidebar-foreground: #d4d4d4;
+  --sidebar-primary: #00C878;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #181818;
+  --sidebar-accent-foreground: #f5f5f5;
+  --sidebar-border: #1f1f1f;
+  --sidebar-ring: #00C878;
+
+  /* QuantifySec Severity Tokens */
+  --risk-critical: #FF3B30;
+  --risk-high: #FF6B35;
+  --risk-medium: #FFB020;
+  --risk-low: #00C878;
+  --risk-info: #00B8A9;
+  --risk-secure: #00C878;
+
+  /* Brand color shortcuts */
+  --qs-green: #00C878;
+  --qs-green-dim: rgba(0, 200, 120, 0.10);
+  --qs-green-border: rgba(0, 200, 120, 0.22);
+  --qs-red: #FF3B30;
+  --qs-red-dim: rgba(255, 59, 48, 0.10);
+  --qs-red-border: rgba(255, 59, 48, 0.22);
+  --qs-amber: #FFB020;
+  --qs-amber-dim: rgba(255, 176, 32, 0.10);
+  --qs-amber-border: rgba(255, 176, 32, 0.22);
+  --qs-cyan: #00B8A9;
+  --qs-cyan-dim: rgba(0, 184, 169, 0.08);
+}
+
+/* ── DARK MODE ─────────────────────────────────────────────── */
+.dark {
+  /* True black backgrounds — no navy */
+  --background: #050505;
+  --foreground: #f5f5f5;
+  --card: #0a0a0a;
+  --card-foreground: #f5f5f5;
+  --popover: #0d0d0d;
+  --popover-foreground: #f5f5f5;
+
+  /* Brand — Green primary */
+  --primary: #00C878;
+  --primary-foreground: #000000;
+  --secondary: #111111;
+  --secondary-foreground: #f0f0f0;
+
+  /* States */
+  --muted: #141414;
+  --muted-foreground: #999999;
+  --accent: #00B8A9;
+  --accent-foreground: #000000;
+  --destructive: #FF3B30;
+  --destructive-foreground: #ffffff;
+
+  /* Borders & Inputs */
+  --border: #1f1f1f;
+  --input: #0f0f0f;
+  --ring: #00C878;
+
+  /* Charts */
+  --chart-1: #00C878;
+  --chart-2: #FF3B30;
+  --chart-3: #FFB020;
+  --chart-4: #00B8A9;
+  --chart-5: #FF6B35;
+
+  /* Sidebar — ultra-dark */
+  --sidebar: #030303;
+  --sidebar-foreground: #c0c0c0;
+  --sidebar-primary: #00C878;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #111111;
+  --sidebar-accent-foreground: #f5f5f5;
+  --sidebar-border: #1a1a1a;
+  --sidebar-ring: #00C878;
+
+  /* QuantifySec Severity Tokens */
+  --risk-critical: #FF3B30;
+  --risk-high: #FF6B35;
+  --risk-medium: #FFB020;
+  --risk-low: #00C878;
+  --risk-info: #00B8A9;
+  --risk-secure: #00C878;
+
+  /* Brand color shortcuts */
+  --qs-green: #00C878;
+  --qs-green-dim: rgba(0, 200, 120, 0.10);
+  --qs-green-border: rgba(0, 200, 120, 0.20);
+  --qs-red: #FF3B30;
+  --qs-red-dim: rgba(255, 59, 48, 0.10);
+  --qs-red-border: rgba(255, 59, 48, 0.20);
+  --qs-amber: #FFB020;
+  --qs-amber-dim: rgba(255, 176, 32, 0.10);
+  --qs-amber-border: rgba(255, 176, 32, 0.20);
+  --qs-cyan: #00B8A9;
+  --qs-cyan-dim: rgba(0, 184, 169, 0.08);
+}
+
+@theme inline {
+  --font-sans: "Styrene", "Inter", "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Styrene", "Inter", "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-editorial: "Tiempo", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", "Geist Mono", ui-monospace, monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+    font-family: var(--font-display);
+    color: var(--foreground);
+  }
+
+  /* Major numbers and dashboard KPIs */
+  .text-2xl, .text-3xl, .text-4xl, .text-5xl, .text-6xl {
+    font-family: var(--font-display) !important;
+  }
+
+  /* Editorial typography (Tiempo) for descriptions, reports, and AI explanations */
+  p:not([class*="font-bold"]):not([class*="font-semibold"]):not([class*="font-medium"]):not([class*="uppercase"]):not([class*="tracking-widest"]):not([class*="font-mono"]) {
+    font-family: var(--font-editorial);
+  }
+  
+  .ai-message-assistant,
+  .editorial-text {
+    font-family: var(--font-editorial) !important;
+  }
+
+  /* Structural overrides back to Sans (Styrene) */
+  nav, button, input, select, table, th, td, label, .badge, .info-chip, .sidebar-link, .topbar-search, kbd {
+    font-family: var(--font-sans);
+  }
+}
+
+/* ============================================================
+   DESIGN SYSTEM UTILITIES
+   ============================================================ */
+@layer components {
+
+  /* ── Metric Cards ──────────────────────────────────────── */
+  .metric-card {
+    @apply bg-card border border-border rounded-xl p-6 transition-all duration-200;
+  }
+  .dark .metric-card:hover {
+    border-color: rgba(255,255,255,0.07);
+  }
+
+  .metric-card-primary {
+    background-color: var(--qs-green-dim);
+    border: 1px solid var(--qs-green-border);
+    @apply rounded-xl p-6;
+  }
+
+  /* ── Severity System ───────────────────────────────────── */
+  /* CRITICAL — Red */
+  .severity-critical {
+    color: var(--risk-critical);
+    background-color: var(--qs-red-dim);
+    border: 1px solid var(--qs-red-border);
+  }
+  /* HIGH — Orange-Red */
+  .severity-high {
+    color: var(--risk-high);
+    background-color: rgba(255,107,53,0.09);
+    border: 1px solid rgba(255,107,53,0.20);
+  }
+  /* MEDIUM — Amber */
+  .severity-medium {
+    color: var(--risk-medium);
+    background-color: var(--qs-amber-dim);
+    border: 1px solid var(--qs-amber-border);
+  }
+  /* LOW / SECURE — Green */
+  .severity-low {
+    color: var(--risk-low);
+    background-color: var(--qs-green-dim);
+    border: 1px solid var(--qs-green-border);
+  }
+  /* INFO / INTELLIGENCE — Cyan */
+  .severity-info {
+    color: var(--risk-info);
+    background-color: var(--qs-cyan-dim);
+    border: 1px solid rgba(0,184,169,0.18);
+  }
+
+  /* ── Score Ring ────────────────────────────────────────── */
+  .score-ring {
+    @apply relative inline-flex items-center justify-center;
+  }
+
+  /* ── Dashboard sidebar ─────────────────────────────────── */
+  .sidebar-link {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150;
+    color: var(--sidebar-foreground);
+  }
+  .sidebar-link:hover {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+  }
+  .sidebar-link.active {
+    background-color: var(--qs-green-dim);
+    color: var(--qs-green);
+    border-left: 2px solid var(--qs-green);
+  }
+
+  /* ── Data table ────────────────────────────────────────── */
+  .data-table th {
+    @apply text-xs font-semibold uppercase tracking-wider py-3 px-4 text-left border-b border-border;
+    color: var(--muted-foreground);
+  }
+  .data-table td {
+    @apply text-sm py-3 px-4 border-b;
+    border-color: var(--border);
+    color: var(--foreground);
+  }
+  .data-table tr:last-child td {
+    @apply border-b-0;
+  }
+  .data-table tr:hover td {
+    background-color: rgba(255,255,255,0.02);
+  }
+  .dark .data-table tr:hover td {
+    background-color: rgba(255,255,255,0.02);
+  }
+
+  /* ── Stat change indicators ────────────────────────────── */
+  .stat-up {
+    @apply text-xs font-medium;
+    color: var(--qs-green);
+  }
+  .stat-down {
+    @apply text-xs font-medium;
+    color: var(--qs-red);
+  }
+  .stat-warn {
+    @apply text-xs font-medium;
+    color: var(--qs-amber);
+  }
+
+  /* ── Section labels ────────────────────────────────────── */
+  .section-label {
+    @apply text-xs font-bold uppercase tracking-widest mb-3;
+    font-family: var(--font-display);
+    color: var(--muted-foreground);
+  }
+  .section-label-green {
+    @apply text-xs font-bold uppercase tracking-widest mb-3;
+    font-family: var(--font-display);
+    color: var(--qs-green);
+  }
+
+  /* ── Glass panel ───────────────────────────────────────── */
+  .glass-panel {
+    @apply rounded-2xl backdrop-blur-md;
+    border: 1px solid rgba(255,255,255,0.08);
+    background-color: rgba(255,255,255,0.03);
+  }
+  .dark .glass-panel {
+    border-color: rgba(255,255,255,0.05);
+    background-color: rgba(255,255,255,0.02);
+  }
+
+  /* ── Gradient text ─────────────────────────────────────── */
+  .gradient-text {
+    background: linear-gradient(135deg, var(--qs-green), var(--qs-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Buttons ───────────────────────────────────────────── */
+  .btn-primary {
+    @apply font-semibold rounded-lg px-6 py-2.5 text-sm transition-all active:scale-[0.99];
+    background-color: var(--qs-green);
+    color: #000000;
+  }
+  .btn-primary:hover {
+    background-color: #00d984;
+    box-shadow: 0 0 18px rgba(0,200,120,0.30);
+  }
+
+  .btn-secondary {
+    @apply font-medium rounded-lg px-6 py-2.5 text-sm border border-border transition-all;
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+  }
+  .btn-secondary:hover {
+    background-color: var(--muted);
+  }
+
+  /* ── Loading skeleton ──────────────────────────────────── */
+  .skeleton {
+    @apply animate-pulse bg-muted rounded;
+  }
+
+  /* ── Dashboard scrollbar ───────────────────────────────── */
+  .dashboard-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .dashboard-scroll::-webkit-scrollbar { width: 4px; }
+  .dashboard-scroll::-webkit-scrollbar-track { background: transparent; }
+  .dashboard-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 2px;
+  }
+
+  /* ── Chart tooltip ─────────────────────────────────────── */
+  .chart-tooltip {
+    @apply border border-border rounded-lg shadow-xl text-sm p-3;
+    background-color: var(--popover);
+    color: var(--popover-foreground);
+  }
+
+  /* ── AI Chat ───────────────────────────────────────────── */
+  .ai-message-user {
+    @apply rounded-2xl rounded-br-sm px-4 py-3 text-sm max-w-[80%] ml-auto font-medium;
+    background-color: var(--qs-green);
+    color: #000000;
+  }
+  .ai-message-assistant {
+    @apply rounded-2xl rounded-bl-sm px-4 py-3 text-sm max-w-[80%];
+    background-color: var(--muted);
+    color: var(--foreground);
+    border: 1px solid var(--border);
+  }
+
+  /* ── Audit log ─────────────────────────────────────────── */
+  .audit-key {
+    @apply text-xs font-semibold uppercase tracking-wider;
+    color: var(--muted-foreground);
+  }
+  .audit-value {
+    @apply text-sm font-medium;
+    color: var(--foreground);
+  }
+
+  /* ── Hero backdrop ─────────────────────────────────────── */
+  .hero-backdrop {
+    background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,200,120,0.07), transparent);
+  }
+  .dark .hero-backdrop {
+    background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,200,120,0.05), transparent);
+  }
+
+  /* ── Topbar search ─────────────────────────────────────── */
+  .topbar-search {
+    @apply flex items-center gap-2 px-3 py-2 rounded-lg text-sm cursor-pointer transition-all;
+    background-color: var(--muted);
+    border: 1px solid var(--border);
+    color: var(--muted-foreground);
+  }
+  .topbar-search:hover {
+    border-color: var(--qs-green-border);
+    color: var(--foreground);
+  }
+
+  /* ── Info chip ─────────────────────────────────────────── */
+  .info-chip {
+    @apply inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border;
+  }
+
+  /* ── Live status dots ──────────────────────────────────── */
+  .live-status-green {
+    @apply inline-block w-2 h-2 rounded-full;
+    background-color: var(--qs-green);
+    box-shadow: 0 0 6px rgba(0,200,120,0.5);
+    animation: statusPulse 2s ease-in-out infinite;
+  }
+  .live-status-red {
+    @apply inline-block w-2 h-2 rounded-full;
+    background-color: var(--qs-red);
+    animation: statusPulse 1s ease-in-out infinite;
+  }
+  .live-status-amber {
+    @apply inline-block w-2 h-2 rounded-full;
+    background-color: var(--qs-amber);
+  }
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out forwards;
+  }
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Pulse dot */
+  .live-dot {
+    @apply inline-block w-2 h-2 rounded-full;
+    background-color: var(--qs-green);
+    animation: statusPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes statusPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.75); }
+  }
+
+  /* Score ring animation */
+  @keyframes strokeDraw {
+    from { stroke-dashoffset: 220; }
+    to { stroke-dashoffset: var(--dash-offset); }
+  }
+  .score-arc {
+    animation: strokeDraw 1.2s ease-out forwards;
+  }
+
+  /* Green glow utility */
+  .glow-green {
+    box-shadow: 0 0 20px rgba(0,200,120,0.25);
+  }
+  .glow-red {
+    box-shadow: 0 0 16px rgba(255,59,48,0.25);
+  }
+}
+
+@media print {
+  /* Hide the UI chrome and modals during print */
+  nav, header, button, [role="dialog"], .fixed {
+    display: none !important;
+  }
+  
+  /* Reset background and padding for the main content to print beautifully */
+  body, main, html {
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+  
+  /* Ensure cards print with borders and without shadows */
+  .bg-card, .metric-card {
+    border: 1px solid #e5e7eb !important;
+    break-inside: avoid;
+    box-shadow: none !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  .text-muted-foreground {
+    color: #4b5563 !important;
+  }
+
+  /* Force background colors to show up in the PDF */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
