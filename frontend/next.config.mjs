@@ -16,7 +16,7 @@ const nextConfig = {
         unoptimized: true,
     },
     async rewrites() {
-        const apiUrl = process.env.API_URL || 'http://127.0.0.1:8000';
+        const apiUrl = process.env.API_URL || 'https://quantifysec-production.up.railway.app';
         return [
             {
                 source: '/api/:path*',
