@@ -95,7 +95,6 @@ function generateReportHTML(type: string, sections: string[], dateRange: string)
     h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
     h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; }
     .subtitle { color: #64748b; font-size: 13px; margin-bottom: 8px; }
-    .demo-badge { display: inline-block; background: #fef3c7; border: 1px solid #fcd34d; color: #92400e; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.5px; margin-bottom: 32px; }
     .section { margin-bottom: 40px; }
     .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
     .kpi { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; }
@@ -147,8 +146,6 @@ function generateReportHTML(type: string, sections: string[], dateRange: string)
       Classification: CONFIDENTIAL
     </div>
   </div>
-
-  <div class="demo-badge">⚠ DEMO DATA — Not real measurements</div>
 
   <h1>${reportType?.name ?? "Security Report"}</h1>
   <p class="subtitle">Prepared for executive review · QuantifySec Risk Intelligence Platform</p>
