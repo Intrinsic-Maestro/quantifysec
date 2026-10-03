@@ -80,51 +80,182 @@ function generateReportHTML(type: string, sections: string[], dateRange: string)
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>QuantifySec — ${reportType?.name ?? "Report"}</title>
   <style>
-    :root { --primary: #3b5bdb; --danger: #f43f5e; --warning: #f59e0b; --success: #0ca678; }
+    :root { 
+      --primary: #00C878; 
+      --danger: #FF3B30; 
+      --warning: #FFB020; 
+      --success: #00C878; 
+      
+      --bg-base: #050505; 
+      --bg-surface: #0A0A0A; 
+      --bg-surface-elevated: #101010; 
+      
+      --border-subtle: #222222; 
+      --border-strong: #2A2A2A; 
+      
+      --text-main: #F5F5F5; 
+      --text-muted: #B8B8B8; 
+    }
+    
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f8fafc; color: #0f172a; font-size: 14px; line-height: 1.6; }
-    .page { max-width: 900px; margin: 0 auto; padding: 48px 40px; background: white; min-height: 100vh; }
-    .header { display: flex; align-items: flex-start; justify-content: space-between; padding-bottom: 32px; border-bottom: 2px solid #e2e8f0; margin-bottom: 40px; }
+    
+    body { 
+      font-family: "Styrene", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; 
+      background: var(--bg-base); 
+      color: var(--text-main); 
+      font-size: 14px; 
+      line-height: 1.6; 
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    
+    .page { 
+      max-width: 900px; 
+      margin: 0 auto; 
+      padding: 48px 40px; 
+      background: var(--bg-base); 
+      min-height: 100vh; 
+    }
+    
+    .tiempo { font-family: "Tiempo", Georgia, serif; }
+    
+    /* Header */
+    .header { 
+      display: flex; 
+      align-items: flex-start; 
+      justify-content: space-between; 
+      padding-bottom: 24px; 
+      border-bottom: 1px solid var(--border-subtle); 
+      margin-bottom: 40px; 
+    }
     .logo { display: flex; align-items: center; gap: 12px; }
-    .logo-icon { width: 40px; height: 40px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-    .logo-icon svg { width: 20px; height: 20px; stroke: white; fill: none; stroke-width: 2; }
-    .logo-text { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+    .logo-icon { 
+      width: 40px; height: 40px; 
+      background: var(--bg-surface); 
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px; 
+      display: flex; align-items: center; justify-content: center; 
+    }
+    .logo-icon svg { width: 20px; height: 20px; stroke: var(--primary); fill: none; stroke-width: 2; }
+    .logo-text { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); }
     .logo-text span { color: var(--primary); }
-    .meta { text-align: right; color: #64748b; font-size: 12px; }
-    .meta strong { display: block; font-size: 14px; color: #0f172a; font-weight: 600; }
-    h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
-    h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #e2e8f0; }
-    .subtitle { color: #64748b; font-size: 13px; margin-bottom: 8px; }
-    .section { margin-bottom: 40px; }
-    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
-    .kpi { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; }
-    .kpi-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #64748b; margin-bottom: 6px; }
-    .kpi-value { font-size: 28px; font-weight: 900; font-family: "Courier New", monospace; letter-spacing: -1px; }
-    .kpi-sub { font-size: 12px; color: #64748b; margin-top: 4px; }
+    
+    .meta { text-align: right; color: var(--text-muted); font-size: 12px; font-family: "Styrene", sans-serif; }
+    .meta strong { display: block; font-size: 14px; color: var(--text-main); font-weight: 600; font-family: "Tiempo", serif; margin-bottom: 4px; }
+    
+    /* Titles */
+    h1 { 
+      font-size: 32px; 
+      font-weight: 400; 
+      margin-bottom: 8px; 
+      color: var(--text-main);
+    }
+    h2 { 
+      font-size: 20px; 
+      font-weight: 400; 
+      margin-bottom: 20px; 
+      padding-bottom: 12px; 
+      border-bottom: 1px solid var(--border-subtle); 
+      color: var(--text-main);
+    }
+    .subtitle { color: var(--text-muted); font-size: 13px; margin-bottom: 40px; }
+    
+    .section { margin-bottom: 48px; }
+    
+    /* KPI Grid */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+    .kpi { 
+      background: var(--bg-surface); 
+      border: 1px solid var(--border-subtle); 
+      border-radius: 8px; 
+      padding: 20px; 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    .kpi-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 12px; }
+    .kpi-value { font-size: 32px; font-weight: 700; letter-spacing: -1px; margin-bottom: 4px; }
+    .kpi-sub { font-size: 12px; color: var(--text-muted); }
+    
     .kpi-good .kpi-value { color: var(--success); }
     .kpi-warn .kpi-value { color: var(--warning); }
     .kpi-bad .kpi-value { color: var(--danger); }
-    .kpi-primary .kpi-value { color: var(--primary); }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { text-align: left; padding: 10px 14px; background: #f1f5f9; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; border-bottom: 2px solid #e2e8f0; }
-    td { padding: 11px 14px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
-    tr:last-child td { border-bottom: none; }
-    .badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
-    .badge-red { background: #fef2f2; color: #dc2626; }
-    .badge-orange { background: #fff7ed; color: #ea580c; }
-    .badge-amber { background: #fffbeb; color: #d97706; }
-    .badge-green { background: #f0fdf4; color: #16a34a; }
-    .badge-blue { background: #eff6ff; color: #2563eb; }
-    .score-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-    .score-bar-label { width: 140px; font-size: 13px; color: #334155; }
-    .score-bar-track { flex: 1; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
-    .score-bar-fill { height: 100%; border-radius: 3px; }
-    .score-bar-val { width: 36px; text-align: right; font-weight: 700; font-family: "Courier New", monospace; font-size: 13px; }
-    .insight { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
-    .insight-title { font-weight: 700; font-size: 14px; color: #1e40af; margin-bottom: 6px; }
-    .insight-body { font-size: 13px; color: #1e40af; opacity: 0.85; }
-    .footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; font-size: 11px; color: #94a3b8; }
-    @media print { body { background: white; } .page { padding: 24px; } }
+    .kpi-primary .kpi-value { color: var(--success); } /* Security ROI */
+    
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+    th { 
+      text-align: left; 
+      padding: 12px 16px; 
+      background: var(--bg-surface-elevated); 
+      font-size: 11px; 
+      font-weight: 600; 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px; 
+      color: var(--text-muted); 
+      border-bottom: 1px solid var(--border-strong); 
+      border-top: 1px solid var(--border-subtle);
+    }
+    td { 
+      padding: 14px 16px; 
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle); 
+      vertical-align: middle; 
+      color: var(--text-main);
+    }
+    tr:last-child td { border-bottom: 1px solid var(--border-strong); }
+    
+    /* Badges / Pills */
+    .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; border: 1px solid transparent; }
+    .badge-red { background: rgba(255, 59, 48, 0.1); color: var(--danger); border-color: rgba(255, 59, 48, 0.2); }
+    .badge-orange { background: rgba(255, 176, 32, 0.1); color: var(--warning); border-color: rgba(255, 176, 32, 0.2); }
+    .badge-amber { background: rgba(255, 176, 32, 0.1); color: var(--warning); border-color: rgba(255, 176, 32, 0.2); }
+    .badge-green { background: rgba(0, 200, 120, 0.1); color: var(--success); border-color: rgba(0, 200, 120, 0.2); }
+    .badge-neutral { background: rgba(255, 255, 255, 0.05); color: var(--text-main); border-color: rgba(255, 255, 255, 0.1); }
+    
+    code { font-family: "Courier New", monospace; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; font-size: 12px; color: var(--text-main); }
+    strong { font-weight: 600; color: var(--text-main); }
+    
+    /* Score Bars */
+    .score-bar { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .score-bar-label { width: 160px; font-size: 13px; color: var(--text-main); font-weight: 500; }
+    .score-bar-track { flex: 1; height: 8px; background: #202020; border-radius: 4px; overflow: hidden; }
+    .score-bar-fill { height: 100%; border-radius: 4px; }
+    .score-bar-val { width: 36px; text-align: right; font-weight: 600; font-size: 13px; color: var(--text-main); }
+    
+    /* Insights */
+    .insight { 
+      background: var(--bg-surface); 
+      border: 1px solid var(--border-subtle); 
+      border-radius: 8px; 
+      padding: 24px; 
+      margin-bottom: 24px; 
+      border-left: 3px solid var(--primary);
+    }
+    .insight-title { font-weight: 600; font-size: 14px; color: var(--text-main); margin-bottom: 10px; font-family: "Tiempo", serif; }
+    .insight-body { font-size: 13px; color: var(--text-muted); }
+    
+    /* Footer */
+    .footer { 
+      margin-top: 60px; 
+      padding-top: 24px; 
+      border-top: 1px solid var(--border-subtle); 
+      display: flex; 
+      justify-content: space-between; 
+      font-size: 11px; 
+      color: var(--text-muted); 
+    }
+    
+    /* Print Styles */
+    @media print { 
+      body { background: var(--bg-base); color: var(--text-main); } 
+      .page { padding: 24px; } 
+      .kpi { box-shadow: none; border: 1px solid var(--border-strong); }
+      th { background: var(--bg-surface-elevated) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      td { background: var(--bg-surface) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .score-bar-track { background: #202020 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .header, h2, .footer { page-break-inside: avoid; }
+      table { page-break-inside: auto; }
+      tr { page-break-inside: avoid; page-break-after: auto; }
+    }
   </style>
 </head>
 <body>
@@ -136,18 +267,18 @@ function generateReportHTML(type: string, sections: string[], dateRange: string)
       </div>
       <div>
         <div class="logo-text">Quantify<span>Sec</span></div>
-        <div style="font-size:11px;color:#64748b">Cyber Risk Intelligence Platform</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">Cyber Risk Intelligence Platform</div>
       </div>
     </div>
     <div class="meta">
-      <strong>${reportType?.name ?? "Security Report"}</strong>
+      <strong class="tiempo">${reportType?.name ?? "Security Report"}</strong>
       Generated: ${now}<br/>
       Period: ${dateRange}<br/>
       Classification: CONFIDENTIAL
     </div>
   </div>
 
-  <h1>${reportType?.name ?? "Security Report"}</h1>
+  <h1 class="tiempo">${reportType?.name ?? "CISO Technical Report"}</h1>
   <p class="subtitle">Prepared for executive review · QuantifySec Risk Intelligence Platform</p>
 
   <!-- KPIs -->
@@ -155,17 +286,17 @@ function generateReportHTML(type: string, sections: string[], dateRange: string)
     <div class="kpi kpi-good">
       <div class="kpi-label">Security Score</div>
       <div class="kpi-value">87</div>
-      <div class="kpi-sub">↑ +3 from last month</div>
+      <div class="kpi-sub" style="color: var(--success);">↑ +3 from last month</div>
     </div>
     <div class="kpi kpi-warn">
       <div class="kpi-label">Risk Exposure</div>
       <div class="kpi-value">$4.2M</div>
-      <div class="kpi-sub">↓ -$340K from Q3</div>
+      <div class="kpi-sub" style="color: var(--success);">↓ -$340K from Q3</div>
     </div>
     <div class="kpi kpi-bad">
       <div class="kpi-label">Critical Risks</div>
       <div class="kpi-value">3</div>
-      <div class="kpi-sub">↑ +1 this week</div>
+      <div class="kpi-sub" style="color: var(--danger);">↑ +1 this week</div>
     </div>
     <div class="kpi kpi-primary">
       <div class="kpi-label">Security ROI</div>
@@ -176,13 +307,13 @@ function generateReportHTML(type: string, sections: string[], dateRange: string)
 
   ${sections.includes("Executive Summary") || sections.includes("Risk Exposure Summary") ? `
   <div class="section">
-    <h2>Executive Summary</h2>
+    <h2 class="tiempo">Executive Summary</h2>
     <div class="insight">
       <div class="insight-title">AI Analyst Assessment</div>
       <div class="insight-body">
         The organization's security posture improved by 3 points this month, reaching a score of 87/100. 
-        Three critical vulnerabilities on internet-facing assets represent a combined financial exposure of $2.1M. 
-        Immediate remediation of CVE-2024-3400 (CVSS 10.0) on the production API gateway is strongly recommended.
+        Three critical vulnerabilities on internet-facing assets represent a combined financial exposure of <strong style="color: var(--text-main);">$2.1M</strong>. 
+        Immediate remediation of <code>CVE-2024-3400</code> (CVSS 10.0) on the production API gateway is strongly recommended.
         Current security investment of $840K annually is generating a 4.2× risk reduction return.
       </div>
     </div>
@@ -190,18 +321,18 @@ function generateReportHTML(type: string, sections: string[], dateRange: string)
 
   ${sections.includes("Security Score") || sections.includes("Security Domains") ? `
   <div class="section">
-    <h2>Security Domain Scores</h2>
-    <div class="score-bar"><div class="score-bar-label">Identity Security</div><div class="score-bar-track"><div class="score-bar-fill" style="width:94%;background:#0ca678"></div></div><div class="score-bar-val">94</div></div>
-    <div class="score-bar"><div class="score-bar-label">Endpoint Security</div><div class="score-bar-track"><div class="score-bar-fill" style="width:91%;background:#0ca678"></div></div><div class="score-bar-val">91</div></div>
-    <div class="score-bar"><div class="score-bar-label">Network Security</div><div class="score-bar-track"><div class="score-bar-fill" style="width:78%;background:#f59e0b"></div></div><div class="score-bar-val">78</div></div>
-    <div class="score-bar"><div class="score-bar-label">Data Security</div><div class="score-bar-track"><div class="score-bar-fill" style="width:72%;background:#f59e0b"></div></div><div class="score-bar-val">72</div></div>
-    <div class="score-bar"><div class="score-bar-label">Cloud Security</div><div class="score-bar-track"><div class="score-bar-fill" style="width:65%;background:#f43f5e"></div></div><div class="score-bar-val">65</div></div>
-    <div class="score-bar"><div class="score-bar-label">Application Security</div><div class="score-bar-track"><div class="score-bar-fill" style="width:58%;background:#f43f5e"></div></div><div class="score-bar-val">58</div></div>
+    <h2 class="tiempo">Security Domain Scores</h2>
+    <div class="score-bar"><div class="score-bar-label">Identity Security</div><div class="score-bar-track"><div class="score-bar-fill" style="width:94%;background:var(--success)"></div></div><div class="score-bar-val">94</div></div>
+    <div class="score-bar"><div class="score-bar-label">Endpoint Security</div><div class="score-bar-track"><div class="score-bar-fill" style="width:91%;background:var(--success)"></div></div><div class="score-bar-val">91</div></div>
+    <div class="score-bar"><div class="score-bar-label">Network Security</div><div class="score-bar-track"><div class="score-bar-fill" style="width:78%;background:var(--warning)"></div></div><div class="score-bar-val">78</div></div>
+    <div class="score-bar"><div class="score-bar-label">Data Security</div><div class="score-bar-track"><div class="score-bar-fill" style="width:72%;background:var(--warning)"></div></div><div class="score-bar-val">72</div></div>
+    <div class="score-bar"><div class="score-bar-label">Cloud Security</div><div class="score-bar-track"><div class="score-bar-fill" style="width:65%;background:var(--danger)"></div></div><div class="score-bar-val">65</div></div>
+    <div class="score-bar"><div class="score-bar-label">Application Security</div><div class="score-bar-track"><div class="score-bar-fill" style="width:58%;background:var(--danger)"></div></div><div class="score-bar-val">58</div></div>
   </div>` : ""}
 
   ${sections.includes("Top Risks") || sections.includes("Financial Risk Register") ? `
   <div class="section">
-    <h2>${type === "cfo" ? "Financial Risk Register" : "Top Risks"}</h2>
+    <h2 class="tiempo">${type === "cfo" ? "Financial Risk Register" : "Top Risks"}</h2>
     <table>
       <thead><tr><th>Risk / Threat</th><th>Potential Impact</th><th>Probability</th><th>Mitigation Cost</th><th>Residual Risk</th><th>Priority</th></tr></thead>
       <tbody>
@@ -216,36 +347,36 @@ function generateReportHTML(type: string, sections: string[], dateRange: string)
 
   ${sections.includes("Critical CVEs") || sections.includes("Vulnerabilities") ? `
   <div class="section">
-    <h2>Critical Vulnerabilities</h2>
+    <h2 class="tiempo">Critical Vulnerabilities</h2>
     <table>
       <thead><tr><th>CVE / Finding</th><th>Asset</th><th>CVSS</th><th>Status</th><th>Action</th></tr></thead>
       <tbody>
-        <tr><td><code>CVE-2024-3400</code></td><td>prod-api-gateway</td><td><strong style="color:#f43f5e">10.0</strong></td><td><span class="badge badge-red">Open</span></td><td>Patch immediately</td></tr>
-        <tr><td>Public S3 Bucket — PII</td><td>s3://acme-customer-data</td><td><strong style="color:#f43f5e">9.1</strong></td><td><span class="badge badge-red">Open</span></td><td>Restrict ACL</td></tr>
-        <tr><td>Weak TLS 1.0</td><td>legacy-portal.acme.com</td><td><strong style="color:#f59e0b">7.2</strong></td><td><span class="badge badge-orange">Open</span></td><td>Upgrade to TLS 1.3</td></tr>
-        <tr><td>Missing MFA — Executive</td><td>Azure AD Executive Group</td><td><strong style="color:#f59e0b">6.8</strong></td><td><span class="badge badge-amber">In Progress</span></td><td>Enforce conditional access</td></tr>
+        <tr><td><code>CVE-2024-3400</code></td><td>prod-api-gateway</td><td><strong style="color:var(--danger)">10.0</strong></td><td><span class="badge badge-red">Open</span></td><td>Patch immediately</td></tr>
+        <tr><td>Public S3 Bucket — PII</td><td>s3://acme-customer-data</td><td><strong style="color:var(--danger)">9.1</strong></td><td><span class="badge badge-red">Open</span></td><td>Restrict ACL</td></tr>
+        <tr><td>Weak TLS 1.0</td><td>legacy-portal.acme.com</td><td><strong style="color:var(--warning)">7.2</strong></td><td><span class="badge badge-orange">Open</span></td><td>Upgrade to TLS 1.3</td></tr>
+        <tr><td>Missing MFA — Executive</td><td>Azure AD Executive Group</td><td><strong style="color:var(--warning)">6.8</strong></td><td><span class="badge badge-amber">In Progress</span></td><td>Enforce conditional access</td></tr>
       </tbody>
     </table>
   </div>` : ""}
 
   ${sections.includes("Recommendations") || sections.includes("Remediation Plan") ? `
   <div class="section">
-    <h2>Recommendations</h2>
+    <h2 class="tiempo">Recommendations</h2>
     <table>
       <thead><tr><th>Priority</th><th>Action</th><th>Expected Risk Reduction</th><th>Effort</th></tr></thead>
       <tbody>
-        <tr><td><span class="badge badge-red">P1</span></td><td>Patch CVE-2024-3400 on prod-api-gateway</td><td>-$1.2M exposure</td><td>4–6 hours</td></tr>
-        <tr><td><span class="badge badge-red">P1</span></td><td>Restrict public S3 bucket ACL</td><td>-$720K exposure</td><td>1–2 hours</td></tr>
-        <tr><td><span class="badge badge-orange">P2</span></td><td>Enforce MFA on all executive accounts</td><td>-$290K exposure</td><td>Same day</td></tr>
-        <tr><td><span class="badge badge-orange">P2</span></td><td>Apply least-privilege on service accounts</td><td>-$840K exposure</td><td>1–2 weeks</td></tr>
-        <tr><td><span class="badge badge-amber">P3</span></td><td>Upgrade TLS configuration on legacy portal</td><td>-$380K exposure</td><td>3–5 days</td></tr>
+        <tr><td><span class="badge badge-red">P1</span></td><td>Patch CVE-2024-3400 on prod-api-gateway</td><td><span style="color:var(--success)">-$1.2M exposure</span></td><td>4–6 hours</td></tr>
+        <tr><td><span class="badge badge-red">P1</span></td><td>Restrict public S3 bucket ACL</td><td><span style="color:var(--success)">-$720K exposure</span></td><td>1–2 hours</td></tr>
+        <tr><td><span class="badge badge-orange">P2</span></td><td>Enforce MFA on all executive accounts</td><td><span style="color:var(--success)">-$290K exposure</span></td><td>Same day</td></tr>
+        <tr><td><span class="badge badge-orange">P2</span></td><td>Apply least-privilege on service accounts</td><td><span style="color:var(--success)">-$840K exposure</span></td><td>1–2 weeks</td></tr>
+        <tr><td><span class="badge badge-neutral">P3</span></td><td>Upgrade TLS configuration on legacy portal</td><td><span style="color:var(--success)">-$380K exposure</span></td><td>3–5 days</td></tr>
       </tbody>
     </table>
   </div>` : ""}
 
   <div class="footer">
     <span>QuantifySec Risk Intelligence Platform · quantifysec.com</span>
-    <span>CONFIDENTIAL — Demo data only · ${now}</span>
+    <span>CONFIDENTIAL · ${now}</span>
   </div>
 </div>
 </body>

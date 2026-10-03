@@ -11,3 +11,4 @@ dist/
 .env*
 
 next-env.d.ts
+.vercel
